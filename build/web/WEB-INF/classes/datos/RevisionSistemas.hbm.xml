@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-mar-2023 16:08:59 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="datos.RevisionSistemas" table="revision_sistemas" catalog="smed" optimistic-lock="version">
+        <id name="revSisId" type="java.lang.Integer">
+            <column name="rev_sis_id" />
+            <generator class="identity" />
+        </id>
+        <property name="revSisPatologia" type="char">
+            <column name="rev_sis_patologia" length="1" not-null="true" />
+        </property>
+        <property name="revSisSentidos" type="char">
+            <column name="rev_sis_sentidos" length="1" not-null="true" />
+        </property>
+        <property name="revSisRespiratorio" type="char">
+            <column name="rev_sis_respiratorio" length="1" not-null="true" />
+        </property>
+        <property name="revSisCardiovascular" type="java.lang.Character">
+            <column name="rev_sis_cardiovascular" length="1" />
+        </property>
+        <property name="revSisDigestivo" type="char">
+            <column name="rev_sis_digestivo" length="1" not-null="true" />
+        </property>
+        <property name="revSisGenital" type="char">
+            <column name="rev_sis_genital" length="1" not-null="true" />
+        </property>
+        <property name="revSisUrinario" type="char">
+            <column name="rev_sis_urinario" length="1" not-null="true" />
+        </property>
+        <property name="revSisEsqueletico" type="char">
+            <column name="rev_sis_esqueletico" length="1" not-null="true" />
+        </property>
+        <property name="revSisMuscular" type="char">
+            <column name="rev_sis_muscular" length="1" not-null="true" />
+        </property>
+        <property name="revSisNervioso" type="char">
+            <column name="rev_sis_nervioso" length="1" not-null="true" />
+        </property>
+        <property name="revSisEndocrino" type="char">
+            <column name="rev_sis_endocrino" length="1" not-null="true" />
+        </property>
+        <property name="revSisHemolinfatico" type="java.lang.Character">
+            <column name="rev_sis_hemolinfatico" length="1" />
+        </property>
+        <property name="revSisTegumentario" type="java.lang.Character">
+            <column name="rev_sis_tegumentario" length="1" />
+        </property>
+        <property name="revSisFisicoPatologia" type="char">
+            <column name="rev_sis_fisico_patologia" length="1" not-null="true" />
+        </property>
+        <property name="revSisFisicoObservacion" type="string">
+            <column name="rev_sis_fisico_observacion" length="500" not-null="true" />
+        </property>
+        <property name="historiasHisId" type="int">
+            <column name="historias_his_id" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

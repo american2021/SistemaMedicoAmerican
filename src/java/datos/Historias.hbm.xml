@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-mar-2023 16:08:59 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="datos.Historias" table="historias" catalog="smed" optimistic-lock="version">
+        <id name="hisId" type="java.lang.Integer">
+            <column name="his_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="personas" class="datos.Personas" fetch="select">
+            <column name="personas_per_id" not-null="true" />
+        </many-to-one>
+        <property name="hisMotivo" type="string">
+            <column name="his_motivo" length="500" not-null="true" />
+        </property>
+        <property name="hisEnfermedadActual" type="string">
+            <column name="his_enfermedad_actual" length="300" not-null="true" />
+        </property>
+        <property name="revisionSistemasRevSisId" type="int">
+            <column name="revision_sistemas_rev_sis_id" not-null="true" />
+        </property>
+        <property name="signosSigId" type="int">
+            <column name="signos_sig_id" not-null="true" />
+        </property>
+        <property name="resultadosResId" type="int">
+            <column name="resultados_res_id" not-null="true" />
+        </property>
+        <property name="diagnosticosDiagnosticosId" type="int">
+            <column name="diagnosticos_diagnosticos_id" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-mar-2023 16:08:59 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="datos.Usuarios" table="usuarios" catalog="smed" optimistic-lock="version">
+        <id name="usuId" type="java.lang.Integer">
+            <column name="usu_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="personas" class="datos.Personas" fetch="select">
+            <column name="personas_per_id" not-null="true" />
+        </many-to-one>
+        <property name="usuNombre" type="string">
+            <column name="usu_nombre" length="300" not-null="true" />
+        </property>
+        <property name="usuContra" type="string">
+            <column name="usu_contra" length="300" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

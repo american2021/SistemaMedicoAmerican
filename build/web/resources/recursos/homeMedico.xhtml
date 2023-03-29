@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+    <cc:interface>
+        <cc:attribute name="label" default="Menu"/>
+    </cc:interface>
+    <cc:implementation>
+        
+
+        
+        <!--
+                                HOME MEDICO
+        -->
+        <b:panel span="10" offset="0" rendered="true">
+            <!--
+                           Solo funciones de MEDICO
+            -->
+            <b:row>
+                <h3 id="reply-title">
+                    <b>Ficha Médica</b>
+                </h3>
+
+            </b:row>
+
+            <br></br>
+
+            <b:row>
+
+                <h3 id="reply-title">
+                    <b>Cita Medica</b>
+                </h3>
+                
+                <b:column span="2" class="divMainHome">
+                    <a href="/SistemaMedico/faces/medico/registroPaciente.xhtml" class="linkHome">
+                        <b:row>
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/registro.png" />
+                        </b:row>
+                        <b:row>
+                            <h5 class="divTitleHome">Registro de paciente</h5>
+                        </b:row>
+                        <b:row>
+                            <span class="divTextHome"> 
+                                Registrar información de un nuevo paciente.
+                            </span>
+                        </b:row>
+                    </a>
+                </b:column>
+
+                <b:column span="2" class="divMainHome">
+                    <a href="home-medico" class="linkHome">
+                        <b:row>
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/account.png" />
+                        </b:row>
+                        <b:row>
+                            <h5 class="divTitleHome">Cita Medica</h5>
+                        </b:row>
+                        <b:row>
+                            <span class="divTextHome"> 
+                                Administración de notas de un estudiante específco.
+                            </span>
+                        </b:row>
+                    </a>
+                </b:column>
+
+
+            </b:row>
+            <br></br>
+            
+        </b:panel>
+    </cc:implementation>
+</html>
+

@@ -1,0 +1,13 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+               http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+    <!--PÚBLICO-->
+    
+      <url-mapping id="home-medico">
+        <pattern value="/home-medico" />
+        <view-id value="/SistemaMedico/resources/recursos/homeMedico.xhtml" />
+    </url-mapping>
+    
+</pretty-config>

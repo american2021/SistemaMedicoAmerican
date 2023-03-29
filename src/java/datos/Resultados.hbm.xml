@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-mar-2023 16:08:59 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="datos.Resultados" table="resultados" catalog="smed" optimistic-lock="version">
+        <id name="resId" type="java.lang.Integer">
+            <column name="res_id" />
+            <generator class="identity" />
+        </id>
+        <property name="resExamen" type="string">
+            <column name="res_examen" length="300" not-null="true" />
+        </property>
+        <property name="resFecha" type="date">
+            <column name="res_fecha" length="10" not-null="true" />
+        </property>
+        <property name="resResultado" type="string">
+            <column name="res_resultado" length="500" />
+        </property>
+        <property name="historiasHisId" type="int">
+            <column name="historias_his_id" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

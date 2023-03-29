@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui" xmlns:my="http://java.sun.com/jsf/composite/recursos" xmlns:p="http://primefaces.org/ui" xmlns:ps="http://xmlns.jcp.org/jsf/passthrough" xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <f:event listener="#{loginBean.accessoInformador()}" type="preRenderView" /> #{personasBean.cargarPersona()}
+
+
+    <h:head>
+        <title>American College</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
+    </h:head>
+
+    <script>
+        $.blockUI.defaults.css = {
+            padding: 0,
+            margin: 0,
+            width: '30%',
+            top: '40%',
+            left: '35%',
+            textAlign: 'center',
+            color: '#000',
+            border: '0px solid #aaa',
+            backgroundColor: 'transparent',
+            cursor: 'wait'
+        };
+        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
+        $.blockUI.defaults.overlayCSS.opacity = 0.5;
+        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
+
+
+    <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
+
+    <b:modal id="modalRol" title="Rol de usuario" style="font-weight: bold;" closable="true" close-on-escape="true" backdrop="true" rendered="#{loginBean.renderizarSiNoEsEstudiante()}">
+        <b:panel span="14">
+            <b:form>
+                <b:selectOneMenu value="#{loginBean.cambioRol}">
+                    <f:selectItem itemLabel="Seleccionar el rol de usuario con el que desea trabajar" itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{loginBean.recuperarRoles()}" var="r" itemLabel="#{r}" itemValue="#{r}" />
+                </b:selectOneMenu>
+                <b:panel span="4" offset="5">
+                    <b:row>
+                        <b:commandButton value="Cambiar Rol" action="#{loginBean.cambiarRol()}" look="primary" />
+                    </b:row>
+                </b:panel>
+            </b:form>
+        </b:panel>
+    </b:modal>
+
+    <h:body>
+
+        <p:idleMonitor timeout="600000">
+            <p:ajax event="idle" listener="#{loginBean.sesionInactiva()}" />
+        </p:idleMonitor>
+
+
+        <b:growl id="growl"  escape="true" />
+
+        <b:container fluid="true">
+            <b:panel span="10" offset="0">
+
+                <p:idleMonitor timeout="600000">
+                    <p:ajax event="idle" listener="#{loginBean.sesionInactiva()}" />
+                </p:idleMonitor>
+
+                <b:form class="pageForm" id="commentform">
+                    <b:row>
+                        <b:column span="12" style="text-align: center;">
+                            <h2><b>Registro Persona</b></h2>
+                        </b:column>
+                        <b:column span="12" style="text-align: center;">
+                            <h6>Todos los campos marcados con * son obligatorios</h6>
+                        </b:column>
+                    </b:row>
+                    <b:panel title="Datos Generales" look="info" collapsible="false">
+                        <b:row contentDisabled="false">
+                            <b:column span="3" contentDisabled="false">
+
+                                <b:selectOneMenu label="Tipo de Persona" id="tipoPersona" value="#{registroBean.persona.id.tipEcodigo}" required="true" requiredMessage="Seleccione el tipo de persona">
+
+
+                               
+                                    <f:selectItem itemLabel="Seleccionar" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="ESTUDIANTE" itemValue="S" />
+                                    <f:selectItem itemLabel="EMPLEADO" itemValue="E" />
+                                    <f:ajax render="profPersona ocuPersona" event="change" listener="#{registroBean.actualizarProfOcu()}"/>
+                                </b:selectOneMenu>
+                                <b:message for="tipoPersona" />
+                            </b:column>
+
+                            <b:column span="3" contentDisabled="false">
+                                <b:selectOneMenu label="Tipo de Documento" id="docuPersona" value="#{registroBean.persona.perDocumento}" required="true" requiredMessage="Seleccione el tipo de documento">
+                                    <f:selectItem itemLabel="Tipo de documento" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Cedula" itemValue="C" />
+                                    <f:selectItem itemLabel="RUC" itemValue="R" />
+                                    <f:selectItem itemLabel="Pasaporte" itemValue="P" />
+                                    <f:ajax render="" />
+                                </b:selectOneMenu>
+                                <b:message for="docuPersona" />
+                            </b:column>
+
+                            <b:column span="4">
+                                <b:inputText label="Cedula/RUC/Pasaporte" placeholder="Cedula/RUC/Pasaporte" id="cedPersona" size="13" maxlength="13" value="#{registroBean.persona.id.cedulaRuc}" required="true" requiredMessage="Ingrese el Documento" validator="#{registroBean.validarCedulaRUC}"
+                                             />
+                                <b:message for="cedPersona" />
+                            </b:column>
+                            <b:column span="5" contentDisabled="false">
+                                <b:dateTimePicker id="fechaNacPersona" format="DD/MM/YYYY" locale="en" value="#{registroBean.persona.perFechaNac}" label="Fecha de Nacimiento" required="true" requiredMessage="Ingrese la fecha de nacimiento" max-date="12/31/2006" />
+                                <b:message />
+                            </b:column>
+                        </b:row>
+                        <b:row contentDisabled="false">
+                            <b:column span="6">
+                                <b:inputText label="Apellido/Razón Social" placeholder="Apellido/Razón Social" id="apePersona" size="20" maxlength="60" value="#{registroBean.persona.perApellidos}" required="true" requiredMessage="Ingrese el Apellido/Razón Social" />
+                                <b:message for="apePersona" />
+                            </b:column>
+                            <b:column span="6">
+                                <b:inputText label="Nombres" placeholder="Nombres" id="nomPersona" size="20" maxlength="60" value="#{registroBean.persona.perNombres}" required="true" requiredMessage="Ingrese el Nombre" />
+                                <b:message for="nomPersona" />
+                            </b:column>
+
+                        </b:row>
+                        <b:row contentDisabled="false">
+
+                            <b:column span="4">
+                                <b:selectOneMenu label="Estado Civil" id="ecPersona" value="#{registroBean.persona.ecCodigo}" required="true" requiredMessage="Seleccione el Estado Civil">
+                                    <f:selectItem itemLabel="Seleccionar Estado Civil" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registroBean.obtenerEstadosCiviles()}" var="m" itemLabel="#{m.ecDescripcion}" itemValue="#{m.ecCodigo}" />
+                                </b:selectOneMenu>
+                                <b:message for="ecPersona" />
+                            </b:column>
+                            <b:column span="4" contentDisabled="false">
+                                <b:selectOneMenu label="Sexo" id="sexoPersona" value="#{registroBean.persona.perSexo}" required="true" requiredMessage="Seleccione el Sexo">
+                                    <f:selectItem itemLabel="Seleccionar Sexo" itemValue="" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Hombre" itemValue="H" />
+                                    <f:selectItem itemLabel="Mujer" itemValue="M" />
+                                </b:selectOneMenu>
+                                <b:message for="sexoPersona" />
+                            </b:column>
+                            <b:column span="4">
+                                <b:selectOneMenu label="Genero" id="genPersona" value="#{registroBean.persona.perGenero}" required="true" requiredMessage="Seleccione el Género">
+                                    <f:selectItem itemLabel="Seleccionar Género" itemValue="" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="MASCULINO" itemValue="MASCULINO" />
+                                    <f:selectItem itemLabel="FEMENINO" itemValue="FEMENINO" />
+                                    <f:selectItem itemLabel="OTRO" itemValue="OTRO" />
+                                </b:selectOneMenu>
+                                <b:message for="genPersona" />
+                            </b:column>
+                        </b:row>
+                        
+                        <b:row contentDisabled="false">
+                                <b:column span="6" contentDisabled="false">
+                                    <b:inputText label="Correo" placeholder="Correo electronico" id="mailPersona" size="20" maxlength="50" value="#{registroBean.persona.perMail}" required="true" requiredMessage="Ingrese un Correo" validator="#{registroBean.validarCorreo}" />
+                                    <b:message for="mailPersona" />
+                                </b:column>
+                                <b:column span="3">
+                                    <b:inputText label="Celular" placeholder="Celular 1" id="celPersona1" size="20" maxlength="10" value="#{registroBean.persona.perCelular1}" validatorMessage="Ingrese solo números" required="true" requiredMessage="Ingrese el celular">
+                                        <f:validateRegex pattern="[0-9]*" />
+                                    </b:inputText>
+                                    <b:message for="celPersona1" />
+                                </b:column>
+                                <b:column span="3">
+                                    <b:inputText label="Teléfono" placeholder="Teléfono" id="tlfPersona1" size="20" maxlength="9" value="#{registroBean.persona.perTelefono1}" validatorMessage="Ingrese solo números">
+                                        <f:validateRegex pattern="[0-9]*" />
+                                    </b:inputText>
+                                    <b:message for="tlfPersona1" />
+                                </b:column>
+                                
+                            </b:row>
+                        
+                    </b:panel>
+                    <b:panel title="Domicilo" look="primary" collapsible="false">
+                        <b:row contentDisabled="false">
+                            <b:column span="5" contentDisabled="false">
+                                <b:inputText label="Calle principal" placeholder="Calle principal" id="dirPersona" size="20" maxlength="80" value="#{registroBean.persona.perDireccion}" required="true" requiredMessage="Ingrese la dirección" />
+                                <b:message for="dirPersona" />
+                            </b:column>
+                            <b:column span="5">
+                                <b:inputText label="Calle Secundaria" placeholder="Calle secundaria" id="interPersona" size="20" maxlength="50" value="#{registroBean.persona.perInterseccion}" />
+                                <b:message for="interPersona" />
+                            </b:column>
+                            <b:column span="2">
+                                <b:inputText label="Nro de Calle" placeholder="Nro casa" id="nroCallePersona" size="20" maxlength="10" value="#{registroBean.persona.perNroCalle}" />
+                                <b:message for="nroCallePersona" />
+                            </b:column>
+                        </b:row>
+                        <b:row contentDisabled="false">
+                            <b:column span="3" contentDisabled="false">
+                                <b:selectOneMenu label="País de residencia" id="selPais" value="#{registroBean.persona.paiCodigo}" required="true" requiredMessage="Seleccione el País">
+                                    <f:selectItem itemLabel="País de residencia" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registroBean.obtenerPaises()}" var="i" itemLabel="#{i.paiNombre}" itemValue="#{i.paiCodigo}" />
+                                    <f:ajax render="selProvincia selCiudad selParroquia" listener="#{registroBean.reiniciarProvCiuParr()}"/>
+                                </b:selectOneMenu>
+                                <b:message for="selPais" />
+                            </b:column>
+                            <b:column span="3">
+                                <b:selectOneMenu label="Provincia de residencia" id="selProvincia" value="#{registroBean.persona.prvCodigo}" required="true" requiredMessage="Seleccione la Provincia">
+                                    <f:selectItem itemLabel="Provincia de residencia" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registroBean.obtenerProvinciasPais()}" var="j" itemLabel="#{j.prvNombre}" itemValue="#{j.id.prvCodigo}" />
+                                    <f:selectItem itemLabel="NO LISTADO" itemValue="NL" />
+                                    <f:ajax render="selCiudad selParroquia" listener="#{registroBean.reiniciarCiuParr()}"/>
+                                </b:selectOneMenu>
+                                <b:message for="selProvincia" />
+                            </b:column>
+                            <b:column span="3">
+                                <b:selectOneMenu label="Ciudad de residencia" id="selCiudad" value="#{registroBean.persona.ciuCodigo}" required="true" requiredMessage="Seleccione la Ciudad">
+                                    <f:selectItem itemLabel="Ciudad de residencia" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registroBean.obtenerCiudadesProvincia()}" var="k" itemLabel="#{k.ciuNombre}" itemValue="#{k.id.ciuCodigo}" />
+                                    <f:selectItem itemLabel="NO LISTADO" itemValue="NL" />
+                                    <f:ajax render="selParroquia" listener="#{registroBean.reiniciarParr()}"/>
+                                </b:selectOneMenu>
+                                <b:message for="selCiudad" />
+                            </b:column>
+                            <b:column span="3">
+                                <b:selectOneMenu label="Parroquia de residencia" id="selParroquia" value="#{registroBean.persona.parCodigo}" required="true" requiredMessage="Seleccione la Parroquia">
+                                    <f:selectItem itemLabel="Parroquia de residencia" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registroBean.obtenerParroquiasCiudad()}" var="l" itemLabel="#{l.parNombre}" itemValue="#{l.id.parCodigo}" />
+                                    <f:selectItem itemLabel="NO LISTADO" itemValue="NL" />
+                                </b:selectOneMenu>
+                                <b:message/>
+                            </b:column>
+                        </b:row>
+                    </b:panel>
+                    <b:panel title="Educación/Trabajo" look="primary" collapsible="false" rendered="false">
+
+                        <b:row contentDisabled="false">
+                            <b:column span="10">
+                                <b:inputText label="Nombre de Título de Bachiller" placeholder="Nombre del título de bachiller" id="tituloBachPersona" size="20" maxlength="70" value="#{registroBean.persona.perTituloBachiller}" required="true" requiredMessage="Ingrese el nombre del título de bachiller"
+                                             />
+                                <b:message for="tituloBachPersona" />
+                            </b:column>
+                            <b:column span="2">
+                                <b:inputText label="Año de graduación" placeholder="Año de graduación" value="#{registroBean.persona.perAnioGraduacion}" id="anioGradPersona" size="20" maxlength="4" required="true" requiredMessage="Ingrese el año de graduación" validatorMessage="Ingrese solo números">
+                                    <f:validateRegex pattern="[0-9]*" />
+                                </b:inputText>
+                                <b:message for="anioGradPersona" />
+                            </b:column>
+                        </b:row>
+                        <b:row contentDisabled="false">
+                            <b:column span="4" contentDisabled="false">
+                                <b:inputText label="Nombre Institución Secundaria" placeholder="Nombre de la institución secundaria" id="eduSecPersona" size="20" maxlength="70" value="#{registroBean.persona.perEducacion}" required="true" requiredMessage="Ingrese el nombre de la institución secundaria"
+                                             />
+                                <b:message for="eduSecPersona" />
+                            </b:column>
+                            <b:column span="3">
+                                <b:selectOneMenu label="Tipo de Institución Secundaria" id="procePersona" value="#{registroBean.persona.perProcedencia}" required="true" requiredMessage="Seleccione el tipo de institución">
+                                    <f:selectItem itemLabel="Seleccione el tipo de Institución Secundaria" itemValue="" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="PARTICULAR" itemValue="PARTICULAR" />
+                                    <f:selectItem itemLabel="FISCAL" itemValue="FISCAL" />
+                                    <f:selectItem itemLabel="FISCOMISIONAL" itemValue="FISCOMISIONAL" />
+                                </b:selectOneMenu>
+                                <b:message for="procePersona" />
+                            </b:column>
+                            <b:column span="5">
+                                <b:inputText label="Ciudad donde se encuentra su Institución Secundaria" placeholder="Ubicación de la institución secundaria" id="lugPersona" size="20" maxlength="50" value="#{registroBean.persona.perLugar}" />
+                                <b:message for="lugPersona" />
+                            </b:column>
+                        </b:row>
+                        <b:row contentDisabled="false">
+                            <b:column span="4" offset="2">
+                                <b:selectOneMenu label="Profesión" id="profPersona" value="#{registroBean.persona.profCodigo}" required="true" requiredMessage="Seleccione la su profesión">
+                                    <f:selectItem itemLabel="Seleccionar Profesión" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registroBean.obtenerProfesiones()}" var="n" itemLabel="#{n.profDescripcion}" itemValue="#{n.profCodigo}" />
+                                </b:selectOneMenu>
+                                <b:message for="profPersona" />
+                            </b:column>
+                            <b:column span="4">
+                                <b:selectOneMenu label="Ocupación" id="ocuPersona" value="#{registroBean.persona.ocuCodigo}" required="true" requiredMessage="Seleccione la Ocupación">
+                                    <f:selectItem itemLabel="Seleccionar su ocupación" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registroBean.obtenerOcupaciones()}" var="o" itemLabel="#{o.ocuDescripcion}" itemValue="#{o.ocuCodigo}" />
+                                </b:selectOneMenu>
+                                <b:message for="ocuPersona" />
+                            </b:column>
+                        </b:row>
+                    </b:panel>
+                    <b:panel title="Observación" look="info" collapsible="false">
+                        <b:inputTextarea id="obvPersona" value="#{registroBean.persona.perObservacion}" large-screen="full-width" class="txtArFixed" size="20" maxlength="120" />
+                    </b:panel>
+                    <b:row style="text-align: center;" contentDisabled="false">
+
+                        <b:column offset="3" span="2">
+                            <b:button large-screen="full-width" id="salir" value="Regresar" href="./home" look="danger" />
+                        </b:column>
+                        <b:column offset="2" span="2">
+                            <b:commandButton large-screen="full-width" id="submit" value="Siguiente" action="#{registroBean.redireccionarRepresentanteSecretario()}" look="success" />
+                        </b:column>
+                    </b:row>
+                </b:form>
+            </b:panel>
+        </b:container>
+        <br/><br/><br/><br/>
+    </h:body>
+
+</html>

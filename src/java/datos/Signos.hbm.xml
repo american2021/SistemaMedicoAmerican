@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-mar-2023 16:08:59 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="datos.Signos" table="signos" catalog="smed" optimistic-lock="version">
+        <id name="sigId" type="java.lang.Integer">
+            <column name="sig_id" />
+            <generator class="identity" />
+        </id>
+        <property name="sigTipo" type="int">
+            <column name="sig_tipo" not-null="true" />
+        </property>
+        <property name="sigPersionSistolica" type="int">
+            <column name="sig_persion_sistolica" not-null="true" />
+        </property>
+        <property name="sigPresionDiastolica" type="int">
+            <column name="sig_presion_diastolica" not-null="true" />
+        </property>
+        <property name="sigFrecuenciaRespiratoria" type="int">
+            <column name="sig_frecuencia_respiratoria" not-null="true" />
+        </property>
+        <property name="sigFrecuenciaCardiaca" type="int">
+            <column name="sig_frecuencia_cardiaca" not-null="true" />
+        </property>
+        <property name="sigPresionArterialMedia" type="int">
+            <column name="sig_presion_arterial_media" not-null="true" />
+        </property>
+        <property name="sigSaturacion" type="int">
+            <column name="sig_saturacion" not-null="true" />
+        </property>
+        <property name="sigTemperatura" type="int">
+            <column name="sig_temperatura" not-null="true" />
+        </property>
+        <property name="sigPeso" type="int">
+            <column name="sig_peso" not-null="true" />
+        </property>
+        <property name="sigEstatura" type="int">
+            <column name="sig_estatura" not-null="true" />
+        </property>
+        <property name="sigImc" type="int">
+            <column name="sig_imc" not-null="true" />
+        </property>
+        <property name="sigPerimetroAbdominal" type="int">
+            <column name="sig_perimetro_abdominal" not-null="true" />
+        </property>
+        <property name="sigGlucosaCapilar" type="int">
+            <column name="sig_glucosa_capilar" not-null="true" />
+        </property>
+        <property name="sigValorHemoglobina" type="int">
+            <column name="sig_valor_hemoglobina" not-null="true" />
+        </property>
+        <property name="sigValorHemoglobinaCorr" type="int">
+            <column name="sig_valor_hemoglobina_corr" not-null="true" />
+        </property>
+        <property name="historiasHisId" type="int">
+            <column name="historias_his_id" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
