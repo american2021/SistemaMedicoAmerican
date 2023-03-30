@@ -1,13 +1,19 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 28-mar-2023 16:08:59 by Hibernate Tools 4.3.1 -->
+<!-- Generated 29-mar-2023 8:29:18 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Personas" table="personas" catalog="smed" optimistic-lock="version">
         <id name="perId" type="java.lang.Integer">
             <column name="per_id" />
             <generator class="identity" />
         </id>
+        <property name="perNombres" type="string">
+            <column name="per_nombres" length="100" not-null="true" />
+        </property>
+        <property name="perApellidos" type="string">
+            <column name="per_apellidos" length="100" not-null="true" />
+        </property>
         <property name="perSexo" type="char">
             <column name="per_sexo" length="1" not-null="true" />
         </property>
@@ -25,6 +31,12 @@
         </property>
         <property name="perProfesion" type="string">
             <column name="per_profesion" length="2" not-null="true" />
+        </property>
+        <property name="perFechaUlt" type="date">
+            <column name="per_fecha_ult" length="10" />
+        </property>
+        <property name="perUsuario" type="string">
+            <column name="per_usuario" length="300" not-null="true" />
         </property>
         <set name="historiases" table="historias" inverse="true" lazy="true" fetch="select">
             <key>

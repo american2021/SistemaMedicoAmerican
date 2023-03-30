@@ -46,6 +46,8 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/smed?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">toor</property>
+    <property name="hibernate.connection.useSSL">false</property>
+    <property name="hibernate.connection.requireSSL">false</property>
     <mapping resource="datos/Medicamentos.hbm.xml"/>
     <mapping resource="datos/Personas.hbm.xml"/>
     <mapping resource="datos/Antecedentes.hbm.xml"/>

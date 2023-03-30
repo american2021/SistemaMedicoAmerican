@@ -1,5 +1,5 @@
 package datos;
-// Generated 28-mar-2023 16:08:58 by Hibernate Tools 4.3.1
+// Generated 29-mar-2023 8:29:18 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -30,6 +30,8 @@ public class Tratamientos  implements java.io.Serializable {
      private String traIndicaciones;
      private String traAdvertencias;
      private String traEvolucion;
+     private Date traFechaUlt;
+     private String traUsuario;
      private int diagnosticosDiagnosticosId;
      private Set medicamentoses = new HashSet(0);
 
@@ -37,7 +39,7 @@ public class Tratamientos  implements java.io.Serializable {
     }
 
 	
-    public Tratamientos(Medicamentos medicamentos, String traMedicamento, char traViaAdministracion, String traDosisUnitaria, String traUnidadAdministracion, String traFrecuencia, Date traInicioTratamiento, Date traHora1, Date traHora2, Date traHora3, Date traHora4, int traCantidad, String traIndicaciones, String traAdvertencias, String traEvolucion, int diagnosticosDiagnosticosId) {
+    public Tratamientos(Medicamentos medicamentos, String traMedicamento, char traViaAdministracion, String traDosisUnitaria, String traUnidadAdministracion, String traFrecuencia, Date traInicioTratamiento, Date traHora1, Date traHora2, Date traHora3, Date traHora4, int traCantidad, String traIndicaciones, String traAdvertencias, String traEvolucion, Date traFechaUlt, String traUsuario, int diagnosticosDiagnosticosId) {
         this.medicamentos = medicamentos;
         this.traMedicamento = traMedicamento;
         this.traViaAdministracion = traViaAdministracion;
@@ -53,9 +55,11 @@ public class Tratamientos  implements java.io.Serializable {
         this.traIndicaciones = traIndicaciones;
         this.traAdvertencias = traAdvertencias;
         this.traEvolucion = traEvolucion;
+        this.traFechaUlt = traFechaUlt;
+        this.traUsuario = traUsuario;
         this.diagnosticosDiagnosticosId = diagnosticosDiagnosticosId;
     }
-    public Tratamientos(Medicamentos medicamentos, String traMedicamento, char traViaAdministracion, String traDosisUnitaria, String traUnidadAdministracion, String traFrecuencia, Date traInicioTratamiento, Date traHora1, Date traHora2, Date traHora3, Date traHora4, Integer traDuracion, Character traDuracionUnidadTiempo, int traCantidad, String traIndicaciones, String traAdvertencias, String traEvolucion, int diagnosticosDiagnosticosId, Set medicamentoses) {
+    public Tratamientos(Medicamentos medicamentos, String traMedicamento, char traViaAdministracion, String traDosisUnitaria, String traUnidadAdministracion, String traFrecuencia, Date traInicioTratamiento, Date traHora1, Date traHora2, Date traHora3, Date traHora4, Integer traDuracion, Character traDuracionUnidadTiempo, int traCantidad, String traIndicaciones, String traAdvertencias, String traEvolucion, Date traFechaUlt, String traUsuario, int diagnosticosDiagnosticosId, Set medicamentoses) {
        this.medicamentos = medicamentos;
        this.traMedicamento = traMedicamento;
        this.traViaAdministracion = traViaAdministracion;
@@ -73,6 +77,8 @@ public class Tratamientos  implements java.io.Serializable {
        this.traIndicaciones = traIndicaciones;
        this.traAdvertencias = traAdvertencias;
        this.traEvolucion = traEvolucion;
+       this.traFechaUlt = traFechaUlt;
+       this.traUsuario = traUsuario;
        this.diagnosticosDiagnosticosId = diagnosticosDiagnosticosId;
        this.medicamentoses = medicamentoses;
     }
@@ -202,6 +208,20 @@ public class Tratamientos  implements java.io.Serializable {
     
     public void setTraEvolucion(String traEvolucion) {
         this.traEvolucion = traEvolucion;
+    }
+    public Date getTraFechaUlt() {
+        return this.traFechaUlt;
+    }
+    
+    public void setTraFechaUlt(Date traFechaUlt) {
+        this.traFechaUlt = traFechaUlt;
+    }
+    public String getTraUsuario() {
+        return this.traUsuario;
+    }
+    
+    public void setTraUsuario(String traUsuario) {
+        this.traUsuario = traUsuario;
     }
     public int getDiagnosticosDiagnosticosId() {
         return this.diagnosticosDiagnosticosId;

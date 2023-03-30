@@ -1,5 +1,5 @@
 package datos;
-// Generated 28-mar-2023 16:08:58 by Hibernate Tools 4.3.1
+// Generated 29-mar-2023 8:29:18 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,12 +13,16 @@ public class Personas  implements java.io.Serializable {
 
 
      private Integer perId;
+     private String perNombres;
+     private String perApellidos;
      private char perSexo;
      private Date perNac;
      private String perGrupoSanguineo;
      private Character perIdentidadGenero;
      private int antecedentesAntId;
      private String perProfesion;
+     private Date perFechaUlt;
+     private String perUsuario;
      private Set historiases = new HashSet(0);
      private Set usuarioses = new HashSet(0);
 
@@ -26,20 +30,27 @@ public class Personas  implements java.io.Serializable {
     }
 
 	
-    public Personas(char perSexo, Date perNac, String perGrupoSanguineo, int antecedentesAntId, String perProfesion) {
+    public Personas(String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, int antecedentesAntId, String perProfesion, String perUsuario) {
+        this.perNombres = perNombres;
+        this.perApellidos = perApellidos;
         this.perSexo = perSexo;
         this.perNac = perNac;
         this.perGrupoSanguineo = perGrupoSanguineo;
         this.antecedentesAntId = antecedentesAntId;
         this.perProfesion = perProfesion;
+        this.perUsuario = perUsuario;
     }
-    public Personas(char perSexo, Date perNac, String perGrupoSanguineo, Character perIdentidadGenero, int antecedentesAntId, String perProfesion, Set historiases, Set usuarioses) {
+    public Personas(String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, Character perIdentidadGenero, int antecedentesAntId, String perProfesion, Date perFechaUlt, String perUsuario, Set historiases, Set usuarioses) {
+       this.perNombres = perNombres;
+       this.perApellidos = perApellidos;
        this.perSexo = perSexo;
        this.perNac = perNac;
        this.perGrupoSanguineo = perGrupoSanguineo;
        this.perIdentidadGenero = perIdentidadGenero;
        this.antecedentesAntId = antecedentesAntId;
        this.perProfesion = perProfesion;
+       this.perFechaUlt = perFechaUlt;
+       this.perUsuario = perUsuario;
        this.historiases = historiases;
        this.usuarioses = usuarioses;
     }
@@ -50,6 +61,20 @@ public class Personas  implements java.io.Serializable {
     
     public void setPerId(Integer perId) {
         this.perId = perId;
+    }
+    public String getPerNombres() {
+        return this.perNombres;
+    }
+    
+    public void setPerNombres(String perNombres) {
+        this.perNombres = perNombres;
+    }
+    public String getPerApellidos() {
+        return this.perApellidos;
+    }
+    
+    public void setPerApellidos(String perApellidos) {
+        this.perApellidos = perApellidos;
     }
     public char getPerSexo() {
         return this.perSexo;
@@ -92,6 +117,20 @@ public class Personas  implements java.io.Serializable {
     
     public void setPerProfesion(String perProfesion) {
         this.perProfesion = perProfesion;
+    }
+    public Date getPerFechaUlt() {
+        return this.perFechaUlt;
+    }
+    
+    public void setPerFechaUlt(Date perFechaUlt) {
+        this.perFechaUlt = perFechaUlt;
+    }
+    public String getPerUsuario() {
+        return this.perUsuario;
+    }
+    
+    public void setPerUsuario(String perUsuario) {
+        this.perUsuario = perUsuario;
     }
     public Set getHistoriases() {
         return this.historiases;

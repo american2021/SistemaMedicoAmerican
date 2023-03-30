@@ -30,7 +30,7 @@
                     </b:row>
                     <b:row>
                         <b:column span="10" offset="1">
-                            <b:inputText placeholder="Usuario/Correo" id="nomPersona" size="20" maxlength="60" value="#{loginBean.nombreUsu}" required="true" requiredMessage="Ingrese el usuario">
+                            <b:inputText placeholder="Usuario" id="nomPersona" size="20" maxlength="60" value="#{LoginBean.usu_nombre}" required="true" requiredMessage="Ingrese el usuario">
 
                                 <f:facet name="prepend">
                                     <b:icon name="user" />
@@ -40,8 +40,8 @@
                     </b:row>
                     <b:row>
                         <b:column span="10" offset="1">
-                            <b:inputSecret placeholder="Contraseña" id="clavePersona" size="20" maxlength="60" value="#{loginBean.clave}" required="true" requiredMessage="Ingrese la clave">
-                                <f:attribute name="usuIng" value="#{loginBean.nombreUsu}" />
+                            <b:inputSecret placeholder="Contraseña" id="clavePersona" size="20" maxlength="60" value="#{LoginBean.usu_contra}" required="true" requiredMessage="Ingrese la clave">
+                                <f:attribute name="usuIng" value="#{LoginBean.usu_nombre}" />
                                 <f:facet name="prepend">
                                     <b:iconAwesome name="key" />
                                 </f:facet>
@@ -66,7 +66,14 @@
                     <br/>
                     <b:row>
                         <b:column span="5" offset="1">
-                            <b:commandButton large-screen="full-width" id="ingresar" value="Ingresar" action="#{loginBean.login()}" look="success" iconAwesome="" />
+                            <b:commandButton
+                                large-screen="full-width"
+                                id="ingresar"
+                                type="submit"
+                                value="Ingresar"
+                                action="#{LoginBean.login()}"
+                                look="success"
+                                iconAwesome="" />
                         </b:column>
                         <b:column span="5">
                             <b:button large-screen="full-width" id="salir" value="Salir" href="https://americancollege.edu.ec/" look="danger" iconAwesome="" />

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:b="http://bootsfaces.net/ui" xmlns:my="http://java.sun.com/jsf/composite/recursos">
+    <cc:interface>
+        <cc:attribute name="label" default="Menu"/>
+    </cc:interface>
+    <cc:implementation>
+        <b:panel look="primary"
+                 title="Menú Administrador"
+                 class="menuLateral"
+                 collapsible="false"
+                 collapsed="false"
+                 rendered="true">
+
+            <b:panel look="link" title="Pacientes" collapsible="true" collapsed="false" style=" color:#337ab7;">
+                <b:listLinks>
+                    <b:navLink href="/SistemaMedico/faces/medico/registroPaciente.xhtml" value="" iconAlign="left">
+                        <b:iconAwesome name="">
+                            Registro
+                        </b:iconAwesome>
+                    </b:navLink>
+
+                    <b:navLink href="personas" value="" iconAlign="left">
+                        <b:iconAwesome name="">
+                            Personas
+                        </b:iconAwesome>
+                    </b:navLink>
+                </b:listLinks>
+            </b:panel>
+
+            <b:panel look="link" title="Reportes" collapsible="true" collapsed="true" style=" color:#337ab7">
+                <b:listLinks>
+                    <b:navLink href="codigos-personas" value="" iconAlign="left">
+                        <b:iconAwesome name="">
+                            Códigos Personas
+                        </b:iconAwesome>
+                    </b:navLink>
+                </b:listLinks>
+            </b:panel>
+
+
+        </b:panel>
+    </cc:implementation>
+</html>
+

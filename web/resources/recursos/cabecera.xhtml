@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui" 
+      xmlns:my="http://java.sun.com/jsf/composite/recursos">
+    <cc:interface>
+        <cc:attribute name="label" default="Menu"/>
+    </cc:interface>
+    <cc:implementation>
+
+        <b:container fluid="true">
+            <br/>
+            <b:panel span="4" offset="4">
+                <b:row>
+                    <b:navBar fluid="true"
+                              inverse="true"
+                              position="top"
+                              sticky="true"
+                              brand-align="left"
+                              class="mainMenu"
+                              brandHref="home"
+                              brand-img="#{request.contextPath}/img/LogoActualizado.png">
+
+                        <b:navbarLinks pull="right" rendered="true}">
+                            <b:dropMenu iconAwesome="user" iconAlign="left" value="Hola,  #{personasBean.primerNombre}">
+                                <b:navLink value="Datos personales" href="datos-personales" />
+                                <b:navLink value="Cambio de clave" href="cambio-clave-user" />
+                                <h:form style="text-align: center;">
+                                    <b:navCommandLink value="Salir" action="#{loginBean.logout()}" />
+                                </h:form>
+                            </b:dropMenu>
+                        </b:navbarLinks>
+                        <b:navbarLinks pull="right" rendered="true">
+                            <b:dropMenu iconAwesome="user" iconAlign="left" value="Hola,  #{personasBean.primerNombre}">
+                                <b:navLink value="Cambio de clave" href="cambio-clave-user" />
+                                <h:form style="text-align: center;">
+                                    <b:navCommandLink value="Salir" action="#{loginBean.logout()}" />
+                                </h:form>
+                            </b:dropMenu>
+                        </b:navbarLinks>
+                    </b:navBar>
+                </b:row>
+            </b:panel>
+        </b:container>
+    </cc:implementation>
+</html>
+

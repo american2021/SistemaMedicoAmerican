@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 28-mar-2023 16:08:59 by Hibernate Tools 4.3.1 -->
+<!-- Generated 29-mar-2023 8:29:18 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Antecedentes" table="antecedentes" catalog="smed" optimistic-lock="version">
         <id name="antId" type="java.lang.Integer">
@@ -26,8 +26,8 @@
         <property name="antObsDesarrollo" type="string">
             <column name="ant_obs_desarrollo" length="500" not-null="true" />
         </property>
-        <property name="antSecrecionPeneana" type="java.lang.Character">
-            <column name="ant_secrecion_peneana" length="1" />
+        <property name="antSecrecionPeneana" type="char">
+            <column name="ant_secrecion_peneana" length="1" not-null="true" />
         </property>
         <property name="antHistoriaAnticonceptiva" type="char">
             <column name="ant_historia_anticonceptiva" length="1" not-null="true" />
@@ -88,6 +88,12 @@
         </property>
         <property name="personasPerCodigo" type="int">
             <column name="personas_per_codigo" not-null="true" />
+        </property>
+        <property name="antFechaUlt" type="date">
+            <column name="ant_fecha_ult" length="10" not-null="true" />
+        </property>
+        <property name="antUsuario" type="string">
+            <column name="ant_usuario" length="300" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

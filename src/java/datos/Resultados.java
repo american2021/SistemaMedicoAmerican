@@ -1,5 +1,5 @@
 package datos;
-// Generated 28-mar-2023 16:08:58 by Hibernate Tools 4.3.1
+// Generated 29-mar-2023 8:29:18 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,21 +14,27 @@ public class Resultados  implements java.io.Serializable {
      private String resExamen;
      private Date resFecha;
      private String resResultado;
+     private Date resFechaUlt;
+     private String resUsuario;
      private int historiasHisId;
 
     public Resultados() {
     }
 
 	
-    public Resultados(String resExamen, Date resFecha, int historiasHisId) {
+    public Resultados(String resExamen, Date resFecha, Date resFechaUlt, String resUsuario, int historiasHisId) {
         this.resExamen = resExamen;
         this.resFecha = resFecha;
+        this.resFechaUlt = resFechaUlt;
+        this.resUsuario = resUsuario;
         this.historiasHisId = historiasHisId;
     }
-    public Resultados(String resExamen, Date resFecha, String resResultado, int historiasHisId) {
+    public Resultados(String resExamen, Date resFecha, String resResultado, Date resFechaUlt, String resUsuario, int historiasHisId) {
        this.resExamen = resExamen;
        this.resFecha = resFecha;
        this.resResultado = resResultado;
+       this.resFechaUlt = resFechaUlt;
+       this.resUsuario = resUsuario;
        this.historiasHisId = historiasHisId;
     }
    
@@ -59,6 +65,20 @@ public class Resultados  implements java.io.Serializable {
     
     public void setResResultado(String resResultado) {
         this.resResultado = resResultado;
+    }
+    public Date getResFechaUlt() {
+        return this.resFechaUlt;
+    }
+    
+    public void setResFechaUlt(Date resFechaUlt) {
+        this.resFechaUlt = resFechaUlt;
+    }
+    public String getResUsuario() {
+        return this.resUsuario;
+    }
+    
+    public void setResUsuario(String resUsuario) {
+        this.resUsuario = resUsuario;
     }
     public int getHistoriasHisId() {
         return this.historiasHisId;

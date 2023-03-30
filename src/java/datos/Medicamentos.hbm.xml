@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 28-mar-2023 16:08:59 by Hibernate Tools 4.3.1 -->
+<!-- Generated 29-mar-2023 8:29:18 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Medicamentos" table="medicamentos" catalog="smed" optimistic-lock="version">
         <id name="medId" type="java.lang.Integer">
@@ -13,6 +13,12 @@
         </many-to-one>
         <property name="medNombre" type="string">
             <column name="med_nombre" length="300" not-null="true" />
+        </property>
+        <property name="medFechaUlt" type="date">
+            <column name="med_fecha_ult" length="10" not-null="true" />
+        </property>
+        <property name="medUsuario" type="string">
+            <column name="med_usuario" length="300" not-null="true" />
         </property>
         <set name="tratamientoses" table="tratamientos" inverse="true" lazy="true" fetch="select">
             <key>
