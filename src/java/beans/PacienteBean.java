@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import datos.Personas;
 import datos.Usuarios;
+import net.bootsfaces.utils.FacesMessages;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
 
@@ -53,7 +54,7 @@ public final class PacienteBean implements Serializable{
         usuario = new Usuarios();
     }
     
-    public void guardarPaciente(){
+    public String guardarPersona(){
         //Seteo de los datos de la persona
         persona.setPerNombres(per_nombres);
         persona.setPerApellidos(per_apellidos);
@@ -74,7 +75,12 @@ public final class PacienteBean implements Serializable{
         usuario.setPersonas(persona);
         usuario.setUsuFechaUlt(new Date());
         
-        PacienteDAO.crearUsuario(usuario);
+        //PacienteDAO.crearUsuario(usuario);
+        return "/faces/medico/registroSignos.xhtml?faces-redirect=true";
+    }
+    
+    public void guardarPaciente(){
+        FacesMessages.info(":growl", "Llega al guardar paciente", "This is a specific message!");
     }
     
     public static String generarClaveAleatoria() {

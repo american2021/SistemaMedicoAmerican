@@ -6,8 +6,7 @@
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:my="http://java.sun.com/jsf/composite/recursos"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
 <!--    <f:event listener="#{LoginBean.accessoMedico()}" type="preRenderView" />-->
 
@@ -16,46 +15,27 @@
         <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
     </h:head>
-    
+
     <my:cabecera id="cabecera"/>
-    
-    <b:column span="2">
-        <my:menuLateralMedico id="menuLateralMedico"/>
-    </b:column>
-    
-    <script>
-        $.blockUI.defaults.css = {
-            padding: 0,
-            margin: 0,
-            width: '30%',
-            top: '40%',
-            left: '35%',
-            textAlign: 'center',
-            color: '#000',
-            border: '0px solid #aaa',
-            backgroundColor: 'transparent',
-            cursor: 'wait'
-        };
-        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
-        $.blockUI.defaults.overlayCSS.opacity = 0.5;
-        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
-    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
 
 
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
 
+    <b:growl id="growl" escape="true" />
 
     <h:body>
-
-                <p:idleMonitor timeout="600000">
-                    <p:ajax event="idle" listener="#{loginBean.sesionInactiva()}" />
-                </p:idleMonitor>
-
+        <b:column>
+            <my:menuLateralMedico id="menuLateralMedico"/>
+            <p:idleMonitor timeout="600000">
+                <p:ajax event="idle" listener="#{loginBean.sesionInactiva()}" />
+            </p:idleMonitor>
+            
         <b:container fluid="true">
             #{PacienteBean.inicializarPaciente()}
-            
+
             <b:panel span="10" offset="0">
                 <b:row>
                     <b:column span="12" style="text-align: center;">
@@ -66,7 +46,7 @@
                     </b:column>
                 </b:row>
                 <b:row>
-                <br/>
+                    <br/>
                 </b:row>
                 <b:form class="pageForm" id="commentform">
                     <b:panel title="Datos Generales" look="info" collapsible="false">
@@ -174,9 +154,9 @@
                                 <b:commandButton
                                     large-screen="full-width"
                                     id="submit"
-                                    value="Guardar"
+                                    value="Siguiente"
                                     type="submit"
-                                    action="#{PacienteBean.guardarPaciente()}"
+                                    action="#{PacienteBean.guardarPersona()}"
                                     look="success" />
                             </b:column>
                         </b:row>
@@ -188,6 +168,7 @@
             </b:panel>
         </b:container>
         <br/><br/><br/><br/>
+        </b:column>
     </h:body>
 
 </html>

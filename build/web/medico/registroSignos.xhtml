@@ -39,7 +39,7 @@
             <b:panel span="10" offset="0">
                 <b:row>
                     <b:column span="12" style="text-align: center;">
-                        <h2><b>Registro Paciente</b></h2>
+                        <h2><b>Registro Signos</b></h2>
                     </b:column>
                     <b:column span="12" style="text-align: center;">
                         <h6>Todos los campos marcados con * son obligatorios</h6>
@@ -51,25 +51,35 @@
                 <b:form class="pageForm" id="commentform">
                     <b:panel title="Datos Generales" look="info" collapsible="false">
                         <b:row>
-                            <b:column span="6">
-                                <b:inputText label="Apellidos"
-                                             placeholder="Ingrese sus apellidos"
-                                             id="per_apellidos"
+                            <b:column span="2">
+                                <b:inputText label="Presion Sistólica"
+                                             placeholder="P.S."
+                                             id="sig_per_sistolica"
                                              size="13"
                                              maxlength="100"
                                              value="#{PacienteBean.per_apellidos}"
                                              required="true"
-                                             requiredMessage="Ingrese sus apellidos"/>
+                                             requiredMessage="Ingrese la presión sistólica"/>
                             </b:column>
-                            <b:column span="6">
-                                <b:inputText label="Nombres"
-                                             placeholder="Ingrese sus nombres"
+                            <b:column span="2">
+                                <b:inputText label="Presion Diastólica"
+                                             placeholder="P.D."
                                              id="per_nombres"
                                              size="13"
                                              maxlength="100"
                                              value="#{PacienteBean.per_nombres}"
                                              required="true"
-                                             requiredMessage="Ingrese sus nombres"/>
+                                             requiredMessage="Ingrese la presión diastólica"/>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Frecuencia Respiratoria"
+                                             placeholder="F.R."
+                                             id="sig_frecuencia_respiratoria"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{PacienteBean.per_nombres}"
+                                             required="true"
+                                             requiredMessage="Ingrese la frecuencia respiratoria"/>
                             </b:column>
                         </b:row>
                         <b:row>
@@ -141,6 +151,30 @@
                             </b:column>
                         </b:row>
 
+                    </b:panel>
+                    <b:panel title="Datos Generales" look="info" collapsible="false">
+                        <b:row>
+                            <b:column span="6">
+                                <b:inputText label="Apellidos"
+                                             placeholder="Ingrese sus apellidos"
+                                             id="per_apellidoss"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{PacienteBean.per_apellidos}"
+                                             required="true"
+                                             requiredMessage="Ingrese sus apellidos"/>
+                            </b:column>
+                            <b:column span="6">
+                                <b:inputText label="Nombres"
+                                             placeholder="Ingrese sus nombres"
+                                             id="per_nombress"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{PacienteBean.per_nombres}"
+                                             required="true"
+                                             requiredMessage="Ingrese sus nombres"/>
+                            </b:column>
+                        </b:row>
                         <b:row style="text-align: center;" contentDisabled="false">
 
                             <b:column offset="3" span="2">
@@ -154,9 +188,9 @@
                                 <b:commandButton
                                     large-screen="full-width"
                                     id="submit"
-                                    value="Siguiente"
+                                    value="Guardar"
                                     type="submit"
-                                    action="#{PacienteBean.guardarPersona()}"
+                                    action="#{PacienteBean.guardarPaciente()}"
                                     look="success" />
                             </b:column>
                         </b:row>

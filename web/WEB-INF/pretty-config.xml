@@ -5,9 +5,29 @@
 
     <!--PÚBLICO-->
     
-      <url-mapping id="home-medico">
+    <url-mapping id="home-medico">
         <pattern value="/home-medico" />
-        <view-id value="/SistemaMedico/resources/recursos/homeMedico.xhtml" />
+        <view-id value="/faces/privado/home.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="registro-pacientes">
+        <pattern value="/registro-paciente"/>
+        <view-id value="/faces/medico/registroPaciente.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="registro-historia">
+        <pattern value="/registro-historia" />
+        <view-id value="/faces/medico/registroHistoriaClinica.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="registro-signos">
+        <pattern value="/registro-signos" />
+        <view-id value="/faces/medico/registroSignos.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="revision-signos">
+        <pattern value="/revision-signos" />
+        <view-id value="/faces/medico/revisionSignos.xhtml" />
     </url-mapping>
     
 </pretty-config>

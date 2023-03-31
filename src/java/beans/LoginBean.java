@@ -65,7 +65,7 @@ public class LoginBean implements Serializable {
             estaLogueado = true;
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             session.setAttribute("usuario", usuario);
-            return "/medico/registroPaciente.xhtml?faces-redirect=true";
+            return "/privado/home.xhtml?faces-redirect=true";
         } else {
 
             FacesMessages.warning(":growl", "La clave es incorrecta", "This is a specific message!");

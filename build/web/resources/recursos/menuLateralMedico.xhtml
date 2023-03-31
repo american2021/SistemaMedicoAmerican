@@ -8,41 +8,57 @@
         <cc:attribute name="label" default="Menu"/>
     </cc:interface>
     <cc:implementation>
-        <b:panel look="primary"
-                 title="Menú Administrador"
+        <b:form>
+            <b:panel look="primary"
+                 title="Menú Médico"
                  class="menuLateral"
                  collapsible="false"
                  collapsed="false"
-                 rendered="true">
+                 rendered="true"
+                 span="2">
 
             <b:panel look="link" title="Pacientes" collapsible="true" collapsed="false" style=" color:#337ab7;">
                 <b:listLinks>
-                    <b:navLink href="/SistemaMedico/faces/medico/registroPaciente.xhtml" value="" iconAlign="left">
+                    <b:navLink href="registro-paciente" value="" iconAlign="left">
                         <b:iconAwesome name="">
-                            Registro
+                            Registro Paciente
                         </b:iconAwesome>
                     </b:navLink>
 
-                    <b:navLink href="personas" value="" iconAlign="left">
+                    <b:navLink href="registro-historia" value="" iconAlign="left">
                         <b:iconAwesome name="">
-                            Personas
+                            Registro historia clínica
+                        </b:iconAwesome>
+                    </b:navLink>
+                    <b:navLink href="revision-signos" value="" iconAlign="left">
+                        <b:iconAwesome name="">
+                            Revision Signos Vitales
                         </b:iconAwesome>
                     </b:navLink>
                 </b:listLinks>
             </b:panel>
-
-            <b:panel look="link" title="Reportes" collapsible="true" collapsed="true" style=" color:#337ab7">
+                
+            <b:panel look="link" title="Enfermedades"
+                     collapsible="true"
+                     collapsed="true"
+                     style="color:#337ab7;">
                 <b:listLinks>
-                    <b:navLink href="codigos-personas" value="" iconAlign="left">
+                    <b:navLink href="registro-paciente" value="" iconAlign="left">
                         <b:iconAwesome name="">
-                            Códigos Personas
+                            Registro Enfermedad
+                        </b:iconAwesome>
+                    </b:navLink>
+
+                    <b:navLink href="registro-historia" value="" iconAlign="left">
+                        <b:iconAwesome name="">
+                            Editar Enfermedad
                         </b:iconAwesome>
                     </b:navLink>
                 </b:listLinks>
             </b:panel>
-
 
         </b:panel>
+        </b:form>
     </cc:implementation>
 </html>
 

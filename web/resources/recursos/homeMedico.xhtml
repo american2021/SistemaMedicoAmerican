@@ -21,27 +21,16 @@
             -->
             <b:row>
                 <h3 id="reply-title">
-                    <b>Ficha Médica</b>
+                    <b>Paciente</b>
                 </h3>
-
-            </b:row>
-
-            <br></br>
-
-            <b:row>
-
-                <h3 id="reply-title">
-                    <b>Cita Medica</b>
-                </h3>
-                
                 <b:column span="2" class="divMainHome">
-                    <a href="/SistemaMedico/faces/medico/registroPaciente.xhtml" class="linkHome">
+                    <a href="registro-paciente" class="linkHome">
                         <b:row>
                             <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/registro.png" />
                         </b:row>
-                        <b:row>
-                            <h5 class="divTitleHome">Registro de paciente</h5>
-                        </b:row>
+                        <h5 class="divTitleHome" id="reply-title">
+                            <b>Registro de paciente</b>
+                        </h5>
                         <b:row>
                             <span class="divTextHome"> 
                                 Registrar información de un nuevo paciente.
@@ -51,23 +40,46 @@
                 </b:column>
 
                 <b:column span="2" class="divMainHome">
-                    <a href="home-medico" class="linkHome">
+                    <a href="registro-historia" class="linkHome">
                         <b:row>
                             <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/account.png" />
                         </b:row>
-                        <b:row>
-                            <h5 class="divTitleHome">Cita Medica</h5>
-                        </b:row>
+                        <h5 class="divTitleHome" id="reply-title">
+                            <b>Historia Clínica</b>
+                        </h5>
+                    <br/>
                         <b:row>
                             <span class="divTextHome"> 
-                                Administración de notas de un estudiante específco.
+                                Registro de síntomas del paciente.
                             </span>
                         </b:row>
                     </a>
                 </b:column>
-
-
+                
+                <b:column span="2" class="divMainHome">
+                    <a href="revision-signos" class="linkHome">
+                        <b:row>
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/account.png" />
+                        </b:row>
+                        <h5 class="divTitleHome" id="reply-title">
+                            <b>Signos vitales</b>
+                        </h5>
+                    <br/>
+                        <b:row>
+                            <span class="divTextHome"> 
+                                Revision de los signos vitales del paciente
+                            </span>
+                        </b:row>
+                    </a>
+                </b:column>
             </b:row>
+
+            <b:row>
+                <h3 id="reply-title">
+                    <b>Enfermedades</b>
+                </h3>
+            </b:row>
+            <br></br>
             <br></br>
             
         </b:panel>
