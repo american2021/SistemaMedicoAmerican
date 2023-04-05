@@ -3,11 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/web/privado/home.xhtml</file>
             <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/web/WEB-INF/pretty-config.xml</file>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/web/resources/recursos/homeMedico.xhtml</file>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/web/medico/registroPaciente.xhtml</file>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/web/medico/registroSignos.xhtml</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/src/java/hibernate.reveng.xml</file>
         </group>
     </open-files>
 </project-private>

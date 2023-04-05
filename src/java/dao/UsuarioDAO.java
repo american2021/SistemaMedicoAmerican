@@ -21,8 +21,6 @@ public class UsuarioDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Usuarios where usu_nombre = '" + usu_nombre + "'");
-        System.out.println("Consulta realizada");
-        System.out.println("from Usuarios where usu_nombre = '" + usu_nombre + "'");
         Usuarios usuario = null;
         if (!query.list().isEmpty()) {
 

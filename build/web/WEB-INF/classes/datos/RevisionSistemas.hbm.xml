@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 29-mar-2023 8:29:18 by Hibernate Tools 4.3.1 -->
+<!-- Generated 04-abr-2023 12:01:40 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.RevisionSistemas" table="revision_sistemas" catalog="smed" optimistic-lock="version">
         <id name="revSisId" type="java.lang.Integer">
@@ -53,8 +53,8 @@
         <property name="revSisFisicoObservacion" type="string">
             <column name="rev_sis_fisico_observacion" length="500" not-null="true" />
         </property>
-        <property name="revSisFechaUlt" type="date">
-            <column name="rev_sis_fecha_ult" length="10" not-null="true" />
+        <property name="revSisFechaUlt" type="timestamp">
+            <column name="rev_sis_fecha_ult" length="19" not-null="true" />
         </property>
         <property name="revSisUsuario" type="string">
             <column name="rev_sis_usuario" length="300" not-null="true" />

@@ -57,7 +57,7 @@
                                              id="per_apellidos"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.per_apellidos}"
+                                             value="#{PacienteBean.persona.perApellidos}"
                                              required="true"
                                              requiredMessage="Ingrese sus apellidos"/>
                             </b:column>
@@ -67,7 +67,7 @@
                                              id="per_nombres"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.per_nombres}"
+                                             value="#{PacienteBean.persona.perNombres}"
                                              required="true"
                                              requiredMessage="Ingrese sus nombres"/>
                             </b:column>
@@ -77,7 +77,7 @@
 
                                 <b:selectOneMenu label="Sexo del paciente"
                                                  id="per_sexo"
-                                                 value="#{PacienteBean.per_sexo}"
+                                                 value="#{PacienteBean.persona.perSexo}"
                                                  required="true"
                                                  requiredMessage="Seleccione el sexo del paciente">
                                     <f:selectItem itemLabel="Seleccionar" noSelectionOption="true" />
@@ -89,7 +89,7 @@
 
                             <b:column span="2">
                                 <b:selectOneMenu label="Género" id="per_identidad_genero"
-                                                 value="#{PacienteBean.per_identidad_genero}"
+                                                 value="#{PacienteBean.persona.perIdentidadGenero}"
                                                  required="true"
                                                  requiredMessage="Seleccione el género">
                                     <f:selectItem itemLabel="Seleccione"
@@ -107,27 +107,36 @@
                                     id="per_nac"
                                     format="DD/MM/YYYY"
                                     locale="en"
-                                    value="#{PacienteBean.per_nac}"
+                                    value="#{PacienteBean.persona.perNac}"
                                     label="Fecha de Nacimiento"
                                     required="true"
                                     requiredMessage="Ingrese la fecha de nacimiento"
                                     max-date="12/31/2006" />
-                                <b:message />
+                                <b:message for="per_nac"/>
                             </b:column>
 
                             <b:column span="2">
-                                <b:inputText label="Grupo sanguíneo"
-                                             placeholder="Grupo Sanguíneo"
-                                             id="per_grupo_sanguineo" size="10"
-                                             maxlength="10"
-                                             value="#{PacienteBean.per_grupo_sanguineo}"
-                                             required="true"
-                                             requiredMessage="Ingrese el grupo sanguíneo"
-                                             />
+                                <b:selectOneMenu label="Grupo sanguíneo" id="per_grupo_sanguineo"
+                                                 value="#{PacienteBean.persona.perGrupoSanguineo}"
+                                                 required="true"
+                                                 requiredMessage="Seleccione el grupo sanguíneo">
+                                    <f:selectItem itemLabel="Seleccione"
+                                                  noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="O-" itemValue="1" />
+                                    <f:selectItem itemLabel="O+" itemValue="2" />
+                                    <f:selectItem itemLabel="A-" itemValue="3" />
+                                    <f:selectItem itemLabel="A+" itemValue="4" />
+                                    <f:selectItem itemLabel="B-" itemValue="5" />
+                                    <f:selectItem itemLabel="B+" itemValue="6" />
+                                    <f:selectItem itemLabel="AB-" itemValue="7" />
+                                    <f:selectItem itemLabel="AB+" itemValue="8" />
+                                    <f:selectItem itemLabel="Otro" itemValue="9" />
+                                    <f:ajax render="" />
+                                </b:selectOneMenu>
                             </b:column>
                             <b:column span="3">
                                 <b:selectOneMenu label="Profesión" id="per_profesion"
-                                                 value="#{PacienteBean.per_profesion}"
+                                                 value="#{PacienteBean.persona.perProfesion}"
                                                  required="true"
                                                  requiredMessage="Seleccione la profesión">
                                     <f:selectItem itemLabel="Seleccione"
@@ -137,7 +146,7 @@
                                     <f:selectItem itemLabel="Otro" itemValue="3" />
                                     <f:ajax render="" />
                                 </b:selectOneMenu>
-                                <b:message for="per_identidad_genero" />
+                                <b:message for="per_profesion" />
                             </b:column>
                         </b:row>
 

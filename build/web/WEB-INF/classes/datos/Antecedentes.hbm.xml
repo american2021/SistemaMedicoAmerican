@@ -1,18 +1,27 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 29-mar-2023 8:29:18 by Hibernate Tools 4.3.1 -->
+<!-- Generated 04-abr-2023 12:01:40 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Antecedentes" table="antecedentes" catalog="smed" optimistic-lock="version">
         <id name="antId" type="java.lang.Integer">
             <column name="ant_id" />
             <generator class="identity" />
         </id>
+        <many-to-one name="personas" class="datos.Personas" fetch="select">
+            <column name="personas_per_id" not-null="true" />
+        </many-to-one>
         <property name="antPersonal" type="string">
-            <column name="ant_personal" length="200" not-null="true" />
+            <column name="ant_personal" length="2" not-null="true" />
+        </property>
+        <property name="antPersonalObservacion" type="string">
+            <column name="ant_personal_observacion" length="300" />
         </property>
         <property name="antFamiliar" type="string">
-            <column name="ant_familiar" length="200" not-null="true" />
+            <column name="ant_familiar" length="2" not-null="true" />
+        </property>
+        <property name="antFamiliarObservacion" type="string">
+            <column name="ant_familiar_observacion" length="2" />
         </property>
         <property name="antPubarquia" type="char">
             <column name="ant_pubarquia" length="1" not-null="true" />
@@ -26,6 +35,9 @@
         <property name="antObsDesarrollo" type="string">
             <column name="ant_obs_desarrollo" length="500" not-null="true" />
         </property>
+        <property name="antObsAndrologico" type="string">
+            <column name="ant_obs_andrologico" length="500" />
+        </property>
         <property name="antSecrecionPeneana" type="char">
             <column name="ant_secrecion_peneana" length="1" not-null="true" />
         </property>
@@ -37,9 +49,6 @@
         </property>
         <property name="antApoyoPareja" type="char">
             <column name="ant_apoyo_pareja" length="1" not-null="true" />
-        </property>
-        <property name="antObsAndrologico" type="string">
-            <column name="ant_obs_andrologico" length="500" />
         </property>
         <property name="antAcesora" type="char">
             <column name="ant_acesora" length="1" not-null="true" />
@@ -86,11 +95,8 @@
         <property name="antObsSexualidad" type="string">
             <column name="ant_obs_sexualidad" length="500" />
         </property>
-        <property name="personasPerCodigo" type="int">
-            <column name="personas_per_codigo" not-null="true" />
-        </property>
-        <property name="antFechaUlt" type="date">
-            <column name="ant_fecha_ult" length="10" not-null="true" />
+        <property name="antFechaUlt" type="timestamp">
+            <column name="ant_fecha_ult" length="19" not-null="true" />
         </property>
         <property name="antUsuario" type="string">
             <column name="ant_usuario" length="300" not-null="true" />

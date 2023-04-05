@@ -1,18 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 29-mar-2023 8:29:18 by Hibernate Tools 4.3.1 -->
+<!-- Generated 04-abr-2023 12:01:40 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Signos" table="signos" catalog="smed" optimistic-lock="version">
         <id name="sigId" type="java.lang.Integer">
             <column name="sig_id" />
             <generator class="identity" />
         </id>
-        <property name="sigTipo" type="int">
-            <column name="sig_tipo" not-null="true" />
-        </property>
-        <property name="sigPersionSistolica" type="int">
-            <column name="sig_persion_sistolica" not-null="true" />
+        <property name="sigPresionSistolica" type="int">
+            <column name="sig_presion_sistolica" not-null="true" />
         </property>
         <property name="sigPresionDiastolica" type="int">
             <column name="sig_presion_diastolica" not-null="true" />
@@ -53,14 +50,14 @@
         <property name="sigValorHemoglobinaCorr" type="int">
             <column name="sig_valor_hemoglobina_corr" not-null="true" />
         </property>
-        <property name="sigFechaUlt" type="date">
-            <column name="sig_fecha_ult" length="10" not-null="true" />
+        <property name="historiasHisId" type="int">
+            <column name="historias_his_id" not-null="true" />
+        </property>
+        <property name="sigFechaUlt" type="timestamp">
+            <column name="sig_fecha_ult" length="19" not-null="true" />
         </property>
         <property name="sigUsuario" type="string">
             <column name="sig_usuario" length="300" not-null="true" />
-        </property>
-        <property name="historiasHisId" type="int">
-            <column name="historias_his_id" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

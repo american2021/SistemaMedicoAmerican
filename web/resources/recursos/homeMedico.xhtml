@@ -38,36 +38,40 @@
                         </b:row>
                     </a>
                 </b:column>
-
+                
                 <b:column span="2" class="divMainHome">
-                    <a href="registro-historia" class="linkHome">
+                    <a href="actualizacion-paciente" class="linkHome">
                         <b:row>
-                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/account.png" />
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/actualizar.png" />
                         </b:row>
                         <h5 class="divTitleHome" id="reply-title">
-                            <b>Historia Clínica</b>
+                            <b>Actualizar paciente</b>
                         </h5>
-                    <br/>
+                        <br/>
                         <b:row>
                             <span class="divTextHome"> 
-                                Registro de síntomas del paciente.
+                                Actualizar información de un paciente.
                             </span>
                         </b:row>
                     </a>
                 </b:column>
-                
+            </b:row>
+            
+            <b:row>
+                <h3 id="reply-title">
+                    <b>Historias Clínica</b>
+                </h3>
                 <b:column span="2" class="divMainHome">
-                    <a href="revision-signos" class="linkHome">
+                    <a href="listado-historias" class="linkHome">
                         <b:row>
                             <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/account.png" />
                         </b:row>
                         <h5 class="divTitleHome" id="reply-title">
-                            <b>Signos vitales</b>
+                            <b>Historias Clínicas</b>
                         </h5>
-                    <br/>
                         <b:row>
                             <span class="divTextHome"> 
-                                Revision de los signos vitales del paciente
+                                Listado de las historias clínicas de los pacientes
                             </span>
                         </b:row>
                     </a>
@@ -76,8 +80,38 @@
 
             <b:row>
                 <h3 id="reply-title">
-                    <b>Enfermedades</b>
+                    <b>Patologías</b>
                 </h3>
+                <b:column span="2" class="divMainHome">
+                    <a href="registro-patologia" class="linkHome">
+                        <b:row>
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/bacterias.png" />
+                        </b:row>
+                        <h5 class="divTitleHome" id="reply-title">
+                            <b>Registro</b>
+                        </h5>
+                        <b:row>
+                            <span class="divTextHome"> 
+                                Registrar Nueva Patología
+                            </span>
+                        </b:row>
+                    </a>
+                </b:column>
+                <b:column span="2" class="divMainHome">
+                    <a href="edicion-patologia" class="linkHome">
+                        <b:row>
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/microscopio.png" />
+                        </b:row>
+                        <h5 class="divTitleHome" id="reply-title">
+                            <b>Edicion</b>
+                        </h5>
+                        <b:row>
+                            <span class="divTextHome"> 
+                                Editar las patologías existentes
+                            </span>
+                        </b:row>
+                    </a>
+                </b:column>
             </b:row>
             <br></br>
             <br></br>

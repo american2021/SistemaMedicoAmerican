@@ -1,5 +1,5 @@
 package datos;
-// Generated 29-mar-2023 8:29:18 by Hibernate Tools 4.3.1
+// Generated 04-abr-2023 12:01:39 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,17 +11,20 @@ public class Antecedentes  implements java.io.Serializable {
 
 
      private Integer antId;
+     private Personas personas;
      private String antPersonal;
+     private String antPersonalObservacion;
      private String antFamiliar;
+     private String antFamiliarObservacion;
      private char antPubarquia;
      private char antVelloAxilar;
      private char antEspermaquia;
      private String antObsDesarrollo;
+     private String antObsAndrologico;
      private char antSecrecionPeneana;
      private char antHistoriaAnticonceptiva;
      private char antMetodoAnticonceptivo;
      private char antApoyoPareja;
-     private String antObsAndrologico;
      private char antAcesora;
      private char antInformante;
      private char antTienePareja;
@@ -37,7 +40,6 @@ public class Antecedentes  implements java.io.Serializable {
      private char antDificultadRelaciones;
      private char antRelacionesVoluntarias;
      private String antObsSexualidad;
-     private int personasPerCodigo;
      private Date antFechaUlt;
      private String antUsuario;
 
@@ -45,7 +47,8 @@ public class Antecedentes  implements java.io.Serializable {
     }
 
 	
-    public Antecedentes(String antPersonal, String antFamiliar, char antPubarquia, char antVelloAxilar, char antEspermaquia, String antObsDesarrollo, char antSecrecionPeneana, char antHistoriaAnticonceptiva, char antMetodoAnticonceptivo, char antApoyoPareja, char antAcesora, char antInformante, char antTienePareja, int antCantidadParejas, char antTipoExperienciaSexual, int antEdadPrimeraVez, char antMastrubacion, char antViolenciaGenero, int antLapsoAbuso, char antTratamientoPsicologico, char antCalidadInformacion, char antTipoRelacionesSexuales, char antDificultadRelaciones, char antRelacionesVoluntarias, int personasPerCodigo, Date antFechaUlt, String antUsuario) {
+    public Antecedentes(Personas personas, String antPersonal, String antFamiliar, char antPubarquia, char antVelloAxilar, char antEspermaquia, String antObsDesarrollo, char antSecrecionPeneana, char antHistoriaAnticonceptiva, char antMetodoAnticonceptivo, char antApoyoPareja, char antAcesora, char antInformante, char antTienePareja, int antCantidadParejas, char antTipoExperienciaSexual, int antEdadPrimeraVez, char antMastrubacion, char antViolenciaGenero, int antLapsoAbuso, char antTratamientoPsicologico, char antCalidadInformacion, char antTipoRelacionesSexuales, char antDificultadRelaciones, char antRelacionesVoluntarias, Date antFechaUlt, String antUsuario) {
+        this.personas = personas;
         this.antPersonal = antPersonal;
         this.antFamiliar = antFamiliar;
         this.antPubarquia = antPubarquia;
@@ -70,22 +73,24 @@ public class Antecedentes  implements java.io.Serializable {
         this.antTipoRelacionesSexuales = antTipoRelacionesSexuales;
         this.antDificultadRelaciones = antDificultadRelaciones;
         this.antRelacionesVoluntarias = antRelacionesVoluntarias;
-        this.personasPerCodigo = personasPerCodigo;
         this.antFechaUlt = antFechaUlt;
         this.antUsuario = antUsuario;
     }
-    public Antecedentes(String antPersonal, String antFamiliar, char antPubarquia, char antVelloAxilar, char antEspermaquia, String antObsDesarrollo, char antSecrecionPeneana, char antHistoriaAnticonceptiva, char antMetodoAnticonceptivo, char antApoyoPareja, String antObsAndrologico, char antAcesora, char antInformante, char antTienePareja, int antCantidadParejas, char antTipoExperienciaSexual, int antEdadPrimeraVez, char antMastrubacion, char antViolenciaGenero, int antLapsoAbuso, char antTratamientoPsicologico, char antCalidadInformacion, char antTipoRelacionesSexuales, char antDificultadRelaciones, char antRelacionesVoluntarias, String antObsSexualidad, int personasPerCodigo, Date antFechaUlt, String antUsuario) {
+    public Antecedentes(Personas personas, String antPersonal, String antPersonalObservacion, String antFamiliar, String antFamiliarObservacion, char antPubarquia, char antVelloAxilar, char antEspermaquia, String antObsDesarrollo, String antObsAndrologico, char antSecrecionPeneana, char antHistoriaAnticonceptiva, char antMetodoAnticonceptivo, char antApoyoPareja, char antAcesora, char antInformante, char antTienePareja, int antCantidadParejas, char antTipoExperienciaSexual, int antEdadPrimeraVez, char antMastrubacion, char antViolenciaGenero, int antLapsoAbuso, char antTratamientoPsicologico, char antCalidadInformacion, char antTipoRelacionesSexuales, char antDificultadRelaciones, char antRelacionesVoluntarias, String antObsSexualidad, Date antFechaUlt, String antUsuario) {
+       this.personas = personas;
        this.antPersonal = antPersonal;
+       this.antPersonalObservacion = antPersonalObservacion;
        this.antFamiliar = antFamiliar;
+       this.antFamiliarObservacion = antFamiliarObservacion;
        this.antPubarquia = antPubarquia;
        this.antVelloAxilar = antVelloAxilar;
        this.antEspermaquia = antEspermaquia;
        this.antObsDesarrollo = antObsDesarrollo;
+       this.antObsAndrologico = antObsAndrologico;
        this.antSecrecionPeneana = antSecrecionPeneana;
        this.antHistoriaAnticonceptiva = antHistoriaAnticonceptiva;
        this.antMetodoAnticonceptivo = antMetodoAnticonceptivo;
        this.antApoyoPareja = antApoyoPareja;
-       this.antObsAndrologico = antObsAndrologico;
        this.antAcesora = antAcesora;
        this.antInformante = antInformante;
        this.antTienePareja = antTienePareja;
@@ -101,7 +106,6 @@ public class Antecedentes  implements java.io.Serializable {
        this.antDificultadRelaciones = antDificultadRelaciones;
        this.antRelacionesVoluntarias = antRelacionesVoluntarias;
        this.antObsSexualidad = antObsSexualidad;
-       this.personasPerCodigo = personasPerCodigo;
        this.antFechaUlt = antFechaUlt;
        this.antUsuario = antUsuario;
     }
@@ -113,6 +117,13 @@ public class Antecedentes  implements java.io.Serializable {
     public void setAntId(Integer antId) {
         this.antId = antId;
     }
+    public Personas getPersonas() {
+        return this.personas;
+    }
+    
+    public void setPersonas(Personas personas) {
+        this.personas = personas;
+    }
     public String getAntPersonal() {
         return this.antPersonal;
     }
@@ -120,12 +131,26 @@ public class Antecedentes  implements java.io.Serializable {
     public void setAntPersonal(String antPersonal) {
         this.antPersonal = antPersonal;
     }
+    public String getAntPersonalObservacion() {
+        return this.antPersonalObservacion;
+    }
+    
+    public void setAntPersonalObservacion(String antPersonalObservacion) {
+        this.antPersonalObservacion = antPersonalObservacion;
+    }
     public String getAntFamiliar() {
         return this.antFamiliar;
     }
     
     public void setAntFamiliar(String antFamiliar) {
         this.antFamiliar = antFamiliar;
+    }
+    public String getAntFamiliarObservacion() {
+        return this.antFamiliarObservacion;
+    }
+    
+    public void setAntFamiliarObservacion(String antFamiliarObservacion) {
+        this.antFamiliarObservacion = antFamiliarObservacion;
     }
     public char getAntPubarquia() {
         return this.antPubarquia;
@@ -155,6 +180,13 @@ public class Antecedentes  implements java.io.Serializable {
     public void setAntObsDesarrollo(String antObsDesarrollo) {
         this.antObsDesarrollo = antObsDesarrollo;
     }
+    public String getAntObsAndrologico() {
+        return this.antObsAndrologico;
+    }
+    
+    public void setAntObsAndrologico(String antObsAndrologico) {
+        this.antObsAndrologico = antObsAndrologico;
+    }
     public char getAntSecrecionPeneana() {
         return this.antSecrecionPeneana;
     }
@@ -182,13 +214,6 @@ public class Antecedentes  implements java.io.Serializable {
     
     public void setAntApoyoPareja(char antApoyoPareja) {
         this.antApoyoPareja = antApoyoPareja;
-    }
-    public String getAntObsAndrologico() {
-        return this.antObsAndrologico;
-    }
-    
-    public void setAntObsAndrologico(String antObsAndrologico) {
-        this.antObsAndrologico = antObsAndrologico;
     }
     public char getAntAcesora() {
         return this.antAcesora;
@@ -294,13 +319,6 @@ public class Antecedentes  implements java.io.Serializable {
     
     public void setAntObsSexualidad(String antObsSexualidad) {
         this.antObsSexualidad = antObsSexualidad;
-    }
-    public int getPersonasPerCodigo() {
-        return this.personasPerCodigo;
-    }
-    
-    public void setPersonasPerCodigo(int personasPerCodigo) {
-        this.personasPerCodigo = personasPerCodigo;
     }
     public Date getAntFechaUlt() {
         return this.antFechaUlt;

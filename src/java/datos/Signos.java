@@ -1,5 +1,5 @@
 package datos;
-// Generated 29-mar-2023 8:29:18 by Hibernate Tools 4.3.1
+// Generated 04-abr-2023 12:01:39 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,8 +11,7 @@ public class Signos  implements java.io.Serializable {
 
 
      private Integer sigId;
-     private int sigTipo;
-     private int sigPersionSistolica;
+     private int sigPresionSistolica;
      private int sigPresionDiastolica;
      private int sigFrecuenciaRespiratoria;
      private int sigFrecuenciaCardiaca;
@@ -26,16 +25,15 @@ public class Signos  implements java.io.Serializable {
      private int sigGlucosaCapilar;
      private int sigValorHemoglobina;
      private int sigValorHemoglobinaCorr;
+     private int historiasHisId;
      private Date sigFechaUlt;
      private String sigUsuario;
-     private int historiasHisId;
 
     public Signos() {
     }
 
-    public Signos(int sigTipo, int sigPersionSistolica, int sigPresionDiastolica, int sigFrecuenciaRespiratoria, int sigFrecuenciaCardiaca, int sigPresionArterialMedia, int sigSaturacion, int sigTemperatura, int sigPeso, int sigEstatura, int sigImc, int sigPerimetroAbdominal, int sigGlucosaCapilar, int sigValorHemoglobina, int sigValorHemoglobinaCorr, Date sigFechaUlt, String sigUsuario, int historiasHisId) {
-       this.sigTipo = sigTipo;
-       this.sigPersionSistolica = sigPersionSistolica;
+    public Signos(int sigPresionSistolica, int sigPresionDiastolica, int sigFrecuenciaRespiratoria, int sigFrecuenciaCardiaca, int sigPresionArterialMedia, int sigSaturacion, int sigTemperatura, int sigPeso, int sigEstatura, int sigImc, int sigPerimetroAbdominal, int sigGlucosaCapilar, int sigValorHemoglobina, int sigValorHemoglobinaCorr, int historiasHisId, Date sigFechaUlt, String sigUsuario) {
+       this.sigPresionSistolica = sigPresionSistolica;
        this.sigPresionDiastolica = sigPresionDiastolica;
        this.sigFrecuenciaRespiratoria = sigFrecuenciaRespiratoria;
        this.sigFrecuenciaCardiaca = sigFrecuenciaCardiaca;
@@ -49,9 +47,9 @@ public class Signos  implements java.io.Serializable {
        this.sigGlucosaCapilar = sigGlucosaCapilar;
        this.sigValorHemoglobina = sigValorHemoglobina;
        this.sigValorHemoglobinaCorr = sigValorHemoglobinaCorr;
+       this.historiasHisId = historiasHisId;
        this.sigFechaUlt = sigFechaUlt;
        this.sigUsuario = sigUsuario;
-       this.historiasHisId = historiasHisId;
     }
    
     public Integer getSigId() {
@@ -61,19 +59,12 @@ public class Signos  implements java.io.Serializable {
     public void setSigId(Integer sigId) {
         this.sigId = sigId;
     }
-    public int getSigTipo() {
-        return this.sigTipo;
+    public int getSigPresionSistolica() {
+        return this.sigPresionSistolica;
     }
     
-    public void setSigTipo(int sigTipo) {
-        this.sigTipo = sigTipo;
-    }
-    public int getSigPersionSistolica() {
-        return this.sigPersionSistolica;
-    }
-    
-    public void setSigPersionSistolica(int sigPersionSistolica) {
-        this.sigPersionSistolica = sigPersionSistolica;
+    public void setSigPresionSistolica(int sigPresionSistolica) {
+        this.sigPresionSistolica = sigPresionSistolica;
     }
     public int getSigPresionDiastolica() {
         return this.sigPresionDiastolica;
@@ -166,6 +157,13 @@ public class Signos  implements java.io.Serializable {
     public void setSigValorHemoglobinaCorr(int sigValorHemoglobinaCorr) {
         this.sigValorHemoglobinaCorr = sigValorHemoglobinaCorr;
     }
+    public int getHistoriasHisId() {
+        return this.historiasHisId;
+    }
+    
+    public void setHistoriasHisId(int historiasHisId) {
+        this.historiasHisId = historiasHisId;
+    }
     public Date getSigFechaUlt() {
         return this.sigFechaUlt;
     }
@@ -179,13 +177,6 @@ public class Signos  implements java.io.Serializable {
     
     public void setSigUsuario(String sigUsuario) {
         this.sigUsuario = sigUsuario;
-    }
-    public int getHistoriasHisId() {
-        return this.historiasHisId;
-    }
-    
-    public void setHistoriasHisId(int historiasHisId) {
-        this.historiasHisId = historiasHisId;
     }
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 29-mar-2023 8:29:18 by Hibernate Tools 4.3.1 -->
+<!-- Generated 04-abr-2023 12:01:40 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Personas" table="personas" catalog="smed" optimistic-lock="version">
         <id name="perId" type="java.lang.Integer">
@@ -21,19 +21,16 @@
             <column name="per_nac" length="10" not-null="true" />
         </property>
         <property name="perGrupoSanguineo" type="string">
-            <column name="per_grupo_sanguineo" length="5" not-null="true" />
+            <column name="per_grupo_sanguineo" length="2" not-null="true" />
         </property>
         <property name="perIdentidadGenero" type="java.lang.Character">
             <column name="per_identidad_genero" length="1" />
         </property>
-        <property name="antecedentesAntId" type="int">
-            <column name="antecedentes_ant_id" not-null="true" />
-        </property>
         <property name="perProfesion" type="string">
             <column name="per_profesion" length="2" not-null="true" />
         </property>
-        <property name="perFechaUlt" type="date">
-            <column name="per_fecha_ult" length="10" />
+        <property name="perFechaUlt" type="timestamp">
+            <column name="per_fecha_ult" length="19" not-null="true" />
         </property>
         <property name="perUsuario" type="string">
             <column name="per_usuario" length="300" not-null="true" />
@@ -49,6 +46,12 @@
                 <column name="personas_per_id" not-null="true" />
             </key>
             <one-to-many class="datos.Usuarios" />
+        </set>
+        <set name="antecedenteses" table="antecedentes" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="personas_per_id" not-null="true" />
+            </key>
+            <one-to-many class="datos.Antecedentes" />
         </set>
     </class>
 </hibernate-mapping>

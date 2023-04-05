@@ -10,9 +10,7 @@ import datos.Personas;
 import datos.Usuarios;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -52,9 +50,13 @@ public class LoginBean implements Serializable {
     private boolean valido;
 
     public LoginBean() {
-
+        inicializarUsuario();
+    }
+    
+    public void inicializarUsuario(){
         usuario = null;
-
+        usu_contra = "";
+        usu_nombre = "";
     }
 
     public String login() {
@@ -64,7 +66,7 @@ public class LoginBean implements Serializable {
         if (valido) {
             estaLogueado = true;
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-            session.setAttribute("usuario", usuario);
+            session.setAttribute("usuario", usuario.getUsuNombre());            
             return "/privado/home.xhtml?faces-redirect=true";
         } else {
 
@@ -77,6 +79,16 @@ public class LoginBean implements Serializable {
         }
 
         return "";
+
+    }
+    
+    public String logout() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        //System.out.println("Este es el usuario que sale: "+session.getAttribute("usuario").toString());
+        System.out.println("Este es el usuario que sale: "+session.getAttribute("usuario"));
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        estaLogueado = false;
+        return "/index?faces-redirect=true";
 
     }
 
@@ -121,9 +133,8 @@ public class LoginBean implements Serializable {
     public void accessoMedico() {
 
         if (!estaLogueado) {
-
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/SistemaMedico/");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/index");
             } catch (IOException ex) {
                 Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -172,16 +183,6 @@ public class LoginBean implements Serializable {
             }
 
         }
-
-    }
-
-    public String logout() {
-
-//        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-//        estaLogueado = false;
-//        Log l = new Log(1, usuario.getId().getNombreUsu(), "Logout", new Date());
-//        CrudDAO.guardarLogueo(l);
-        return "index.xhtml?faces-redirect=true";
 
     }
 

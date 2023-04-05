@@ -50,6 +50,7 @@ Contributor(s):
     <property name="hibernate.connection.requireSSL">false</property>
     <mapping resource="datos/Medicamentos.hbm.xml"/>
     <mapping resource="datos/Personas.hbm.xml"/>
+    <mapping resource="datos/Enfermedades.hbm.xml"/>
     <mapping resource="datos/Antecedentes.hbm.xml"/>
     <mapping resource="datos/Diagnosticos.hbm.xml"/>
     <mapping resource="datos/Resultados.hbm.xml"/>

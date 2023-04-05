@@ -5,14 +5,39 @@
 
     <!--PÚBLICO-->
     
+    <url-mapping id="index">
+        <pattern value="/index" />
+        <view-id value="/faces/index.xhtml" />
+    </url-mapping>
+    
     <url-mapping id="home-medico">
         <pattern value="/home-medico" />
         <view-id value="/faces/privado/home.xhtml" />
     </url-mapping>
     
+    <url-mapping id="listado-historias">
+        <pattern value="/listado-historias" />
+        <view-id value="/faces/medico/listadoHistorias.xhtml"/>
+    </url-mapping>
+    
+    <url-mapping id="signos-individual">
+        <pattern value="/signos-individual" />
+        <view-id value="/faces/medico/revisionSignos.xhtml"/>
+    </url-mapping>
+    
     <url-mapping id="registro-pacientes">
         <pattern value="/registro-paciente"/>
         <view-id value="/faces/medico/registroPaciente.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="registro-patologia">
+        <pattern value="/registro-patologia"/>
+        <view-id value="/faces/medico/registroPatologia.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="actualizacion-enfermedad">
+        <pattern value="/actualizacion-enfermedad" />
+        <view-id value="/faces/medico/actualizacionEnfermedad.xhtml"/>
     </url-mapping>
     
     <url-mapping id="registro-historia">
