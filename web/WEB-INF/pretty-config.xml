@@ -40,6 +40,16 @@
         <view-id value="/faces/medico/actualizacionEnfermedad.xhtml"/>
     </url-mapping>
     
+    <url-mapping id="actualizacion-paciente">
+        <pattern value="/actualizacion-paciente" />
+        <view-id value="/faces/medico/actualizacionPaciente.xhtml"/>
+    </url-mapping>
+    
+    <url-mapping id="actualizacion-paciente">
+        <pattern value="/actualizacion-paciente" />
+        <view-id value="/faces/medico/actualizacionPaciente.xhtml"/>
+    </url-mapping>
+    
     <url-mapping id="registro-historia">
         <pattern value="/registro-historia" />
         <view-id value="/faces/medico/registroHistoriaClinica.xhtml" />

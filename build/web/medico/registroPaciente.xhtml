@@ -52,7 +52,8 @@
                     <b:panel title="Datos Generales" look="info" collapsible="false">
                         <b:row>
                             <b:column span="6">
-                                <b:inputText label="Apellidos"
+                                <b:inputText style="text-transform:uppercase;" 
+                                             label="Apellidos"
                                              placeholder="Ingrese sus apellidos"
                                              id="per_apellidos"
                                              size="13"
@@ -62,7 +63,8 @@
                                              requiredMessage="Ingrese sus apellidos"/>
                             </b:column>
                             <b:column span="6">
-                                <b:inputText label="Nombres"
+                                <b:inputText style="text-transform:uppercase;" 
+                                             label="Nombres"
                                              placeholder="Ingrese sus nombres"
                                              id="per_nombres"
                                              size="13"
@@ -139,13 +141,14 @@
                                                  value="#{PacienteBean.persona.perProfesion}"
                                                  required="true"
                                                  requiredMessage="Seleccione la profesión">
-                                    <f:selectItem itemLabel="Seleccione"
-                                                  noSelectionOption="true"/>
-                                    <f:selectItem itemLabel="Doctor" itemValue="1" />
-                                    <f:selectItem itemLabel="Ingeniero" itemValue="2" />
-                                    <f:selectItem itemLabel="Otro" itemValue="3" />
+                                    <f:selectItem itemLabel="Seleccione la profesión"
+                                                  itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registroBean.obtenerEstadosCiviles()}"
+                                                   var="m" itemLabel="#{m.ecDescripcion}"
+                                                   itemValue="#{m.ecCodigo}" />
                                     <f:ajax render="" />
                                 </b:selectOneMenu>
+                                    listarProfesionesCodigo
                                 <b:message for="per_profesion" />
                             </b:column>
                         </b:row>

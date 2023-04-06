@@ -1,5 +1,5 @@
 package datos;
-// Generated 04-abr-2023 12:01:39 by Hibernate Tools 4.3.1
+// Generated 06-abr-2023 11:50:51 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -19,7 +19,7 @@ public class Personas  implements java.io.Serializable {
      private Date perNac;
      private String perGrupoSanguineo;
      private Character perIdentidadGenero;
-     private String perProfesion;
+     private int perProfesion;
      private Date perFechaUlt;
      private String perUsuario;
      private Set historiases = new HashSet(0);
@@ -30,7 +30,7 @@ public class Personas  implements java.io.Serializable {
     }
 
 	
-    public Personas(String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, String perProfesion, Date perFechaUlt, String perUsuario) {
+    public Personas(String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, int perProfesion, Date perFechaUlt, String perUsuario) {
         this.perNombres = perNombres;
         this.perApellidos = perApellidos;
         this.perSexo = perSexo;
@@ -40,7 +40,7 @@ public class Personas  implements java.io.Serializable {
         this.perFechaUlt = perFechaUlt;
         this.perUsuario = perUsuario;
     }
-    public Personas(String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, Character perIdentidadGenero, String perProfesion, Date perFechaUlt, String perUsuario, Set historiases, Set usuarioses, Set antecedenteses) {
+    public Personas(String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, Character perIdentidadGenero, int perProfesion, Date perFechaUlt, String perUsuario, Set historiases, Set usuarioses, Set antecedenteses) {
        this.perNombres = perNombres;
        this.perApellidos = perApellidos;
        this.perSexo = perSexo;
@@ -104,11 +104,11 @@ public class Personas  implements java.io.Serializable {
     public void setPerIdentidadGenero(Character perIdentidadGenero) {
         this.perIdentidadGenero = perIdentidadGenero;
     }
-    public String getPerProfesion() {
+    public int getPerProfesion() {
         return this.perProfesion;
     }
     
-    public void setPerProfesion(String perProfesion) {
+    public void setPerProfesion(int perProfesion) {
         this.perProfesion = perProfesion;
     }
     public Date getPerFechaUlt() {

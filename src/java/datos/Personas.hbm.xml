@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 04-abr-2023 12:01:40 by Hibernate Tools 4.3.1 -->
+<!-- Generated 06-abr-2023 11:50:52 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Personas" table="personas" catalog="smed" optimistic-lock="version">
         <id name="perId" type="java.lang.Integer">
@@ -26,8 +26,8 @@
         <property name="perIdentidadGenero" type="java.lang.Character">
             <column name="per_identidad_genero" length="1" />
         </property>
-        <property name="perProfesion" type="string">
-            <column name="per_profesion" length="2" not-null="true" />
+        <property name="perProfesion" type="int">
+            <column name="per_profesion" not-null="true" />
         </property>
         <property name="perFechaUlt" type="timestamp">
             <column name="per_fecha_ult" length="19" not-null="true" />

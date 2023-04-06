@@ -47,7 +47,7 @@ public class EnfermedadDAO {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Enfermedad where enf_nombre LIKE '" + nombre +"'");
+        Query query = session.createQuery("from Enfermedades where enf_nombre = '" + nombre +"'");
         Enfermedades enfermedad = null;
         if (!query.list().isEmpty()) {
 

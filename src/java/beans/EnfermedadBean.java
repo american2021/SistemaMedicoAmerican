@@ -51,6 +51,11 @@ public final class EnfermedadBean implements Serializable{
         FacesMessages.info(":growlInfo", "Se ha creado la patología", "This is a specific message!");
     }
     
+    public void actualizarEnfermedad(){
+        EnfermedadDAO.crearActualizarEnfermedad(enfermedad);
+        FacesMessages.info(":growlInfo", "Se ha creado la patología", "This is a specific message!");
+    }
+    
     public List<String> listarEnfermedades(){
         return EnfermedadDAO.listarEnfermedades();
     }

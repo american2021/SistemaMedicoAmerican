@@ -37,6 +37,7 @@ public class HistoriaDAO {
         Query query = session.createQuery("from Historias");
         List<Historias> historias = query.list();
         historias.forEach((historia) -> {
+            //Necesario para cargar los datos de la persona en modo eager
             historia.getPersonas().getPerNombres();
         });
         //System.out.println(historias.get(0).getPersonas().getPerApellidos());

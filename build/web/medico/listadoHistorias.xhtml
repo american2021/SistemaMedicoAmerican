@@ -197,7 +197,7 @@
 
                         <b:column span="4" offset="4">
                             <b:commandButton large-screen="full-width" id="submit"
-                                             value="Actualizar Datos"
+                                             value="Actualizar Signos"
                                              oncomplete="$('#modalEdicionSignos').modal('hide')"
                                              action="#{HistoriaBean.actualizarSignosHistoria()}"
                                              look="primary" ajax="true" update="@form :growl"/>
@@ -211,7 +211,7 @@
 
             </b:form>
         </b:modal>
-        
+
         <b:modal id="modalEdicionHistoria" title="Edición de historia clínica" closable="true"
                  close-on-escape="true" backdrop="true" size="modal-lg">
             <b:form id="formEdicionHistoria" >
@@ -238,11 +238,11 @@
                                          requiredMessage="Ingrese la enfermedad actual"/>
                         </b:column>
                     </b:row>
-<b:row contentDisabled="false">
+                    <b:row contentDisabled="false">
 
                         <b:column span="4" offset="4">
                             <b:commandButton large-screen="full-width" id="submit"
-                                             value="Actualizar Datos"
+                                             value="Actualizar Historia"
                                              oncomplete="$('#modalEdicionHistoria').modal('hide')"
                                              action="#{HistoriaBean.actualizarHistoria()}"
                                              look="primary" ajax="true" update="@form :growl"/>
@@ -268,7 +268,7 @@
                 <b:form id="commentform">
                     #{HistoriaBean.inicializarHistorias()}
                     <h3 id="reply-title">
-                        <b>Listado de historias clínicas</b>
+                        <b>Historial de citas del día</b>
                     </h3>
                     <!-- ******************************************************************************************************************************************* -->
                     <br/>
@@ -286,7 +286,7 @@
                             <b:dataTableColumn label="Nombres" value="#{historia.personas.perNombres}" style="width: 30%" order="asc"/>
                             <b:dataTableColumn label="Apellidos" value="#{historia.personas.perApellidos}" style="width: 30%"/>
                             <b:dataTableColumn label="Fecha" value="#{historia.hisFechaUlt}" style="width: 20%" />
-                            <b:dataTableColumn label="Edición" style="width: 10%" >
+                            <b:dataTableColumn label="Signos" style="width: 10%" >
                                 <b:row>
                                     <b:column span="1" offset="0">
                                         <b:commandButton ajax="true"
@@ -299,7 +299,7 @@
                                     </b:column>
                                 </b:row>
                             </b:dataTableColumn>
-                            <b:dataTableColumn label="Edición" style="width: 10%" >
+                            <b:dataTableColumn label="Historia" style="width: 10%" >
                                 <b:row>
                                     <b:column span="1" offset="0">
                                         <b:commandButton ajax="true"
@@ -315,7 +315,6 @@
                         </b:dataTable>
 
                         <!-- ******************************************************************************************************************************************* -->
-
 
                     </b:container>
 

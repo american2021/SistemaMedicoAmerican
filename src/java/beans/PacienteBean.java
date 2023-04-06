@@ -6,11 +6,13 @@
 package beans;
 
 import dao.HistoriaDAO;
+import dao.OcupacionDAO;
 import dao.PacienteDAO;
 import dao.SignosDAO;
 import dao.UsuarioDAO;
 import datos.Antecedentes;
 import datos.Historias;
+import datos.Ocupaciones;
 import java.util.Date;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
@@ -19,7 +21,9 @@ import datos.Personas;
 import datos.Signos;
 import datos.Usuarios;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import net.bootsfaces.utils.FacesMessages;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
@@ -197,6 +201,21 @@ public final class PacienteBean implements Serializable{
     
     public List<String> listarNombres(){
         return PacienteDAO.listarNombres();
+    }
+    
+    public Map<Integer, String> listarProfesionesCodigo(){
+        List<Ocupaciones> ocupaciones;
+        ocupaciones = OcupacionDAO.recuperarOcupaciones();
+         Map<Integer, String> listaCodigoProfesion = new HashMap<>();
+        
+        System.out.println("Recuperando profesiones: ");
+        for (Ocupaciones ocupacion : ocupaciones) {
+            listaCodigoProfesion.put(ocupacion.getOcuId(), ocupacion.getOcuDescripcion());
+            System.out.println(ocupacion.getOcuId());
+            System.out.println(ocupacion.getOcuDescripcion());
+        }
+        
+        return listaCodigoProfesion;
     }
     
     public void recuperarPacientesListener(){
