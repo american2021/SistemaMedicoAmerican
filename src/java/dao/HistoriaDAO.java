@@ -9,9 +9,7 @@ import conexion.HibernateUtil;
 import datos.Antecedentes;
 import datos.Historias;
 import datos.Personas;
-import datos.Signos;
-import datos.Usuarios;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -46,6 +44,21 @@ public class HistoriaDAO {
         return historias;
     }
     
+    public static List<Historias> recuperarHistoriasDia(String dia) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Historias where his_fecha_creacion like '%"+dia+"%'");
+        List<Historias> historias = query.list();
+        historias.forEach((historia) -> {
+            //Necesario para cargar los datos de la persona en modo eager
+            historia.getPersonas().getPerNombres();
+        });
+        //System.out.println(historias.get(0).getPersonas().getPerApellidos());
+        session.getTransaction().commit();
+        session.close();
+        return historias;
+    }
+    
     public static Historias recuperarHistoriaID(int id) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -57,7 +70,7 @@ public class HistoriaDAO {
             historia = (Historias) query.list().get(0);
 
         }
-        //System.out.println(historias.get(0).getPersonas().getPerApellidos());
+        historia.getPersonas().getPerNombres();
         session.getTransaction().commit();
         session.close();
         return historia;

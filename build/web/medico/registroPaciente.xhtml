@@ -143,12 +143,11 @@
                                                  requiredMessage="Seleccione la profesión">
                                     <f:selectItem itemLabel="Seleccione la profesión"
                                                   itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{registroBean.obtenerEstadosCiviles()}"
-                                                   var="m" itemLabel="#{m.ecDescripcion}"
-                                                   itemValue="#{m.ecCodigo}" />
+                                    <f:selectItems value="#{PacienteBean.lista_ocupaciones}"
+                                                   var="o" itemLabel="#{o.ocuDescripcion}"
+                                                   itemValue="#{o.ocuId}" />
                                     <f:ajax render="" />
                                 </b:selectOneMenu>
-                                    listarProfesionesCodigo
                                 <b:message for="per_profesion" />
                             </b:column>
                         </b:row>

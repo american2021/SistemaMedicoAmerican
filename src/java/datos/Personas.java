@@ -1,5 +1,5 @@
 package datos;
-// Generated 06-abr-2023 11:50:51 by Hibernate Tools 4.3.1
+// Generated 13-abr-2023 16:08:08 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -25,6 +25,7 @@ public class Personas  implements java.io.Serializable {
      private Set historiases = new HashSet(0);
      private Set usuarioses = new HashSet(0);
      private Set antecedenteses = new HashSet(0);
+     private Set historiases_1 = new HashSet(0);
 
     public Personas() {
     }
@@ -40,7 +41,7 @@ public class Personas  implements java.io.Serializable {
         this.perFechaUlt = perFechaUlt;
         this.perUsuario = perUsuario;
     }
-    public Personas(String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, Character perIdentidadGenero, int perProfesion, Date perFechaUlt, String perUsuario, Set historiases, Set usuarioses, Set antecedenteses) {
+    public Personas(String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, Character perIdentidadGenero, int perProfesion, Date perFechaUlt, String perUsuario, Set historiases, Set usuarioses, Set antecedenteses, Set historiases_1) {
        this.perNombres = perNombres;
        this.perApellidos = perApellidos;
        this.perSexo = perSexo;
@@ -53,6 +54,7 @@ public class Personas  implements java.io.Serializable {
        this.historiases = historiases;
        this.usuarioses = usuarioses;
        this.antecedenteses = antecedenteses;
+       this.historiases_1 = historiases_1;
     }
    
     public Integer getPerId() {
@@ -145,6 +147,13 @@ public class Personas  implements java.io.Serializable {
     
     public void setAntecedenteses(Set antecedenteses) {
         this.antecedenteses = antecedenteses;
+    }
+    public Set getHistoriases_1() {
+        return this.historiases_1;
+    }
+    
+    public void setHistoriases_1(Set historiases_1) {
+        this.historiases_1 = historiases_1;
     }
 
 

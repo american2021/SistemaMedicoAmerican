@@ -6,23 +6,17 @@
 package beans;
 
 import dao.HistoriaDAO;
-import dao.PacienteDAO;
 import dao.SignosDAO;
-import dao.UsuarioDAO;
-import datos.Antecedentes;
 import datos.Historias;
-import java.util.Date;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import datos.Personas;
 import datos.Signos;
-import datos.Usuarios;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import net.bootsfaces.utils.FacesMessages;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.RandomStringUtils;
+import java.util.Date;
 
 /**
  *
@@ -33,8 +27,10 @@ import org.apache.commons.lang.RandomStringUtils;
 public final class HistoriaBean implements Serializable{
     
     private List<Historias> historias;
+    private List<Historias> historiasdia;
     private Historias historia;
     private Signos signos;
+    private int historia_actual_id;
     
     public HistoriaBean(){
         inicializarHistorias();
@@ -43,7 +39,9 @@ public final class HistoriaBean implements Serializable{
     
     public void inicializarHistorias(){
         historias = new ArrayList<>();
+        historiasdia = new ArrayList<>();
         recuperarHistorias();
+        recuperarHistoriasDia();
     }
     
     public void inicializarSignos(){
@@ -67,6 +65,15 @@ public final class HistoriaBean implements Serializable{
         historias = HistoriaDAO.recuperarHistorias();
     }
     
+    public void recuperarHistoriasDia() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date dia = new Date();
+
+        historiasdia.clear();
+        
+        historiasdia = HistoriaDAO.recuperarHistoriasDia(formatter.format(dia));
+    }
+    
     public void recuperarHistoriaID(int id){
         historia = HistoriaDAO.recuperarHistoriaID(id);
     }
@@ -77,6 +84,17 @@ public final class HistoriaBean implements Serializable{
      */
     public void recuperarSignosHistoria(int id){
         signos = SignosDAO.recuperarSignosHistoria(id);
+    }
+    
+    public String VerCitaMedica(int hisId) {
+        this.historia_actual_id = hisId;
+        historia = HistoriaDAO.recuperarHistoriaID(hisId);
+//        try {
+//            FacesContext.getCurrentInstance().getExternalContext().redirect("./ficha-admision-est");
+//        } catch (IOException ex) {
+//            Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        return "/faces/medico/citaMedica.xhtml?faces-redirect=true";
     }
 
     public List<Historias> getHistorias() {
@@ -101,5 +119,13 @@ public final class HistoriaBean implements Serializable{
 
     public void setHistoria(Historias historia) {
         this.historia = historia;
+    }
+
+    public List<Historias> getHistoriasdia() {
+        return historiasdia;
+    }
+
+    public void setHistoriasdia(List<Historias> historiasdia) {
+        this.historiasdia = historiasdia;
     }
 }

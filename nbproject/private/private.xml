@@ -5,6 +5,11 @@
         <group>
             <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/web/WEB-INF/pretty-config.xml</file>
             <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/web/medico/listadoHistorias.xhtml</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/web/medico/actualizacionPaciente.xhtml</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/web/medico/citaMedica.xhtml</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/web/resources/recursos/homeMedico.xhtml</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/src/java/dao/HistoriaDAO.java</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/src/java/beans/HistoriaBean.java</file>
             <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/src/java/beans/PacienteBean.java</file>
         </group>
     </open-files>

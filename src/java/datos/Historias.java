@@ -1,5 +1,5 @@
 package datos;
-// Generated 06-abr-2023 11:50:51 by Hibernate Tools 4.3.1
+// Generated 13-abr-2023 16:08:08 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,12 +14,13 @@ public class Historias  implements java.io.Serializable {
 
      private Integer hisId;
      private Personas personas;
+     private Signos signos;
      private String hisMotivo;
      private String hisEnfermedadActual;
+     private Date hisFechaCreacion;
      private Date hisFechaUlt;
      private String hisUsuario;
      private int revisionSistemasRevSisId;
-     private int signosSigId;
      private int resultadosResId;
      private int diagnosticosDiagnosticosId;
      private Set enfermedadeses = new HashSet(0);
@@ -28,25 +29,27 @@ public class Historias  implements java.io.Serializable {
     }
 
 	
-    public Historias(Personas personas, String hisMotivo, String hisEnfermedadActual, Date hisFechaUlt, String hisUsuario, int revisionSistemasRevSisId, int signosSigId, int resultadosResId, int diagnosticosDiagnosticosId) {
+    public Historias(Personas personas, Signos signos, String hisMotivo, String hisEnfermedadActual, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, int revisionSistemasRevSisId, int resultadosResId, int diagnosticosDiagnosticosId) {
         this.personas = personas;
+        this.signos = signos;
         this.hisMotivo = hisMotivo;
         this.hisEnfermedadActual = hisEnfermedadActual;
+        this.hisFechaCreacion = hisFechaCreacion;
         this.hisFechaUlt = hisFechaUlt;
         this.hisUsuario = hisUsuario;
         this.revisionSistemasRevSisId = revisionSistemasRevSisId;
-        this.signosSigId = signosSigId;
         this.resultadosResId = resultadosResId;
         this.diagnosticosDiagnosticosId = diagnosticosDiagnosticosId;
     }
-    public Historias(Personas personas, String hisMotivo, String hisEnfermedadActual, Date hisFechaUlt, String hisUsuario, int revisionSistemasRevSisId, int signosSigId, int resultadosResId, int diagnosticosDiagnosticosId, Set enfermedadeses) {
+    public Historias(Personas personas, Signos signos, String hisMotivo, String hisEnfermedadActual, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, int revisionSistemasRevSisId, int resultadosResId, int diagnosticosDiagnosticosId, Set enfermedadeses) {
        this.personas = personas;
+       this.signos = signos;
        this.hisMotivo = hisMotivo;
        this.hisEnfermedadActual = hisEnfermedadActual;
+       this.hisFechaCreacion = hisFechaCreacion;
        this.hisFechaUlt = hisFechaUlt;
        this.hisUsuario = hisUsuario;
        this.revisionSistemasRevSisId = revisionSistemasRevSisId;
-       this.signosSigId = signosSigId;
        this.resultadosResId = resultadosResId;
        this.diagnosticosDiagnosticosId = diagnosticosDiagnosticosId;
        this.enfermedadeses = enfermedadeses;
@@ -66,6 +69,13 @@ public class Historias  implements java.io.Serializable {
     public void setPersonas(Personas personas) {
         this.personas = personas;
     }
+    public Signos getSignos() {
+        return this.signos;
+    }
+    
+    public void setSignos(Signos signos) {
+        this.signos = signos;
+    }
     public String getHisMotivo() {
         return this.hisMotivo;
     }
@@ -79,6 +89,13 @@ public class Historias  implements java.io.Serializable {
     
     public void setHisEnfermedadActual(String hisEnfermedadActual) {
         this.hisEnfermedadActual = hisEnfermedadActual;
+    }
+    public Date getHisFechaCreacion() {
+        return this.hisFechaCreacion;
+    }
+    
+    public void setHisFechaCreacion(Date hisFechaCreacion) {
+        this.hisFechaCreacion = hisFechaCreacion;
     }
     public Date getHisFechaUlt() {
         return this.hisFechaUlt;
@@ -100,13 +117,6 @@ public class Historias  implements java.io.Serializable {
     
     public void setRevisionSistemasRevSisId(int revisionSistemasRevSisId) {
         this.revisionSistemasRevSisId = revisionSistemasRevSisId;
-    }
-    public int getSignosSigId() {
-        return this.signosSigId;
-    }
-    
-    public void setSignosSigId(int signosSigId) {
-        this.signosSigId = signosSigId;
     }
     public int getResultadosResId() {
         return this.resultadosResId;

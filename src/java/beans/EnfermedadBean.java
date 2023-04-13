@@ -60,7 +60,7 @@ public final class EnfermedadBean implements Serializable{
         return EnfermedadDAO.listarEnfermedades();
     }
     
-    public void recuperarEnfermedadListener(){
+    public void listarEnfermedadListener(){
         if (enf_nombre.length() > 1) {
 
             enfermedad = EnfermedadDAO.recuperarEnfermedadNombre(enf_nombre);

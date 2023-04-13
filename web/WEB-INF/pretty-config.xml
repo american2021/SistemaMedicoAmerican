@@ -20,6 +20,11 @@
         <view-id value="/faces/medico/listadoHistorias.xhtml"/>
     </url-mapping>
     
+    <url-mapping id="listado-historias-dia">
+        <pattern value="/listado-historias-dia" />
+        <view-id value="/faces/medico/listadoHistoriasDia.xhtml"/>
+    </url-mapping>
+    
     <url-mapping id="signos-individual">
         <pattern value="/signos-individual" />
         <view-id value="/faces/medico/revisionSignos.xhtml"/>
@@ -63,6 +68,11 @@
     <url-mapping id="revision-signos">
         <pattern value="/revision-signos" />
         <view-id value="/faces/medico/revisionSignos.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="cita-medica">
+        <pattern value="/cita-medica" />
+        <view-id value="/faces/medico/citaMedica.xhtml" />
     </url-mapping>
     
 </pretty-config>

@@ -10,7 +10,6 @@ import dao.OcupacionDAO;
 import dao.PacienteDAO;
 import dao.SignosDAO;
 import dao.UsuarioDAO;
-import datos.Antecedentes;
 import datos.Historias;
 import datos.Ocupaciones;
 import java.util.Date;
@@ -20,10 +19,7 @@ import javax.faces.bean.SessionScoped;
 import datos.Personas;
 import datos.Signos;
 import datos.Usuarios;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import net.bootsfaces.utils.FacesMessages;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
@@ -51,8 +47,8 @@ public final class PacienteBean implements Serializable{
     private Integer sig_presion_arterial_media;
     private Integer sig_saturacion;
     private Integer sig_temperatura;
-    private Integer sig_peso;
-    private Integer sig_estatura;
+    private Float sig_peso;
+    private Float sig_estatura;
     private Integer sig_imc;
     private Integer sig_perimetro_abdominal;
     private Integer sig_glucosa_capilar;
@@ -60,6 +56,7 @@ public final class PacienteBean implements Serializable{
     private Integer sig_valor_hemoglobina_corr;
     private Date sig_fecha_ult;
     private String sig_usuario;
+    private List<Ocupaciones> lista_ocupaciones;
     
     //Declaración de colecciones de datos
     private List<Personas> pacientes;
@@ -68,6 +65,7 @@ public final class PacienteBean implements Serializable{
         inicializarPaciente();
         inicializarSignos();
         inicializarHistoria();
+        inicializarProfesiones();
     }
     
     public void inicializarPaciente(){
@@ -119,7 +117,7 @@ public final class PacienteBean implements Serializable{
         return "/faces/medico/registroSignos.xhtml?faces-redirect=true";
     }
     
-    public void guardarPaciente(){
+    public String guardarPaciente(){
         signos.setSigPresionSistolica(sig_presion_sistolica);
         signos.setSigPresionDiastolica(sig_presion_diastolica);
         signos.setSigPresionArterialMedia(sig_presion_arterial_media);
@@ -136,6 +134,7 @@ public final class PacienteBean implements Serializable{
         signos.setSigValorHemoglobinaCorr(sig_valor_hemoglobina_corr);
         //Proceso para guardar historia
         historia.setHisFechaUlt(new Date());
+        historia.setHisFechaCreacion(new Date());
         historia.setHisUsuario("defecto");
         historia.setHisMotivo("Por definir");
         historia.setHisEnfermedadActual("Por definir");
@@ -148,6 +147,8 @@ public final class PacienteBean implements Serializable{
         PacienteDAO.crearUsuario(usuario);
         HistoriaDAO.crearHistoriaPrimeraVez(historia);
         SignosDAO.crearSignosPrimeraVez(signos);
+        FacesMessages.info(":growlInfo", "Paciente creado con éxito", "This is a specific message!");
+        return "/faces/privado/home.xhtml?faces-redirect=true";
     }
     
     public void actualizarPaciente(){
@@ -203,19 +204,8 @@ public final class PacienteBean implements Serializable{
         return PacienteDAO.listarNombres();
     }
     
-    public Map<Integer, String> listarProfesionesCodigo(){
-        List<Ocupaciones> ocupaciones;
-        ocupaciones = OcupacionDAO.recuperarOcupaciones();
-         Map<Integer, String> listaCodigoProfesion = new HashMap<>();
-        
-        System.out.println("Recuperando profesiones: ");
-        for (Ocupaciones ocupacion : ocupaciones) {
-            listaCodigoProfesion.put(ocupacion.getOcuId(), ocupacion.getOcuDescripcion());
-            System.out.println(ocupacion.getOcuId());
-            System.out.println(ocupacion.getOcuDescripcion());
-        }
-        
-        return listaCodigoProfesion;
+    public void inicializarProfesiones(){
+        lista_ocupaciones = OcupacionDAO.recuperarOcupaciones();
     }
     
     public void recuperarPacientesListener(){
@@ -300,19 +290,19 @@ public final class PacienteBean implements Serializable{
         this.sig_temperatura = sig_temperatura;
     }
 
-    public Integer getSig_peso() {
+    public Float getSig_peso() {
         return sig_peso;
     }
 
-    public void setSig_peso(Integer sig_peso) {
+    public void setSig_peso(Float sig_peso) {
         this.sig_peso = sig_peso;
     }
 
-    public Integer getSig_estatura() {
+    public Float getSig_estatura() {
         return sig_estatura;
     }
 
-    public void setSig_estatura(Integer sig_estatura) {
+    public void setSig_estatura(Float sig_estatura) {
         this.sig_estatura = sig_estatura;
     }
 
@@ -395,6 +385,13 @@ public final class PacienteBean implements Serializable{
     public void setSignos(Signos signos) {
         this.signos = signos;
     }
-    
+
+    public List<Ocupaciones> getLista_ocupaciones() {
+        return lista_ocupaciones;
+    }
+
+    public void setLista_ocupaciones(List<Ocupaciones> lista_ocupaciones) {
+        this.lista_ocupaciones = lista_ocupaciones;
+    }
     
 }

@@ -229,13 +229,16 @@
                                          requiredMessage="Ingrese el motivo de la consulta"/>
                         </b:column>
                         <b:column span="4">
-                            <b:inputText label="Enfermedad Actual"
-                                         placeholder="P.D."
-                                         id="sig_presion_diastolica"
-                                         maxlength="100"
-                                         value="#{HistoriaBean.historia.hisEnfermedadActual}"
-                                         required="true"
-                                         requiredMessage="Ingrese la enfermedad actual"/>
+                            <b:inputText value="#{HistoriaBean.historia.hisEnfermedadActual}"
+                                                 label="Enfermedad"
+                                                 placeholder="Digite el nombre de una patología"
+                                                 typeahead="true"
+                                                 id="nomEnfermedadActual"
+                                                 typeahead-limit="20"
+                                                 typeahead-values="#{EnfermedadBean.listarEnfermedades()}">
+                                <f:ajax event="change" listener="#{EnfermedadBean.listarEnfermedadListener()}" render="" />
+                                <f:ajax render="commentform :growl" />
+                            </b:inputText>
                         </b:column>
                     </b:row>
                     <b:row contentDisabled="false">
@@ -268,7 +271,7 @@
                 <b:form id="commentform">
                     #{HistoriaBean.inicializarHistorias()}
                     <h3 id="reply-title">
-                        <b>Historial de citas del día</b>
+                        <b>Historial de citas médicas</b>
                     </h3>
                     <!-- ******************************************************************************************************************************************* -->
                     <br/>
@@ -293,7 +296,7 @@
                                                          update=":modalEdicionSignos:formEdicionSignos :growl"
                                                          action="#{HistoriaBean.recuperarSignosHistoria(historia.hisId)}"
                                                          oncomplete="$('#modalEdicionSignos').modal('show')"
-                                                         tooltip="Editar Historia" look="warning">
+                                                         tooltip="Visualizar cita" look="warning">
                                             <b:iconAwesome name="pencil"></b:iconAwesome>
                                         </b:commandButton>
                                     </b:column>
@@ -308,6 +311,19 @@
                                                          oncomplete="$('#modalEdicionHistoria').modal('show')"
                                                          tooltip="Editar Historia" look="warning">
                                             <b:iconAwesome name="pencil"></b:iconAwesome>
+                                        </b:commandButton>
+                                    </b:column>
+                                </b:row>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Cita" style="width: 10%" >
+                                <b:row>
+                                    <b:column span="1" offset="0">
+                                        <b:commandButton ajax="true"
+                                                         update=":modalEdicionHistoria:formEdicionHistoria :growl"
+                                                         action="#{HistoriaBean.VerCitaMedica(historia.hisId)}"
+                                                         oncomplete="$('#modalEdicionHistoria').modal('show')"
+                                                         tooltip="Revisar cita" look="success">
+                                            <b:iconAwesome name="eye"></b:iconAwesome>
                                         </b:commandButton>
                                     </b:column>
                                 </b:row>
