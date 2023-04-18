@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17-abr-2023 10:51:47 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="datos.Personas" table="personas" catalog="smed" optimistic-lock="version">
+        <id name="perId" type="java.lang.Integer">
+            <column name="per_id" />
+            <generator class="identity" />
+        </id>
+        <property name="perNombres" type="string">
+            <column name="per_nombres" length="100" not-null="true" />
+        </property>
+        <property name="perApellidos" type="string">
+            <column name="per_apellidos" length="100" not-null="true" />
+        </property>
+        <property name="perSexo" type="char">
+            <column name="per_sexo" length="1" not-null="true" />
+        </property>
+        <property name="perNac" type="date">
+            <column name="per_nac" length="10" not-null="true" />
+        </property>
+        <property name="perGrupoSanguineo" type="string">
+            <column name="per_grupo_sanguineo" length="2" not-null="true" />
+        </property>
+        <property name="perIdentidadGenero" type="java.lang.Character">
+            <column name="per_identidad_genero" length="1" />
+        </property>
+        <property name="perProfesion" type="int">
+            <column name="per_profesion" not-null="true" />
+        </property>
+        <property name="perFechaUlt" type="timestamp">
+            <column name="per_fecha_ult" length="19" not-null="true" />
+        </property>
+        <property name="perUsuario" type="string">
+            <column name="per_usuario" length="300" not-null="true" />
+        </property>
+        <set name="historiases" table="historias" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="personas_per_id" not-null="true" />
+            </key>
+            <one-to-many class="datos.Historias" />
+        </set>
+        <set name="usuarioses" table="usuarios" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="personas_per_id" not-null="true" unique="true" />
+            </key>
+            <one-to-many class="datos.Usuarios" />
+        </set>
+        <set name="antecedenteses" table="antecedentes" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="personas_per_id" not-null="true" />
+            </key>
+            <one-to-many class="datos.Antecedentes" />
+        </set>
+    </class>
+</hibernate-mapping>

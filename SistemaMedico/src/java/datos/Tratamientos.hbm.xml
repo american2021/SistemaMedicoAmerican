@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17-abr-2023 10:51:47 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="datos.Tratamientos" table="tratamientos" catalog="smed" optimistic-lock="version">
+        <id name="traId" type="java.lang.Integer">
+            <column name="tra_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="medicamentos" class="datos.Medicamentos" fetch="select">
+            <column name="medicamentos_med_id" not-null="true" />
+        </many-to-one>
+        <property name="traMedicamento" type="string">
+            <column name="tra_medicamento" length="100" not-null="true" />
+        </property>
+        <property name="traViaAdministracion" type="char">
+            <column name="tra_via_administracion" length="1" not-null="true" />
+        </property>
+        <property name="traDosisUnitaria" type="string">
+            <column name="tra_dosis_unitaria" length="300" not-null="true" />
+        </property>
+        <property name="traUnidadAdministracion" type="string">
+            <column name="tra_unidad_administracion" length="200" not-null="true" />
+        </property>
+        <property name="traFrecuencia" type="string">
+            <column name="tra_frecuencia" length="100" not-null="true" />
+        </property>
+        <property name="traInicioTratamiento" type="date">
+            <column name="tra_inicio_tratamiento" length="10" not-null="true" />
+        </property>
+        <property name="traHora1" type="date">
+            <column name="tra_hora1" length="10" not-null="true" />
+        </property>
+        <property name="traHora2" type="date">
+            <column name="tra_hora2" length="10" not-null="true" />
+        </property>
+        <property name="traHora3" type="date">
+            <column name="tra_hora3" length="10" not-null="true" />
+        </property>
+        <property name="traHora4" type="date">
+            <column name="tra_hora4" length="10" not-null="true" />
+        </property>
+        <property name="traDuracion" type="java.lang.Integer">
+            <column name="tra_duracion" />
+        </property>
+        <property name="traDuracionUnidadTiempo" type="java.lang.Character">
+            <column name="tra_duracion_unidad_tiempo" length="1" />
+        </property>
+        <property name="traCantidad" type="int">
+            <column name="tra_cantidad" not-null="true" />
+        </property>
+        <property name="traIndicaciones" type="string">
+            <column name="tra_indicaciones" length="300" not-null="true" />
+        </property>
+        <property name="traAdvertencias" type="string">
+            <column name="tra_advertencias" length="300" not-null="true" />
+        </property>
+        <property name="traEvolucion" type="string">
+            <column name="tra_evolucion" length="300" not-null="true" />
+        </property>
+        <property name="traFechaUlt" type="timestamp">
+            <column name="tra_fecha_ult" length="19" not-null="true" />
+        </property>
+        <property name="traUsuario" type="string">
+            <column name="tra_usuario" length="300" not-null="true" />
+        </property>
+        <property name="diagnosticosDiagnosticosId" type="int">
+            <column name="diagnosticos_diagnosticos_id" not-null="true" />
+        </property>
+        <set name="diagnosticoses" table="diagnosticos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="tratamientos_tra_id" not-null="true" />
+            </key>
+            <one-to-many class="datos.Diagnosticos" />
+        </set>
+        <set name="medicamentoses" table="medicamentos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="tratamientos_tra_id" not-null="true" />
+            </key>
+            <one-to-many class="datos.Medicamentos" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,338 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui" xmlns:my="http://java.sun.com/jsf/composite/recursos" xmlns:p="http://primefaces.org/ui" xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
+
+    <f:event listener="#{LoginBean.accessoMedico()}" type="preRenderView" /> #{personasBean.cargarPersona()}
+
+    <h:head>
+        <title>American College</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
+    </h:head>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
+
+    <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
+
+    <b:modal id="modalRol" title="Rol de usuario" style="font-weight: bold;" closable="true" close-on-escape="true" backdrop="true" rendered="#{loginBean.renderizarSiNoEsEstudiante()}">
+        <b:panel span="14">
+            <b:form>
+                <b:selectOneMenu value="#{loginBean.cambioRol}">
+                    <f:selectItem itemLabel="Seleccionar el rol de usuario con el que desea trabajar" itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{loginBean.recuperarRoles()}" var="r" itemLabel="#{r}" itemValue="#{r}" />
+                </b:selectOneMenu>
+                <b:panel span="4" offset="5">
+                    <b:row>
+                        <b:commandButton value="Cambiar Rol" action="#{loginBean.cambiarRol()}" look="primary" />
+                    </b:row>
+                </b:panel>
+            </b:form>
+        </b:panel>
+    </b:modal>
+
+    <my:cabecera id="cabecera"/>
+    <my:menuLateralMedico id="menuLateralMedico"/>
+
+    <h:body>
+
+        <p:idleMonitor timeout="600000">
+            <p:ajax event="idle" listener="#{loginBean.sesionInactiva()}" />
+        </p:idleMonitor>
+
+
+        <b:growl id="growl" escape="true" />
+
+        <b:container fluid="true">
+            <b:panel span="10" offset="0">
+
+
+                <b:form id="commentform">
+                    #{HistoriaBean.inicializarHistorias()}
+                    <h3 id="reply-title">
+                        <b>Cita médica</b>
+                    </h3>
+                    <!-- ******************************************************************************************************************************************* -->
+                    <br/>
+                    <b:container id="container" fluid="true" contentDisabled="false">
+                        <!-- ******************************************************************************************************************************************* -->
+                        <h3>
+                            <b>Datos del paciente</b>
+                        </h3>
+                        <b:panel title="Datos generales" look="info" collapsible="false">
+                        <b:row>
+                            <b:column span="6">
+                                <b:inputText style="text-transform:uppercase;" 
+                                             label="Nombre"
+                                             placeholder=""
+                                             id="per_nombres"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.historia.personas.perNombres}"
+                                             required="true"
+                                             requiredMessage="Nombre del paciente"/>
+                            </b:column>
+                            <b:column span="6">
+                                <b:inputText style="text-transform:uppercase;" 
+                                             label="Apellidos"
+                                             placeholder=""
+                                             id="per_apellidos"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.historia.personas.perApellidos}"
+                                             required="true"
+                                             requiredMessage="Apellidos del paciente"/>
+                            </b:column>
+                                <b:column span="2">
+                                <b:selectOneMenu label="Género" id="per_identidad_genero"
+                                                 value="#{HistoriaBean.historia.personas.perSexo}"
+                                                 required="true"
+                                                 requiredMessage="Seleccione el género">
+                                    <f:selectItem itemLabel="Seleccione"
+                                                  noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="Masculino" itemValue="1" />
+                                    <f:selectItem itemLabel="Femenino" itemValue="2" />
+                                    <f:selectItem itemLabel="Otro" itemValue="3" />
+                                    <f:ajax render="" />
+                                </b:selectOneMenu>
+                                <b:message for="per_identidad_genero" />
+                            </b:column>
+                            <b:column span="3">
+                                <b:dateTimePicker
+                                    id="per_nac"
+                                    format="DD/MM/YYYY"
+                                    locale="en"
+                                    value="#{HistoriaBean.historia.personas.perNac}"
+                                    label="Fecha de Nacimiento"
+                                    required="true"
+                                    requiredMessage="Ingrese la fecha de nacimiento"
+                                    max-date="12/31/2006" />
+                                <b:message for="per_nac"/>
+                            </b:column>
+
+                            <b:column span="2">
+                                <b:selectOneMenu label="Grupo sanguíneo" id="per_grupo_sanguineo"
+                                                 value="#{HistoriaBean.historia.personas.perGrupoSanguineo}"
+                                                 required="true"
+                                                 requiredMessage="Seleccione el grupo sanguíneo">
+                                    <f:selectItem itemLabel="Seleccione"
+                                                  noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="O-" itemValue="1" />
+                                    <f:selectItem itemLabel="O+" itemValue="2" />
+                                    <f:selectItem itemLabel="A-" itemValue="3" />
+                                    <f:selectItem itemLabel="A+" itemValue="4" />
+                                    <f:selectItem itemLabel="B-" itemValue="5" />
+                                    <f:selectItem itemLabel="B+" itemValue="6" />
+                                    <f:selectItem itemLabel="AB-" itemValue="7" />
+                                    <f:selectItem itemLabel="AB+" itemValue="8" />
+                                    <f:selectItem itemLabel="Otro" itemValue="9" />
+                                    <f:ajax render="" />
+                                </b:selectOneMenu>
+                            </b:column>
+                            <b:column span="3">
+                                <b:selectOneMenu label="Profesión" id="per_profesion"
+                                                 value="#{HistoriaBean.historia.personas.perProfesion}"
+                                                 required="true"
+                                                 requiredMessage="Seleccione la profesión">
+                                    <f:selectItem itemLabel="Seleccione la profesión"
+                                                  itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{HistoriaBean.lista_ocupaciones}"
+                                                   var="o" itemLabel="#{o.ocuDescripcion}"
+                                                   itemValue="#{o.ocuId}" />
+                                    <f:ajax render="" />
+                                </b:selectOneMenu>
+                                <b:message for="per_profesion" />
+                            </b:column>
+                        </b:row>
+                        </b:panel>
+                        <h3>
+                            <b>Signos del paciente</b>
+                        </h3>
+                        <b:panel title="Signos vitales" look="info" collapsible="false">
+                        <b:row>
+                            <b:column span="3">
+                                <b:inputText label="Presion Arterial Sistólica"
+                                             placeholder="P.S."
+                                             id="sig_pre_sistolica"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigPresionSistolica}"
+                                             required="true"
+                                             requiredMessage="Ingrese la presión sistólica"/>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Presion Arterial Diastólica"
+                                             placeholder="P.D."
+                                             id="sig_pre_diastolica"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigPresionDiastolica}"
+                                             required="true"
+                                             requiredMessage="Ingrese la presión diastólica"/>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Presión Arterial Media"
+                                             placeholder="P.A.M."
+                                             id="sig_presion_arterial_media"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigPresionArterialMedia}"
+                                             required="true"
+                                             requiredMessage="Ingrese la presión arterial media"/>
+                            </b:column>
+                            <b:column span="2">
+                                <b:inputText label="Temperatura"
+                                             placeholder="Temperatura"
+                                             id="sig_temperatura"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigTemperatura}"
+                                             required="true"
+                                             requiredMessage="Ingrese la temperatura"/>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span="3">
+                                <b:inputText label="Frecuencia Respiratoria"
+                                             placeholder="F.R."
+                                             id="sig_frecuencia_respiratoria"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigFrecuenciaRespiratoria}"
+                                             required="true"
+                                             requiredMessage="Ingrese la frecuencia respiratoria"/>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Frecuencia Cardíaca"
+                                             placeholder="F.C."
+                                             id="sig_frecuencia_cardiaca"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigFrecuenciaCardiaca}"
+                                             required="true"
+                                             requiredMessage="Ingrese la frecuencia cardiaca"/>
+                            </b:column>
+                            <b:column span="2">
+                                <b:inputText label="Saturacion"
+                                             placeholder="Saturación"
+                                             id="sig_saturacion"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigSaturacion}"
+                                             required="true"
+                                             requiredMessage="Ingrese la saturacion"/>
+                            </b:column>
+                        </b:row>
+
+                    </b:panel>
+                    <b:panel title="Datos Antropométricos" look="info" collapsible="false">
+                        <b:row>
+                            <b:column span="2">
+                                <b:inputText label="Peso"
+                                             placeholder="Peso"
+                                             id="sig_peso"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigPeso}"
+                                             required="true"
+                                             requiredMessage="Ingrese el peso"/>
+                            </b:column>
+                            <b:column span="2">
+                                <b:inputText label="Estatura"
+                                             placeholder="Estatura"
+                                             id="sig_pestatura"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigEstatura}"
+                                             required="true"
+                                             requiredMessage="Ingrese la estatura"/>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Indice de masa corporal"
+                                             placeholder="I.M.C."
+                                             id="sig_imc"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigImc}"
+                                             required="true"
+                                             requiredMessage="Ingrese la indice de masa corporal"/>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Perímetro abdominal"
+                                             placeholder="Perímetro Abdominal"
+                                             id="sig_perimetro_abdominal"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigPerimetroAbdominal}"
+                                             required="true"
+                                             requiredMessage="Ingrese el perímetro abdominal"/>
+                            </b:column>
+                        </b:row>
+                    </b:panel>
+                    <b:panel title="Mediciones Capilares" look="info" collapsible="false">
+                        <b:row>
+                            <b:column span="2">
+                                <b:inputText label="Glucosa Capilar"
+                                             placeholder="Glucosa Capilar"
+                                             id="sig_glucosa_capilar"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigGlucosaCapilar}"
+                                             required="true"
+                                             requiredMessage="Ingrese la glucosa capilar"/>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Valor Hemoglobina"
+                                             placeholder="Valor Hemoglobina"
+                                             id="sig_valor_hemoglobina"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigValorHemoglobina}"
+                                             required="true"
+                                             requiredMessage="Ingrese el valor de la hemoglobina"/>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Valor Hemoglobina Corregido"
+                                             placeholder="Valor Hemoglobina Corregido"
+                                             id="sig_valor_hemoglobina_corredigo"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.signos.sigValorHemoglobinaCorr}"
+                                             required="true"
+                                             requiredMessage="Ingrese el valor de la hemoglobina corregido"/>
+                            </b:column>
+                        </b:row>
+                    </b:panel>
+                        <h3>
+                            <b>Historia Clínica</b>
+                        </h3>
+                        <b:panel title="Historia clínica" look="info" collapsible="false">
+                        <b:row>
+                            <b:column span="3">
+                                <b:inputText label="Motivo de la consulta"
+                                             placeholder="Motivo consulta"
+                                             id="motivo_consulta"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.historia.hisMotivo}"
+                                             required="true"
+                                             requiredMessage="Motivo consulta"/>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Enfermedad Actual"
+                                             placeholder="Enfermedad actual"
+                                             id="enfermedad_actual"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{HistoriaBean.historia.enfermedades.enfNombre}"
+                                             required="true"
+                                             requiredMessage="Enfermedad actual"/>
+                            </b:column>
+                        </b:row>
+
+                    </b:panel>
+                        </b:container>
+                </b:form>
+            </b:panel>
+        </b:container>
+        <br/><br/><br/><br/>
+    </h:body>
+</html>

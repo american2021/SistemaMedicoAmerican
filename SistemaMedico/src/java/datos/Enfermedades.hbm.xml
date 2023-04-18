@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17-abr-2023 10:51:47 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="datos.Enfermedades" table="enfermedades" catalog="smed" optimistic-lock="version">
+        <id name="enfId" type="java.lang.Integer">
+            <column name="enf_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="historias" class="datos.Historias" fetch="select">
+            <column name="historias_his_id" />
+        </many-to-one>
+        <property name="enfNombre" type="string">
+            <column name="enf_nombre" length="300" not-null="true" />
+        </property>
+        <property name="enfDescripcion" type="string">
+            <column name="enf_descripcion" length="300" not-null="true" />
+        </property>
+        <property name="enfCodigoCie" type="string">
+            <column name="enf_codigo_cie" length="300" not-null="true" />
+        </property>
+        <property name="enfFechaUlt" type="date">
+            <column name="enf_fecha_ult" length="10" />
+        </property>
+        <property name="enfUsuario" type="string">
+            <column name="enf_usuario" length="300" />
+        </property>
+        <set name="historiases" table="historias" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="enfermedades_enf_id" />
+            </key>
+            <one-to-many class="datos.Historias" />
+        </set>
+    </class>
+</hibernate-mapping>

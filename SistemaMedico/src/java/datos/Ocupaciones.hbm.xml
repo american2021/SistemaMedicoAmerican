@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17-abr-2023 10:51:47 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="datos.Ocupaciones" table="ocupaciones" catalog="smed" optimistic-lock="version">
+        <id name="ocuId" type="int">
+            <column name="ocu_id" />
+            <generator class="assigned" />
+        </id>
+        <property name="ocuDescripcion" type="string">
+            <column name="ocu_descripcion" length="50" not-null="true" />
+        </property>
+        <property name="ocuFechaUtl" type="timestamp">
+            <column name="ocu_fecha_utl" length="19" not-null="true" />
+        </property>
+        <property name="ocuUsuario" type="string">
+            <column name="ocu_usuario" length="15" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

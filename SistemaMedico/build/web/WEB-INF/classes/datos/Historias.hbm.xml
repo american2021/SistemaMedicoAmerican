@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17-abr-2023 10:51:47 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="datos.Historias" table="historias" catalog="smed" optimistic-lock="version">
+        <id name="hisId" type="java.lang.Integer">
+            <column name="his_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="diagnosticos" class="datos.Diagnosticos" fetch="select">
+            <column name="diagnosticos_dia_id" />
+        </many-to-one>
+        <many-to-one name="enfermedades" class="datos.Enfermedades" fetch="select">
+            <column name="enfermedades_enf_id" />
+        </many-to-one>
+        <many-to-one name="personas" class="datos.Personas" fetch="select">
+            <column name="personas_per_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="resultados" class="datos.Resultados" fetch="select">
+            <column name="resultados_res_id" />
+        </many-to-one>
+        <many-to-one name="revisionSistemas" class="datos.RevisionSistemas" fetch="select">
+            <column name="revision_sistemas_rev_sis_id" />
+        </many-to-one>
+        <many-to-one name="signos" class="datos.Signos" fetch="select">
+            <column name="signos_sig_id" />
+        </many-to-one>
+        <property name="hisMotivo" type="string">
+            <column name="his_motivo" length="500" not-null="true" />
+        </property>
+        <property name="hisFechaCreacion" type="date">
+            <column name="his_fecha_creacion" length="10" not-null="true" />
+        </property>
+        <property name="hisFechaUlt" type="date">
+            <column name="his_fecha_ult" length="10" />
+        </property>
+        <property name="hisUsuario" type="string">
+            <column name="his_usuario" length="300" />
+        </property>
+        <set name="enfermedadeses" table="enfermedades" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="historias_his_id" />
+            </key>
+            <one-to-many class="datos.Enfermedades" />
+        </set>
+        <set name="diagnosticoses" table="diagnosticos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="historias_his_id" not-null="true" />
+            </key>
+            <one-to-many class="datos.Diagnosticos" />
+        </set>
+    </class>
+</hibernate-mapping>
