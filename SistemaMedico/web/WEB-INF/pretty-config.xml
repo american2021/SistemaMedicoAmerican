@@ -11,7 +11,7 @@
     </url-mapping>
     
     <url-mapping id="home-medico">
-        <pattern value="/home-medico" />
+        <pattern value="/home-medico"/>
         <view-id value="/faces/privado/home.xhtml" />
     </url-mapping>
     
@@ -30,7 +30,7 @@
         <view-id value="/faces/medico/revisionSignos.xhtml"/>
     </url-mapping>
     
-    <url-mapping id="registro-pacientes">
+    <url-mapping id="registro-paciente">
         <pattern value="/registro-paciente"/>
         <view-id value="/faces/medico/registroPaciente.xhtml" />
     </url-mapping>

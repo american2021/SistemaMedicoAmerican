@@ -1,0 +1,356 @@
+/*//////////////////////////////////     CARRUSEL     //////////////////////////////////*/
+
+.divCar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* Preserve aspet ratio */
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+}
+
+.mCar {
+    width: 100%;
+}
+
+.itemCar {
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-control.left {
+    display: none;
+}
+
+.carousel-control {
+    display: none;
+}
+/*//////////////////////////////////     FOOTER     //////////////////////////////////*/
+
+.footerLogin {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+    height: 30px;
+    padding: 5px 0px;
+}
+
+.footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+    height: 30px;
+    padding: 5px 0px;
+    ;
+}
+
+.footerText {
+    margin: 0px;
+    padding: 0px;
+}
+/*//////////////////////////////////     Menu superior, compartido entre todos los roles de usuarios     //////////////////////////////////*/
+
+.mainMenu {
+    background-color: white;
+    padding: 0px;
+    margin: 0px;
+}
+
+.mainMenuBrand {
+    display: inline;
+    align-items: left;
+    padding: 0px;
+    margin: 0%;
+    width: 80%;
+}
+
+@media screen and (min-width: 600px) {
+    .mainMenuBrand {
+        display: inline;
+        align-items: left;
+        padding: 0px;
+        margin: 0%;
+        width: 130%;
+    }
+}
+
+.mainMenuBrandImg {
+    display: inline;
+    width: auto;
+    height: 50%;
+    margin: 0% 7%;
+}
+/*//////////////////////////////////     Menu lateral, cambia por roles de usuarios     //////////////////////////////////*/
+
+.menuLateral {
+}
+
+
+@media screen and (max-width: 600px) {
+    .menuLateral {
+        display: none;
+        position: fixed;
+    }
+}
+/*//////////////////////////////////     Menu home, cambia por roles de usuarios     //////////////////////////////////*/
+
+.divMainHome {
+    background-color: white;
+    padding-bottom: 1%;
+    padding-left: 2%;
+    border-radius: 3%;
+}
+
+.divMainHome:hover {
+    background-color: #999999;
+    cursor: pointer;
+}
+
+.divIconHome {
+    background-color: white;
+    min-height: 80px;
+    max-height: 80px;
+    display: block;
+    margin: 5% auto 7% auto;
+}
+
+.divMainHome:hover .divIconHome {
+    background-color: #999999;
+    cursor: pointer;
+}
+
+.divTitleHome {
+    background-color: white;
+    color: black;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+}
+
+.divMainHome:hover .divTitleHome {
+    background-color: #999999;
+    cursor: pointer;
+    color: white;
+}
+
+.divTextHome {
+    background-color: white;
+    color: #202020;
+    align-items: justify;
+    text-align: justify;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 10px;
+}
+
+.divMainHome:hover .divTextHome {
+    background-color: #999999;
+    cursor: pointer;
+    color: #202020;
+}
+
+.linkHome {
+    outline: none;
+    text-decoration: none;
+}
+
+.linkHome:link {
+    outline: none;
+    text-decoration: none;
+}
+
+.linkHome:visited {
+    outline: none;
+    text-decoration: none;
+}
+
+.linkHome:hover {
+    outline: none;
+    text-decoration: none;
+}
+
+.linkHome:active {
+    outline: none;
+    text-decoration: none;
+}
+
+.divMainHome:hover .linkHome {
+    outline: none;
+    text-decoration: none;
+}
+/*//////////////////////////////////     Scroll up object      //////////////////////////////////*/
+
+#scrollUpCustom {
+    background-image: url("../img/top.png");
+    bottom: 65px;
+    right: 18px;
+    width: 38px;
+    /* width of the custom image */
+    height: 38px;
+    /* height of the custom image */
+    outline: none;
+}
+/*//////////////////////////////////     Login      //////////////////////////////////*/
+
+.mensajeErrorLogin {
+    text-align: left !important;
+    padding: 0px 10px !important;
+    margin: 5px 0px !important;
+    background-color: white !important;
+    border-color: white !important;
+}
+/*//////////////////////////////////     Page structure      //////////////////////////////////*/
+
+.panel {
+    border: none;
+}
+
+.pageContainer {
+    background-color: white;
+    box-shadow: 0px white;
+    border: 0px;
+}
+
+.pagePanel {
+    background-color: white;
+    box-shadow: 0px white;
+    border: 0px;
+    margin: 10px 0px;
+}
+
+.pageForm {
+    background-color: white;
+    box-shadow: 0px white;
+    border: 0px;
+}
+/*//////////////////////////////////     Text area styles      //////////////////////////////////*/
+
+.txtArFixed {
+    min-width: 180px;
+    min-height: 100px;
+    max-width: 180px;
+    max-height: 100px;
+}
+
+.txtArFixed2 {
+    min-width: 80px;
+    min-height: 100px;
+    max-width: 80px;
+    max-height: 100px;
+}
+
+.txtArFixed3 {
+    min-width: 140px;
+    min-height: 100px;
+    max-width: 140px;
+    max-height: 100px;
+}
+
+
+
+@media screen and (min-width: 600px) {
+    .txtArFixed {
+        min-width: 979px;
+        min-height: 134px;
+        max-width: 979px;
+        max-height: 134px;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .txtArFixed2 {
+        min-width: 450px;
+        min-height: 100px;
+        max-width: 450px;
+        max-height: 100px;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .txtArFixed3 {
+        min-width: 800px;
+        min-height: 100px;
+        max-width: 800px;
+        max-height: 100px;
+    }
+}
+
+
+/*////////////////////////////////////////  Data Table  /////////////////////////////////////////////*/
+
+#notasTabla input {
+    border-radius: 5px;
+    background-color: red;
+}
+
+.tableItems {
+    width: 100%;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.contItem {
+    width: 100%;
+}
+
+.smallItem {
+    width: 40%;
+}
+
+.largeItem {
+    width: 40%;
+}
+/*////////////////////////////////////////  Under Construccion  /////////////////////////////////////////////*/
+
+.constDiv {
+    height: 100%;
+    width: 100%;
+    margin: 0%;
+    padding: 0%;
+}
+
+.constructor {
+    width: 70%;
+}
+/*////////////////////////////////////////  Loading spiner  /////////////////////////////////////////////*/
+
+.spiner {
+    background-color: transparent;
+    color: #337AB7;
+}
+/*////////////////////////////////////////  Horario   /////////////////////////////////////////////*/
+
+.horario {
+    font-size: 12px;
+    /*box-shadow: 0px 0px 7px 4px #888;*/
+    box-shadow: 0px 0px 10px -1px #337ab7;
+    border: none;
+}
+
+.horarioCabeza {
+    width: 16%;
+    text-align: justify;
+}
+
+.table>thead:first-child>tr:first-child>th {
+    background-color: #246ba8;
+    color: aliceblue;
+}
+
+.horarioHoras {
+    margin: 0%;
+    padding: 0%;
+    text-align: center;
+}
+
+.sidebar-navigation {
+
+}

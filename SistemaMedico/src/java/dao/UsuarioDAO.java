@@ -24,7 +24,7 @@ public class UsuarioDAO {
         Usuarios usuario = null;
         if (!query.list().isEmpty()) {
 
-            usuario = (Usuarios) query.list().get(0);
+            usuario = (Usuarios) query.uniqueResult();
 
         }
         session.getTransaction().commit();

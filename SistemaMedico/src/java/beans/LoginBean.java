@@ -68,11 +68,10 @@ public class LoginBean implements Serializable {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             session.setAttribute("usuario", usuario.getUsuNombre());            
             return "/privado/home.xhtml?faces-redirect=true";
-        } else {
+            } else {
 
             FacesMessages.warning(":growl", "La clave es incorrecta", "This is a specific message!");
-
-        }
+            }
         }
         else{
             FacesMessages.warning(":growl", "El usuario no existe en el sistema", "This is a specific message!");
@@ -134,7 +133,7 @@ public class LoginBean implements Serializable {
 
         if (!estaLogueado) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("http://localhost:8080/index");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("./index");
             } catch (IOException ex) {
                 Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
             }
