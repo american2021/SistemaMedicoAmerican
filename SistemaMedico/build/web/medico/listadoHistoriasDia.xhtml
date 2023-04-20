@@ -218,7 +218,7 @@
             </b:form>
         </b:modal>
 
-        <b:modal id="modalEdicionHistoria" title="Edición de historia clínica" closable="true"
+        <b:modal id="modalEdicionHistoria" title="Edición de enfermedad" closable="true"
                  close-on-escape="true" backdrop="true" size="modal-lg">
             <b:form id="formEdicionHistoria" >
 
@@ -308,14 +308,14 @@
                                     </b:column>
                                 </b:row>
                             </b:dataTableColumn>
-                            <b:dataTableColumn label="Historia" style="width: 10%" >
+                            <b:dataTableColumn label="Enfermedad" style="width: 10%" >
                                 <b:row>
                                     <b:column span="1" offset="0">
                                         <b:commandButton ajax="true"
                                                          update=":modalEdicionHistoria:formEdicionHistoria :growl"
                                                          action="#{HistoriaBean.recuperarHistoriaID(historia.hisId)}"
                                                          oncomplete="$('#modalEdicionHistoria').modal('show')"
-                                                         tooltip="Editar Historia" look="warning">
+                                                         tooltip="Editar Enfermedad" look="warning">
                                             <b:iconAwesome name="pencil"></b:iconAwesome>
                                         </b:commandButton>
                                     </b:column>

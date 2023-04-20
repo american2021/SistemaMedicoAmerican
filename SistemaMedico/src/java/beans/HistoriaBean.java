@@ -7,9 +7,11 @@ package beans;
 
 import dao.HistoriaDAO;
 import dao.OcupacionDAO;
+import dao.RevisionSistemasDAO;
 import dao.SignosDAO;
 import datos.Historias;
 import datos.Ocupaciones;
+import datos.RevisionSistemas;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -35,6 +37,7 @@ public final class HistoriaBean implements Serializable{
     private Signos signos;
     private int historia_actual_id;
     private List<Ocupaciones> lista_ocupaciones;
+    private RevisionSistemas revision;
     
     public HistoriaBean(){
         inicializarHistorias();
@@ -45,6 +48,7 @@ public final class HistoriaBean implements Serializable{
         historias = new ArrayList<>();
         historiasdia = new ArrayList<>();
         nombre_enfermedad = "";
+        //revision = new RevisionSistemas();
         recuperarHistorias();
         recuperarHistoriasDia();
         inicializarProfesiones();
@@ -61,7 +65,8 @@ public final class HistoriaBean implements Serializable{
     
     public void actualizarHistoria(){
         HistoriaDAO.crearActualizarHistoriaConEnfermedad(historia, nombre_enfermedad);
-        FacesMessages.info(":growlInfo", "Se han actualizado la historia clínica", "This is a specific message!");
+        FacesMessages.info(":growlInfo", "Sistemas Digestivo"+historia.getRevisionSistemas().getRevSisDigestivo(), "This is a specific message!");
+        //FacesMessages.info(":growlInfo", "Se han actualizado la historia clínica", "This is a specific message!");
     }
     
     public void recuperarHistorias() {
@@ -69,6 +74,12 @@ public final class HistoriaBean implements Serializable{
         historias.clear();
         
         historias = HistoriaDAO.recuperarHistorias();
+    }
+    
+    public void actualizarCita(){
+        historia.setRevisionSistemas(revision);
+        HistoriaDAO.crearActualizarHistoriaConEnfermedad(historia, nombre_enfermedad);
+        FacesMessages.info(":growlInfo", "Se han actualizado la cita médica", "This is a specific message!");
     }
     
     public void recuperarHistoriasDia() {
@@ -97,12 +108,9 @@ public final class HistoriaBean implements Serializable{
     public String VerCitaMedica(int hisId) {
         this.historia_actual_id = hisId;
         historia = HistoriaDAO.recuperarHistoriaID(hisId);
-        recuperarSignosId(historia.getSignos().getSigId());
-//        try {
-//            FacesContext.getCurrentInstance().getExternalContext().redirect("./ficha-admision-est");
-//        } catch (IOException ex) {
-//            Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        nombre_enfermedad = historia.getEnfermedades().getEnfNombre();
+        revision = historia.getRevisionSistemas();
+        signos = historia.getSignos();
         return "/faces/medico/citaMedica.xhtml?faces-redirect=true";
     }
     
@@ -165,5 +173,11 @@ public final class HistoriaBean implements Serializable{
     public void setLista_ocupaciones(List<Ocupaciones> lista_ocupaciones) {
         this.lista_ocupaciones = lista_ocupaciones;
     }
-    
+    public RevisionSistemas getRevision() {
+        return revision;
+    }
+
+    public void setRevision(RevisionSistemas revision) {
+        this.revision = revision;
+    }
 }

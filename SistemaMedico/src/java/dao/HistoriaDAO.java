@@ -10,6 +10,7 @@ import datos.Antecedentes;
 import datos.Enfermedades;
 import datos.Historias;
 import datos.Personas;
+import datos.RevisionSistemas;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
@@ -26,12 +27,15 @@ public class HistoriaDAO {
         session.beginTransaction();
         Query query = session.createQuery("from Enfermedades where enf_nombre = '"+enf_nombre+"'");
         Enfermedades enfermedad = (Enfermedades) query.uniqueResult();
+        
         historia.setEnfermedades(enfermedad);
-        historia.getEnfermedades().getEnfNombre();
+        session.saveOrUpdate(historia.getPersonas());
+        session.saveOrUpdate(historia.getRevisionSistemas());
+        session.saveOrUpdate(historia.getSignos());
         session.saveOrUpdate(historia);
         session.getTransaction().commit();
         session.close();
-    }    
+    }   
     
     public static List<Historias> recuperarHistorias() {
 
@@ -67,7 +71,6 @@ public class HistoriaDAO {
     }
     
     public static Historias recuperarHistoriaID(int id) {
-
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Historias where his_id = "+id);
@@ -76,20 +79,22 @@ public class HistoriaDAO {
 
             historia = (Historias) query.uniqueResult();
             historia.getEnfermedades().getEnfNombre();
+            historia.getSignos().getSigPresionSistolica();
+            historia.getRevisionSistemas().getRevSisSentidos();
+            historia.getPersonas().getPerNombres();
         }
-        historia.getPersonas().getPerNombres();
-        session.getTransaction().commit();
         session.close();
         return historia;
     }
     
-    public static void crearHistoriaPrimeraVez(Historias historia) {
+    public static void crearHistoriaPrimeraVez(Historias historia, RevisionSistemas revision) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Personas order by per_id desc");
         Personas persona = (Personas) query.list().get(0);
         historia.setPersonas(persona);
+        historia.setRevisionSistemas(revision);
         session.save(historia);
         session.getTransaction().commit();
         session.close();

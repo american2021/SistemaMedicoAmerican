@@ -1,54 +1,54 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 18-abr-2023 17:26:25 by Hibernate Tools 4.3.1 -->
+<!-- Generated 19-abr-2023 18:46:09 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.RevisionSistemas" table="revision_sistemas" catalog="smed" optimistic-lock="version">
         <id name="revSisId" type="java.lang.Integer">
             <column name="rev_sis_id" />
             <generator class="identity" />
         </id>
-        <property name="revSisPatologia" type="char">
-            <column name="rev_sis_patologia" length="1" not-null="true" />
+        <property name="revSisPatologia" type="string">
+            <column name="rev_sis_patologia" length="5" not-null="true" />
         </property>
-        <property name="revSisSentidos" type="char">
-            <column name="rev_sis_sentidos" length="1" not-null="true" />
+        <property name="revSisSentidos" type="string">
+            <column name="rev_sis_sentidos" length="5" not-null="true" />
         </property>
-        <property name="revSisRespiratorio" type="char">
-            <column name="rev_sis_respiratorio" length="1" not-null="true" />
+        <property name="revSisRespiratorio" type="string">
+            <column name="rev_sis_respiratorio" length="5" not-null="true" />
         </property>
-        <property name="revSisCardiovascular" type="java.lang.Character">
-            <column name="rev_sis_cardiovascular" length="1" />
+        <property name="revSisCardiovascular" type="string">
+            <column name="rev_sis_cardiovascular" length="5" not-null="true" />
         </property>
-        <property name="revSisDigestivo" type="char">
-            <column name="rev_sis_digestivo" length="1" not-null="true" />
+        <property name="revSisDigestivo" type="string">
+            <column name="rev_sis_digestivo" length="5" not-null="true" />
         </property>
-        <property name="revSisGenital" type="char">
-            <column name="rev_sis_genital" length="1" not-null="true" />
+        <property name="revSisGenital" type="string">
+            <column name="rev_sis_genital" length="5" not-null="true" />
         </property>
-        <property name="revSisUrinario" type="char">
-            <column name="rev_sis_urinario" length="1" not-null="true" />
+        <property name="revSisUrinario" type="string">
+            <column name="rev_sis_urinario" length="5" not-null="true" />
         </property>
-        <property name="revSisEsqueletico" type="char">
-            <column name="rev_sis_esqueletico" length="1" not-null="true" />
+        <property name="revSisEsqueletico" type="string">
+            <column name="rev_sis_esqueletico" length="5" not-null="true" />
         </property>
-        <property name="revSisMuscular" type="char">
-            <column name="rev_sis_muscular" length="1" not-null="true" />
+        <property name="revSisMuscular" type="string">
+            <column name="rev_sis_muscular" length="5" not-null="true" />
         </property>
-        <property name="revSisNervioso" type="char">
-            <column name="rev_sis_nervioso" length="1" not-null="true" />
+        <property name="revSisNervioso" type="string">
+            <column name="rev_sis_nervioso" length="5" not-null="true" />
         </property>
-        <property name="revSisEndocrino" type="char">
-            <column name="rev_sis_endocrino" length="1" not-null="true" />
+        <property name="revSisEndocrino" type="string">
+            <column name="rev_sis_endocrino" length="5" not-null="true" />
         </property>
-        <property name="revSisHemolinfatico" type="java.lang.Character">
-            <column name="rev_sis_hemolinfatico" length="1" />
+        <property name="revSisHemolinfatico" type="string">
+            <column name="rev_sis_hemolinfatico" length="5" not-null="true" />
         </property>
-        <property name="revSisTegumentario" type="java.lang.Character">
-            <column name="rev_sis_tegumentario" length="1" />
+        <property name="revSisTegumentario" type="string">
+            <column name="rev_sis_tegumentario" length="5" not-null="true" />
         </property>
-        <property name="revSisFisicoPatologia" type="char">
-            <column name="rev_sis_fisico_patologia" length="1" not-null="true" />
+        <property name="revSisFisicoPatologia" type="string">
+            <column name="rev_sis_fisico_patologia" length="5" not-null="true" />
         </property>
         <property name="revSisFisicoObservacion" type="string">
             <column name="rev_sis_fisico_observacion" length="500" not-null="true" />

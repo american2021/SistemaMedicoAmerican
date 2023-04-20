@@ -1,8 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui" xmlns:my="http://java.sun.com/jsf/composite/recursos" xmlns:p="http://primefaces.org/ui" xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/recursos"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
 
-    <f:event listener="#{LoginBean.accessoMedico()}" type="preRenderView" /> #{personasBean.cargarPersona()}
+    <f:event listener="#{LoginBean.accessoMedico()}"
+             type="preRenderView" /> #{personasBean.cargarPersona()}
 
     <h:head>
         <title>American College</title>
@@ -17,12 +24,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
-
-
-
-
-
-
 
 
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
@@ -45,16 +46,6 @@
 
     <my:cabecera id="cabecera"/>
     <my:menuLateralMedico id="menuLateralMedico"/>
-
-
-
-
-
-
-
-
-
-
 
 
     <h:body>
@@ -212,7 +203,7 @@
             </b:form>
         </b:modal>
 
-        <b:modal id="modalEdicionHistoria" title="Edición de historia clínica" closable="true"
+        <b:modal id="modalEdicionHistoria" title="Edición de enfermedad" closable="true"
                  close-on-escape="true" backdrop="true" size="modal-lg">
             <b:form id="formEdicionHistoria" >
 
@@ -296,20 +287,20 @@
                                                          update=":modalEdicionSignos:formEdicionSignos :growl"
                                                          action="#{HistoriaBean.recuperarSignosId(historia.signos.sigId)}"
                                                          oncomplete="$('#modalEdicionSignos').modal('show')"
-                                                         tooltip="Visualizar cita" look="warning">
+                                                         tooltip="Editar signos" look="warning">
                                             <b:iconAwesome name="pencil"></b:iconAwesome>
                                         </b:commandButton>
                                     </b:column>
                                 </b:row>
                             </b:dataTableColumn>
-                            <b:dataTableColumn label="Historia" style="width: 10%" >
+                            <b:dataTableColumn label="Enfermedad" style="width: 10%" >
                                 <b:row>
                                     <b:column span="1" offset="0">
                                         <b:commandButton ajax="true"
                                                          update=":modalEdicionHistoria:formEdicionHistoria :growl"
                                                          action="#{HistoriaBean.recuperarHistoriaID(historia.hisId)}"
                                                          oncomplete="$('#modalEdicionHistoria').modal('show')"
-                                                         tooltip="Editar Historia" look="warning">
+                                                         tooltip="Editar enfermedad" look="warning">
                                             <b:iconAwesome name="pencil"></b:iconAwesome>
                                         </b:commandButton>
                                     </b:column>
@@ -321,7 +312,6 @@
                                         <b:commandButton ajax="true"
                                                          update=":modalEdicionHistoria:formEdicionHistoria :growl"
                                                          action="#{HistoriaBean.VerCitaMedica(historia.hisId)}"
-                                                         oncomplete="$('#modalEdicionHistoria').modal('show')"
                                                          tooltip="Revisar cita" look="success">
                                             <b:iconAwesome name="eye"></b:iconAwesome>
                                         </b:commandButton>

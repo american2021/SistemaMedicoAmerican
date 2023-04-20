@@ -1,5 +1,5 @@
 package datos;
-// Generated 18-abr-2023 17:26:24 by Hibernate Tools 4.3.1
+// Generated 19-abr-2023 18:46:08 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,20 +13,20 @@ public class RevisionSistemas  implements java.io.Serializable {
 
 
      private Integer revSisId;
-     private char revSisPatologia;
-     private char revSisSentidos;
-     private char revSisRespiratorio;
-     private Character revSisCardiovascular;
-     private char revSisDigestivo;
-     private char revSisGenital;
-     private char revSisUrinario;
-     private char revSisEsqueletico;
-     private char revSisMuscular;
-     private char revSisNervioso;
-     private char revSisEndocrino;
-     private Character revSisHemolinfatico;
-     private Character revSisTegumentario;
-     private char revSisFisicoPatologia;
+     private String revSisPatologia;
+     private String revSisSentidos;
+     private String revSisRespiratorio;
+     private String revSisCardiovascular;
+     private String revSisDigestivo;
+     private String revSisGenital;
+     private String revSisUrinario;
+     private String revSisEsqueletico;
+     private String revSisMuscular;
+     private String revSisNervioso;
+     private String revSisEndocrino;
+     private String revSisHemolinfatico;
+     private String revSisTegumentario;
+     private String revSisFisicoPatologia;
      private String revSisFisicoObservacion;
      private Date revSisFechaUlt;
      private String revSisUsuario;
@@ -36,10 +36,11 @@ public class RevisionSistemas  implements java.io.Serializable {
     }
 
 	
-    public RevisionSistemas(char revSisPatologia, char revSisSentidos, char revSisRespiratorio, char revSisDigestivo, char revSisGenital, char revSisUrinario, char revSisEsqueletico, char revSisMuscular, char revSisNervioso, char revSisEndocrino, char revSisFisicoPatologia, String revSisFisicoObservacion, Date revSisFechaUlt, String revSisUsuario) {
+    public RevisionSistemas(String revSisPatologia, String revSisSentidos, String revSisRespiratorio, String revSisCardiovascular, String revSisDigestivo, String revSisGenital, String revSisUrinario, String revSisEsqueletico, String revSisMuscular, String revSisNervioso, String revSisEndocrino, String revSisHemolinfatico, String revSisTegumentario, String revSisFisicoPatologia, String revSisFisicoObservacion, Date revSisFechaUlt, String revSisUsuario) {
         this.revSisPatologia = revSisPatologia;
         this.revSisSentidos = revSisSentidos;
         this.revSisRespiratorio = revSisRespiratorio;
+        this.revSisCardiovascular = revSisCardiovascular;
         this.revSisDigestivo = revSisDigestivo;
         this.revSisGenital = revSisGenital;
         this.revSisUrinario = revSisUrinario;
@@ -47,12 +48,14 @@ public class RevisionSistemas  implements java.io.Serializable {
         this.revSisMuscular = revSisMuscular;
         this.revSisNervioso = revSisNervioso;
         this.revSisEndocrino = revSisEndocrino;
+        this.revSisHemolinfatico = revSisHemolinfatico;
+        this.revSisTegumentario = revSisTegumentario;
         this.revSisFisicoPatologia = revSisFisicoPatologia;
         this.revSisFisicoObservacion = revSisFisicoObservacion;
         this.revSisFechaUlt = revSisFechaUlt;
         this.revSisUsuario = revSisUsuario;
     }
-    public RevisionSistemas(char revSisPatologia, char revSisSentidos, char revSisRespiratorio, Character revSisCardiovascular, char revSisDigestivo, char revSisGenital, char revSisUrinario, char revSisEsqueletico, char revSisMuscular, char revSisNervioso, char revSisEndocrino, Character revSisHemolinfatico, Character revSisTegumentario, char revSisFisicoPatologia, String revSisFisicoObservacion, Date revSisFechaUlt, String revSisUsuario, Set historiases) {
+    public RevisionSistemas(String revSisPatologia, String revSisSentidos, String revSisRespiratorio, String revSisCardiovascular, String revSisDigestivo, String revSisGenital, String revSisUrinario, String revSisEsqueletico, String revSisMuscular, String revSisNervioso, String revSisEndocrino, String revSisHemolinfatico, String revSisTegumentario, String revSisFisicoPatologia, String revSisFisicoObservacion, Date revSisFechaUlt, String revSisUsuario, Set historiases) {
        this.revSisPatologia = revSisPatologia;
        this.revSisSentidos = revSisSentidos;
        this.revSisRespiratorio = revSisRespiratorio;
@@ -80,102 +83,102 @@ public class RevisionSistemas  implements java.io.Serializable {
     public void setRevSisId(Integer revSisId) {
         this.revSisId = revSisId;
     }
-    public char getRevSisPatologia() {
+    public String getRevSisPatologia() {
         return this.revSisPatologia;
     }
     
-    public void setRevSisPatologia(char revSisPatologia) {
+    public void setRevSisPatologia(String revSisPatologia) {
         this.revSisPatologia = revSisPatologia;
     }
-    public char getRevSisSentidos() {
+    public String getRevSisSentidos() {
         return this.revSisSentidos;
     }
     
-    public void setRevSisSentidos(char revSisSentidos) {
+    public void setRevSisSentidos(String revSisSentidos) {
         this.revSisSentidos = revSisSentidos;
     }
-    public char getRevSisRespiratorio() {
+    public String getRevSisRespiratorio() {
         return this.revSisRespiratorio;
     }
     
-    public void setRevSisRespiratorio(char revSisRespiratorio) {
+    public void setRevSisRespiratorio(String revSisRespiratorio) {
         this.revSisRespiratorio = revSisRespiratorio;
     }
-    public Character getRevSisCardiovascular() {
+    public String getRevSisCardiovascular() {
         return this.revSisCardiovascular;
     }
     
-    public void setRevSisCardiovascular(Character revSisCardiovascular) {
+    public void setRevSisCardiovascular(String revSisCardiovascular) {
         this.revSisCardiovascular = revSisCardiovascular;
     }
-    public char getRevSisDigestivo() {
+    public String getRevSisDigestivo() {
         return this.revSisDigestivo;
     }
     
-    public void setRevSisDigestivo(char revSisDigestivo) {
+    public void setRevSisDigestivo(String revSisDigestivo) {
         this.revSisDigestivo = revSisDigestivo;
     }
-    public char getRevSisGenital() {
+    public String getRevSisGenital() {
         return this.revSisGenital;
     }
     
-    public void setRevSisGenital(char revSisGenital) {
+    public void setRevSisGenital(String revSisGenital) {
         this.revSisGenital = revSisGenital;
     }
-    public char getRevSisUrinario() {
+    public String getRevSisUrinario() {
         return this.revSisUrinario;
     }
     
-    public void setRevSisUrinario(char revSisUrinario) {
+    public void setRevSisUrinario(String revSisUrinario) {
         this.revSisUrinario = revSisUrinario;
     }
-    public char getRevSisEsqueletico() {
+    public String getRevSisEsqueletico() {
         return this.revSisEsqueletico;
     }
     
-    public void setRevSisEsqueletico(char revSisEsqueletico) {
+    public void setRevSisEsqueletico(String revSisEsqueletico) {
         this.revSisEsqueletico = revSisEsqueletico;
     }
-    public char getRevSisMuscular() {
+    public String getRevSisMuscular() {
         return this.revSisMuscular;
     }
     
-    public void setRevSisMuscular(char revSisMuscular) {
+    public void setRevSisMuscular(String revSisMuscular) {
         this.revSisMuscular = revSisMuscular;
     }
-    public char getRevSisNervioso() {
+    public String getRevSisNervioso() {
         return this.revSisNervioso;
     }
     
-    public void setRevSisNervioso(char revSisNervioso) {
+    public void setRevSisNervioso(String revSisNervioso) {
         this.revSisNervioso = revSisNervioso;
     }
-    public char getRevSisEndocrino() {
+    public String getRevSisEndocrino() {
         return this.revSisEndocrino;
     }
     
-    public void setRevSisEndocrino(char revSisEndocrino) {
+    public void setRevSisEndocrino(String revSisEndocrino) {
         this.revSisEndocrino = revSisEndocrino;
     }
-    public Character getRevSisHemolinfatico() {
+    public String getRevSisHemolinfatico() {
         return this.revSisHemolinfatico;
     }
     
-    public void setRevSisHemolinfatico(Character revSisHemolinfatico) {
+    public void setRevSisHemolinfatico(String revSisHemolinfatico) {
         this.revSisHemolinfatico = revSisHemolinfatico;
     }
-    public Character getRevSisTegumentario() {
+    public String getRevSisTegumentario() {
         return this.revSisTegumentario;
     }
     
-    public void setRevSisTegumentario(Character revSisTegumentario) {
+    public void setRevSisTegumentario(String revSisTegumentario) {
         this.revSisTegumentario = revSisTegumentario;
     }
-    public char getRevSisFisicoPatologia() {
+    public String getRevSisFisicoPatologia() {
         return this.revSisFisicoPatologia;
     }
     
-    public void setRevSisFisicoPatologia(char revSisFisicoPatologia) {
+    public void setRevSisFisicoPatologia(String revSisFisicoPatologia) {
         this.revSisFisicoPatologia = revSisFisicoPatologia;
     }
     public String getRevSisFisicoObservacion() {

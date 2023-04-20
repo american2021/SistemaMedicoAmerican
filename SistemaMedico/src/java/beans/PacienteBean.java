@@ -8,6 +8,7 @@ package beans;
 import dao.HistoriaDAO;
 import dao.OcupacionDAO;
 import dao.PacienteDAO;
+import dao.RevisionSistemasDAO;
 import dao.SignosDAO;
 import dao.UsuarioDAO;
 import datos.Enfermedades;
@@ -18,6 +19,7 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import datos.Personas;
+import datos.RevisionSistemas;
 import datos.Signos;
 import datos.Usuarios;
 import java.util.List;
@@ -40,6 +42,7 @@ public final class PacienteBean implements Serializable{
     private Signos signos;
     private Historias historia;
     private Enfermedades enfermedad;
+    private RevisionSistemas revision;
     
     //Atributos de la tabla signos vitales
     private Integer sig_presion_sistolica;
@@ -103,6 +106,7 @@ public final class PacienteBean implements Serializable{
     
     public void inicializarHistoria(){
         historia = new Historias();
+        revision = new RevisionSistemas();
         cantidad_historias = 0;
     }
     
@@ -144,6 +148,24 @@ public final class PacienteBean implements Serializable{
         historia.setHisFechaCreacion(new Date());
         historia.setHisUsuario("defecto");
         historia.setHisMotivo("Por definir");
+        
+        //Definiendo los items de la revision
+        revision.setRevSisPatologia("false");
+        revision.setRevSisSentidos("false");
+        revision.setRevSisRespiratorio("false");
+        revision.setRevSisCardiovascular("false");
+        revision.setRevSisDigestivo("false");
+        revision.setRevSisGenital("false");
+        revision.setRevSisUrinario("false");
+        revision.setRevSisEsqueletico("false");
+        revision.setRevSisMuscular("false");
+        revision.setRevSisNervioso("false");
+        revision.setRevSisHemolinfatico("false");
+        revision.setRevSisTegumentario("false");
+        revision.setRevSisFisicoPatologia("false");
+        revision.setRevSisFisicoObservacion("N/A");
+        revision.setRevSisFechaUlt(new Date());
+        revision.setRevSisUsuario("defecto");
         //Proceso para guardar paciente
         signos.setSigFechaUlt(new Date());
         signos.setSigUsuario("defecto");
@@ -151,7 +173,8 @@ public final class PacienteBean implements Serializable{
         //Llamada a beans para guardar datos
         PacienteDAO.crearPersona(persona);
         PacienteDAO.crearUsuario(usuario);
-        HistoriaDAO.crearHistoriaPrimeraVez(historia);
+        RevisionSistemasDAO.crearActualizarRevision(revision);
+        HistoriaDAO.crearHistoriaPrimeraVez(historia, revision);
         SignosDAO.crearSignosPrimeraVez(signos);
         FacesMessages.info(":growlInfo", "Paciente creado con éxito", "This is a specific message!");
         return "/faces/privado/home.xhtml?faces-redirect=true";

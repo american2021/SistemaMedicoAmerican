@@ -36,7 +36,7 @@ public class SignosDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Historias order by his_id desc");
-        Historias historia = (Historias) query.uniqueResult();
+        Historias historia = (Historias) query.list().get(0);
         query = session.createQuery("from Enfermedades where enf_id = 1");
         Enfermedades enfermedad = (Enfermedades) query.uniqueResult();
         session.save(signos);
