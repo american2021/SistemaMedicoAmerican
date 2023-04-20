@@ -1,6 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui" xmlns:my="http://java.sun.com/jsf/composite/recursos" xmlns:p="http://primefaces.org/ui" xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/recursos"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
 
     <f:event listener="#{LoginBean.accessoMedico()}" type="preRenderView" /> #{personasBean.cargarPersona()}
 
@@ -146,6 +152,7 @@
                         <h3>
                             <b>Historia Clínica</b>
                         </h3>
+                        <br></br>
                         <b:panel title="Historia clínica" look="info" collapsible="false">
                             <b:row>
                                 <b:column span="3">
@@ -335,7 +342,11 @@
                             <b>Revision de organos y sistemas</b>
                         </h3>
                         <b:panel title="Presenta patología en: " look="info" collapsible="false">
-                            <b:row>
+                            <b:column span="3">
+                                <img src="./img/cuerpoH.png" alt="Cuerpo Humano" height="400" width="180"/>
+                            </b:column>
+                            <b:column span="9">
+                                <b:row>
                                 <b:column span="3">
                                     <b:selectBooleanCheckbox label="Revisión sin patología"
                                                              id="rev_sis_patologia"
@@ -408,6 +419,7 @@
                                                              value="#{HistoriaBean.revision.revSisNervioso}"/>
                                 </b:column>
                             </b:row>
+                            </b:column>
                         </b:panel>
                         <b:row contentDisabled="false">
 
