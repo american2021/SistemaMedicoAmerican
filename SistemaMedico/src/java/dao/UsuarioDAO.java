@@ -30,7 +30,5 @@ public class UsuarioDAO {
         session.getTransaction().commit();
         session.close();
         return usuario;
-
     }
-    
 }

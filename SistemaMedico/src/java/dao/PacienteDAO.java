@@ -6,10 +6,7 @@
 package dao;
 
 import conexion.HibernateUtil;
-import datos.Antecedentes;
-import datos.Historias;
 import datos.Personas;
-import datos.Signos;
 import datos.Usuarios;
 import java.util.List;
 import org.hibernate.Query;
@@ -74,6 +71,5 @@ public class PacienteDAO {
         session.getTransaction().commit();
         session.close();
         return personas;
-
     }
 }

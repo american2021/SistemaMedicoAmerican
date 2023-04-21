@@ -6,10 +6,7 @@
 package dao;
 
 import conexion.HibernateUtil;
-import datos.Historias;
-import datos.Ocupaciones;
 import datos.RevisionSistemas;
-import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 

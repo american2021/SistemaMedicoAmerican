@@ -6,13 +6,7 @@
 package dao;
 
 import conexion.HibernateUtil;
-import datos.Antecedentes;
 import datos.Enfermedades;
-import datos.Historias;
-import datos.Personas;
-import datos.Signos;
-import datos.Usuarios;
-import java.util.HashSet;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
