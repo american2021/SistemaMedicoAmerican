@@ -163,6 +163,7 @@ public final class PacienteBean implements Serializable{
         revision.setRevSisHemolinfatico("false");
         revision.setRevSisTegumentario("false");
         revision.setRevSisFisicoPatologia("false");
+        revision.setRevSisEndocrino("false");
         revision.setRevSisFisicoObservacion("N/A");
         revision.setRevSisFechaUlt(new Date());
         revision.setRevSisUsuario("defecto");
