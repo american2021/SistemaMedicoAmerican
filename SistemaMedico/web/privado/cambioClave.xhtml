@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:b="http://bootsfaces.net/ui" xmlns:my="http://java.sun.com/jsf/composite/recursos" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+
+    <f:event listener="#{LoginBean.accessoLogueado()}" type="preRenderView" /> #{personasBean.cargarPersona()}
+
+
+    <h:head>
+        <title>American College</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
+    </h:head>
+
+
+
+
+
+
+
+
+    <script>
+        $.blockUI.defaults.css = {
+            padding: 0,
+            margin: 0,
+            width: '30%',
+            top: '40%',
+            left: '35%',
+            textAlign: 'center',
+            color: '#000',
+            border: '0px solid #aaa',
+            backgroundColor: 'transparent',
+            cursor: 'wait'
+        };
+        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
+        $.blockUI.defaults.overlayCSS.opacity = 0.5;
+        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
+
+    <my:cabecera id="cabecera"/>
+    <my:menuLateralMedico id="menuLateralMedico"/>
+
+    <h:body>
+
+        <p:idleMonitor timeout="600000">
+            <p:ajax event="idle" listener="#{LoginBean.sesionInactiva()}" />
+        </p:idleMonitor>
+
+        <b:growl id="growl" escape="true" />
+
+        <b:container fluid="true">
+            <b:panel span="10" >
+                <b:form id="formP">
+                    <b:row>
+                        <b:column span="10" style="text-align: center;">
+                            <h3><b>Cambio de clave</b></h3>
+                        </b:column>
+                    </b:row>
+                    <br/>
+                    <b:row>
+                        <b:column span="10" offset="1">
+                            <b:inputText label="Clave actual " placeholder="Clave actual" id="usuClaveAct" value="#{LoginBean.claveAct}" size="32" maxlength="60" required="true" requiredMessage="">
+                            </b:inputText>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="10" offset="1">
+                            <b:inputText label="Nueva clave" placeholder="Nueva clave" id="usuClave" value="#{LoginBean.claveCamb1}" size="32" maxlength="60" required="true" requiredMessage="">
+                            </b:inputText>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="10" offset="1">
+                            <b:inputText label="Repita la clave" placeholder="Repita la clave" id="usuClave2" size="32" maxlength="60" value="#{LoginBean.claveCamb2}" required="true" requiredMessage="* Los campos no pueden ser vacios" />
+                        </b:column>
+                    </b:row>
+
+                    <b:row>
+                        <b:column span="10" offset="1">
+                            <b:message for="usuClave2" class="mensajeErrorLogin" />
+                        </b:column>
+                    </b:row>
+                    <br />
+                    <b:row>
+                        <b:column span="3" offset="3">
+<!--                            <b:commandButton
+                                    large-screen="full-width"
+                                    id="submit"
+                                    value="Aceptar"
+                                    action="# {LoginBean.cambiarClaveUsuario()}"
+                                    look="success" />-->
+                        </b:column>
+                        <b:column span="3">
+                            <b:button large-screen="full-width" id="salir" value="Regresar" href="./" look="danger" />
+                        </b:column>
+                    </b:row>
+                </b:form>
+                <br/>
+            </b:panel>
+        </b:container>
+    </h:body>
+    <my:piePagina id="piePagina"/>
+</html>

@@ -1,5 +1,5 @@
 package datos;
-// Generated 03-may-2023 10:36:26 by Hibernate Tools 4.3.1
+// Generated 05-may-2023 11:01:23 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -12,6 +12,7 @@ public class Usuarios  implements java.io.Serializable {
 
      private Integer usuId;
      private Personas personas;
+     private Roles roles;
      private String usuNombre;
      private String usuContra;
      private Date usuFechaUlt;
@@ -20,8 +21,9 @@ public class Usuarios  implements java.io.Serializable {
     public Usuarios() {
     }
 
-    public Usuarios(Personas personas, String usuNombre, String usuContra, Date usuFechaUlt, String usuUsuario) {
+    public Usuarios(Personas personas, Roles roles, String usuNombre, String usuContra, Date usuFechaUlt, String usuUsuario) {
        this.personas = personas;
+       this.roles = roles;
        this.usuNombre = usuNombre;
        this.usuContra = usuContra;
        this.usuFechaUlt = usuFechaUlt;
@@ -41,6 +43,13 @@ public class Usuarios  implements java.io.Serializable {
     
     public void setPersonas(Personas personas) {
         this.personas = personas;
+    }
+    public Roles getRoles() {
+        return this.roles;
+    }
+    
+    public void setRoles(Roles roles) {
+        this.roles = roles;
     }
     public String getUsuNombre() {
         return this.usuNombre;

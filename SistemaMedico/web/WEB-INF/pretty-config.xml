@@ -75,4 +75,9 @@
         <view-id value="/faces/medico/citaMedica.xhtml" />
     </url-mapping>
     
+    <url-mapping id="cambio-clave-user">
+        <pattern value="/cambio-clave-user" />
+        <view-id value="/privado/cambioClave.xhtml" />
+    </url-mapping>
+    
 </pretty-config>

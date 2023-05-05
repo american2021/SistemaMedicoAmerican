@@ -13,9 +13,9 @@
 
         
         <!--
-                                HOME MEDICO
+                                HOME CONTADOR
         -->
-        <b:panel span="10" offset="0" rendered="#{LoginBean.renderizarMedico()}">
+        <b:panel span="10" offset="0" rendered="#{LoginBean.renderizarContador()}">
             <!--
                            Solo funciones de MEDICO
             -->
@@ -102,42 +102,6 @@
                         <b:row>
                             <span class="divTextHome"> 
                                 Listado de citas de hoy de los pacientes
-                            </span>
-                        </b:row>
-                    </a>
-                </b:column>
-            </b:row>
-
-            <b:row>
-                <h3 id="reply-title">
-                    <b>Patologías</b>
-                </h3>
-                <b:column span="2" class="divMainHome">
-                    <a href="registro-patologia" class="linkHome">
-                        <b:row>
-                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/bacterias.png" />
-                        </b:row>
-                        <h5 class="divTitleHome" id="reply-title">
-                            <b>Registro</b>
-                        </h5>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Registrar Nueva Patología
-                            </span>
-                        </b:row>
-                    </a>
-                </b:column>
-                <b:column span="2" class="divMainHome">
-                    <a href="actualizacion-enfermedad" class="linkHome">
-                        <b:row>
-                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/microscopio.png" />
-                        </b:row>
-                        <h5 class="divTitleHome" id="reply-title">
-                            <b>Edicion</b>
-                        </h5>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Editar las patologías existentes
                             </span>
                         </b:row>
                     </a>

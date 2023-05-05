@@ -7,7 +7,7 @@ package beans;
 
 import dao.EnfermedadDAO;
 import dao.HistoriaDAO;
-import dao.PacienteDAO;
+import dao.PersonaDAO;
 import dao.SignosDAO;
 import dao.UsuarioDAO;
 import datos.Antecedentes;

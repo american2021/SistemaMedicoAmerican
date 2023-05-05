@@ -7,7 +7,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <f:event listener="#{LoginBean.accessoMedico()}" type="preRenderView" />
+    <f:event listener="#{LoginBean.comprobarLogin()}" type="preRenderView" />
+    #{PersonaBean.cargarPersona()}
     
     <h:head>
         <title>Departamento Médico</title>
@@ -29,6 +30,10 @@
         <b:column>
             <my:menuLateralMedico id="menuLateralMedico"/>
             <my:homeMedico id="homeMedico"/>
+            <my:homeContador id="homeContador"/>
         </b:column>
     </h:body>
+    
+    <my:piePagina id="piePagina"/>
+    
 </html>

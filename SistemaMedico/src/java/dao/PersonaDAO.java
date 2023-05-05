@@ -16,7 +16,7 @@ import org.hibernate.Session;
  *
  * @author Administrador
  */
-public class PacienteDAO {
+public class PersonaDAO {
     
     public static void crearPersona(Personas persona) {
 
@@ -53,6 +53,24 @@ public class PacienteDAO {
         if (!query.list().isEmpty()) {
 
             persona = (Personas) query.list().get(0);
+            persona.getHistoriases().size();
+
+        }
+        //persona.setSign(recuperarSignosPorCodigo(persona.getPerId()));
+        session.getTransaction().commit();
+        session.close();
+        return persona;
+    }
+    
+    public static Personas recuperarPersonaID(int id) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Personas where per_id = " + id);
+        Personas persona = null;
+        if (!query.list().isEmpty()) {
+
+            persona = (Personas) query.uniqueResult();
             persona.getHistoriases().size();
 
         }

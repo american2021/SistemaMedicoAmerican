@@ -35,7 +35,7 @@ import net.bootsfaces.utils.FacesMessages;
 public class LoginBean implements Serializable {
 
     private Usuarios usuario;
-    private String rolActual;
+    private int rolActual;
     private String usu_nombre;
     private String usu_contra;
     private boolean estaLogueado;
@@ -63,6 +63,7 @@ public class LoginBean implements Serializable {
 
     public String login() {
         usuario = UsuarioDAO.obtenerUsuario(usu_nombre);
+        rolActual = usuario.getRoles().getRolId();
         if(usuario != null){
             valido = usuario.getUsuContra().equalsIgnoreCase(convertirMD5(usu_contra));
         if (valido) {
@@ -129,8 +130,19 @@ public class LoginBean implements Serializable {
         }
 
     }
+    
+    public String renderizarMedico() {
 
-    public void accessoMedico() {
+        return String.valueOf(rolActual == 1);
+
+    }
+    
+    public String renderizarContador() {
+        return String.valueOf(rolActual == 2);
+
+    }
+
+    public void comprobarLogin() {
 
         if (!estaLogueado) {
             try {
@@ -152,50 +164,7 @@ public class LoginBean implements Serializable {
                 Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } else if ((!rolActual.equalsIgnoreCase("Externo") && (!rolActual.equalsIgnoreCase("Administrador")) && (!rolActual.equalsIgnoreCase("Secretario")))) {
-
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("./home");
-            } catch (IOException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
         }
-
-    }
-
-    public void accessoAdministrador() {
-
-        if (!estaLogueado) {
-
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("./");
-            } catch (IOException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } else if (!rolActual.equalsIgnoreCase("Administrador")) {
-
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("./home");
-            } catch (IOException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-
-    }
-
-    public String renderizarEstudiante() {
-
-        return String.valueOf(rolActual.equalsIgnoreCase("Estudiante"));
-
-    }
-
-    public String renderizarEstudianteVacunacion() {
-
-        return String.valueOf(rolActual.equalsIgnoreCase("Estudiante_"));
-
     }
 
     public String sesionInactiva() {
@@ -208,16 +177,9 @@ public class LoginBean implements Serializable {
 
     }
 
-    public void cambiarRol() {
-
-        rolActual = cambioRol;
-
-    }
-
     public static String convertirMD5(String valor) {
 
-        String md5Hex = DigestUtils
-                .md5Hex(valor).toUpperCase();
+        String md5Hex = DigestUtils.md5Hex(valor).toUpperCase();
         return md5Hex;
 
     }
@@ -390,14 +352,14 @@ public class LoginBean implements Serializable {
     /**
      * @return the rolActual
      */
-    public String getRolActual() {
+    public int getRolActual() {
         return rolActual;
     }
 
     /**
      * @param rolActual the rolActual to set
      */
-    public void setRolActual(String rolActual) {
+    public void setRolActual(int rolActual) {
         this.rolActual = rolActual;
     }
 

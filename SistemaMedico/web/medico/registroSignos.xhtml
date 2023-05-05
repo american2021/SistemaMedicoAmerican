@@ -8,7 +8,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-<!--    <f:event listener="#{LoginBean.accessoMedico()}" type="preRenderView" />-->
+<!--    <f:event listener="#{LoginBean.comprobarLogin()}" type="preRenderView" />-->
 
     <h:head>
         <title>American College</title>
@@ -34,7 +34,7 @@
             </p:idleMonitor>
             
         <b:container fluid="true">
-            #{PacienteBean.inicializarSignos()}
+            #{PersonaBean.inicializarSignos()}
 
             <b:panel span="10" offset="0">
                 <b:row>
@@ -57,7 +57,7 @@
                                              id="sig_per_sistolica"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_presion_sistolica}"
+                                             value="#{PersonaBean.sig_presion_sistolica}"
                                              required="true"
                                              requiredMessage="Ingrese la presión sistólica"/>
                             </b:column>
@@ -67,7 +67,7 @@
                                              id="per_nombres"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_presion_diastolica}"
+                                             value="#{PersonaBean.sig_presion_diastolica}"
                                              required="true"
                                              requiredMessage="Ingrese la presión diastólica"/>
                             </b:column>
@@ -77,7 +77,7 @@
                                              id="sig_presion_arterial_media"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_presion_arterial_media}"
+                                             value="#{PersonaBean.sig_presion_arterial_media}"
                                              required="true"
                                              requiredMessage="Ingrese la presión arterial media"/>
                             </b:column>
@@ -87,7 +87,7 @@
                                              id="sig_temperatura"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_temperatura}"
+                                             value="#{PersonaBean.sig_temperatura}"
                                              required="true"
                                              requiredMessage="Ingrese la temperatura"/>
                             </b:column>
@@ -99,7 +99,7 @@
                                              id="sig_frecuencia_respiratoria"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_frecuencia_respiratoria}"
+                                             value="#{PersonaBean.sig_frecuencia_respiratoria}"
                                              required="true"
                                              requiredMessage="Ingrese la frecuencia respiratoria"/>
                             </b:column>
@@ -109,7 +109,7 @@
                                              id="sig_frecuencia_cardiaca"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_frecuencia_cardiaca}"
+                                             value="#{PersonaBean.sig_frecuencia_cardiaca}"
                                              required="true"
                                              requiredMessage="Ingrese la frecuencia cardiaca"/>
                             </b:column>
@@ -119,7 +119,7 @@
                                              id="sig_saturacion"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_saturacion}"
+                                             value="#{PersonaBean.sig_saturacion}"
                                              required="true"
                                              requiredMessage="Ingrese la saturacion"/>
                             </b:column>
@@ -134,7 +134,7 @@
                                              id="sig_peso"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_peso}"
+                                             value="#{PersonaBean.sig_peso}"
                                              required="true"
                                              requiredMessage="Ingrese el peso"/>
                             </b:column>
@@ -144,7 +144,7 @@
                                              id="sig_pestatura"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_estatura}"
+                                             value="#{PersonaBean.sig_estatura}"
                                              required="true"
                                              requiredMessage="Ingrese la estatura"/>
                             </b:column>
@@ -154,7 +154,7 @@
                                              id="sig_imc"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_imc}"
+                                             value="#{PersonaBean.sig_imc}"
                                              required="true"
                                              requiredMessage="Ingrese la indice de masa corporal"/>
                             </b:column>
@@ -164,7 +164,7 @@
                                              id="sig_perimetro_abdominal"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_perimetro_abdominal}"
+                                             value="#{PersonaBean.sig_perimetro_abdominal}"
                                              required="false"
                                              requiredMessage="Ingrese el perímetro abdominal"/>
                             </b:column>
@@ -178,7 +178,7 @@
                                              id="sig_glucosa_capilar"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_glucosa_capilar}"
+                                             value="#{PersonaBean.sig_glucosa_capilar}"
                                              required="false"
                                              requiredMessage="Ingrese la glucosa capilar"/>
                             </b:column>
@@ -188,7 +188,7 @@
                                              id="sig_valor_hemoglobina"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_valor_hemoglobina}"
+                                             value="#{PersonaBean.sig_valor_hemoglobina}"
                                              required="false"
                                              requiredMessage="Ingrese el valor de la hemoglobina"/>
                             </b:column>
@@ -198,7 +198,7 @@
                                              id="sig_valor_hemoglobina_corredigo"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.sig_valor_hemoglobina_corr}"
+                                             value="#{PersonaBean.sig_valor_hemoglobina_corr}"
                                              required="false"
                                              requiredMessage="Ingrese el valor de la hemoglobina corregido"/>
                             </b:column>
@@ -217,7 +217,7 @@
                                     id="submit"
                                     value="Guardar"
                                     type="submit"
-                                    action="#{PacienteBean.guardarPaciente()}"
+                                    action="#{PersonaBean.guardarPaciente()}"
                                     look="info"/>
                             </b:column>
                         </b:row>

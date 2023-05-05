@@ -9,7 +9,7 @@ import dao.CiudadesDAO;
 import dao.EstadosCivilesDAO;
 import dao.HistoriaDAO;
 import dao.OcupacionDAO;
-import dao.PacienteDAO;
+import dao.PersonaDAO;
 import dao.RevisionSistemasDAO;
 import dao.SignosDAO;
 import dao.UsuarioDAO;
@@ -41,10 +41,11 @@ import javax.servlet.http.HttpSession;
  *
  * @author Administrador
  */
-@ManagedBean(name = "PacienteBean")
+@ManagedBean(name = "PersonaBean")
 @SessionScoped
-public final class PacienteBean implements Serializable{
+public final class PersonaBean implements Serializable{
     private String per_nombre_completo;
+    private String primerNombre;
     
     //Creación de objetos
     private Personas persona;
@@ -82,7 +83,7 @@ public final class PacienteBean implements Serializable{
     //Declaración de colecciones de datos
     private List<Personas> pacientes;
             
-    public PacienteBean(){
+    public PersonaBean(){
         session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         inicializarPaciente();
         inicializarSignos();
@@ -119,6 +120,19 @@ public final class PacienteBean implements Serializable{
         sig_valor_hemoglobina = null;
         sig_valor_hemoglobina_corr = null;
         sig_usuario = "";
+    }
+    
+    public void cargarPersona() {
+        LoginBean lb = (LoginBean) FacesContext
+                .getCurrentInstance()
+                .getExternalContext()
+                .getSessionMap()
+                .get("LoginBean");
+        Usuarios usu = lb.getUsuario();
+        persona = PersonaDAO.recuperarPersonaID(usu.getPersonas().getPerId());
+        
+        String[] splited = persona.getPerNombres().split("\\s+");
+        primerNombre = splited[0].substring(0, 1).toUpperCase() + splited[0].substring(1).toLowerCase();
     }
     
     public void inicializarHistoria(){
@@ -192,8 +206,8 @@ public final class PacienteBean implements Serializable{
         signos.setSigUsuario("defecto");
         
         //Llamada a beans para guardar datos
-        PacienteDAO.crearPersona(persona);
-        PacienteDAO.crearUsuario(usuario);
+        PersonaDAO.crearPersona(persona);
+        PersonaDAO.crearUsuario(usuario);
         RevisionSistemasDAO.crearActualizarRevision(revision);
         HistoriaDAO.crearHistoriaPrimeraVez(historia, revision);
         SignosDAO.crearSignosPrimeraVez(signos);
@@ -205,7 +219,7 @@ public final class PacienteBean implements Serializable{
     }
     
     public void actualizarPaciente(){
-        PacienteDAO.crearActualizarPaciente(persona);
+        PersonaDAO.crearActualizarPaciente(persona);
         FacesMessages.info(":growlInfo", "Se han actualizado los datos del paciente", "This is a specific message!");
     }
     
@@ -277,7 +291,7 @@ public final class PacienteBean implements Serializable{
     }
     
     public List<String> listarNombres(){
-        return PacienteDAO.listarNombres();
+        return PersonaDAO.listarNombres();
     }
     
     public void inicializarProfesiones(){
@@ -296,7 +310,7 @@ public final class PacienteBean implements Serializable{
         String nombres[] = getPer_nombre_completo().split(" - ");
         if (nombres.length > 1) {
 
-            persona = PacienteDAO.recuperarPersonaNombre(nombres[1], nombres[0]);
+            persona = PersonaDAO.recuperarPersonaNombre(nombres[1], nombres[0]);
 
             if (persona != null) {
                 per_nombre_completo = persona.getPerApellidos() + " - " + persona.getPerNombres();
@@ -501,5 +515,13 @@ public final class PacienteBean implements Serializable{
 
     public void setLista_estados_civiles(List<Estadocivil> lista_estados_civiles) {
         this.lista_estados_civiles = lista_estados_civiles;
-    }    
+    }
+
+    public String getPrimerNombre() {
+        return primerNombre;
+    }
+
+    public void setPrimerNombre(String primerNombre) {
+        this.primerNombre = primerNombre;
+    }
 }

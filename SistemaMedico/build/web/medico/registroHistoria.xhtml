@@ -8,7 +8,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-<!--    <f:event listener="# {LoginBean.accessoMedico()}" type="preRenderView" />-->
+<!--    <f:event listener="# {LoginBean.comprobarLogin()}" type="preRenderView" />-->
 
     <h:head>
         <title>American College</title>
@@ -34,7 +34,7 @@
             </p:idleMonitor>
             
         <b:container fluid="true">
-            #{PacienteBean.inicializarPaciente()}
+            #{PersonaBean.inicializarPaciente()}
 
             <b:panel span="10" offset="0">
                 <b:row>
@@ -51,17 +51,17 @@
                 <b:form class="pageForm" id="commentform">
                     <b:row>
                             <b:column span="6" offset="3">
-                                <b:inputText value="#{PacienteBean.per_nombre_completo}"
+                                <b:inputText value="#{PersonaBean.per_nombre_completo}"
                                                  label="Paciente"
                                                  placeholder="Digite el nombre de un paciente"
                                                  typeahead="true"
                                                  id="nomPersona"
                                                  typeahead-limit="20"
-                                                 typeahead-values="#{PacienteBean.listarNombres()}">
-                                    <f:ajax event="change" listener="#{PacienteBean.recuperarPacientesListener()}" render="" />
+                                                 typeahead-values="#{PersonaBean.listarNombres()}">
+                                    <f:ajax event="change" listener="#{PersonaBean.recuperarPacientesListener()}" render="" />
                                     <f:ajax render="commentform :growl" />
                                     </b:inputText>
-                                    <h6>El paciente tiene #{PacienteBean.cantidad_historias} historia/s clínicas</h6>
+                                    <h6>El paciente tiene #{PersonaBean.cantidad_historias} historia/s clínicas</h6>
                             </b:column>
                         </b:row>
                     <br/>
@@ -73,7 +73,7 @@
                                              id="his_motivo"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.persona.perApellidos}"
+                                             value="#{PersonaBean.persona.perApellidos}"
                                              requiredMessage="Ingrese el motivo de la consulta"/>
                             </b:column>
                             <b:column span="6">
@@ -82,7 +82,7 @@
                                              id="his_enfermedad_actual"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PacienteBean.persona.perNombres}"
+                                             value="#{PersonaBean.persona.perNombres}"
                                              requiredMessage="Ingrese su enfermedad actual"/>
                             </b:column>
                         </b:row>
@@ -96,7 +96,7 @@
                             <b:commandButton large-screen="full-width" id="submit"
                                              value="Actualizar Datos"
                                              oncomplete="$('#modalEdicionSignos').modal('hide')"
-                                             action="#{PacienteBean.actualizarPaciente()}"
+                                             action="#{PersonaBean.actualizarPaciente()}"
                                              look="primary" ajax="true" update="@form :growl"/>
                         </b:column>
 
