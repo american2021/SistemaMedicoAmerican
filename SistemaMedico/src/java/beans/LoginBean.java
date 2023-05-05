@@ -10,7 +10,6 @@ import datos.Personas;
 import datos.Usuarios;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -48,12 +47,15 @@ public class LoginBean implements Serializable {
     private String claveAct;
     private String cambioRol;
     private boolean valido;
+    
+    HttpSession session;
 
     public LoginBean() {
         inicializarUsuario();
     }
     
     public void inicializarUsuario(){
+        session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         usuario = null;
         usu_contra = "";
         usu_nombre = "";
@@ -65,7 +67,6 @@ public class LoginBean implements Serializable {
             valido = usuario.getUsuContra().equalsIgnoreCase(convertirMD5(usu_contra));
         if (valido) {
             estaLogueado = true;
-            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             session.setAttribute("usuario", usuario.getUsuNombre());            
             return "/privado/home.xhtml?faces-redirect=true";
             } else {

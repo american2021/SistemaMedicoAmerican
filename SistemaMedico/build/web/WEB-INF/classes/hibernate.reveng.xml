@@ -41,16 +41,18 @@ Contributor(s):
 -->
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="smed"/>
-  <table-filter match-name="tratamientos"/>
-  <table-filter match-name="ocupaciones"/>
   <table-filter match-name="antecedentes"/>
-  <table-filter match-name="medicamentos"/>
-  <table-filter match-name="personas"/>
-  <table-filter match-name="historias"/>
-  <table-filter match-name="diagnosticos"/>
-  <table-filter match-name="resultados"/>
-  <table-filter match-name="enfermedades"/>
   <table-filter match-name="revision_sistemas"/>
-  <table-filter match-name="usuarios"/>
   <table-filter match-name="signos"/>
+  <table-filter match-name="enfermedades"/>
+  <table-filter match-name="ciudades"/>
+  <table-filter match-name="personas"/>
+  <table-filter match-name="resultados"/>
+  <table-filter match-name="ocupaciones"/>
+  <table-filter match-name="diagnosticos"/>
+  <table-filter match-name="medicamentos"/>
+  <table-filter match-name="tratamientos"/>
+  <table-filter match-name="estadocivil"/>
+  <table-filter match-name="historias"/>
+  <table-filter match-name="usuarios"/>
 </hibernate-reverse-engineering>

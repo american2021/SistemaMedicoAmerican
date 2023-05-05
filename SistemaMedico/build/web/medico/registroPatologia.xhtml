@@ -61,18 +61,6 @@
                                                  requiredMessage="Ingrese el nombre de la patología"/>
                                 </b:column>
                                 <b:column span="6">
-                                    <b:inputText label="Descripción de la patología"
-                                                 placeholder="Descripción de la patología"
-                                                 id="enf_descripcion"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{EnfermedadBean.enfermedad.enfDescripcion}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la descripción de la patología"/>
-                                </b:column>
-                            </b:row>
-                            <b:row>
-                                <b:column span="3">
                                     <b:inputText label="Código CIE-10 de la patología"
                                                  placeholder="Código de la patología"
                                                  id="enf_codigo"
@@ -81,7 +69,7 @@
                                                  value="#{EnfermedadBean.enfermedad.enfCodigoCie}"
                                                  required="true"
                                                  requiredMessage="Ingrese el código CIE-10 de la patología"/>
-                                    <b:message for="tipoPersona"/>
+                                    <b:message for="enf_codigo"/>
                                 </b:column>
                             </b:row>
 

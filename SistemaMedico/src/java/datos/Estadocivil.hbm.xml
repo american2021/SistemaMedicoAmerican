@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 03-may-2023 10:36:27 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="datos.Estadocivil" table="estadocivil" catalog="smed" optimistic-lock="version">
+        <id name="ecCodigo" type="string">
+            <column name="ecCodigo" length="2" />
+            <generator class="assigned" />
+        </id>
+        <property name="ecDescripcion" type="string">
+            <column name="ecDescripcion" length="20" not-null="true" />
+        </property>
+        <property name="fechaUlt" type="timestamp">
+            <column name="fechaUlt" length="19" not-null="true" />
+        </property>
+        <property name="usuario" type="string">
+            <column name="usuario" length="15" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

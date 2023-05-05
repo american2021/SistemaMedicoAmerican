@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 19-abr-2023 18:46:09 by Hibernate Tools 4.3.1 -->
+<!-- Generated 03-may-2023 10:36:27 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Enfermedades" table="enfermedades" catalog="smed" optimistic-lock="version">
         <id name="enfId" type="java.lang.Integer">
@@ -15,7 +15,7 @@
             <column name="enf_nombre" length="300" not-null="true" />
         </property>
         <property name="enfDescripcion" type="string">
-            <column name="enf_descripcion" length="300" not-null="true" />
+            <column name="enf_descripcion" length="300" />
         </property>
         <property name="enfCodigoCie" type="string">
             <column name="enf_codigo_cie" length="300" not-null="true" />

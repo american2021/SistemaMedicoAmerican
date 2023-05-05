@@ -165,7 +165,7 @@
                                              size="13"
                                              maxlength="100"
                                              value="#{PacienteBean.sig_perimetro_abdominal}"
-                                             required="true"
+                                             required="false"
                                              requiredMessage="Ingrese el perímetro abdominal"/>
                             </b:column>
                         </b:row>
@@ -179,7 +179,7 @@
                                              size="13"
                                              maxlength="100"
                                              value="#{PacienteBean.sig_glucosa_capilar}"
-                                             required="true"
+                                             required="false"
                                              requiredMessage="Ingrese la glucosa capilar"/>
                             </b:column>
                             <b:column span="3">
@@ -189,7 +189,7 @@
                                              size="13"
                                              maxlength="100"
                                              value="#{PacienteBean.sig_valor_hemoglobina}"
-                                             required="true"
+                                             required="false"
                                              requiredMessage="Ingrese el valor de la hemoglobina"/>
                             </b:column>
                             <b:column span="3">
@@ -199,7 +199,7 @@
                                              size="13"
                                              maxlength="100"
                                              value="#{PacienteBean.sig_valor_hemoglobina_corr}"
-                                             required="true"
+                                             required="false"
                                              requiredMessage="Ingrese el valor de la hemoglobina corregido"/>
                             </b:column>
                         </b:row>
@@ -209,8 +209,7 @@
                                 <b:button large-screen="full-width"
                                           id="salir"
                                           value="Regresar"
-                                          href="/home-medico"
-                                          look="danger" />
+                                          href="./home-medico"/>
                             </b:column>
                             <b:column offset="2" span="2">
                                 <b:commandButton
@@ -219,7 +218,7 @@
                                     value="Guardar"
                                     type="submit"
                                     action="#{PacienteBean.guardarPaciente()}"
-                                    look="success"/>
+                                    look="info"/>
                             </b:column>
                         </b:row>
                     </b:panel>

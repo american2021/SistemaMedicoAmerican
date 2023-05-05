@@ -1,5 +1,5 @@
 package datos;
-// Generated 19-abr-2023 18:46:08 by Hibernate Tools 4.3.1
+// Generated 03-may-2023 10:36:26 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,34 +13,52 @@ public class Personas  implements java.io.Serializable {
 
 
      private Integer perId;
+     private String perCedula;
      private String perNombres;
      private String perApellidos;
      private char perSexo;
      private Date perNac;
      private String perGrupoSanguineo;
-     private Character perIdentidadGenero;
+     private char perIdentidadGenero;
      private int perProfesion;
+     private String perResidencia;
+     private String perProcedencia;
+     private String perTelefono;
+     private String perContactoEmergencia;
+     private String perParentesco;
+     private String perEstadoCivil;
+     private int perEdad;
      private Date perFechaUlt;
      private String perUsuario;
-     private Set historiases = new HashSet(0);
      private Set usuarioses = new HashSet(0);
+     private Set historiases = new HashSet(0);
      private Set antecedenteses = new HashSet(0);
 
     public Personas() {
     }
 
 	
-    public Personas(String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, int perProfesion, Date perFechaUlt, String perUsuario) {
+    public Personas(String perCedula, String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, char perIdentidadGenero, int perProfesion, String perResidencia, String perProcedencia, String perTelefono, String perContactoEmergencia, String perParentesco, String perEstadoCivil, int perEdad, Date perFechaUlt, String perUsuario) {
+        this.perCedula = perCedula;
         this.perNombres = perNombres;
         this.perApellidos = perApellidos;
         this.perSexo = perSexo;
         this.perNac = perNac;
         this.perGrupoSanguineo = perGrupoSanguineo;
+        this.perIdentidadGenero = perIdentidadGenero;
         this.perProfesion = perProfesion;
+        this.perResidencia = perResidencia;
+        this.perProcedencia = perProcedencia;
+        this.perTelefono = perTelefono;
+        this.perContactoEmergencia = perContactoEmergencia;
+        this.perParentesco = perParentesco;
+        this.perEstadoCivil = perEstadoCivil;
+        this.perEdad = perEdad;
         this.perFechaUlt = perFechaUlt;
         this.perUsuario = perUsuario;
     }
-    public Personas(String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, Character perIdentidadGenero, int perProfesion, Date perFechaUlt, String perUsuario, Set historiases, Set usuarioses, Set antecedenteses) {
+    public Personas(String perCedula, String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, char perIdentidadGenero, int perProfesion, String perResidencia, String perProcedencia, String perTelefono, String perContactoEmergencia, String perParentesco, String perEstadoCivil, int perEdad, Date perFechaUlt, String perUsuario, Set usuarioses, Set historiases, Set antecedenteses) {
+       this.perCedula = perCedula;
        this.perNombres = perNombres;
        this.perApellidos = perApellidos;
        this.perSexo = perSexo;
@@ -48,10 +66,17 @@ public class Personas  implements java.io.Serializable {
        this.perGrupoSanguineo = perGrupoSanguineo;
        this.perIdentidadGenero = perIdentidadGenero;
        this.perProfesion = perProfesion;
+       this.perResidencia = perResidencia;
+       this.perProcedencia = perProcedencia;
+       this.perTelefono = perTelefono;
+       this.perContactoEmergencia = perContactoEmergencia;
+       this.perParentesco = perParentesco;
+       this.perEstadoCivil = perEstadoCivil;
+       this.perEdad = perEdad;
        this.perFechaUlt = perFechaUlt;
        this.perUsuario = perUsuario;
-       this.historiases = historiases;
        this.usuarioses = usuarioses;
+       this.historiases = historiases;
        this.antecedenteses = antecedenteses;
     }
    
@@ -61,6 +86,13 @@ public class Personas  implements java.io.Serializable {
     
     public void setPerId(Integer perId) {
         this.perId = perId;
+    }
+    public String getPerCedula() {
+        return this.perCedula;
+    }
+    
+    public void setPerCedula(String perCedula) {
+        this.perCedula = perCedula;
     }
     public String getPerNombres() {
         return this.perNombres;
@@ -97,11 +129,11 @@ public class Personas  implements java.io.Serializable {
     public void setPerGrupoSanguineo(String perGrupoSanguineo) {
         this.perGrupoSanguineo = perGrupoSanguineo;
     }
-    public Character getPerIdentidadGenero() {
+    public char getPerIdentidadGenero() {
         return this.perIdentidadGenero;
     }
     
-    public void setPerIdentidadGenero(Character perIdentidadGenero) {
+    public void setPerIdentidadGenero(char perIdentidadGenero) {
         this.perIdentidadGenero = perIdentidadGenero;
     }
     public int getPerProfesion() {
@@ -110,6 +142,55 @@ public class Personas  implements java.io.Serializable {
     
     public void setPerProfesion(int perProfesion) {
         this.perProfesion = perProfesion;
+    }
+    public String getPerResidencia() {
+        return this.perResidencia;
+    }
+    
+    public void setPerResidencia(String perResidencia) {
+        this.perResidencia = perResidencia;
+    }
+    public String getPerProcedencia() {
+        return this.perProcedencia;
+    }
+    
+    public void setPerProcedencia(String perProcedencia) {
+        this.perProcedencia = perProcedencia;
+    }
+    public String getPerTelefono() {
+        return this.perTelefono;
+    }
+    
+    public void setPerTelefono(String perTelefono) {
+        this.perTelefono = perTelefono;
+    }
+    public String getPerContactoEmergencia() {
+        return this.perContactoEmergencia;
+    }
+    
+    public void setPerContactoEmergencia(String perContactoEmergencia) {
+        this.perContactoEmergencia = perContactoEmergencia;
+    }
+    public String getPerParentesco() {
+        return this.perParentesco;
+    }
+    
+    public void setPerParentesco(String perParentesco) {
+        this.perParentesco = perParentesco;
+    }
+    public String getPerEstadoCivil() {
+        return this.perEstadoCivil;
+    }
+    
+    public void setPerEstadoCivil(String perEstadoCivil) {
+        this.perEstadoCivil = perEstadoCivil;
+    }
+    public int getPerEdad() {
+        return this.perEdad;
+    }
+    
+    public void setPerEdad(int perEdad) {
+        this.perEdad = perEdad;
     }
     public Date getPerFechaUlt() {
         return this.perFechaUlt;
@@ -125,19 +206,19 @@ public class Personas  implements java.io.Serializable {
     public void setPerUsuario(String perUsuario) {
         this.perUsuario = perUsuario;
     }
-    public Set getHistoriases() {
-        return this.historiases;
-    }
-    
-    public void setHistoriases(Set historiases) {
-        this.historiases = historiases;
-    }
     public Set getUsuarioses() {
         return this.usuarioses;
     }
     
     public void setUsuarioses(Set usuarioses) {
         this.usuarioses = usuarioses;
+    }
+    public Set getHistoriases() {
+        return this.historiases;
+    }
+    
+    public void setHistoriases(Set historiases) {
+        this.historiases = historiases;
     }
     public Set getAntecedenteses() {
         return this.antecedenteses;

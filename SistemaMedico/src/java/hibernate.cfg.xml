@@ -48,6 +48,8 @@ Contributor(s):
     <property name="hibernate.connection.password">toor</property>
     <property name="hibernate.connection.useSSL">false</property>
     <property name="hibernate.connection.requireSSL">false</property>
+    <mapping resource="datos/Ciudades.hbm.xml"/>
+    <mapping resource="datos/Estadocivil.hbm.xml"/>
     <mapping resource="datos/Resultados.hbm.xml"/>
     <mapping resource="datos/RevisionSistemas.hbm.xml"/>
     <mapping resource="datos/Antecedentes.hbm.xml"/>

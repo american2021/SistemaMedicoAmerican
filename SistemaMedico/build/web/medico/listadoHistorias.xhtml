@@ -146,7 +146,7 @@
                                          size="13"
                                          maxlength="100"
                                          value="#{HistoriaBean.signos.sigPerimetroAbdominal}"
-                                         required="true"
+                                         required="false"
                                          requiredMessage="Ingrese el perímetro abdominal"/>
                         </b:column>
                     </b:row>
@@ -160,7 +160,7 @@
                                          size="13"
                                          maxlength="100"
                                          value="#{HistoriaBean.signos.sigGlucosaCapilar}"
-                                         required="true"
+                                         required="false"
                                          requiredMessage="Ingrese la glucosa capilar"/>
                         </b:column>
                         <b:column span="3">
@@ -170,7 +170,7 @@
                                          size="13"
                                          maxlength="100"
                                          value="#{HistoriaBean.signos.sigValorHemoglobina}"
-                                         required="true"
+                                         required="false"
                                          requiredMessage="Ingrese el valor de la hemoglobina"/>
                         </b:column>
                         <b:column span="4">
@@ -180,7 +180,7 @@
                                          size="13"
                                          maxlength="100"
                                          value="#{HistoriaBean.signos.sigValorHemoglobinaCorr}"
-                                         required="true"
+                                         required="false"
                                          requiredMessage="Ingrese el valor de la hemoglobina corregido"/>
                         </b:column>
                     </b:row>
@@ -261,6 +261,7 @@
 
                 <b:form id="commentform">
                     #{HistoriaBean.inicializarHistorias()}
+                    #{HistoriaBean.recuperarHistorias()}
                     <h3 id="reply-title">
                         <b>Historial de citas médicas</b>
                     </h3>
@@ -277,15 +278,15 @@
                                      page-length="25" multi-column-search="true"
                                      multi-column-search-position="top" >
                             <b:dataTableColumn label="Codigo" value="#{historia.hisId}" style="width: 10%" />
-                            <b:dataTableColumn label="Nombres" value="#{historia.personas.perNombres}" style="width: 30%" order="asc"/>
-                            <b:dataTableColumn label="Apellidos" value="#{historia.personas.perApellidos}" style="width: 30%"/>
-                            <b:dataTableColumn label="Fecha" value="#{historia.hisFechaCreacion}" style="width: 20%" />
-                            <b:dataTableColumn label="Signos" style="width: 10%" >
+                            <b:dataTableColumn label="Médico Tratante" value="#{historia.personas.perUsuario}" style="width: 30%"/>
+                            <b:dataTableColumn label="Paciente" value="#{HistoriaBean.getNombreCompleto(historia.hisId)}" style="width: 30%" order="asc"/>
+                            <b:dataTableColumn label="Fecha" value="#{historia.hisFechaCreacion}" style="width: 10%" />
+<!--                            <b:dataTableColumn label="Signos" style="width: 10%" >
                                 <b:row>
                                     <b:column span="1" offset="0">
                                         <b:commandButton ajax="true"
                                                          update=":modalEdicionSignos:formEdicionSignos :growl"
-                                                         action="#{HistoriaBean.recuperarSignosId(historia.signos.sigId)}"
+                                                         action="# {HistoriaBean.recuperarSignosId(historia.signos.sigId)}"
                                                          oncomplete="$('#modalEdicionSignos').modal('show')"
                                                          tooltip="Editar signos" look="warning">
                                             <b:iconAwesome name="pencil"></b:iconAwesome>
@@ -298,15 +299,15 @@
                                     <b:column span="1" offset="0">
                                         <b:commandButton ajax="true"
                                                          update=":modalEdicionHistoria:formEdicionHistoria :growl"
-                                                         action="#{HistoriaBean.recuperarHistoriaID(historia.hisId)}"
+                                                         action="# {HistoriaBean.recuperarHistoriaID(historia.hisId)}"
                                                          oncomplete="$('#modalEdicionHistoria').modal('show')"
                                                          tooltip="Editar enfermedad" look="warning">
                                             <b:iconAwesome name="pencil"></b:iconAwesome>
                                         </b:commandButton>
                                     </b:column>
                                 </b:row>
-                            </b:dataTableColumn>
-                            <b:dataTableColumn label="Cita" style="width: 10%" >
+                            </b:dataTableColumn>-->
+                            <b:dataTableColumn label="Cita" style="width: 5%" >
                                 <b:row>
                                     <b:column span="1" offset="0">
                                         <b:commandButton ajax="true"

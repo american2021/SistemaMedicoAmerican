@@ -1,5 +1,5 @@
 package datos;
-// Generated 19-abr-2023 18:46:08 by Hibernate Tools 4.3.1
+// Generated 03-may-2023 10:36:26 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -25,9 +25,8 @@ public class Enfermedades  implements java.io.Serializable {
     }
 
 	
-    public Enfermedades(String enfNombre, String enfDescripcion, String enfCodigoCie) {
+    public Enfermedades(String enfNombre, String enfCodigoCie) {
         this.enfNombre = enfNombre;
-        this.enfDescripcion = enfDescripcion;
         this.enfCodigoCie = enfCodigoCie;
     }
     public Enfermedades(Historias historias, String enfNombre, String enfDescripcion, String enfCodigoCie, Date enfFechaUlt, String enfUsuario, Set historiases) {

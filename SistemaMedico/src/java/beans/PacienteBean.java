@@ -5,13 +5,17 @@
  */
 package beans;
 
+import dao.CiudadesDAO;
+import dao.EstadosCivilesDAO;
 import dao.HistoriaDAO;
 import dao.OcupacionDAO;
 import dao.PacienteDAO;
 import dao.RevisionSistemasDAO;
 import dao.SignosDAO;
 import dao.UsuarioDAO;
+import datos.Ciudades;
 import datos.Enfermedades;
+import datos.Estadocivil;
 import datos.Historias;
 import datos.Ocupaciones;
 import java.util.Date;
@@ -22,10 +26,16 @@ import datos.Personas;
 import datos.RevisionSistemas;
 import datos.Signos;
 import datos.Usuarios;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import javax.faces.context.FacesContext;
 import net.bootsfaces.utils.FacesMessages;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
+import java.time.Period;
+import java.time.ZoneId;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -62,17 +72,25 @@ public final class PacienteBean implements Serializable{
     private Date sig_fecha_ult;
     private String sig_usuario;
     private List<Ocupaciones> lista_ocupaciones;
+    private List<Ciudades> lista_ciudades;
+    private List<Estadocivil> lista_estados_civiles;
     
     private int cantidad_historias;
+    
+    HttpSession session;
     
     //Declaración de colecciones de datos
     private List<Personas> pacientes;
             
     public PacienteBean(){
+        session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         inicializarPaciente();
         inicializarSignos();
         inicializarHistoria();
+        inicializarRevision();
         inicializarProfesiones();
+        inicializarCiudades();
+        inicializarEstadosCiviles();
     }
     
     public void inicializarPaciente(){
@@ -80,7 +98,6 @@ public final class PacienteBean implements Serializable{
         persona = new Personas();
         usuario = new Usuarios();
         enfermedad = new Enfermedades();
-        inicializarHistoria();
         per_nombre_completo = "";
     }
     
@@ -106,8 +123,11 @@ public final class PacienteBean implements Serializable{
     
     public void inicializarHistoria(){
         historia = new Historias();
-        revision = new RevisionSistemas();
         cantidad_historias = 0;
+    }
+    
+    public void inicializarRevision(){
+        revision = new RevisionSistemas();
     }
     
     /**
@@ -117,18 +137,18 @@ public final class PacienteBean implements Serializable{
     public String guardarPersona(){
         //Seteo de los datos de la persona
         persona.setPerFechaUlt(new Date());
-        persona.setPerUsuario("defecto");
+        persona.setPerUsuario(session.getAttribute("usuario").toString());
         
         //Seteo de los datos del usuario
         usuario.setUsuContra(convertirMD5(generarClaveAleatoria()));
         usuario.setUsuNombre(generarUsuario(persona.getPerNombres(), persona.getPerApellidos()));
-        usuario.setUsuUsuario("defecto");
+        usuario.setUsuUsuario(session.getAttribute("usuario").toString());
         usuario.setPersonas(persona);
         usuario.setUsuFechaUlt(new Date());
         return "/faces/medico/registroSignos.xhtml?faces-redirect=true";
     }
     
-    public String guardarPaciente(){
+    public String guardarPaciente() throws InterruptedException{
         signos.setSigPresionSistolica(sig_presion_sistolica);
         signos.setSigPresionDiastolica(sig_presion_diastolica);
         signos.setSigPresionArterialMedia(sig_presion_arterial_media);
@@ -151,19 +171,19 @@ public final class PacienteBean implements Serializable{
         
         //Definiendo los items de la revision
         revision.setRevSisPatologia("false");
-        revision.setRevSisSentidos("false");
-        revision.setRevSisRespiratorio("false");
-        revision.setRevSisCardiovascular("false");
-        revision.setRevSisDigestivo("false");
-        revision.setRevSisGenital("false");
-        revision.setRevSisUrinario("false");
-        revision.setRevSisEsqueletico("false");
-        revision.setRevSisMuscular("false");
-        revision.setRevSisNervioso("false");
-        revision.setRevSisHemolinfatico("false");
-        revision.setRevSisTegumentario("false");
+        revision.setRevSisSentidos("");
+        revision.setRevSisRespiratorio("");
+        revision.setRevSisCardiovascular("");
+        revision.setRevSisDigestivo("");
+        revision.setRevSisGenital("");
+        revision.setRevSisUrinario("");
+        revision.setRevSisEsqueletico("");
+        revision.setRevSisMuscular("");
+        revision.setRevSisNervioso("");
+        revision.setRevSisEndocrino("");
+        revision.setRevSisHemolinfatico("");
+        revision.setRevSisTegumentario("");
         revision.setRevSisFisicoPatologia("false");
-        revision.setRevSisEndocrino("false");
         revision.setRevSisFisicoObservacion("N/A");
         revision.setRevSisFechaUlt(new Date());
         revision.setRevSisUsuario("defecto");
@@ -178,6 +198,9 @@ public final class PacienteBean implements Serializable{
         HistoriaDAO.crearHistoriaPrimeraVez(historia, revision);
         SignosDAO.crearSignosPrimeraVez(signos);
         FacesMessages.info(":growlInfo", "Paciente creado con éxito", "This is a specific message!");
+        // Fragmento para conservar los mensajes entre vistas
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         return "/faces/privado/home.xhtml?faces-redirect=true";
     }
     
@@ -190,6 +213,29 @@ public final class PacienteBean implements Serializable{
 
         return RandomStringUtils.randomAlphanumeric(8);
 
+    }
+    
+    public void calcularEdad(){
+        int edad;
+        if(persona.getPerNac()!=null){
+        try{
+            LocalDate actual = new Date()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+            LocalDate nacimiento = persona.getPerNac()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+            edad = Period.between(actual, nacimiento).getYears()*-1;
+            persona.setPerEdad(edad);
+            }
+            catch(Exception e){
+            }
+        }
+        else{
+            persona.setPerEdad(0);
+        }
     }
     
     public String generarUsuario(String nombre, String apellido) {
@@ -238,6 +284,14 @@ public final class PacienteBean implements Serializable{
         lista_ocupaciones = OcupacionDAO.recuperarOcupaciones();
     }
     
+    public void inicializarCiudades(){
+        lista_ciudades = CiudadesDAO.recuperarCiudades();
+    }
+    
+    public void inicializarEstadosCiviles(){
+        lista_estados_civiles = EstadosCivilesDAO.recuperarEstados();
+    }
+    
     public void recuperarPacientesListener(){
         String nombres[] = getPer_nombre_completo().split(" - ");
         if (nombres.length > 1) {
@@ -260,7 +314,7 @@ public final class PacienteBean implements Serializable{
             per_nombre_completo = "";
         }
     }
-
+    
     public Personas getPersona() {
         return persona;
     }
@@ -425,6 +479,14 @@ public final class PacienteBean implements Serializable{
         this.lista_ocupaciones = lista_ocupaciones;
     }
 
+    public List<Ciudades> getLista_ciudades() {
+        return lista_ciudades;
+    }
+
+    public void setLista_ciudades(List<Ciudades> lista_ciudades) {
+        this.lista_ciudades = lista_ciudades;
+    }
+
     public int getCantidad_historias() {
         return cantidad_historias;
     }
@@ -432,5 +494,12 @@ public final class PacienteBean implements Serializable{
     public void setCantidad_historias(int cantidad_historias) {
         this.cantidad_historias = cantidad_historias;
     }
-    
+
+    public List<Estadocivil> getLista_estados_civiles() {
+        return lista_estados_civiles;
+    }
+
+    public void setLista_estados_civiles(List<Estadocivil> lista_estados_civiles) {
+        this.lista_estados_civiles = lista_estados_civiles;
+    }    
 }

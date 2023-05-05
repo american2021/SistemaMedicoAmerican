@@ -8,7 +8,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-<!--    <f:event listener="#{LoginBean.accessoMedico()}" type="preRenderView" />-->
+<!--    <f:event listener="# {LoginBean.accessoMedico()}" type="preRenderView" />-->
 
     <h:head>
         <title>American College</title>
@@ -51,7 +51,17 @@
                 <b:form class="pageForm" id="commentform">
                     <b:panel title="Datos Generales" look="info" collapsible="false">
                         <b:row>
-                            <b:column span="6">
+                            <b:column span="4">
+                                <b:inputText label="Cédula"
+                                             placeholder="Ingrese su cédula"
+                                             id="per_cedula"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{PacienteBean.persona.perCedula}"
+                                             required="true"
+                                             requiredMessage="Ingrese su cédula"/>
+                            </b:column>
+                            <b:column span="4">
                                 <b:inputText style="text-transform:uppercase;" 
                                              label="Apellidos"
                                              placeholder="Ingrese sus apellidos"
@@ -62,7 +72,7 @@
                                              required="true"
                                              requiredMessage="Ingrese sus apellidos"/>
                             </b:column>
-                            <b:column span="6">
+                            <b:column span="4">
                                 <b:inputText style="text-transform:uppercase;" 
                                              label="Nombres"
                                              placeholder="Ingrese sus nombres"
@@ -74,7 +84,110 @@
                                              requiredMessage="Ingrese sus nombres"/>
                             </b:column>
                         </b:row>
+                        <br/>
                         <b:row>
+                            <b:column span="2">
+                                <b:inputText label="Teléfono"
+                                             id="per_telefono"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{PacienteBean.persona.perTelefono}"
+                                             required="true"
+                                             requiredMessage="Ingrese su teléfono"/>
+                            </b:column>
+                            
+                            <b:column span="2">
+                                <b:inputText label="Contacto"
+                                             id="per_contacto_emergencia"
+                                             placeholder="Ingrese su contacto de emergencia"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{PacienteBean.persona.perContactoEmergencia}"
+                                             required="true"
+                                             requiredMessage="Ingrese su contacto de emergencia"/>
+                            </b:column>
+                            
+                            <b:column span="3">
+                                <b:inputText label="Parentesco del Contacto"
+                                             id="per_parentesco"
+                                             placeholder="Parentesco de su contacto"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{PacienteBean.persona.perParentesco}"
+                                             required="true"
+                                             requiredMessage="Ingrese el parentesco"/>
+                            </b:column>
+                            
+                            <b:column span="2">
+                                <b:dateTimePicker
+                                    id="per_nac"
+                                    format="DD/MM/YYYY"
+                                    locale="en"
+                                    value="#{PacienteBean.persona.perNac}"
+                                    label="Fecha de Nacimiento"
+                                    required="true"
+                                    requiredMessage="Ingrese la fecha de nacimiento"
+                                    max-date="12/31/2006"
+                                    ondtchange="#{PacienteBean.calcularEdad()}">
+                                    <f:ajax event="blur"
+                                            listener="#{PacienteBean.calcularEdad()}"
+                                            render="per_edad"/>
+                                </b:dateTimePicker>
+                            </b:column>
+                            
+                            <b:column span="1">
+                                <b:inputText label="Edad"
+                                             id="per_edad"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{PacienteBean.persona.perEdad}"
+                                             required="true"
+                                             disabled="true"
+                                             requiredMessage="Ingrese su edad"/>
+                            </b:column>
+                            
+                            <b:column span="2">
+                                <b:selectOneMenu label="Estado Civil" id="per_estado_civil"
+                                                 value="#{PacienteBean.persona.perEstadoCivil}"
+                                                 required="true"
+                                                 requiredMessage="Seleccione su estado civil">
+                                    <f:selectItem itemLabel="Seleccione"
+                                                  itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{PacienteBean.lista_estados_civiles}"
+                                                   var="e" itemLabel="#{e.ecDescripcion}"
+                                                   itemValue="#{e.ecCodigo}" />
+                                </b:selectOneMenu>
+                                <b:message for="per_estado_civil" />
+                            </b:column>
+                        </b:row>
+                        <br/>
+                        <b:row>
+                            <b:column span="4">
+                                <b:selectOneMenu label="Residencia" id="per_residencia"
+                                                 value="#{PacienteBean.persona.perResidencia}"
+                                                 required="true"
+                                                 requiredMessage="Seleccione su ciudad de residencia">
+                                    <f:selectItem itemLabel="Seleccione"
+                                                  itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{PacienteBean.lista_ciudades}"
+                                                   var="c" itemLabel="#{c.ciuNombre}"
+                                                   itemValue="#{c.id.ciuCodigo}" />
+                                </b:selectOneMenu>
+                                <b:message for="per_residencia" />
+                            </b:column>
+                            <b:column span="4">
+                                <b:selectOneMenu label="Procedencia" id="per_procedencia"
+                                                 value="#{PacienteBean.persona.perProcedencia}"
+                                                 required="true"
+                                                 requiredMessage="Seleccione su ciudad de procedencia">
+                                    <f:selectItem itemLabel="Seleccione"
+                                                  itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{PacienteBean.lista_ciudades}"
+                                                   var="c" itemLabel="#{c.ciuNombre}"
+                                                   itemValue="#{c.id.ciuCodigo}" />
+                                </b:selectOneMenu>
+                                <b:message for="per_procedencia" />
+                            </b:column>
                             <b:column span="2">
 
                                 <b:selectOneMenu label="Sexo del paciente"
@@ -82,13 +195,12 @@
                                                  value="#{PacienteBean.persona.perSexo}"
                                                  required="true"
                                                  requiredMessage="Seleccione el sexo del paciente">
-                                    <f:selectItem itemLabel="Seleccionar" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
                                     <f:selectItem itemLabel="Hombre" itemValue="1" />
                                     <f:selectItem itemLabel="Mujer" itemValue="2" />
                                 </b:selectOneMenu>
                                 <b:message for="tipoPersona" />
                             </b:column>
-
                             <b:column span="2">
                                 <b:selectOneMenu label="Género" id="per_identidad_genero"
                                                  value="#{PacienteBean.persona.perIdentidadGenero}"
@@ -99,24 +211,12 @@
                                     <f:selectItem itemLabel="Masculino" itemValue="1" />
                                     <f:selectItem itemLabel="Femenino" itemValue="2" />
                                     <f:selectItem itemLabel="Otro" itemValue="3" />
-                                    <f:ajax render="" />
                                 </b:selectOneMenu>
                                 <b:message for="per_identidad_genero" />
                             </b:column>
-
-                            <b:column span="3">
-                                <b:dateTimePicker
-                                    id="per_nac"
-                                    format="DD/MM/YYYY"
-                                    locale="en"
-                                    value="#{PacienteBean.persona.perNac}"
-                                    label="Fecha de Nacimiento"
-                                    required="true"
-                                    requiredMessage="Ingrese la fecha de nacimiento"
-                                    max-date="12/31/2006" />
-                                <b:message for="per_nac"/>
-                            </b:column>
-
+                        </b:row>
+                        <br/>
+                        <b:row>
                             <b:column span="2">
                                 <b:selectOneMenu label="Grupo sanguíneo" id="per_grupo_sanguineo"
                                                  value="#{PacienteBean.persona.perGrupoSanguineo}"
@@ -141,7 +241,7 @@
                                                  value="#{PacienteBean.persona.perProfesion}"
                                                  required="true"
                                                  requiredMessage="Seleccione la profesión">
-                                    <f:selectItem itemLabel="Seleccione la profesión"
+                                    <f:selectItem itemLabel="Seleccione"
                                                   itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{PacienteBean.lista_ocupaciones}"
                                                    var="o" itemLabel="#{o.ocuDescripcion}"
@@ -151,24 +251,23 @@
                                 <b:message for="per_profesion" />
                             </b:column>
                         </b:row>
-
+                        <br/>
                         <b:row style="text-align: center;" contentDisabled="false">
 
                             <b:column offset="3" span="2">
                                 <b:button large-screen="full-width"
                                           id="salir"
                                           value="Regresar"
-                                          href="./home"
-                                          look="danger" />
+                                          href="./home-medico"/>
                             </b:column>
-                            <b:column offset="2" span="2">
+                            <b:column offset="1" span="3">
                                 <b:commandButton
                                     large-screen="full-width"
                                     id="submit"
-                                    value="Siguiente"
+                                    value="Registrar Signos"
                                     type="submit"
                                     action="#{PacienteBean.guardarPersona()}"
-                                    look="success" />
+                                    look="info" />
                             </b:column>
                         </b:row>
 
