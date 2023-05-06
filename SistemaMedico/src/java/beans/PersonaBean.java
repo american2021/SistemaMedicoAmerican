@@ -35,6 +35,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -45,6 +46,7 @@ import javax.servlet.http.HttpSession;
 @SessionScoped
 public final class PersonaBean implements Serializable{
     private String per_nombre_completo;
+    private String nombre_medico;
     private String primerNombre;
     
     //Creación de objetos
@@ -290,8 +292,17 @@ public final class PersonaBean implements Serializable{
 
     }
     
-    public List<String> listarNombres(){
-        return PersonaDAO.listarNombres();
+    public List<String> recuperarNombres(){
+        return PersonaDAO.recuperarNombres();
+    }
+    
+    public List<String> recuperarNombresMedicos(){
+        List<Personas> medicos = PersonaDAO.recuperarPersonas();
+        for (Personas medico : medicos) {
+            Usuarios u = (Usuarios)medico.getUsuarioses().iterator().next();
+            System.out.println("Este es el usuario: "+u.getUsuNombre());
+        }
+        return null;
     }
     
     public void inicializarProfesiones(){
@@ -523,5 +534,13 @@ public final class PersonaBean implements Serializable{
 
     public void setPrimerNombre(String primerNombre) {
         this.primerNombre = primerNombre;
+    }
+
+    public String getNombre_medico() {
+        return nombre_medico;
+    }
+
+    public void setNombre_medico(String nombre_medico) {
+        this.nombre_medico = nombre_medico;
     }
 }

@@ -28,22 +28,6 @@
 
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
 
-    <b:modal id="modalRol" title="Rol de usuario" style="font-weight: bold;" closable="true" close-on-escape="true" backdrop="true" rendered="#{loginBean.renderizarSiNoEsEstudiante()}">
-        <b:panel span="14">
-            <b:form>
-                <b:selectOneMenu value="#{loginBean.cambioRol}">
-                    <f:selectItem itemLabel="Seleccionar el rol de usuario con el que desea trabajar" itemValue="" noSelectionOption="true" />
-                    <f:selectItems value="#{loginBean.recuperarRoles()}" var="r" itemLabel="#{r}" itemValue="#{r}" />
-                </b:selectOneMenu>
-                <b:panel span="4" offset="5">
-                    <b:row>
-                        <b:commandButton value="Cambiar Rol" action="#{loginBean.cambiarRol()}" look="primary" />
-                    </b:row>
-                </b:panel>
-            </b:form>
-        </b:panel>
-    </b:modal>
-
     <my:cabecera id="cabecera"/>
     <my:menuLateralMedico id="menuLateralMedico"/>
 
@@ -249,7 +233,7 @@
         </b:modal>
 
         <p:idleMonitor timeout="600000">
-            <p:ajax event="idle" listener="#{loginBean.sesionInactiva()}" />
+            <p:ajax event="idle" listener="#{LoginBean.sesionInactiva()}" />
         </p:idleMonitor>
 
 

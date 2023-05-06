@@ -52,8 +52,12 @@ public class PersonaDAO {
         Personas persona = null;
         if (!query.list().isEmpty()) {
 
-            persona = (Personas) query.list().get(0);
-            persona.getHistoriases().size();
+            try {
+                persona = (Personas) query.uniqueResult();
+                persona.getHistoriases().size();
+            } catch (Exception e) {
+                return null;
+            }
 
         }
         //persona.setSign(recuperarSignosPorCodigo(persona.getPerId()));
@@ -80,12 +84,26 @@ public class PersonaDAO {
         return persona;
     }
     
-    public static List<String> listarNombres() {
+    public static List<String> recuperarNombres() {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("SELECT concat(per_apellidos,' - ',per_nombres) FROM Personas");
         List<String> personas = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return personas;
+    }
+    
+    public static List<Personas> recuperarPersonas() {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Personas");
+        List<Personas> personas = query.list();
+        personas.forEach((persona)->{
+            Usuarios u = (Usuarios)persona.getUsuarioses().iterator().next();
+        });
         session.getTransaction().commit();
         session.close();
         return personas;

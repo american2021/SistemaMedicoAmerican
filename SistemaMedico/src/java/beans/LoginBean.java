@@ -112,7 +112,7 @@ public class LoginBean implements Serializable {
         if (estaLogueado) {
 
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("./home");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("./");
             } catch (IOException ex) {
                 Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -146,7 +146,7 @@ public class LoginBean implements Serializable {
 
         if (!estaLogueado) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("./index");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("./");
             } catch (IOException ex) {
                 Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
             }

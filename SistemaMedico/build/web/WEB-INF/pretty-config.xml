@@ -10,8 +10,8 @@
         <view-id value="/faces/index.xhtml" />
     </url-mapping>
     
-    <url-mapping id="home-medico">
-        <pattern value="/home-medico"/>
+    <url-mapping id="home">
+        <pattern value="/home"/>
         <view-id value="/faces/privado/home.xhtml" />
     </url-mapping>
     
@@ -23,6 +23,11 @@
     <url-mapping id="listado-historias-dia">
         <pattern value="/listado-historias-dia" />
         <view-id value="/faces/medico/listadoHistoriasDia.xhtml"/>
+    </url-mapping>
+    
+    <url-mapping id="asignacion-medico">
+        <pattern value="/asignacion-medico" />
+        <view-id value="/faces/medico/asignacionMedico.xhtml"/>
     </url-mapping>
     
     <url-mapping id="signos-individual">
