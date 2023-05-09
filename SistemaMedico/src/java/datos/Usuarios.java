@@ -1,5 +1,5 @@
 package datos;
-// Generated 05-may-2023 11:01:23 by Hibernate Tools 4.3.1
+// Generated 08-may-2023 20:21:57 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -12,22 +12,22 @@ public class Usuarios  implements java.io.Serializable {
 
      private Integer usuId;
      private Personas personas;
-     private Roles roles;
      private String usuNombre;
      private String usuContra;
      private Date usuFechaUlt;
      private String usuUsuario;
+     private int rolesRolId;
 
     public Usuarios() {
     }
 
-    public Usuarios(Personas personas, Roles roles, String usuNombre, String usuContra, Date usuFechaUlt, String usuUsuario) {
+    public Usuarios(Personas personas, String usuNombre, String usuContra, Date usuFechaUlt, String usuUsuario, int rolesRolId) {
        this.personas = personas;
-       this.roles = roles;
        this.usuNombre = usuNombre;
        this.usuContra = usuContra;
        this.usuFechaUlt = usuFechaUlt;
        this.usuUsuario = usuUsuario;
+       this.rolesRolId = rolesRolId;
     }
    
     public Integer getUsuId() {
@@ -43,13 +43,6 @@ public class Usuarios  implements java.io.Serializable {
     
     public void setPersonas(Personas personas) {
         this.personas = personas;
-    }
-    public Roles getRoles() {
-        return this.roles;
-    }
-    
-    public void setRoles(Roles roles) {
-        this.roles = roles;
     }
     public String getUsuNombre() {
         return this.usuNombre;
@@ -78,6 +71,13 @@ public class Usuarios  implements java.io.Serializable {
     
     public void setUsuUsuario(String usuUsuario) {
         this.usuUsuario = usuUsuario;
+    }
+    public int getRolesRolId() {
+        return this.rolesRolId;
+    }
+    
+    public void setRolesRolId(int rolesRolId) {
+        this.rolesRolId = rolesRolId;
     }
 
 

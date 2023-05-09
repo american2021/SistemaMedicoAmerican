@@ -21,7 +21,7 @@
 
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
 
-    <b:modal id="modalRol" title="Rol de usuario" style="font-weight: bold;" closable="true" close-on-escape="true" backdrop="true" rendered="#{loginBean.renderizarSiNoEsEstudiante()}">
+    <b:modal id="modalRol" title="Rol de usuario" style="font-weight: bold;" closable="true" close-on-escape="true" backdrop="true" >
         <b:panel span="14">
             <b:form>
                 <b:selectOneMenu value="#{loginBean.cambioRol}">
@@ -39,6 +39,8 @@
 
     <my:cabecera id="cabecera"/>
     <my:menuLateralMedico id="menuLateralMedico"/>
+    <my:menuLateralAdministrador id="menuLateralAdministrador"/>
+    <my:menuLateralContador id="menuLateralContador"/>
 
     <h:body>
 
@@ -73,7 +75,7 @@
                                              id="per_cedula"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personas.perCedula}"
+                                             value="#{HistoriaBean.historia.personasByPacientePerId.perCedula}"
                                              required="true"
                                              requiredMessage="Ingrese su cédula"/>
                             </b:column>
@@ -84,7 +86,7 @@
                                              id="per_apellidos"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personas.perApellidos}"
+                                             value="#{HistoriaBean.historia.personasByPacientePerId.perApellidos}"
                                              required="true"
                                              requiredMessage="Ingrese sus apellidos"/>
                             </b:column>
@@ -95,7 +97,7 @@
                                              id="per_nombres"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personas.perNombres}"
+                                             value="#{HistoriaBean.historia.personasByPacientePerId.perNombres}"
                                              required="true"
                                              requiredMessage="Ingrese sus nombres"/>
                             </b:column>
@@ -107,7 +109,7 @@
                                              id="per_telefono"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personas.perTelefono}"
+                                             value="#{HistoriaBean.historia.personasByPacientePerId.perTelefono}"
                                              required="true"
                                              requiredMessage="Ingrese su teléfono"/>
                             </b:column>
@@ -118,7 +120,7 @@
                                              placeholder="Ingrese su contacto de emergencia"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personas.perContactoEmergencia}"
+                                             value="#{HistoriaBean.historia.personasByPacientePerId.perContactoEmergencia}"
                                              required="true"
                                              requiredMessage="Ingrese su contacto de emergencia"/>
                             </b:column>
@@ -129,7 +131,7 @@
                                              placeholder="Parentesco de su contacto"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personas.perParentesco}"
+                                             value="#{HistoriaBean.historia.personasByPacientePerId.perParentesco}"
                                              required="true"
                                              requiredMessage="Ingrese el parentesco"/>
                             </b:column>
@@ -139,7 +141,7 @@
                                     id="per_nac"
                                     format="DD/MM/YYYY"
                                     locale="en"
-                                    value="#{HistoriaBean.historia.personas.perNac}"
+                                    value="#{HistoriaBean.historia.personasByPacientePerId.perNac}"
                                     label="Fecha de Nacimiento"
                                     required="true"
                                     requiredMessage="Ingrese la fecha de nacimiento"
@@ -156,7 +158,7 @@
                                              id="per_edad"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personas.perEdad}"
+                                             value="#{HistoriaBean.historia.personasByPacientePerId.perEdad}"
                                              required="true"
                                              disabled="true"
                                              requiredMessage="Ingrese su edad"/>
@@ -164,7 +166,7 @@
                             
                             <b:column span="2">
                                 <b:selectOneMenu label="Estado Civil" id="per_estado_civil"
-                                                 value="#{HistoriaBean.historia.personas.perEstadoCivil}"
+                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perEstadoCivil}"
                                                  required="true"
                                                  requiredMessage="Seleccione su estado civil">
                                     <f:selectItem itemLabel="Seleccione"
@@ -180,7 +182,7 @@
                         <b:row>
                             <b:column span="4">
                                 <b:selectOneMenu label="Residencia" id="per_residencia"
-                                                 value="#{HistoriaBean.historia.personas.perResidencia}"
+                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perResidencia}"
                                                  required="true"
                                                  requiredMessage="Seleccione su ciudad de residencia">
                                     <f:selectItem itemLabel="Seleccione"
@@ -193,7 +195,7 @@
                             </b:column>
                             <b:column span="4">
                                 <b:selectOneMenu label="Procedencia" id="per_procedencia"
-                                                 value="#{HistoriaBean.historia.personas.perProcedencia}"
+                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perProcedencia}"
                                                  required="true"
                                                  requiredMessage="Seleccione su ciudad de procedencia">
                                     <f:selectItem itemLabel="Seleccione"
@@ -208,7 +210,7 @@
 
                                 <b:selectOneMenu label="Sexo del paciente"
                                                  id="per_sexo"
-                                                 value="#{HistoriaBean.historia.personas.perSexo}"
+                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perSexo}"
                                                  required="true"
                                                  requiredMessage="Seleccione el sexo del paciente">
                                     <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
@@ -219,7 +221,7 @@
                             </b:column>
                             <b:column span="2">
                                 <b:selectOneMenu label="Género" id="per_identidad_genero"
-                                                 value="#{HistoriaBean.historia.personas.perIdentidadGenero}"
+                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perIdentidadGenero}"
                                                  required="true"
                                                  requiredMessage="Seleccione el género">
                                     <f:selectItem itemLabel="Seleccione"
@@ -235,7 +237,7 @@
                         <b:row>
                             <b:column span="2">
                                 <b:selectOneMenu label="Grupo sanguíneo" id="per_grupo_sanguineo"
-                                                 value="#{HistoriaBean.historia.personas.perGrupoSanguineo}"
+                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perGrupoSanguineo}"
                                                  required="true"
                                                  requiredMessage="Seleccione el grupo sanguíneo">
                                     <f:selectItem itemLabel="Seleccione"
@@ -254,7 +256,7 @@
                             </b:column>
                             <b:column span="3">
                                 <b:selectOneMenu label="Profesión" id="per_profesion"
-                                                 value="#{HistoriaBean.historia.personas.perProfesion}"
+                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perProfesion}"
                                                  required="true"
                                                  requiredMessage="Seleccione la profesión">
                                     <f:selectItem itemLabel="Seleccione"
@@ -379,7 +381,7 @@
                         <b:panel title="Datos Antropométricos" look="info" collapsible="false">
                             <b:row>
                                 <b:column span="2">
-                                    <b:inputText label="Peso"
+                                    <b:inputText label="Peso (kg)"
                                                  placeholder="Peso"
                                                  id="sig_peso"
                                                  size="13"
@@ -389,7 +391,7 @@
                                                  requiredMessage="Ingrese el peso"/>
                                 </b:column>
                                 <b:column span="2">
-                                    <b:inputText label="Estatura"
+                                    <b:inputText label="Estatura (m)"
                                                  placeholder="Estatura"
                                                  id="sig_pestatura"
                                                  size="13"

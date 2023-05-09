@@ -35,6 +35,7 @@
 
     <my:cabecera id="cabecera"/>
     <my:menuLateralMedico id="menuLateralMedico"/>
+    <my:menuLateralAdministrador id="menuLateralAdministrador"/>
 
 
 
@@ -277,8 +278,8 @@
                                      page-length="25" multi-column-search="true"
                                      multi-column-search-position="top" >
                             <b:dataTableColumn label="Codigo" value="#{historia.hisId}" style="width: 10%" />
-                            <b:dataTableColumn label="Nombres" value="#{historia.personas.perNombres}" style="width: 30%" order="asc"/>
-                            <b:dataTableColumn label="Apellidos" value="#{historia.personas.perApellidos}" style="width: 30%"/>
+                            <b:dataTableColumn label="Nombres" value="#{historia.personasByPacientePerId.perNombres}" style="width: 30%" order="asc"/>
+                            <b:dataTableColumn label="Apellidos" value="#{historia.personasByPacientePerId.perApellidos}" style="width: 30%"/>
                             <b:dataTableColumn label="Fecha" value="#{historia.hisFechaCreacion}" style="width: 20%" />
 <!--                            <b:dataTableColumn label="Signos" style="width: 10%" >
                                 <b:row>

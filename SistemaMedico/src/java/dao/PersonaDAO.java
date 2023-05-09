@@ -27,7 +27,7 @@ public class PersonaDAO {
         session.close();
     }
     
-    public static void crearActualizarPaciente(Personas persona){
+    public static void crearActualizarPersona(Personas persona){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         session.saveOrUpdate(persona);
@@ -54,7 +54,7 @@ public class PersonaDAO {
 
             try {
                 persona = (Personas) query.uniqueResult();
-                persona.getHistoriases().size();
+                persona.getHistoriasesForPacientePerId().size();
             } catch (Exception e) {
                 return null;
             }
@@ -75,7 +75,7 @@ public class PersonaDAO {
         if (!query.list().isEmpty()) {
 
             persona = (Personas) query.uniqueResult();
-            persona.getHistoriases().size();
+            persona.getHistoriasesForPacientePerId().size();
 
         }
         //persona.setSign(recuperarSignosPorCodigo(persona.getPerId()));

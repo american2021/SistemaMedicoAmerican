@@ -1,5 +1,5 @@
 package datos;
-// Generated 05-may-2023 11:01:23 by Hibernate Tools 4.3.1
+// Generated 08-may-2023 20:21:57 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -15,7 +15,8 @@ public class Historias  implements java.io.Serializable {
      private Integer hisId;
      private Diagnosticos diagnosticos;
      private Enfermedades enfermedades;
-     private Personas personas;
+     private Personas personasByMedicoPerId;
+     private Personas personasByPacientePerId;
      private Resultados resultados;
      private RevisionSistemas revisionSistemas;
      private Signos signos;
@@ -30,15 +31,16 @@ public class Historias  implements java.io.Serializable {
     }
 
 	
-    public Historias(Personas personas, String hisMotivo, Date hisFechaCreacion) {
-        this.personas = personas;
+    public Historias(Personas personasByPacientePerId, String hisMotivo, Date hisFechaCreacion) {
+        this.personasByPacientePerId = personasByPacientePerId;
         this.hisMotivo = hisMotivo;
         this.hisFechaCreacion = hisFechaCreacion;
     }
-    public Historias(Diagnosticos diagnosticos, Enfermedades enfermedades, Personas personas, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, String hisMotivo, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Set enfermedadeses, Set diagnosticoses) {
+    public Historias(Diagnosticos diagnosticos, Enfermedades enfermedades, Personas personasByMedicoPerId, Personas personasByPacientePerId, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, String hisMotivo, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Set enfermedadeses, Set diagnosticoses) {
        this.diagnosticos = diagnosticos;
        this.enfermedades = enfermedades;
-       this.personas = personas;
+       this.personasByMedicoPerId = personasByMedicoPerId;
+       this.personasByPacientePerId = personasByPacientePerId;
        this.resultados = resultados;
        this.revisionSistemas = revisionSistemas;
        this.signos = signos;
@@ -71,12 +73,19 @@ public class Historias  implements java.io.Serializable {
     public void setEnfermedades(Enfermedades enfermedades) {
         this.enfermedades = enfermedades;
     }
-    public Personas getPersonas() {
-        return this.personas;
+    public Personas getPersonasByMedicoPerId() {
+        return this.personasByMedicoPerId;
     }
     
-    public void setPersonas(Personas personas) {
-        this.personas = personas;
+    public void setPersonasByMedicoPerId(Personas personasByMedicoPerId) {
+        this.personasByMedicoPerId = personasByMedicoPerId;
+    }
+    public Personas getPersonasByPacientePerId() {
+        return this.personasByPacientePerId;
+    }
+    
+    public void setPersonasByPacientePerId(Personas personasByPacientePerId) {
+        this.personasByPacientePerId = personasByPacientePerId;
     }
     public Resultados getResultados() {
         return this.resultados;

@@ -10,7 +10,6 @@
 
     <f:event listener="#{LoginBean.comprobarLogin}"
              type="preRenderView" />
-    #{personasBean.cargarPersona()}
 
     <h:head>
         <title>American College</title>
@@ -26,6 +25,7 @@
 
     <my:cabecera id="cabecera"/>
     <my:menuLateralMedico id="menuLateralMedico"/>
+    <my:menuLateralContador id="menuLateralContador"/>
 
 
     <h:body>
@@ -40,13 +40,21 @@
                             <b:selectOneMenu label="Médico" id="nombre_medico"
                                              value="#{PersonaBean.nombre_medico}"
                                                  required="true"
-                                                 requiredMessage="Seleccione el médico">
+                                                 requiredMessage="No ha seleccionado un médico">
                                     <f:selectItem itemLabel="Seleccione"
                                                   itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{PersonaBean.recuperarNombresMedicos()}"/>
-                                    <f:ajax render="" />
                                 </b:selectOneMenu>
                                 <b:message for="nombre_medico" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="4" offset="4">
+                            <b:commandButton large-screen="full-width" id="submit"
+                                             value="Asignar Médico"
+                                             oncomplete="$('#modalAsignacionMedico').modal('hide')"
+                                             action="#{PersonaBean.asignarMedico()}"
+                                             look="primary" ajax="true" update="@form :growl"/>
                         </b:column>
                     </b:row>
 
@@ -85,7 +93,9 @@
                                      page-length="25" multi-column-search="true"
                                      multi-column-search-position="top" >
                             <b:dataTableColumn label="Codigo" value="#{historia.hisId}" style="width: 10%" />
-                            <b:dataTableColumn label="Médico Tratante" value="#{historia.personas.perUsuario}" style="width: 30%"/>
+                            <b:dataTableColumn label="Médico Asignado"
+                                               value="#{historia.personasByMedicoPerId.perNombres} #{historia.personasByMedicoPerId.perApellidos}"
+                                               style="width: 30%"/>
                             <b:dataTableColumn label="Paciente" value="#{HistoriaBean.getNombreCompleto(historia.hisId)}" style="width: 30%" order="asc"/>
                             <b:dataTableColumn label="Fecha" value="#{historia.hisFechaCreacion}" style="width: 10%" />
                             <b:dataTableColumn label="Acción" style="width: 10%" >
@@ -93,7 +103,7 @@
                                     <b:column span="1" offset="0">
                                         <b:commandButton ajax="true"
                                                          update=":modalAsignacionMedico:formEdicionSignos :growl"
-                                                         action="# {HistoriaBean.recuperarSignosId(historia.signos.sigId)}"
+                                                         action="#{PersonaBean.cargarHistoria(historia.hisId)}"
                                                          oncomplete="$('#modalAsignacionMedico').modal('show')"
                                                          tooltip="Editar signos" look="warning">
                                             <b:iconAwesome name="pencil"></b:iconAwesome>

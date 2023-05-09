@@ -5,18 +5,17 @@
       xmlns:cc="http://java.sun.com/jsf/composite"
       xmlns:b="http://bootsfaces.net/ui" xmlns:my="http://java.sun.com/jsf/composite/recursos">
     <cc:interface>
-        <cc:attribute name="menuLateralMedico"
-                      default="menuLateralMedico"/>
+        <cc:attribute name="menuLateralAdministrador"
+                      default="menuLateralAdministrador"/>
     </cc:interface>
     <cc:implementation>
-        <b:form>
             <b:panel look="primary"
-                 title="Menú Médico"
+                 title="Menú Administrador"
                  class="menuLateral"
                  collapsible="false"
                  collapsed="false"
                  span="2"
-                 rendered="#{LoginBean.renderizarMedico()}">
+                 rendered="#{LoginBean.renderizarAdministrador()}">
 
             <b:panel look="link" title="Pacientes" collapsible="true" collapsed="false" style=" color:#337ab7;">
                 <b:listLinks>
@@ -67,6 +66,5 @@
                 </b:listLinks>
             </b:panel>
         </b:panel>
-        </b:form>
     </cc:implementation>
 </html>

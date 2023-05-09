@@ -29,6 +29,7 @@
     <h:body>
         <b:column>
             <my:menuLateralMedico id="menuLateralMedico"/>
+            <my:menuLateralAdministrador id="menuLateralAdministrador"/>
             <p:idleMonitor timeout="600000">
                 <p:ajax event="idle" listener="#{loginBean.sesionInactiva()}" />
             </p:idleMonitor>
@@ -179,18 +180,16 @@
                             <br/>
                             <b:row>
                                 <b:column span="4">
-                                    <b:selectOneMenu label="Residencia" id="per_residencia"
-                                                     value="#{PersonaBean.persona.perResidencia}"
-                                                     required="true"
-                                                     requiredMessage="Seleccione su ciudad de residencia">
-                                        <f:selectItem itemLabel="Seleccione"
-                                                      itemValue="" noSelectionOption="true" />
-                                        <f:selectItems value="#{PersonaBean.lista_ciudades}"
-                                                       var="c" itemLabel="#{c.ciuNombre}"
-                                                       itemValue="#{c.id.ciuCodigo}" />
-                                    </b:selectOneMenu>
-                                    <b:message for="per_residencia" />
-                                </b:column>
+                                <b:inputText label="Dirección"
+                                             placeholder="Ingrese su dirección"
+                                             id="per_residencia"
+                                             size="13"
+                                             maxlength="300"
+                                             value="#{PersonaBean.persona.perResidencia}"
+                                             required="true"
+                                             requiredMessage="Ingrese su dirección"/>
+                                <b:message for="per_residencia" />
+                            </b:column>
                                 <b:column span="4">
                                     <b:selectOneMenu label="Procedencia" id="per_procedencia"
                                                      value="#{PersonaBean.persona.perProcedencia}"

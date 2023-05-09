@@ -20,6 +20,14 @@ import org.hibernate.Session;
  */
 public class HistoriaDAO {
     
+    public static void crearActualizarHistoria(Historias historia){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.saveOrUpdate(historia);
+        session.getTransaction().commit();
+        session.close();
+    } 
+    
     public static void crearActualizarHistoriaConEnfermedad(Historias historia, String enf_nombre){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -27,7 +35,7 @@ public class HistoriaDAO {
         Enfermedades enfermedad = (Enfermedades) query.uniqueResult();
         
         historia.setEnfermedades(enfermedad);
-        session.saveOrUpdate(historia.getPersonas());
+        session.saveOrUpdate(historia.getPersonasByPacientePerId());
         session.saveOrUpdate(historia.getRevisionSistemas());
         session.saveOrUpdate(historia.getSignos());
         session.saveOrUpdate(historia);
@@ -43,9 +51,14 @@ public class HistoriaDAO {
         List<Historias> historias = query.list();
         historias.forEach((historia) -> {
             //Necesario para cargar los datos de la persona en modo eager
-            historia.getPersonas().getPerNombres();
+            historia.getPersonasByPacientePerId().getPerNombres();
             historia.getEnfermedades().getEnfNombre();
             historia.getSignos().getSigEstatura();
+            try {
+                historia.getPersonasByMedicoPerId().getPerNombres();
+            } catch (Exception e) {
+                
+            } 
         });
         //System.out.println(historias.get(0).getPersonas().getPerApellidos());
         session.getTransaction().commit();
@@ -60,7 +73,12 @@ public class HistoriaDAO {
         List<Historias> historias = query.list();
         historias.forEach((historia) -> {
             //Necesario para cargar los datos de la persona en modo eager
-            historia.getPersonas().getPerNombres();
+            historia.getPersonasByPacientePerId().getPerNombres();
+            try {
+                historia.getPersonasByMedicoPerId().getPerNombres();
+            } catch (Exception e) {
+                
+            } 
         });
         //System.out.println(historias.get(0).getPersonas().getPerApellidos());
         session.getTransaction().commit();
@@ -79,7 +97,12 @@ public class HistoriaDAO {
             historia.getEnfermedades().getEnfNombre();
             historia.getSignos().getSigPresionSistolica();
             historia.getRevisionSistemas().getRevSisSentidos();
-            historia.getPersonas().getPerNombres();
+            historia.getPersonasByPacientePerId().getPerNombres();
+            try {
+                historia.getPersonasByMedicoPerId().getPerNombres();
+            } catch (Exception e) {
+                
+            }            
         }
         session.close();
         return historia;
@@ -91,7 +114,7 @@ public class HistoriaDAO {
         session.beginTransaction();
         Query query = session.createQuery("from Personas order by per_id desc");
         Personas persona = (Personas) query.list().get(0);
-        historia.setPersonas(persona);
+        historia.setPersonasByPacientePerId(persona);
         historia.setRevisionSistemas(revision);
         session.save(historia);
         session.getTransaction().commit();

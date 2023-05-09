@@ -19,7 +19,6 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import datos.Signos;
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -91,7 +90,8 @@ public final class HistoriaBean implements Serializable{
     
     public String getNombreCompleto(int id){
         Historias h = HistoriaDAO.recuperarHistoriaID(id);
-        return h.getPersonas().getPerNombres()+" "+h.getPersonas().getPerApellidos();
+        return h.getPersonasByPacientePerId().getPerNombres()
+                +" "+h.getPersonasByPacientePerId().getPerApellidos();
     }
     
     public void actualizarCita(){
@@ -256,24 +256,24 @@ public final class HistoriaBean implements Serializable{
     
     public void calcularEdad(){
         int edad;
-        if(historia.getPersonas().getPerNac()!=null){
+        if(historia.getPersonasByPacientePerId().getPerNac()!=null){
         try{
             LocalDate actual = new Date()
                 .toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
-            LocalDate nacimiento = historia.getPersonas().getPerNac()
+            LocalDate nacimiento = historia.getPersonasByPacientePerId().getPerNac()
                 .toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
             edad = Period.between(actual, nacimiento).getYears()*-1;
-            historia.getPersonas().setPerEdad(edad);
+            historia.getPersonasByPacientePerId().setPerEdad(edad);
             }
             catch(Exception e){
             }
         }
         else{
-            historia.getPersonas().setPerEdad(0);
+            historia.getPersonasByPacientePerId().setPerEdad(0);
         }
     }
     

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 05-may-2023 11:01:24 by Hibernate Tools 4.3.1 -->
+<!-- Generated 08-may-2023 20:21:58 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Roles" table="roles" catalog="smed" optimistic-lock="version">
         <id name="rolId" type="int">
@@ -11,11 +11,5 @@
         <property name="rolDescripcion" type="string">
             <column name="rol_descripcion" length="45" not-null="true" />
         </property>
-        <set name="usuarioses" table="usuarios" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="roles_rol_id" not-null="true" />
-            </key>
-            <one-to-many class="datos.Usuarios" />
-        </set>
     </class>
 </hibernate-mapping>

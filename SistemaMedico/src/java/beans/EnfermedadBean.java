@@ -6,25 +6,12 @@
 package beans;
 
 import dao.EnfermedadDAO;
-import dao.HistoriaDAO;
-import dao.PersonaDAO;
-import dao.SignosDAO;
-import dao.UsuarioDAO;
-import datos.Antecedentes;
 import datos.Enfermedades;
-import datos.Historias;
-import java.util.Date;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import datos.Personas;
-import datos.Signos;
-import datos.Usuarios;
-import java.util.ArrayList;
 import java.util.List;
 import net.bootsfaces.utils.FacesMessages;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.RandomStringUtils;
 
 /**
  *
@@ -60,7 +47,7 @@ public final class EnfermedadBean implements Serializable{
         return EnfermedadDAO.listarEnfermedades();
     }
     
-    public void listarEnfermedadListener(){
+    public void recuperarEnfermedadListener(){
         if (enf_nombre.length() > 1) {
 
             enfermedad = EnfermedadDAO.recuperarEnfermedadNombre(enf_nombre);

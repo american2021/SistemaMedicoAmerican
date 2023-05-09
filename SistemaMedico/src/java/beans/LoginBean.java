@@ -63,7 +63,7 @@ public class LoginBean implements Serializable {
 
     public String login() {
         usuario = UsuarioDAO.obtenerUsuario(usu_nombre);
-        rolActual = usuario.getRoles().getRolId();
+        rolActual = usuario.getRolesRolId();
         if(usuario != null){
             valido = usuario.getUsuContra().equalsIgnoreCase(convertirMD5(usu_contra));
         if (valido) {
@@ -85,8 +85,6 @@ public class LoginBean implements Serializable {
     
     public String logout() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        //System.out.println("Este es el usuario que sale: "+session.getAttribute("usuario").toString());
-        System.out.println("Este es el usuario que sale: "+session.getAttribute("usuario"));
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         estaLogueado = false;
         return "/index?faces-redirect=true";
@@ -131,14 +129,20 @@ public class LoginBean implements Serializable {
 
     }
     
-    public String renderizarMedico() {
+    public String renderizarAdministrador() {
 
         return String.valueOf(rolActual == 1);
 
     }
     
-    public String renderizarContador() {
+    public String renderizarMedico() {
+
         return String.valueOf(rolActual == 2);
+
+    }
+    
+    public String renderizarContador() {
+        return String.valueOf(rolActual == 3);
 
     }
 

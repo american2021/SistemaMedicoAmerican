@@ -35,6 +35,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Set;
 import javax.servlet.http.HttpSession;
 
@@ -45,6 +46,8 @@ import javax.servlet.http.HttpSession;
 @ManagedBean(name = "PersonaBean")
 @SessionScoped
 public final class PersonaBean implements Serializable{
+    boolean renderizar_ocupacion_abierta;
+    
     private String per_nombre_completo;
     private String nombre_medico;
     private String primerNombre;
@@ -102,6 +105,13 @@ public final class PersonaBean implements Serializable{
         usuario = new Usuarios();
         enfermedad = new Enfermedades();
         per_nombre_completo = "";
+        renderizar_ocupacion_abierta = false;
+    }
+    
+    public void inicializarColaborador(){
+        persona = new Personas();
+        usuario = new Usuarios();
+        per_nombre_completo = "";
     }
     
     public void inicializarSignos() {
@@ -122,6 +132,16 @@ public final class PersonaBean implements Serializable{
         sig_valor_hemoglobina = null;
         sig_valor_hemoglobina_corr = null;
         sig_usuario = "";
+    }
+    
+    public void cargarHistoria(int his_id){
+        historia = HistoriaDAO.recuperarHistoriaID(his_id);
+        try {
+            nombre_medico = historia.getPersonasByMedicoPerId().getPerNombres()
+                +" "+historia.getPersonasByMedicoPerId().getPerApellidos();
+        } catch (Exception e) {
+            nombre_medico = "";
+        }
     }
     
     public void cargarPersona() {
@@ -161,6 +181,27 @@ public final class PersonaBean implements Serializable{
         usuario.setUsuUsuario(session.getAttribute("usuario").toString());
         usuario.setPersonas(persona);
         usuario.setUsuFechaUlt(new Date());
+        return "/faces/medico/registroSignos.xhtml?faces-redirect=true";
+    }
+    
+    public String guardarColaborador(){
+        //Seteo de los datos de la persona
+        persona.setPerFechaUlt(new Date());
+        persona.setPerUsuario(session.getAttribute("usuario").toString());
+        
+        //Seteo de los datos del usuario
+        usuario.setUsuContra(convertirMD5(generarClaveAleatoria()));
+        usuario.setUsuNombre(generarUsuario(persona.getPerNombres(), persona.getPerApellidos()));
+        usuario.setUsuUsuario(session.getAttribute("usuario").toString());
+        usuario.setPersonas(persona);
+        usuario.setUsuFechaUlt(new Date());
+        PersonaDAO.crearPersona(persona);
+        PersonaDAO.crearUsuario(usuario);
+        
+        FacesMessages.info(":growlInfo", "Colaborador creado con éxito", "This is a specific message!");
+        // Fragmento para conservar los mensajes entre vistas
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         return "/faces/medico/registroSignos.xhtml?faces-redirect=true";
     }
     
@@ -221,14 +262,12 @@ public final class PersonaBean implements Serializable{
     }
     
     public void actualizarPaciente(){
-        PersonaDAO.crearActualizarPaciente(persona);
+        PersonaDAO.crearActualizarPersona(persona);
         FacesMessages.info(":growlInfo", "Se han actualizado los datos del paciente", "This is a specific message!");
     }
     
-    public String generarClaveAleatoria() {
-
-        return RandomStringUtils.randomAlphanumeric(8);
-
+    public void especificar_ocupacion(){
+        //renderizar_ocupacion_abierta = true;
     }
     
     public void calcularEdad(){
@@ -252,6 +291,12 @@ public final class PersonaBean implements Serializable{
         else{
             persona.setPerEdad(0);
         }
+    }
+    
+    public String generarClaveAleatoria() {
+
+        return RandomStringUtils.randomAlphanumeric(8);
+
     }
     
     public String generarUsuario(String nombre, String apellido) {
@@ -297,12 +342,26 @@ public final class PersonaBean implements Serializable{
     }
     
     public List<String> recuperarNombresMedicos(){
-        List<Personas> medicos = PersonaDAO.recuperarPersonas();
-        for (Personas medico : medicos) {
-            Usuarios u = (Usuarios)medico.getUsuarioses().iterator().next();
-            System.out.println("Este es el usuario: "+u.getUsuNombre());
+        List<String> medicos = new ArrayList<>();
+        Usuarios usuario;
+        int tipo_usuario;
+        for (Personas persona : PersonaDAO.recuperarPersonas()) {
+            usuario = (Usuarios)persona.getUsuarioses().iterator().next();
+            tipo_usuario = usuario.getRolesRolId();
+            if(tipo_usuario == 1){
+                medicos.add(persona.getPerNombres()+" - "+persona.getPerApellidos());
+            }
         }
-        return null;
+        return medicos;
+    }
+    
+    public void asignarMedico(){
+        Personas medico = 
+                PersonaDAO.recuperarPersonaNombre(nombre_medico.split(" - ")[0],
+                nombre_medico.split(" - ")[1]);
+        historia.setPersonasByMedicoPerId(medico);
+        HistoriaDAO.crearActualizarHistoria(historia);
+        FacesMessages.info(":growlInfo", "Médico asignado con éxito!", "This is a specific message!");
     }
     
     public void inicializarProfesiones(){
@@ -325,7 +384,7 @@ public final class PersonaBean implements Serializable{
 
             if (persona != null) {
                 per_nombre_completo = persona.getPerApellidos() + " - " + persona.getPerNombres();
-                cantidad_historias = persona.getHistoriases().size();
+                cantidad_historias = persona.getHistoriasesForPacientePerId().size();
                 //List<Signos> signos = new ArrayList<>();
                 //antecedentes.addAll(p.getAntecedenteses());
                 //sig_presion_sistolica = antecedentes.get(-1).get;
@@ -543,4 +602,21 @@ public final class PersonaBean implements Serializable{
     public void setNombre_medico(String nombre_medico) {
         this.nombre_medico = nombre_medico;
     }
+
+    public Usuarios getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuarios usuario) {
+        this.usuario = usuario;
+    }
+
+    public boolean isRenderizar_ocupacion_abierta() {
+        return renderizar_ocupacion_abierta;
+    }
+
+    public void setRenderizar_ocupacion_abierta(boolean renderizar_ocupacion_abierta) {
+        this.renderizar_ocupacion_abierta = renderizar_ocupacion_abierta;
+    }
+    
 }

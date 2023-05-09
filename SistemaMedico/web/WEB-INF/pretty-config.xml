@@ -40,6 +40,11 @@
         <view-id value="/faces/medico/registroPaciente.xhtml" />
     </url-mapping>
     
+    <url-mapping id="registro-personal-administrativo">
+        <pattern value="/registro-personal-administrativo"/>
+        <view-id value="/faces/administrador/registroPersonalAdministrativo.xhtml" />
+    </url-mapping>
+    
     <url-mapping id="registro-patologia">
         <pattern value="/registro-patologia"/>
         <view-id value="/faces/medico/registroPatologia.xhtml" />
