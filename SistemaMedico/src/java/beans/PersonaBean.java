@@ -408,10 +408,12 @@ public final class PersonaBean implements Serializable{
                 //FacesMessages.info(":growlInfo", "El motivo de la consulta es: "+motivo, "This is a specific message!");
 
             } else {
+                per_nombre_completo = "";
                 FacesMessages.info(":growl", "Paciente no registrado", "This is a specific message!");
             }
 
         } else {
+            FacesMessages.info(":growl", "Paciente no registrado", "This is a specific message!");
             per_nombre_completo = "";
         }
     }

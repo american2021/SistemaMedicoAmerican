@@ -59,8 +59,9 @@
                                                  id="nomPersona"
                                                  typeahead-limit="20"
                                                  typeahead-values="#{PersonaBean.recuperarNombres()}">
-                                    <f:ajax event="change" listener="#{PersonaBean.recuperarPacientesListener()}" render="" />
-                                    <f:ajax render="commentform :growl" />
+                                    <f:ajax event="change"
+                                            listener="#{PersonaBean.recuperarPacientesListener()}"
+                                            render="commentform :growl"/>
                                     </b:inputText>
                                 <br/>
                                     <h6>El paciente tiene #{PersonaBean.cantidad_historias} historia/s clínicas</h6>

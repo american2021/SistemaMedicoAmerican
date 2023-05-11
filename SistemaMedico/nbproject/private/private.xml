@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/web/administrador/registroPersonalAdministrativo.xhtml</file>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/src/java/beans/PersonaBean.java</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/web/medico/registroPaciente.xhtml</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/web/medico/registroHistoria.xhtml</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/web/medico/citaMedica.xhtml</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/src/java/beans/HistoriaBean.java</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/web/resources/recursos/homeAdministrador.xhtml</file>
         </group>
     </open-files>
 </project-private>
