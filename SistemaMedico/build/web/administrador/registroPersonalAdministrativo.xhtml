@@ -8,7 +8,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-<!--    <f:event listener="# {LoginBean.comprobarLogin()}" type="preRenderView" />-->
+    <f:event listener="#{LoginBean.comprobarLogin}"
+             type="preRenderView" /> #{personasBean.cargarPersona()}
 
     <h:head>
         <title>American College</title>
@@ -233,7 +234,6 @@
                                     <f:selectItem itemLabel="AB-" itemValue="7" />
                                     <f:selectItem itemLabel="AB+" itemValue="8" />
                                     <f:selectItem itemLabel="Otro" itemValue="9" />
-                                    <f:ajax render="" />
                                 </b:selectOneMenu>
                             </b:column>
                             <b:column span="3">
@@ -273,7 +273,7 @@
                                 <b:button large-screen="full-width"
                                           id="salir"
                                           value="Regresar"
-                                          href="./home-medico"/>
+                                          href="./home"/>
                             </b:column>
                             <b:column offset="1" span="2">
                                 <b:commandButton
@@ -281,7 +281,7 @@
                                     id="submit"
                                     value="Guardar"
                                     type="submit"
-                                    action="#{PersonaBean.guardarPersona()}"
+                                    action="#{PersonaBean.guardarColaborador()}"
                                     look="info" />
                             </b:column>
                         </b:row>

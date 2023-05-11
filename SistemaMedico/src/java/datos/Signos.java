@@ -1,5 +1,5 @@
 package datos;
-// Generated 08-may-2023 20:21:57 by Hibernate Tools 4.3.1
+// Generated 10-may-2023 9:59:21 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -25,9 +25,9 @@ public class Signos  implements java.io.Serializable {
      private float sigEstatura;
      private int sigImc;
      private Integer sigPerimetroAbdominal;
-     private Integer sigGlucosaCapilar;
-     private Integer sigValorHemoglobina;
-     private Integer sigValorHemoglobinaCorr;
+     private Float sigGlucosaCapilar;
+     private Float sigValorHemoglobina;
+     private Float sigValorHemoglobinaCorr;
      private Date sigFechaUlt;
      private String sigUsuario;
      private Set historiases = new HashSet(0);
@@ -49,7 +49,7 @@ public class Signos  implements java.io.Serializable {
         this.sigEstatura = sigEstatura;
         this.sigImc = sigImc;
     }
-    public Signos(int sigTipo, int sigPresionSistolica, int sigPresionDiastolica, int sigFrecuenciaRespiratoria, int sigFrecuenciaCardiaca, int sigPresionArterialMedia, int sigSaturacion, int sigTemperatura, float sigPeso, float sigEstatura, int sigImc, Integer sigPerimetroAbdominal, Integer sigGlucosaCapilar, Integer sigValorHemoglobina, Integer sigValorHemoglobinaCorr, Date sigFechaUlt, String sigUsuario, Set historiases) {
+    public Signos(int sigTipo, int sigPresionSistolica, int sigPresionDiastolica, int sigFrecuenciaRespiratoria, int sigFrecuenciaCardiaca, int sigPresionArterialMedia, int sigSaturacion, int sigTemperatura, float sigPeso, float sigEstatura, int sigImc, Integer sigPerimetroAbdominal, Float sigGlucosaCapilar, Float sigValorHemoglobina, Float sigValorHemoglobinaCorr, Date sigFechaUlt, String sigUsuario, Set historiases) {
        this.sigTipo = sigTipo;
        this.sigPresionSistolica = sigPresionSistolica;
        this.sigPresionDiastolica = sigPresionDiastolica;
@@ -161,25 +161,25 @@ public class Signos  implements java.io.Serializable {
     public void setSigPerimetroAbdominal(Integer sigPerimetroAbdominal) {
         this.sigPerimetroAbdominal = sigPerimetroAbdominal;
     }
-    public Integer getSigGlucosaCapilar() {
+    public Float getSigGlucosaCapilar() {
         return this.sigGlucosaCapilar;
     }
     
-    public void setSigGlucosaCapilar(Integer sigGlucosaCapilar) {
+    public void setSigGlucosaCapilar(Float sigGlucosaCapilar) {
         this.sigGlucosaCapilar = sigGlucosaCapilar;
     }
-    public Integer getSigValorHemoglobina() {
+    public Float getSigValorHemoglobina() {
         return this.sigValorHemoglobina;
     }
     
-    public void setSigValorHemoglobina(Integer sigValorHemoglobina) {
+    public void setSigValorHemoglobina(Float sigValorHemoglobina) {
         this.sigValorHemoglobina = sigValorHemoglobina;
     }
-    public Integer getSigValorHemoglobinaCorr() {
+    public Float getSigValorHemoglobinaCorr() {
         return this.sigValorHemoglobinaCorr;
     }
     
-    public void setSigValorHemoglobinaCorr(Integer sigValorHemoglobinaCorr) {
+    public void setSigValorHemoglobinaCorr(Float sigValorHemoglobinaCorr) {
         this.sigValorHemoglobinaCorr = sigValorHemoglobinaCorr;
     }
     public Date getSigFechaUlt() {

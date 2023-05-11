@@ -45,6 +45,9 @@ public final class HistoriaBean implements Serializable{
     private List<Ocupaciones> lista_ocupaciones;
     private RevisionSistemas revision;
     
+    // Auxiliar para creación de cita
+    private int profesion_nueva_cita;
+    
     private List<Ciudades> lista_ciudades;
     private List<Estadocivil> lista_estados_civiles;
     
@@ -285,7 +288,7 @@ public final class HistoriaBean implements Serializable{
         lista_estados_civiles = EstadosCivilesDAO.recuperarEstados();
     }
     
-    public void inicializarProfesiones(){
+    public void inicializarProfesiones(){        
         lista_ocupaciones = OcupacionDAO.recuperarOcupaciones();
     }
 
@@ -375,4 +378,14 @@ public final class HistoriaBean implements Serializable{
     public void setRevision_checks(ArrayList<Boolean> revision_checks) {
         this.revision_checks = revision_checks;
     }
+
+    public int getProfesion_nueva_cita() {
+        return profesion_nueva_cita;
+    }
+
+    public void setProfesion_nueva_cita(int profesion_nueva_cita) {
+        this.profesion_nueva_cita = profesion_nueva_cita;
+    }
+    
+    
 }

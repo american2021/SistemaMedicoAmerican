@@ -8,7 +8,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-<!--    <f:event listener="#{LoginBean.comprobarLogin()}" type="preRenderView" />-->
+    <f:event listener="#{LoginBean.comprobarLogin()}" type="preRenderView" />
 
     <h:head>
         <title>American College</title>
@@ -29,6 +29,7 @@
     <h:body>
         <b:column>
             <my:menuLateralMedico id="menuLateralMedico"/>
+            <my:menuLateralAdministrador id="menuLateralAdministrador"/>
             <p:idleMonitor timeout="600000">
                 <p:ajax event="idle" listener="#{loginBean.sesionInactiva()}" />
             </p:idleMonitor>
@@ -56,20 +57,32 @@
                                              placeholder="P.S."
                                              id="sig_per_sistolica"
                                              size="13"
-                                             maxlength="100"
                                              value="#{PersonaBean.sig_presion_sistolica}"
                                              required="true"
-                                             requiredMessage="Ingrese la presión sistólica"/>
+                                             maxlength="3"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese la presión sistólica">
+                                <f:validateLongRange minimum="50" maximum="200"/>
+                                <f:ajax event="change"
+                                        listener="#{PersonaBean.calcularPresionArterialMedia()}"
+                                        render="sig_presion_arterial_media growl"/>
+                                </b:inputText>
                             </b:column>
                             <b:column span="3">
                                 <b:inputText label="Presion Arterial Diastólica"
                                              placeholder="P.D."
                                              id="per_nombres"
                                              size="13"
-                                             maxlength="100"
+                                             maxlength="3"
                                              value="#{PersonaBean.sig_presion_diastolica}"
                                              required="true"
-                                             requiredMessage="Ingrese la presión diastólica"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese la presión diastólica">
+                                <f:validateLongRange minimum="50" maximum="200"/>
+                                <f:ajax event="change"
+                                        listener="#{PersonaBean.calcularPresionArterialMedia()}"
+                                        render="sig_presion_arterial_media growl"/>
+                                </b:inputText>
                             </b:column>
                             <b:column span="3">
                                 <b:inputText label="Presión Arterial Media"
@@ -79,49 +92,70 @@
                                              maxlength="100"
                                              value="#{PersonaBean.sig_presion_arterial_media}"
                                              required="true"
+                                             disabled="true"
                                              requiredMessage="Ingrese la presión arterial media"/>
                             </b:column>
                             <b:column span="2">
-                                <b:inputText label="Temperatura"
-                                             placeholder="Temperatura"
+                                <b:inputText label="Temperatura °C"
+                                             placeholder="Temperatura °C"
                                              id="sig_temperatura"
                                              size="13"
-                                             maxlength="100"
+                                             maxlength="2"
                                              value="#{PersonaBean.sig_temperatura}"
                                              required="true"
-                                             requiredMessage="Ingrese la temperatura"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese la temperatura">
+                                <f:validateLongRange minimum="20" maximum="60"/>
+                                <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
                             </b:column>
                         </b:row>
                         <b:row>
                             <b:column span="3">
-                                <b:inputText label="Frecuencia Respiratoria"
+                                <b:inputText label="Frecuencia Respiratoria (minuto)"
                                              placeholder="F.R."
                                              id="sig_frecuencia_respiratoria"
                                              size="13"
-                                             maxlength="100"
+                                             maxlength="3"
                                              value="#{PersonaBean.sig_frecuencia_respiratoria}"
                                              required="true"
-                                             requiredMessage="Ingrese la frecuencia respiratoria"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese la frecuencia respiratoria">
+                                <f:validateLongRange minimum="10" maximum="100"/>
+                                <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
                             </b:column>
                             <b:column span="3">
-                                <b:inputText label="Frecuencia Cardíaca"
+                                <b:inputText label="Frecuencia Cardíaca (minuto)"
                                              placeholder="F.C."
                                              id="sig_frecuencia_cardiaca"
                                              size="13"
-                                             maxlength="100"
+                                             maxlength="3"
                                              value="#{PersonaBean.sig_frecuencia_cardiaca}"
                                              required="true"
-                                             requiredMessage="Ingrese la frecuencia cardiaca"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese la frecuencia cardiaca">
+                                <f:validateLongRange minimum="10" maximum="300"/>
+                                <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
                             </b:column>
                             <b:column span="2">
-                                <b:inputText label="Saturacion"
-                                             placeholder="Saturación"
+                                <b:inputText label="Saturacion (%)"
+                                             placeholder="Saturación (%)"
                                              id="sig_saturacion"
                                              size="13"
-                                             maxlength="100"
+                                             maxlength="2"
                                              value="#{PersonaBean.sig_saturacion}"
                                              required="true"
-                                             requiredMessage="Ingrese la saturacion"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese la saturacion">
+                                <f:validateLongRange minimum="50" maximum="100"/>
+                                <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
                             </b:column>
                         </b:row>
 
@@ -133,20 +167,36 @@
                                              placeholder="Peso"
                                              id="sig_peso"
                                              size="13"
-                                             maxlength="100"
+                                             maxlength="6"
                                              value="#{PersonaBean.sig_peso}"
                                              required="true"
-                                             requiredMessage="Ingrese el peso"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                             requiredMessage="Ingrese el peso">
+                                    <f:ajax event="change"
+                                        listener="#{PersonaBean.calcularIMC()}"
+                                        render="sig_imc"/>
+                                    <f:validateLongRange minimum="10" maximum="500"/>
+                                    <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
                             </b:column>
                             <b:column span="2">
                                 <b:inputText label="Estatura (m)"
                                              placeholder="Estatura"
                                              id="sig_pestatura"
                                              size="13"
-                                             maxlength="100"
+                                             maxlength="6"
                                              value="#{PersonaBean.sig_estatura}"
                                              required="true"
-                                             requiredMessage="Ingrese la estatura"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                             requiredMessage="Ingrese la estatura">
+                                    <f:ajax event="change"
+                                        listener="#{PersonaBean.calcularIMC()}"
+                                        render="sig_imc"/>
+                                    <f:validateLongRange minimum="0" maximum="3"/>
+                                    <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
                             </b:column>
                             <b:column span="3">
                                 <b:inputText label="Indice de masa corporal"
@@ -156,51 +206,72 @@
                                              maxlength="100"
                                              value="#{PersonaBean.sig_imc}"
                                              required="true"
+                                             disabled="true"
                                              requiredMessage="Ingrese la indice de masa corporal"/>
                             </b:column>
                             <b:column span="3">
-                                <b:inputText label="Perímetro abdominal"
+                                <b:inputText label="Perímetro abdominal (cm)"
                                              placeholder="Perímetro Abdominal"
                                              id="sig_perimetro_abdominal"
                                              size="13"
-                                             maxlength="100"
+                                             maxlength="3"
                                              value="#{PersonaBean.sig_perimetro_abdominal}"
                                              required="false"
-                                             requiredMessage="Ingrese el perímetro abdominal"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese el perímetro abdominal">
+                                    <f:validateLongRange minimum="10" maximum="500"/>
+                                    <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
                             </b:column>
                         </b:row>
                     </b:panel>
                     <b:panel title="Mediciones Capilares" look="info" collapsible="false">
                         <b:row>
-                            <b:column span="2">
-                                <b:inputText label="Glucosa Capilar"
+                            <b:column span="3">
+                                <b:inputText label="Glucosa Capilar (mg/dL)"
                                              placeholder="Glucosa Capilar"
                                              id="sig_glucosa_capilar"
                                              size="13"
-                                             maxlength="100"
+                                             maxlength="5"
                                              value="#{PersonaBean.sig_glucosa_capilar}"
                                              required="false"
-                                             requiredMessage="Ingrese la glucosa capilar"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                             requiredMessage="Ingrese la glucosa capilar">
+                                    <f:validateLongRange minimum="40" maximum="300"/>
+                                    <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
                             </b:column>
                             <b:column span="3">
-                                <b:inputText label="Valor Hemoglobina"
+                                <b:inputText label="Valor Hemoglobina (g/dl)"
                                              placeholder="Valor Hemoglobina"
                                              id="sig_valor_hemoglobina"
                                              size="13"
-                                             maxlength="100"
+                                             maxlength="4"
                                              value="#{PersonaBean.sig_valor_hemoglobina}"
                                              required="false"
-                                             requiredMessage="Ingrese el valor de la hemoglobina"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                             requiredMessage="Ingrese el valor de la hemoglobina">
+                                    <f:validateLongRange minimum="5" maximum="30"/>
+                                    <f:ajax event="change"
+                                            listener="#{PersonaBean.calcularHemoglobinaCorregido()}"
+                                            render="sig_valor_hemoglobina_corregido growl"/>
+                                </b:inputText>
                             </b:column>
                             <b:column span="3">
                                 <b:inputText label="Valor Hemoglobina Corregido"
                                              placeholder="Valor Hemoglobina Corregido"
-                                             id="sig_valor_hemoglobina_corredigo"
+                                             id="sig_valor_hemoglobina_corregido"
                                              size="13"
-                                             maxlength="100"
+                                             maxlength="5"
                                              value="#{PersonaBean.sig_valor_hemoglobina_corr}"
                                              required="false"
-                                             requiredMessage="Ingrese el valor de la hemoglobina corregido"/>
+                                             disabled="true"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                             requiredMessage="Ingrese el valor de la hemoglobina corregido">
+                                    <f:validateLongRange minimum="5" maximum="30"/>
+                                </b:inputText>
                             </b:column>
                         </b:row>
                         <b:row style="text-align: center;" contentDisabled="false">

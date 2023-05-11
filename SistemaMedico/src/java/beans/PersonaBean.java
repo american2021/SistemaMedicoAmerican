@@ -72,9 +72,9 @@ public final class PersonaBean implements Serializable{
     private Float sig_estatura;
     private Integer sig_imc;
     private Integer sig_perimetro_abdominal;
-    private Integer sig_glucosa_capilar;
-    private Integer sig_valor_hemoglobina;
-    private Integer sig_valor_hemoglobina_corr;
+    private Float sig_glucosa_capilar;
+    private Float sig_valor_hemoglobina;
+    private Float sig_valor_hemoglobina_corr;
     private Date sig_fecha_ult;
     private String sig_usuario;
     private List<Ocupaciones> lista_ocupaciones;
@@ -87,9 +87,12 @@ public final class PersonaBean implements Serializable{
     
     //Declaración de colecciones de datos
     private List<Personas> pacientes;
+    
+    FacesContext context;
             
     public PersonaBean(){
         session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        // Para conservar mensajes entre vistas
         inicializarPaciente();
         inicializarSignos();
         inicializarHistoria();
@@ -106,6 +109,7 @@ public final class PersonaBean implements Serializable{
         enfermedad = new Enfermedades();
         per_nombre_completo = "";
         renderizar_ocupacion_abierta = false;
+        cantidad_historias = 0;
     }
     
     public void inicializarColaborador(){
@@ -132,6 +136,23 @@ public final class PersonaBean implements Serializable{
         sig_valor_hemoglobina = null;
         sig_valor_hemoglobina_corr = null;
         sig_usuario = "";
+    }
+    
+    public void calcularPresionArterialMedia(){
+        if(sig_presion_diastolica != null && sig_presion_sistolica != null){
+            sig_presion_arterial_media = (sig_presion_sistolica
+                                        +(2*sig_presion_diastolica))/3;
+        }
+    }
+    
+    public void calcularHemoglobinaCorregido(){
+        sig_valor_hemoglobina_corr = sig_valor_hemoglobina-1.3f;
+    }
+    
+    public void calcularIMC(){
+        if(sig_peso != null && sig_estatura != null){
+            sig_imc = Math.round(sig_peso /(int)(Math.pow(sig_estatura, 2)));
+        }
     }
     
     public void cargarHistoria(int his_id){
@@ -188,8 +209,8 @@ public final class PersonaBean implements Serializable{
         //Seteo de los datos de la persona
         persona.setPerFechaUlt(new Date());
         persona.setPerUsuario(session.getAttribute("usuario").toString());
-        
-        //Seteo de los datos del usuario
+//        
+//        //Seteo de los datos del usuario
         usuario.setUsuContra(convertirMD5(generarClaveAleatoria()));
         usuario.setUsuNombre(generarUsuario(persona.getPerNombres(), persona.getPerApellidos()));
         usuario.setUsuUsuario(session.getAttribute("usuario").toString());
@@ -197,12 +218,10 @@ public final class PersonaBean implements Serializable{
         usuario.setUsuFechaUlt(new Date());
         PersonaDAO.crearPersona(persona);
         PersonaDAO.crearUsuario(usuario);
-        
-        FacesMessages.info(":growlInfo", "Colaborador creado con éxito", "This is a specific message!");
-        // Fragmento para conservar los mensajes entre vistas
-        FacesContext context = FacesContext.getCurrentInstance();
+        context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
-        return "/faces/medico/registroSignos.xhtml?faces-redirect=true";
+        FacesMessages.info(":growlInfo", "Colaborador creado con éxito", "This is a specific message!");
+        return "/faces/privado/home?faces-redirect=true";
     }
     
     public String guardarPaciente() throws InterruptedException{
@@ -256,8 +275,6 @@ public final class PersonaBean implements Serializable{
         SignosDAO.crearSignosPrimeraVez(signos);
         FacesMessages.info(":growlInfo", "Paciente creado con éxito", "This is a specific message!");
         // Fragmento para conservar los mensajes entre vistas
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getFlash().setKeepMessages(true);
         return "/faces/privado/home.xhtml?faces-redirect=true";
     }
     
@@ -491,27 +508,27 @@ public final class PersonaBean implements Serializable{
         this.sig_perimetro_abdominal = sig_perimetro_abdominal;
     }
 
-    public Integer getSig_glucosa_capilar() {
+    public Float getSig_glucosa_capilar() {
         return sig_glucosa_capilar;
     }
 
-    public void setSig_glucosa_capilar(Integer sig_glucosa_capilar) {
+    public void setSig_glucosa_capilar(Float sig_glucosa_capilar) {
         this.sig_glucosa_capilar = sig_glucosa_capilar;
     }
 
-    public Integer getSig_valor_hemoglobina() {
+    public Float getSig_valor_hemoglobina() {
         return sig_valor_hemoglobina;
     }
 
-    public void setSig_valor_hemoglobina(Integer sig_valor_hemoglobina) {
+    public void setSig_valor_hemoglobina(Float sig_valor_hemoglobina) {
         this.sig_valor_hemoglobina = sig_valor_hemoglobina;
     }
 
-    public Integer getSig_valor_hemoglobina_corr() {
+    public Float getSig_valor_hemoglobina_corr() {
         return sig_valor_hemoglobina_corr;
     }
 
-    public void setSig_valor_hemoglobina_corr(Integer sig_valor_hemoglobina_corr) {
+    public void setSig_valor_hemoglobina_corr(Float sig_valor_hemoglobina_corr) {
         this.sig_valor_hemoglobina_corr = sig_valor_hemoglobina_corr;
     }
 

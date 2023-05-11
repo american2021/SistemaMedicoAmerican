@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 08-may-2023 20:21:58 by Hibernate Tools 4.3.1 -->
+<!-- Generated 10-may-2023 9:59:22 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Signos" table="signos" catalog="smed" optimistic-lock="version">
         <id name="sigId" type="java.lang.Integer">
@@ -44,14 +44,14 @@
         <property name="sigPerimetroAbdominal" type="java.lang.Integer">
             <column name="sig_perimetro_abdominal" />
         </property>
-        <property name="sigGlucosaCapilar" type="java.lang.Integer">
-            <column name="sig_glucosa_capilar" />
+        <property name="sigGlucosaCapilar" type="java.lang.Float">
+            <column name="sig_glucosa_capilar" precision="5" />
         </property>
-        <property name="sigValorHemoglobina" type="java.lang.Integer">
-            <column name="sig_valor_hemoglobina" />
+        <property name="sigValorHemoglobina" type="java.lang.Float">
+            <column name="sig_valor_hemoglobina" precision="5" />
         </property>
-        <property name="sigValorHemoglobinaCorr" type="java.lang.Integer">
-            <column name="sig_valor_hemoglobina_corr" />
+        <property name="sigValorHemoglobinaCorr" type="java.lang.Float">
+            <column name="sig_valor_hemoglobina_corr" precision="5" />
         </property>
         <property name="sigFechaUlt" type="date">
             <column name="sig_fecha_ult" length="10" />
