@@ -8,7 +8,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
 
-    <f:event listener="#{LoginBean.comprobarLogin()}" type="preRenderView" /> #{personasBean.cargarPersona()}
+    <f:event listener="#{LoginBean.comprobarLogin()}" type="preRenderView" />
+    #{personasBean.cargarPersona()}
 
     <h:head>
         <title>American College</title>
@@ -45,7 +46,7 @@
     <h:body>
 
         <p:idleMonitor timeout="600000">
-            <p:ajax event="idle" listener="#{loginBean.sesionInactiva()}" />
+            <p:ajax event="idle" listener="#{LoginBean.sesionInactiva()}" />
         </p:idleMonitor>
 
 
@@ -53,10 +54,7 @@
 
         <b:container fluid="true">
             <b:panel span="10" offset="0">
-
-
                 <b:form id="commentform">
-                    
                     <h3 id="reply-title">
                         <b>Cita médica</b>
                     </h3>
@@ -691,7 +689,32 @@
                             </b:column>
                         </b:panel>
                         <b:row contentDisabled="false">
-
+                        <b:panel title="Diagnóstico Médico" look="info" collapsible="false">
+                            <b:row>
+                                <b:column span="6">
+                                    <b:inputTextarea label="Diagnóstico"
+                                                 placeholder="Ingrese el diagnóstico"
+                                                 id="dia_observacion"
+                                                 size="13"
+                                                 value="#{HistoriaBean.diagnostico.diaObservacion}"
+                                                 required="true"
+                                                 requiredMessage="Ingrese el diagnóstico"/>
+                                </b:column>
+                            </b:row>
+                        </b:panel>
+                            <b:panel title="Tratamiento" look="info" collapsible="false">
+                            <b:row>
+                                <b:column span="6">
+                                    <b:inputTextarea label="Diagnóstico"
+                                                 placeholder="Ingrese el tratamiento"
+                                                 id="tra_medicamento"
+                                                 size="13"
+                                                 value="#{HistoriaBean.diagnostico.diaObservacion}"
+                                                 required="true"
+                                                 requiredMessage="Ingrese el tratamiento"/>
+                                </b:column>
+                            </b:row>
+                        </b:panel>
                         <b:column span="4" offset="4">
                             <b:commandButton large-screen="full-width" id="submit"
                                              value="Actualizar Cita Médica"

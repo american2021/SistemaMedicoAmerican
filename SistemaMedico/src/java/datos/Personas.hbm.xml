@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 10-may-2023 9:59:22 by Hibernate Tools 4.3.1 -->
+<!-- Generated 11-may-2023 10:30:07 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Personas" table="personas" catalog="smed" optimistic-lock="version">
         <id name="perId" type="java.lang.Integer">
@@ -29,8 +29,8 @@
         <property name="perIdentidadGenero" type="char">
             <column name="per_identidad_genero" length="1" not-null="true" />
         </property>
-        <property name="perProfesion" type="int">
-            <column name="per_profesion" not-null="true" />
+        <property name="perProfesion" type="string">
+            <column name="per_profesion" length="300" not-null="true" />
         </property>
         <property name="perResidencia" type="string">
             <column name="per_residencia" length="300" not-null="true" />

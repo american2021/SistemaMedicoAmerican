@@ -18,6 +18,24 @@
 
     <my:cabecera id="cabecera"/>
 
+    <script>
+        $.blockUI.defaults.css = {
+            padding: 0,
+            margin: 0,
+            width: '30%',
+            top: '40%',
+            left: '35%',
+            textAlign: 'center',
+            color: '#000',
+            border: '0px solid #aaa',
+            backgroundColor: 'transparent',
+            cursor: 'wait'
+        };
+        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
+        $.blockUI.defaults.overlayCSS.opacity = 0.5;
+        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
+    </script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
 
@@ -191,22 +209,25 @@
                                     <f:selectItems value="#{PersonaBean.lista_ocupaciones}"
                                                    var="o" itemLabel="#{o.ocuDescripcion}"
                                                    itemValue="#{o.ocuId}" />
-                                    <f:ajax render="per_profesion_especifica"
-                                            event="change"
-                                            listener="#{PersonaBean.especificar_ocupacion}"/>
+                                    <f:ajax event="change"
+                                            render="ocupacion_especifica"
+                                            listener="#{PersonaBean.especificar_ocupacion()}"/>
                                 </b:selectOneMenu>
                                 <b:message for="per_profesion" />
                             </b:column>
                             <b:column span="4">
-                                    <b:panel id="per_profesion_especifica">
-                                        <b:inputText label="Especifique"
+                                <h:panelGroup id="ocupacion_especifica">
+                                    <b:inputText label="Especifique"
                                              placeholder="Profesión"
                                              size="13"
                                              maxlength="100"
+                                             required="true"
                                              value="#{PersonaBean.persona.perProfesion}"
                                              rendered="#{PersonaBean.renderizar_ocupacion_abierta}"
-                                             requiredMessage="Ingrese su coficio"/>
-                                    </b:panel>
+                                             requiredMessage="Ingrese su oficio">
+                                    <f:validateLength minimum="3"/>
+                                    </b:inputText>
+                                    </h:panelGroup>
                                 </b:column>
                         </b:row>
                         <br/>
@@ -241,10 +262,26 @@
                                     <f:selectItem itemValue="Tío" />
                                     <f:selectItem itemValue="Hermano" />
                                     <f:selectItem itemValue="Hermana" />
-                                    <f:selectItem itemLabel="Otro" itemValue="9" />
-                                    <f:ajax render="" listener="#{PersonaBean.especificar_ocupacion()}"/>
+                                    <f:selectItem itemValue="Otro"/>
+                                    <f:ajax event="change"
+                                            render="parentesco_especifico"
+                                            listener="#{PersonaBean.especificar_parentesco()}"/>
                                 </b:selectOneMenu>
                             </b:column>
+                            <b:column span="4">
+                                <h:panelGroup id="parentesco_especifico">
+                                    <b:inputText label="Especifique"
+                                             placeholder="Profesión"
+                                             size="13"
+                                             maxlength="100"
+                                             required="true"
+                                             value="#{PersonaBean.persona.perParentesco}"
+                                             rendered="#{PersonaBean.renderizar_parentesco_abierto}"
+                                             requiredMessage="Ingrese el parentesco">
+                                    <f:validateLength minimum="3"/>
+                                    </b:inputText>
+                                    </h:panelGroup>
+                                </b:column>
                         </b:row>
                         <br/>
                         </b:panel>

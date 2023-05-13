@@ -46,18 +46,19 @@ import javax.servlet.http.HttpSession;
 @ManagedBean(name = "PersonaBean")
 @SessionScoped
 public final class PersonaBean implements Serializable{
-    boolean renderizar_ocupacion_abierta;
+    String renderizar_ocupacion_abierta;
+    String renderizar_parentesco_abierto;
     
     private String per_nombre_completo;
     private String nombre_medico;
     private String primerNombre;
+    private String nombre_enfermedad;
     
     //Creación de objetos
     private Personas persona;
     private Usuarios usuario;
     private Signos signos;
     private Historias historia;
-    private Enfermedades enfermedad;
     private RevisionSistemas revision;
     
     //Atributos de la tabla signos vitales
@@ -106,9 +107,9 @@ public final class PersonaBean implements Serializable{
         // Inicialización datos paciente
         persona = new Personas();
         usuario = new Usuarios();
-        enfermedad = new Enfermedades();
         per_nombre_completo = "";
-        renderizar_ocupacion_abierta = false;
+        renderizar_ocupacion_abierta = "false";
+        renderizar_parentesco_abierto = "false";
         cantidad_historias = 0;
     }
     
@@ -284,7 +285,23 @@ public final class PersonaBean implements Serializable{
     }
     
     public void especificar_ocupacion(){
-        //renderizar_ocupacion_abierta = true;
+        if(persona.getPerProfesion().equals("51")){
+            persona.setPerProfesion("");
+            renderizar_ocupacion_abierta = "true";
+        }
+        else{
+            renderizar_ocupacion_abierta = "false";
+        }
+    }
+    
+    public void especificar_parentesco(){
+        if(persona.getPerParentesco().equals("Otro")){
+            persona.setPerParentesco("");
+            renderizar_parentesco_abierto = "true";
+        }
+        else{
+            renderizar_parentesco_abierto = "false";
+        }
     }
     
     public void calcularEdad(){
@@ -630,12 +647,35 @@ public final class PersonaBean implements Serializable{
         this.usuario = usuario;
     }
 
-    public boolean isRenderizar_ocupacion_abierta() {
+    public String getRenderizar_ocupacion_abierta() {
         return renderizar_ocupacion_abierta;
     }
 
-    public void setRenderizar_ocupacion_abierta(boolean renderizar_ocupacion_abierta) {
+    public void setRenderizar_ocupacion_abierta(String renderizar_ocupacion_abierta) {
         this.renderizar_ocupacion_abierta = renderizar_ocupacion_abierta;
     }
-    
+
+    public Historias getHistoria() {
+        return historia;
+    }
+
+    public void setHistoria(Historias historia) {
+        this.historia = historia;
+    }
+
+    public String getNombre_enfermedad() {
+        return nombre_enfermedad;
+    }
+
+    public void setNombre_enfermedad(String nombre_enfermedad) {
+        this.nombre_enfermedad = nombre_enfermedad;
+    }    
+
+    public String getRenderizar_parentesco_abierto() {
+        return renderizar_parentesco_abierto;
+    }
+
+    public void setRenderizar_parentesco_abierto(String renderizar_parentesco_abierto) {
+        this.renderizar_parentesco_abierto = renderizar_parentesco_abierto;
+    }
 }

@@ -85,40 +85,17 @@
                                              requiredMessage="Ingrese sus nombres"/>
                             </b:column>
                         </b:row>
-                        <br/>
                         <b:row>
                             <b:column span="2">
                                 <b:inputText label="Teléfono"
                                              id="per_telefono"
+                                             placeholder="Digite su número"
                                              size="13"
                                              maxlength="100"
                                              value="#{PersonaBean.persona.perTelefono}"
                                              required="true"
                                              requiredMessage="Ingrese su teléfono"/>
                             </b:column>
-                            
-                            <b:column span="2">
-                                <b:inputText label="Contacto"
-                                             id="per_contacto_emergencia"
-                                             placeholder="Ingrese su contacto de emergencia"
-                                             size="13"
-                                             maxlength="100"
-                                             value="#{PersonaBean.persona.perContactoEmergencia}"
-                                             required="true"
-                                             requiredMessage="Ingrese su contacto de emergencia"/>
-                            </b:column>
-                            
-                            <b:column span="3">
-                                <b:inputText label="Parentesco del Contacto"
-                                             id="per_parentesco"
-                                             placeholder="Parentesco de su contacto"
-                                             size="13"
-                                             maxlength="100"
-                                             value="#{PersonaBean.persona.perParentesco}"
-                                             required="true"
-                                             requiredMessage="Ingrese el parentesco"/>
-                            </b:column>
-                            
                             <b:column span="2">
                                 <b:dateTimePicker
                                     id="per_nac"
@@ -160,36 +137,7 @@
                                 </b:selectOneMenu>
                                 <b:message for="per_estado_civil" />
                             </b:column>
-                        </b:row>
-                        <br/>
-                        <b:row>
-                            <b:column span="4">
-                                <b:selectOneMenu label="Residencia" id="per_residencia"
-                                                 value="#{PersonaBean.persona.perResidencia}"
-                                                 required="true"
-                                                 requiredMessage="Seleccione su ciudad de residencia">
-                                    <f:selectItem itemLabel="Seleccione"
-                                                  itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{PersonaBean.lista_ciudades}"
-                                                   var="c" itemLabel="#{c.ciuNombre}"
-                                                   itemValue="#{c.id.ciuCodigo}" />
-                                </b:selectOneMenu>
-                                <b:message for="per_residencia" />
-                            </b:column>
-                            <b:column span="4">
-                                <b:selectOneMenu label="Procedencia" id="per_procedencia"
-                                                 value="#{PersonaBean.persona.perProcedencia}"
-                                                 required="true"
-                                                 requiredMessage="Seleccione su ciudad de procedencia">
-                                    <f:selectItem itemLabel="Seleccione"
-                                                  itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{PersonaBean.lista_ciudades}"
-                                                   var="c" itemLabel="#{c.ciuNombre}"
-                                                   itemValue="#{c.id.ciuCodigo}" />
-                                </b:selectOneMenu>
-                                <b:message for="per_procedencia" />
-                            </b:column>
-                            <b:column span="2">
+                            <b:column span="2" offset="1">
 
                                 <b:selectOneMenu label="Sexo"
                                                  id="per_sexo"
@@ -215,6 +163,7 @@
                                 </b:selectOneMenu>
                                 <b:message for="per_identidad_genero" />
                             </b:column>
+                            
                         </b:row>
                         <br/>
                         <b:row>
@@ -246,11 +195,27 @@
                                     <f:selectItems value="#{PersonaBean.lista_ocupaciones}"
                                                    var="o" itemLabel="#{o.ocuDescripcion}"
                                                    itemValue="#{o.ocuId}" />
-                                    <f:ajax render="" />
+                                    <f:ajax event="change"
+                                            render="ocupacion_especifica"
+                                            listener="#{PersonaBean.especificar_ocupacion()}"/>
                                 </b:selectOneMenu>
                                 <b:message for="per_profesion" />
                             </b:column>
-                            <b:column span="2">
+                            <b:column span="4">
+                                <h:panelGroup id="ocupacion_especifica">
+                                    <b:inputText label="Especifique"
+                                             placeholder="Profesión"
+                                             size="13"
+                                             maxlength="100"
+                                             required="true"
+                                             value="#{PersonaBean.persona.perProfesion}"
+                                             rendered="#{PersonaBean.renderizar_ocupacion_abierta}"
+                                             requiredMessage="Ingrese su oficio">
+                                    <f:validateLength minimum="3"/>
+                                    </b:inputText>
+                                    </h:panelGroup>
+                                </b:column>
+                            <b:column span="2" offset="1">
                                 <b:selectOneMenu label="Rol" id="per_rol"
                                                  value="#{PersonaBean.usuario.rolesRolId}"
                                                  required="true"
@@ -266,8 +231,87 @@
                                 <b:message for="per_rol" />
                             </b:column>
                         </b:row>
-                        <br/>
-                        <b:row style="text-align: center;" contentDisabled="false">
+
+                    </b:panel>
+                    <b:panel title="Datos contacto de emergencia" look="info" collapsible="false">
+                        <b:row>
+                            
+                            <b:column span="4">
+                                <b:inputText label="Teléfono Contacto de Emergencia"
+                                             id="per_contacto_emergencia"
+                                             placeholder="Contacto"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{PersonaBean.persona.perContactoEmergencia}"
+                                             required="true"
+                                             requiredMessage="Ingrese su contacto de emergencia"/>
+                            </b:column>
+                            
+                            <b:column span="4">
+                                <b:selectOneMenu label="Parentesco del contacto de emergencia"
+                                                 id="per_parentesco"
+                                                 value="#{PersonaBean.persona.perParentesco}"
+                                                 required="true"
+                                                 requiredMessage="Seleccione el parentesco">
+                                    <f:selectItem itemLabel="Seleccione"
+                                                  noSelectionOption="true"/>
+                                    <f:selectItem itemValue="Padre" />
+                                    <f:selectItem itemValue="Madre" />
+                                    <f:selectItem itemValue="Abuelo" />
+                                    <f:selectItem itemValue="Abuela" />
+                                    <f:selectItem itemValue="Tía" />
+                                    <f:selectItem itemValue="Tío" />
+                                    <f:selectItem itemValue="Hermano" />
+                                    <f:selectItem itemValue="Hermana" />
+                                    <f:selectItem itemValue="Otro"/>
+                                    <f:ajax event="change"
+                                            render="parentesco_especifico"
+                                            listener="#{PersonaBean.especificar_parentesco()}"/>
+                                </b:selectOneMenu>
+                            </b:column>
+                            <b:column span="4">
+                                <h:panelGroup id="parentesco_especifico">
+                                    <b:inputText label="Especifique"
+                                             placeholder="Profesión"
+                                             size="13"
+                                             maxlength="100"
+                                             required="true"
+                                             value="#{PersonaBean.persona.perParentesco}"
+                                             rendered="#{PersonaBean.renderizar_parentesco_abierto}"
+                                             requiredMessage="Ingrese el parentesco">
+                                    <f:validateLength minimum="3"/>
+                                    </b:inputText>
+                                    </h:panelGroup>
+                                </b:column>
+                        </b:row>
+                    </b:panel>
+                    <b:panel title="Datos de Origen" look="info" collapsible="false">
+                        <b:row>
+                            <b:column span="4">
+                                <b:inputText label="Dirección"
+                                             placeholder="Ingrese su dirección"
+                                             id="per_residencia"
+                                             size="13"
+                                             maxlength="300"
+                                             value="#{PersonaBean.persona.perResidencia}"
+                                             required="true"
+                                             requiredMessage="Ingrese su dirección"/>
+                                <b:message for="per_residencia" />
+                            </b:column>
+                            <b:column span="4">
+                                <b:selectOneMenu label="Procedencia" id="per_procedencia"
+                                                 value="#{PersonaBean.persona.perProcedencia}"
+                                                 required="true"
+                                                 requiredMessage="Seleccione su ciudad de procedencia">
+                                    <f:selectItem itemLabel="Seleccione"
+                                                  itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{PersonaBean.lista_ciudades}"
+                                                   var="c" itemLabel="#{c.ciuNombre}"
+                                                   itemValue="#{c.id.ciuCodigo}" />
+                                </b:selectOneMenu>
+                                <b:message for="per_procedencia" />
+                            </b:column>
+                            <b:row style="text-align: center;" contentDisabled="false">
 
                             <b:column offset="3" span="2">
                                 <b:button large-screen="full-width"
@@ -285,9 +329,7 @@
                                     look="info" />
                             </b:column>
                         </b:row>
-
-                        <br/><br/><br/>
-
+                        </b:row>
                     </b:panel>
                 </b:form>
             </b:panel>

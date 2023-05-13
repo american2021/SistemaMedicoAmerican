@@ -265,7 +265,7 @@
                             <b:dataTableColumn label="Codigo" value="#{historia.hisId}" style="width: 10%" />
                             <b:dataTableColumn label="Médico Tratante" value="#{historia.personasByPacientePerId.perUsuario}" style="width: 30%"/>
                             <b:dataTableColumn label="Paciente" value="#{HistoriaBean.getNombreCompleto(historia.hisId)}" style="width: 30%" order="asc"/>
-                            <b:dataTableColumn label="Fecha" value="#{historia.hisFechaCreacion}" style="width: 10%" />
+                            <b:dataTableColumn label="Fecha" value="#{historia.hisFechaCreacion}" style="width: 5%" />
 <!--                            <b:dataTableColumn label="Signos" style="width: 10%" >
                                 <b:row>
                                     <b:column span="1" offset="0">
@@ -294,7 +294,7 @@
                             </b:dataTableColumn>-->
                             <b:dataTableColumn label="Cita" style="width: 5%" >
                                 <b:row>
-                                    <b:column span="1" offset="0">
+                                    <b:column span="1">
                                         <b:commandButton ajax="true"
                                                          update=":modalEdicionHistoria:formEdicionHistoria :growl"
                                                          action="#{HistoriaBean.VerCitaMedica(historia.hisId)}"

@@ -75,9 +75,9 @@
         <view-id value="/faces/medico/revisionSignos.xhtml" />
     </url-mapping>
     
-    <url-mapping id="registro-historia">
-        <pattern value="/registro-historia" />
-        <view-id value="/faces/medico/registroHistoria.xhtml" />
+    <url-mapping id="registro-cita">
+        <pattern value="/registro-cita" />
+        <view-id value="/faces/medico/registroCita.xhtml" />
     </url-mapping>
     
     <url-mapping id="cita-medica">

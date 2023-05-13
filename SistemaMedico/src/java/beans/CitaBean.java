@@ -6,11 +6,13 @@
 package beans;
 
 import dao.CiudadesDAO;
+import dao.DiagnosticoDAO;
 import dao.EstadosCivilesDAO;
 import dao.HistoriaDAO;
 import dao.OcupacionDAO;
 import dao.SignosDAO;
 import datos.Ciudades;
+import datos.Diagnosticos;
 import datos.Estadocivil;
 import datos.Historias;
 import datos.Ocupaciones;
@@ -34,19 +36,17 @@ import java.util.Date;
  */
 @ManagedBean(name = "HistoriaBean")
 @SessionScoped
-public final class HistoriaBean implements Serializable{
+public final class CitaBean implements Serializable{
     
     private List<Historias> historias;
     private List<Historias> historiasdia;
     private String nombre_enfermedad;
+    private Diagnosticos diagnostico;
     private Historias historia;
     private Signos signos;
     private int historia_actual_id;
     private List<Ocupaciones> lista_ocupaciones;
     private RevisionSistemas revision;
-    
-    // Auxiliar para creación de cita
-    private int profesion_nueva_cita;
     
     private List<Ciudades> lista_ciudades;
     private List<Estadocivil> lista_estados_civiles;
@@ -54,7 +54,7 @@ public final class HistoriaBean implements Serializable{
     // Variable para setear los checkbox de la revisión del sistema
     private ArrayList<Boolean> revision_checks;
     
-    public HistoriaBean(){
+    public CitaBean(){
         inicializarHistorias();
         inicializarSignos();
     }
@@ -63,6 +63,7 @@ public final class HistoriaBean implements Serializable{
         historias = new ArrayList<>();
         historiasdia = new ArrayList<>();
         revision_checks = new ArrayList<>();        
+        diagnostico = new Diagnosticos();
         nombre_enfermedad = "";
         inicializarProfesiones();
         inicializarCiudades();
@@ -98,6 +99,8 @@ public final class HistoriaBean implements Serializable{
     }
     
     public void actualizarCita(){
+        diagnostico.setHistorias(historia);
+        DiagnosticoDAO.crearActualizarDiagnostico(diagnostico);
         historia.setRevisionSistemas(revision);
         setRevisionChecks();
         HistoriaDAO.crearActualizarHistoriaConEnfermedad(historia, nombre_enfermedad);
@@ -379,13 +382,12 @@ public final class HistoriaBean implements Serializable{
         this.revision_checks = revision_checks;
     }
 
-    public int getProfesion_nueva_cita() {
-        return profesion_nueva_cita;
+    public Diagnosticos getDiagnostico() {
+        return diagnostico;
     }
 
-    public void setProfesion_nueva_cita(int profesion_nueva_cita) {
-        this.profesion_nueva_cita = profesion_nueva_cita;
+    public void setDiagnostico(Diagnosticos diagnostico) {
+        this.diagnostico = diagnostico;
     }
-    
     
 }
