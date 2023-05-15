@@ -225,7 +225,7 @@ public final class PersonaBean implements Serializable{
         return "/faces/privado/home?faces-redirect=true";
     }
     
-    public String guardarPaciente() throws InterruptedException{
+    public void guardarPaciente(){
         signos.setSigPresionSistolica(sig_presion_sistolica);
         signos.setSigPresionDiastolica(sig_presion_diastolica);
         signos.setSigPresionArterialMedia(sig_presion_arterial_media);
@@ -274,7 +274,22 @@ public final class PersonaBean implements Serializable{
         RevisionSistemasDAO.crearActualizarRevision(revision);
         HistoriaDAO.crearHistoriaPrimeraVez(historia, revision);
         SignosDAO.crearSignosPrimeraVez(signos);
+    }
+    
+    public String redireccionarPacienteGuardado() throws InterruptedException{
+        guardarPaciente();
+        context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         FacesMessages.info(":growlInfo", "Paciente creado con éxito", "This is a specific message!");
+        // Fragmento para conservar los mensajes entre vistas
+        return "/faces/privado/home.xhtml?faces-redirect=true";
+    }
+    
+    public String redireccionarIniciarCita(){
+        guardarPaciente();
+        context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        FacesMessages.info(":growlInfo", "Cita Iniciada", "This is a specific message!");
         // Fragmento para conservar los mensajes entre vistas
         return "/faces/privado/home.xhtml?faces-redirect=true";
     }

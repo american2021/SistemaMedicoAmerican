@@ -275,20 +275,28 @@
                             </b:column>
                         </b:row>
                         <b:row style="text-align: center;" contentDisabled="false">
-
                             <b:column offset="3" span="2">
                                 <b:button large-screen="full-width"
                                           id="salir"
                                           value="Regresar"
                                           href="./home-medico"/>
                             </b:column>
-                            <b:column offset="2" span="2">
+                            <b:column span="2">
                                 <b:commandButton
                                     large-screen="full-width"
-                                    id="submit"
+                                    id="guardar_datos"
                                     value="Guardar"
                                     type="submit"
                                     action="#{PersonaBean.guardarPaciente()}"
+                                    look="info"/>
+                            </b:column>
+                            <b:column span="2">
+                                <b:commandButton
+                                    large-screen="full-width"
+                                    id="iniciar_cita"
+                                    value="Iniciar Cita"
+                                    type="submit"
+                                    action="#{PersonaBean.guardarIniciarCita()}"
                                     look="info"/>
                             </b:column>
                         </b:row>
