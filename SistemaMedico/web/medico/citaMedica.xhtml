@@ -276,7 +276,7 @@
                         <b:panel title="Historia clínica" look="info" collapsible="false">
                             <b:row>
                                 <b:column span="3">
-                                    <b:inputText label="Motivo de la consulta"
+                                    <b:inputTextarea label="Motivo de la consulta"
                                                  placeholder="Motivo consulta"
                                                  id="motivo_consulta"
                                                  size="13"
@@ -286,12 +286,11 @@
                                                  requiredMessage="Motivo consulta"/>
                                 </b:column>
                                 <b:column span="3">
-                                    <b:inputText value="#{HistoriaBean.nombre_enfermedad}"
+                                    <b:inputTextarea value="#{HistoriaBean.nombre_enfermedad}"
                                                  label="Enfermedad"
-                                                 placeholder="Digite el nombre de una patología"
-                                                 id="nomEnfermedadActual"
-                                                 typeahead-limit="20">
-                            </b:inputText>
+                                                 placeholder="Describa la enfermedad"
+                                                 id="nomEnfermedadActual">
+                            </b:inputTextarea>
                                 </b:column>
                             </b:row>
 

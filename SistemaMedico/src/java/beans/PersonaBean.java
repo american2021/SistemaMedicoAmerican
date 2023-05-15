@@ -94,7 +94,7 @@ public final class PersonaBean implements Serializable{
     public PersonaBean(){
         session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         // Para conservar mensajes entre vistas
-        inicializarPaciente();
+        inicializarPersona();
         inicializarSignos();
         inicializarHistoria();
         inicializarRevision();
@@ -103,7 +103,7 @@ public final class PersonaBean implements Serializable{
         inicializarEstadosCiviles();
     }
     
-    public void inicializarPaciente(){
+    public void inicializarPersona(){
         // Inicialización datos paciente
         persona = new Personas();
         usuario = new Usuarios();
