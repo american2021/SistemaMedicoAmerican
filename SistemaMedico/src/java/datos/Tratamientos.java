@@ -1,5 +1,5 @@
 package datos;
-// Generated 11-may-2023 10:30:06 by Hibernate Tools 4.3.1
+// Generated 19-may-2023 9:47:12 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -33,7 +33,6 @@ public class Tratamientos  implements java.io.Serializable {
      private Date traFechaUlt;
      private String traUsuario;
      private int diagnosticosDiagnosticosId;
-     private Set diagnosticoses = new HashSet(0);
      private Set medicamentoses = new HashSet(0);
 
     public Tratamientos() {
@@ -60,7 +59,7 @@ public class Tratamientos  implements java.io.Serializable {
         this.traUsuario = traUsuario;
         this.diagnosticosDiagnosticosId = diagnosticosDiagnosticosId;
     }
-    public Tratamientos(Medicamentos medicamentos, String traMedicamento, char traViaAdministracion, String traDosisUnitaria, String traUnidadAdministracion, String traFrecuencia, Date traInicioTratamiento, Date traHora1, Date traHora2, Date traHora3, Date traHora4, Integer traDuracion, Character traDuracionUnidadTiempo, int traCantidad, String traIndicaciones, String traAdvertencias, String traEvolucion, Date traFechaUlt, String traUsuario, int diagnosticosDiagnosticosId, Set diagnosticoses, Set medicamentoses) {
+    public Tratamientos(Medicamentos medicamentos, String traMedicamento, char traViaAdministracion, String traDosisUnitaria, String traUnidadAdministracion, String traFrecuencia, Date traInicioTratamiento, Date traHora1, Date traHora2, Date traHora3, Date traHora4, Integer traDuracion, Character traDuracionUnidadTiempo, int traCantidad, String traIndicaciones, String traAdvertencias, String traEvolucion, Date traFechaUlt, String traUsuario, int diagnosticosDiagnosticosId, Set medicamentoses) {
        this.medicamentos = medicamentos;
        this.traMedicamento = traMedicamento;
        this.traViaAdministracion = traViaAdministracion;
@@ -81,7 +80,6 @@ public class Tratamientos  implements java.io.Serializable {
        this.traFechaUlt = traFechaUlt;
        this.traUsuario = traUsuario;
        this.diagnosticosDiagnosticosId = diagnosticosDiagnosticosId;
-       this.diagnosticoses = diagnosticoses;
        this.medicamentoses = medicamentoses;
     }
    
@@ -231,13 +229,6 @@ public class Tratamientos  implements java.io.Serializable {
     
     public void setDiagnosticosDiagnosticosId(int diagnosticosDiagnosticosId) {
         this.diagnosticosDiagnosticosId = diagnosticosDiagnosticosId;
-    }
-    public Set getDiagnosticoses() {
-        return this.diagnosticoses;
-    }
-    
-    public void setDiagnosticoses(Set diagnosticoses) {
-        this.diagnosticoses = diagnosticoses;
     }
     public Set getMedicamentoses() {
         return this.medicamentoses;

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 11-may-2023 10:30:07 by Hibernate Tools 4.3.1 -->
+<!-- Generated 19-may-2023 9:47:13 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Diagnosticos" table="diagnosticos" catalog="smed" optimistic-lock="version">
         <id name="diaId" type="java.lang.Integer">
@@ -11,9 +11,6 @@
         <many-to-one name="historias" class="datos.Historias" fetch="select">
             <column name="historias_his_id" not-null="true" />
         </many-to-one>
-        <many-to-one name="tratamientos" class="datos.Tratamientos" fetch="select">
-            <column name="tratamientos_tra_id" not-null="true" />
-        </many-to-one>
         <property name="diaCodigoCie" type="string">
             <column name="dia_codigo_cie" length="50" not-null="true" />
         </property>
@@ -22,6 +19,9 @@
         </property>
         <property name="diaObservacion" type="string">
             <column name="dia_observacion" length="500" not-null="true" />
+        </property>
+        <property name="tratamientosTraId" type="int">
+            <column name="tratamientos_tra_id" not-null="true" />
         </property>
         <property name="diaFechaUlt" type="date">
             <column name="dia_fecha_ult" length="10" />

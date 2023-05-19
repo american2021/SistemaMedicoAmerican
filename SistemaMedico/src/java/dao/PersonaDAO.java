@@ -8,6 +8,7 @@ package dao;
 import conexion.HibernateUtil;
 import datos.Personas;
 import datos.Usuarios;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -107,5 +108,23 @@ public class PersonaDAO {
         session.getTransaction().commit();
         session.close();
         return personas;
+    }
+    
+    public static List<String> recuperarNombresPacientes() {
+        List<String> pacientes = new ArrayList<>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Personas");
+        List<Personas> personas = query.list();
+        personas.forEach((persona)->{
+            try {
+                Usuarios u = (Usuarios)persona.getUsuarioses().iterator().next();
+            } catch (Exception e) {
+                pacientes.add(persona.getPerNombres()+" - "+persona.getPerApellidos());
+            }
+            });
+        session.getTransaction().commit();
+        session.close();
+        return pacientes;
     }
 }

@@ -135,6 +135,12 @@ public class LoginBean implements Serializable {
 
     }
     
+    public String renderizarEstudiante() {
+
+        return String.valueOf(rolActual == 4);
+
+    }
+    
     public String renderizarMedico() {
 
         return String.valueOf(rolActual == 2);

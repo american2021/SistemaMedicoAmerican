@@ -8,7 +8,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-    <!--    <f:event listener="# {LoginBean.comprobarLogin()}" type="preRenderView" />-->
+    <f:event listener="#{LoginBean.comprobarLogin()}" type="preRenderView" />
 
     <h:head>
         <title>American College</title>
@@ -40,7 +40,7 @@
                 <b:panel span="10" offset="0">
                     <b:row>
                         <b:column span="12" style="text-align: center;">
-                            <h2><b>Actualización de datos del paciente</b></h2>
+                            <h2><b>Actualización de datos del colaborador</b></h2>
                         </b:column>
                         <b:column span="12" style="text-align: center;">
                             <h6>Todos los campos marcados con * son obligatorios</h6>
@@ -53,12 +53,12 @@
                         <b:row>
                             <b:column span="6" offset="3">
                                 <b:inputText value="#{PersonaBean.per_nombre_completo}"
-                                             label="Paciente"
-                                             placeholder="Digite el nombre de un paciente"
+                                             label="Colaborador"
+                                             placeholder="Digite el nombre de un colaborador"
                                              typeahead="true"
                                              id="nomPersona"
                                              typeahead-limit="20"
-                                             typeahead-values="#{PersonaBean.recuperarNombres()}">
+                                             typeahead-values="#{PersonaBean.recuperarNombresColaboradores()}">
                                     <f:ajax event="change"
                                             listener="#{PersonaBean.recuperarPacientesListener()}"
                                             render="commentform :growl" />

@@ -35,6 +35,7 @@
 
     <my:cabecera id="cabecera"/>
     <my:menuLateralMedico id="menuLateralMedico"/>
+    <my:menuLateralEstudiante id="menuLateralEstudiante"/>
     <my:menuLateralAdministrador id="menuLateralAdministrador"/>
 
 
@@ -62,7 +63,7 @@
                                          placeholder="P.S."
                                          id="sig_presion_sistolica"
                                          maxlength="100"
-                                         value="#{HistoriaBean.signos.sigPresionSistolica}"
+                                         value="#{CitaBean.signos.sigPresionSistolica}"
                                          required="true"
                                          requiredMessage="Ingrese la presión sistólica"/>
                         </b:column>
@@ -71,7 +72,7 @@
                                          placeholder="P.D."
                                          id="sig_presion_diastolica"
                                          maxlength="100"
-                                         value="#{HistoriaBean.signos.sigPresionDiastolica}"
+                                         value="#{CitaBean.signos.sigPresionDiastolica}"
                                          required="true"
                                          requiredMessage="Ingrese la presión diastólica"/>
                         </b:column>
@@ -80,7 +81,7 @@
                                          placeholder="P.A.M."
                                          id="sig_presion_arterial_media"
                                          maxlength="100"
-                                         value="#{HistoriaBean.signos.sigPresionArterialMedia}"
+                                         value="#{CitaBean.signos.sigPresionArterialMedia}"
                                          required="true"
                                          requiredMessage="Ingrese la presión arterial media"/>
                         </b:column>
@@ -91,7 +92,7 @@
                                          placeholder="F.R."
                                          id="sig_frecuencia_respiratoria"
                                          maxlength="100"
-                                         value="#{HistoriaBean.signos.sigFrecuenciaRespiratoria}"
+                                         value="#{CitaBean.signos.sigFrecuenciaRespiratoria}"
                                          required="true"
                                          requiredMessage="Ingrese la frecuencia respiratoria"/>
                         </b:column>
@@ -100,7 +101,7 @@
                                          placeholder="F.R."
                                          id="sig_frecuencia_cardiaca"
                                          maxlength="100"
-                                         value="#{HistoriaBean.signos.sigSaturacion}"
+                                         value="#{CitaBean.signos.sigSaturacion}"
                                          required="true"
                                          requiredMessage="Ingrese la saturaciòn"/>
                         </b:column>
@@ -115,7 +116,7 @@
                                          id="sig_peso"
                                          size="13"
                                          maxlength="100"
-                                         value="#{HistoriaBean.signos.sigPeso}"
+                                         value="#{CitaBean.signos.sigPeso}"
                                          required="true"
                                          requiredMessage="Ingrese el peso"/>
                         </b:column>
@@ -125,7 +126,7 @@
                                          id="sig_pestatura"
                                          size="13"
                                          maxlength="100"
-                                         value="#{HistoriaBean.signos.sigEstatura}"
+                                         value="#{CitaBean.signos.sigEstatura}"
                                          required="true"
                                          requiredMessage="Ingrese la estatura"/>
                         </b:column>
@@ -135,7 +136,7 @@
                                          id="sig_imc"
                                          size="13"
                                          maxlength="100"
-                                         value="#{HistoriaBean.signos.sigImc}"
+                                         value="#{CitaBean.signos.sigImc}"
                                          required="true"
                                          requiredMessage="Ingrese la indice de masa corporal"/>
                         </b:column>
@@ -145,7 +146,7 @@
                                          id="sig_perimetro_abdominal"
                                          size="13"
                                          maxlength="100"
-                                         value="#{HistoriaBean.signos.sigPerimetroAbdominal}"
+                                         value="#{CitaBean.signos.sigPerimetroAbdominal}"
                                          required="true"
                                          requiredMessage="Ingrese el perímetro abdominal"/>
                         </b:column>
@@ -159,7 +160,7 @@
                                          id="sig_glucosa_capilar"
                                          size="13"
                                          maxlength="100"
-                                         value="#{HistoriaBean.signos.sigGlucosaCapilar}"
+                                         value="#{CitaBean.signos.sigGlucosaCapilar}"
                                          required="false"
                                          requiredMessage="Ingrese la glucosa capilar"/>
                         </b:column>
@@ -169,7 +170,7 @@
                                          id="sig_valor_hemoglobina"
                                          size="13"
                                          maxlength="100"
-                                         value="#{HistoriaBean.signos.sigValorHemoglobina}"
+                                         value="#{CitaBean.signos.sigValorHemoglobina}"
                                          required="false"
                                          requiredMessage="Ingrese el valor de la hemoglobina"/>
                         </b:column>
@@ -179,7 +180,7 @@
                                          id="sig_valor_hemoglobina_corredigo"
                                          size="13"
                                          maxlength="100"
-                                         value="#{HistoriaBean.signos.sigValorHemoglobinaCorr}"
+                                         value="#{CitaBean.signos.sigValorHemoglobinaCorr}"
                                          required="false"
                                          requiredMessage="Ingrese el valor de la hemoglobina corregido"/>
                         </b:column>
@@ -190,7 +191,7 @@
                             <b:commandButton large-screen="full-width" id="submit"
                                              value="Actualizar Signos"
                                              oncomplete="$('#modalEdicionSignos').modal('hide')"
-                                             action="#{HistoriaBean.actualizarSignosHistoria()}"
+                                             action="#{CitaBean.actualizarSignosHistoria()}"
                                              look="primary" ajax="true" update="@form :growl"/>
                         </b:column>
 
@@ -215,12 +216,12 @@
                                          placeholder="Motivo Consulta"
                                          id="sig_presion_sistolica"
                                          maxlength="100"
-                                         value="#{HistoriaBean.historia.hisMotivo}"
+                                         value="#{CitaBean.historia.hisMotivo}"
                                          required="true"
                                          requiredMessage="Ingrese el motivo de la consulta"/>
                         </b:column>
                         <b:column span="4">
-                            <b:inputText value="#{HistoriaBean.nombre_enfermedad}"
+                            <b:inputText value="#{CitaBean.nombre_enfermedad}"
                                                  label="Enfermedad"
                                                  placeholder="Digite el nombre de una patología"
                                                  typeahead="true"
@@ -238,7 +239,7 @@
                             <b:commandButton large-screen="full-width" id="submit"
                                              value="Actualizar Historia"
                                              oncomplete="$('#modalEdicionHistoria').modal('hide')"
-                                             action="#{HistoriaBean.actualizarHistoria()}"
+                                             action="#{CitaBean.actualizarHistoria()}"
                                              look="primary" ajax="true" update="@form :growl"/>
                         </b:column>
 
@@ -260,8 +261,8 @@
 
 
                 <b:form id="commentform">
-                    #{HistoriaBean.inicializarHistorias()}
-                    #{HistoriaBean.recuperarHistoriasDia()}
+                    #{CitaBean.inicializarHistorias()}
+                    #{CitaBean.recuperarHistoriasDia()}
                     <h3 id="reply-title">
                         <b>Historial de citas del día</b>
                     </h3>
@@ -270,7 +271,7 @@
                     <b:container id="container" fluid="true" contentDisabled="false">
 
                         <b:dataTable large-screen="full-width" id="inscritosTabla"
-                                     value="#{HistoriaBean.historiasdia}" var="historia"
+                                     value="#{CitaBean.historiasdia}" var="historia"
                                      responsive="true" style="font-size: 11px"
                                      info="true" content-disabled="false"
                                      excel="true" csv="true" pdf="true" print="true"
@@ -286,7 +287,7 @@
                                     <b:column span="1" offset="0">
                                         <b:commandButton ajax="true"
                                                          update=":modalEdicionSignos:formEdicionSignos :growl"
-                                                         action="# {HistoriaBean.recuperarSignosId(historia.signos.sigId)}"
+                                                         action="# {CitaBean.recuperarSignosId(historia.signos.sigId)}"
                                                          oncomplete="$('#modalEdicionSignos').modal('show')"
                                                          tooltip="Editar Historia" look="warning">
                                             <b:iconAwesome name="pencil"></b:iconAwesome>
@@ -299,7 +300,7 @@
                                     <b:column span="1" offset="0">
                                         <b:commandButton ajax="true"
                                                          update=":modalEdicionHistoria:formEdicionHistoria :growl"
-                                                         action="# {HistoriaBean.recuperarHistoriaID(historia.hisId)}"
+                                                         action="# {CitaBean.recuperarHistoriaID(historia.hisId)}"
                                                          oncomplete="$('#modalEdicionHistoria').modal('show')"
                                                          tooltip="Editar Enfermedad" look="warning">
                                             <b:iconAwesome name="pencil"></b:iconAwesome>
@@ -312,7 +313,7 @@
                                     <b:column span="1" offset="0">
                                         <b:commandButton ajax="true"
                                                          update=":modalEdicionHistoria:formEdicionHistoria :growl"
-                                                         action="#{HistoriaBean.VerCitaMedica(historia.hisId)}"
+                                                         action="#{CitaBean.VerCitaMedica(historia.hisId)}"
                                                          oncomplete="$('#modalEdicionHistoria').modal('show')"
                                                          tooltip="Revisar cita" look="success">
                                             <b:iconAwesome name="eye"></b:iconAwesome>

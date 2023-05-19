@@ -1,5 +1,5 @@
 package datos;
-// Generated 11-may-2023 10:30:06 by Hibernate Tools 4.3.1
+// Generated 19-may-2023 9:47:12 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,10 +14,10 @@ public class Diagnosticos  implements java.io.Serializable {
 
      private Integer diaId;
      private Historias historias;
-     private Tratamientos tratamientos;
      private String diaCodigoCie;
      private String diaDescripcionCie;
      private String diaObservacion;
+     private int tratamientosTraId;
      private Date diaFechaUlt;
      private String diaUsuario;
      private Set historiases = new HashSet(0);
@@ -26,19 +26,19 @@ public class Diagnosticos  implements java.io.Serializable {
     }
 
 	
-    public Diagnosticos(Historias historias, Tratamientos tratamientos, String diaCodigoCie, String diaDescripcionCie, String diaObservacion) {
+    public Diagnosticos(Historias historias, String diaCodigoCie, String diaDescripcionCie, String diaObservacion, int tratamientosTraId) {
         this.historias = historias;
-        this.tratamientos = tratamientos;
         this.diaCodigoCie = diaCodigoCie;
         this.diaDescripcionCie = diaDescripcionCie;
         this.diaObservacion = diaObservacion;
+        this.tratamientosTraId = tratamientosTraId;
     }
-    public Diagnosticos(Historias historias, Tratamientos tratamientos, String diaCodigoCie, String diaDescripcionCie, String diaObservacion, Date diaFechaUlt, String diaUsuario, Set historiases) {
+    public Diagnosticos(Historias historias, String diaCodigoCie, String diaDescripcionCie, String diaObservacion, int tratamientosTraId, Date diaFechaUlt, String diaUsuario, Set historiases) {
        this.historias = historias;
-       this.tratamientos = tratamientos;
        this.diaCodigoCie = diaCodigoCie;
        this.diaDescripcionCie = diaDescripcionCie;
        this.diaObservacion = diaObservacion;
+       this.tratamientosTraId = tratamientosTraId;
        this.diaFechaUlt = diaFechaUlt;
        this.diaUsuario = diaUsuario;
        this.historiases = historiases;
@@ -57,13 +57,6 @@ public class Diagnosticos  implements java.io.Serializable {
     
     public void setHistorias(Historias historias) {
         this.historias = historias;
-    }
-    public Tratamientos getTratamientos() {
-        return this.tratamientos;
-    }
-    
-    public void setTratamientos(Tratamientos tratamientos) {
-        this.tratamientos = tratamientos;
     }
     public String getDiaCodigoCie() {
         return this.diaCodigoCie;
@@ -85,6 +78,13 @@ public class Diagnosticos  implements java.io.Serializable {
     
     public void setDiaObservacion(String diaObservacion) {
         this.diaObservacion = diaObservacion;
+    }
+    public int getTratamientosTraId() {
+        return this.tratamientosTraId;
+    }
+    
+    public void setTratamientosTraId(int tratamientosTraId) {
+        this.tratamientosTraId = tratamientosTraId;
     }
     public Date getDiaFechaUlt() {
         return this.diaFechaUlt;

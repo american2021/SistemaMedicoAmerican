@@ -43,7 +43,7 @@
                                                  requiredMessage="No ha seleccionado un médico">
                                     <f:selectItem itemLabel="Seleccione"
                                                   itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{PersonaBean.recuperarNombresMedicos()}"/>
+                                    <f:selectItems value="#{PersonaBean.recuperarNombresRol(1)}"/>
                                 </b:selectOneMenu>
                                 <b:message for="nombre_medico" />
                         </b:column>
@@ -75,8 +75,8 @@
 
 
                 <b:form id="commentform">
-                    #{HistoriaBean.inicializarHistorias()}
-                    #{HistoriaBean.recuperarHistorias()}
+                    #{CitaBean.inicializarHistorias()}
+                    #{CitaBean.recuperarHistorias()}
                     <h3 id="reply-title">
                         <b>Asignación de médico</b>
                     </h3>
@@ -85,7 +85,7 @@
                     <b:container id="container" fluid="true" contentDisabled="false">
 
                         <b:dataTable large-screen="full-width" id="inscritosTabla"
-                                     value="#{HistoriaBean.historias}" var="historia"
+                                     value="#{CitaBean.historias}" var="historia"
                                      responsive="true" style="font-size: 11px"
                                      info="true" content-disabled="false"
                                      excel="true" csv="true" pdf="true" print="true"
@@ -96,7 +96,7 @@
                             <b:dataTableColumn label="Médico Asignado"
                                                value="#{historia.personasByMedicoPerId.perNombres} #{historia.personasByMedicoPerId.perApellidos}"
                                                style="width: 30%"/>
-                            <b:dataTableColumn label="Paciente" value="#{HistoriaBean.getNombreCompleto(historia.hisId)}" style="width: 30%" order="asc"/>
+                            <b:dataTableColumn label="Paciente" value="#{CitaBean.getNombreCompleto(historia.hisId)}" style="width: 30%" order="asc"/>
                             <b:dataTableColumn label="Fecha" value="#{historia.hisFechaCreacion}" style="width: 10%" />
                             <b:dataTableColumn label="Acción" style="width: 10%" >
                                 <b:row>

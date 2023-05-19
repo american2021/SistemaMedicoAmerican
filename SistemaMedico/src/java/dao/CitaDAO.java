@@ -18,7 +18,7 @@ import org.hibernate.Session;
  *
  * @author Administrador
  */
-public class HistoriaDAO {
+public class CitaDAO {
     
     public static void crearActualizarHistoria(Historias historia){
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -28,13 +28,10 @@ public class HistoriaDAO {
         session.close();
     } 
     
-    public static void crearActualizarHistoriaConEnfermedad(Historias historia, String enf_nombre){
+    public static void crearActualizarHistoriaConEnfermedad(Historias historia){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Enfermedades where enf_nombre = '"+enf_nombre+"'");
-        Enfermedades enfermedad = (Enfermedades) query.uniqueResult();
         
-        historia.setEnfermedades(enfermedad);
         session.saveOrUpdate(historia.getPersonasByPacientePerId());
         session.saveOrUpdate(historia.getRevisionSistemas());
         session.saveOrUpdate(historia.getSignos());
@@ -119,5 +116,16 @@ public class HistoriaDAO {
         session.save(historia);
         session.getTransaction().commit();
         session.close();
+    }
+    
+    public static int recuperarUltimaHistoriaID(){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Historias order by his_id desc");
+        Historias h = (Historias) query.list().get(0);
+        int id = h.getHisId();
+        session.getTransaction().commit();
+        session.close();
+        return id;
     }
 }

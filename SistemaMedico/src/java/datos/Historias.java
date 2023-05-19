@@ -1,5 +1,5 @@
 package datos;
-// Generated 11-may-2023 10:30:06 by Hibernate Tools 4.3.1
+// Generated 19-may-2023 9:47:12 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -21,6 +21,7 @@ public class Historias  implements java.io.Serializable {
      private RevisionSistemas revisionSistemas;
      private Signos signos;
      private String hisMotivo;
+     private String hisEnfermedad;
      private Date hisFechaCreacion;
      private Date hisFechaUlt;
      private String hisUsuario;
@@ -36,7 +37,7 @@ public class Historias  implements java.io.Serializable {
         this.hisMotivo = hisMotivo;
         this.hisFechaCreacion = hisFechaCreacion;
     }
-    public Historias(Diagnosticos diagnosticos, Enfermedades enfermedades, Personas personasByMedicoPerId, Personas personasByPacientePerId, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, String hisMotivo, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Set enfermedadeses, Set diagnosticoses) {
+    public Historias(Diagnosticos diagnosticos, Enfermedades enfermedades, Personas personasByMedicoPerId, Personas personasByPacientePerId, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, String hisMotivo, String hisEnfermedad, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Set enfermedadeses, Set diagnosticoses) {
        this.diagnosticos = diagnosticos;
        this.enfermedades = enfermedades;
        this.personasByMedicoPerId = personasByMedicoPerId;
@@ -45,6 +46,7 @@ public class Historias  implements java.io.Serializable {
        this.revisionSistemas = revisionSistemas;
        this.signos = signos;
        this.hisMotivo = hisMotivo;
+       this.hisEnfermedad = hisEnfermedad;
        this.hisFechaCreacion = hisFechaCreacion;
        this.hisFechaUlt = hisFechaUlt;
        this.hisUsuario = hisUsuario;
@@ -114,6 +116,13 @@ public class Historias  implements java.io.Serializable {
     
     public void setHisMotivo(String hisMotivo) {
         this.hisMotivo = hisMotivo;
+    }
+    public String getHisEnfermedad() {
+        return this.hisEnfermedad;
+    }
+    
+    public void setHisEnfermedad(String hisEnfermedad) {
+        this.hisEnfermedad = hisEnfermedad;
     }
     public Date getHisFechaCreacion() {
         return this.hisFechaCreacion;

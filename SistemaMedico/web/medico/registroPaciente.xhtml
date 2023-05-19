@@ -48,6 +48,7 @@
         <b:column>
             <my:menuLateralMedico id="menuLateralMedico"/>
             <my:menuLateralAdministrador id="menuAdministrador"/>
+            <my:menuLateralEstudiante id="menuLateralEstudiante"/>
             <p:idleMonitor timeout="600000">
                 <p:ajax event="idle" listener="#{loginBean.sesionInactiva()}" />
             </p:idleMonitor>
@@ -315,19 +316,28 @@
                         <br/>
                         <b:row style="text-align: center;" contentDisabled="false">
 
-                            <b:column offset="3" span="2">
+                            <b:column offset="2" span="2">
                                 <b:button large-screen="full-width"
                                           id="salir"
                                           value="Regresar"
-                                          href="./home-medico"/>
+                                          href="home"/>
                             </b:column>
-                            <b:column offset="1" span="3">
+                            <b:column span="3">
                                 <b:commandButton
                                     large-screen="full-width"
-                                    id="submit"
+                                    id="guardar_persona"
+                                    value="Guardar y regresar"
+                                    type="submit"
+                                    action="#{PersonaBean.guardarPersonaYSignosInicial()}"
+                                    look="info" />
+                            </b:column>
+                            <b:column span="3">
+                                <b:commandButton
+                                    large-screen="full-width"
+                                    id="guardar_persona_signos"
                                     value="Registrar Signos"
                                     type="submit"
-                                    action="#{PersonaBean.guardarPersona()}"
+                                    action="#{PersonaBean.guardarPersonaYSignos()}"
                                     look="info" />
                             </b:column>
                         </b:row>

@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <!--    <f:event listener="# {loginBean.accessoNoLogueado()}" type="preRenderView" />-->
-    <!--    <f:event listener="#{LoginBean.inicializarUsuario()}" type="preRenderView" />-->
+    <f:event listener="#{LoginBean.inicializarUsuario()}" type="preRenderView" />
 
     <h:head>
         <meta charset="UTF-8"/>
@@ -60,9 +60,9 @@
                         <h2>Ingreso</h2>
                         <span></span>
 
-                        <b:inputText placeholder="Usuario/Correo" id="nomPersona" size="20" maxlength="60" value="#{LoginBean.usu_nombre}" required="true" requiredMessage="Ingrese el usuario"></b:inputText>
+                        <b:inputText placeholder="Usuario/Correo" id="nomPersona" size="20" maxlength="60" value="#{LoginBean.usu_nombre}" required="true" requiredMessage="Ingrese el usuario"/>
                         <b:inputSecret placeholder="Contraseña" id="clavePersona" size="20" maxlength="60" value="#{LoginBean.usu_contra}" required="true" requiredMessage="Ingrese la clave">
-                            <f:attribute name="usuIng" value="#{LoginBean.usu_nombre}" />
+<!--                            <f:attribute name="usuIng" value="# {LoginBean.usu_nombre}" />-->
                         </b:inputSecret>
                         <a href="cambio-clave-int">Olvide mi Contraseña</a>
                         <b:commandButton  id="ingresar" value="Iniciar Sesion"

@@ -9,12 +9,15 @@
         <cc:attribute name="label" default="Menu"/>
     </cc:interface>
     <cc:implementation>
+        
+
+        
         <!--
-                                HOME MEDICO
+                                HOME ESTUDIANTE
         -->
-        <b:panel span="10" offset="0" rendered="#{LoginBean.renderizarAdministrador()}">
+        <b:panel span="10" offset="0" rendered="#{LoginBean.renderizarEstudiante()}">
             <!--
-                           Solo funciones de MEDICO
+                           Solo funciones de ESTUDIANTE
             -->
             <b:row>
                 <h3 id="reply-title">
@@ -35,6 +38,22 @@
                         </b:row>
                     </a>
                 </b:column>
+                
+<!--                <b:column span="2" class="divMainHome">
+                    <a href="actualizacion-signos" class="linkHome">
+                        <b:row>
+                            <h:graphicImage class="divIconHome" value="# {pathManager.path}/icon/signos.png" />
+                        </b:row>
+                        <h5 class="divTitleHome" id="reply-title">
+                            <b>Actualización de signos</b>
+                        </h5>
+                        <b:row>
+                            <span class="divTextHome"> 
+                                Actualización de signos del paciente.
+                            </span>
+                        </b:row>
+                    </a>
+                </b:column>-->
                 
                 <b:column span="2" class="divMainHome">
                     <a href="actualizacion-paciente" class="linkHome">
@@ -63,44 +82,6 @@
                         <b:row>
                             <span class="divTextHome"> 
                                 Crear historia clínica.
-                            </span>
-                        </b:row>
-                    </a>
-                </b:column>
-            </b:row>
-            
-            <b:row>
-                <h3 id="reply-title">
-                    <b>Personal administrativo</b>
-                </h3>
-                <b:column span="2" class="divMainHome">
-                    <a href="registro-personal-administrativo" class="linkHome">
-                        <b:row>
-                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/registro.png" />
-                        </b:row>
-                        <h5 class="divTitleHome" id="reply-title">
-                            <b>Registro de colaborador</b>
-                        </h5>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Registrar información de un colaborador.
-                            </span>
-                        </b:row>
-                    </a>
-                </b:column>
-                
-                <b:column span="2" class="divMainHome">
-                    <a href="actualizacion-colaborador" class="linkHome">
-                        <b:row>
-                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/actualizar.png" />
-                        </b:row>
-                        <h5 class="divTitleHome" id="reply-title">
-                            <b>Actualizar Colaborador</b>
-                        </h5>
-                        <br/>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Actualizar información de un colaborador.
                             </span>
                         </b:row>
                     </a>

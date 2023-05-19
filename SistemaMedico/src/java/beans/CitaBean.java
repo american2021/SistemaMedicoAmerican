@@ -8,7 +8,7 @@ package beans;
 import dao.CiudadesDAO;
 import dao.DiagnosticoDAO;
 import dao.EstadosCivilesDAO;
-import dao.HistoriaDAO;
+import dao.CitaDAO;
 import dao.OcupacionDAO;
 import dao.SignosDAO;
 import datos.Ciudades;
@@ -34,7 +34,7 @@ import java.util.Date;
  *
  * @author Administrador
  */
-@ManagedBean(name = "HistoriaBean")
+@ManagedBean(name = "CitaBean")
 @SessionScoped
 public final class CitaBean implements Serializable{
     
@@ -80,7 +80,7 @@ public final class CitaBean implements Serializable{
     }
     
     public void actualizarHistoria(){
-        HistoriaDAO.crearActualizarHistoriaConEnfermedad(historia, nombre_enfermedad);
+        CitaDAO.crearActualizarHistoriaConEnfermedad(historia);
         FacesMessages.info(":growlInfo", "Sistemas Digestivo"+historia.getRevisionSistemas().getRevSisDigestivo(), "This is a specific message!");
         //FacesMessages.info(":growlInfo", "Se han actualizado la historia clínica", "This is a specific message!");
     }
@@ -89,21 +89,21 @@ public final class CitaBean implements Serializable{
 
         historias.clear();
         
-        historias = HistoriaDAO.recuperarHistorias();
+        historias = CitaDAO.recuperarHistorias();
     }
     
     public String getNombreCompleto(int id){
-        Historias h = HistoriaDAO.recuperarHistoriaID(id);
+        Historias h = CitaDAO.recuperarHistoriaID(id);
         return h.getPersonasByPacientePerId().getPerNombres()
                 +" "+h.getPersonasByPacientePerId().getPerApellidos();
     }
     
     public void actualizarCita(){
-        diagnostico.setHistorias(historia);
-        DiagnosticoDAO.crearActualizarDiagnostico(diagnostico);
+        //diagnostico.setHistorias(historia);
+        //DiagnosticoDAO.crearActualizarDiagnostico(diagnostico);
         historia.setRevisionSistemas(revision);
         setRevisionChecks();
-        HistoriaDAO.crearActualizarHistoriaConEnfermedad(historia, nombre_enfermedad);
+        CitaDAO.crearActualizarHistoriaConEnfermedad(historia);
         FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
     }
     
@@ -113,12 +113,12 @@ public final class CitaBean implements Serializable{
 
         historiasdia.clear();
         
-        historiasdia = HistoriaDAO.recuperarHistoriasDia(formatter.format(dia));
+        historiasdia = CitaDAO.recuperarHistoriasDia(formatter.format(dia));
     }
     
     public void recuperarHistoriaID(int id){
         historia_actual_id = id;
-        historia = HistoriaDAO.recuperarHistoriaID(id);
+        historia = CitaDAO.recuperarHistoriaID(id);
         nombre_enfermedad = historia.getEnfermedades().getEnfNombre();
     }
     
@@ -132,7 +132,7 @@ public final class CitaBean implements Serializable{
     
     public String VerCitaMedica(int hisId) {
         this.historia_actual_id = hisId;
-        historia = HistoriaDAO.recuperarHistoriaID(hisId);
+        historia = CitaDAO.recuperarHistoriaID(hisId);
         nombre_enfermedad = historia.getEnfermedades().getEnfNombre();
         revision = historia.getRevisionSistemas();
         
@@ -180,6 +180,23 @@ public final class CitaBean implements Serializable{
             case 11:
                 revision.setRevSisTegumentario("");
             break;
+        }
+    }
+    
+    public void calcularPresionArterialMedia(){
+        if(signos.getSigPresionSistolica() != 0 && signos.getSigPresionDiastolica() != 0){
+            signos.setSigPresionArterialMedia((signos.getSigPresionSistolica()
+                                        +(2*signos.getSigPresionDiastolica()))/3);
+        }
+    }
+    
+    public void calcularHemoglobinaCorregido(){
+        signos.setSigValorHemoglobinaCorr(signos.getSigValorHemoglobina()-1.3f);
+    }
+    
+    public void calcularIMC(){
+        if(signos.getSigPeso() != 0 && signos.getSigEstatura() != 0){
+            signos.setSigImc(Math.round(signos.getSigPeso() /(int)(Math.pow(signos.getSigEstatura(), 2))));
         }
     }
     

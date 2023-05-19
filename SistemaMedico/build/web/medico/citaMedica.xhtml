@@ -40,6 +40,7 @@
 
     <my:cabecera id="cabecera"/>
     <my:menuLateralMedico id="menuLateralMedico"/>
+    <my:menuLateralEstudiante id="menuLateralEstudiante"/>
     <my:menuLateralAdministrador id="menuLateralAdministrador"/>
     <my:menuLateralContador id="menuLateralContador"/>
 
@@ -73,7 +74,7 @@
                                              id="per_cedula"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personasByPacientePerId.perCedula}"
+                                             value="#{CitaBean.historia.personasByPacientePerId.perCedula}"
                                              required="true"
                                              requiredMessage="Ingrese su cédula"/>
                             </b:column>
@@ -84,7 +85,7 @@
                                              id="per_apellidos"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personasByPacientePerId.perApellidos}"
+                                             value="#{CitaBean.historia.personasByPacientePerId.perApellidos}"
                                              required="true"
                                              requiredMessage="Ingrese sus apellidos"/>
                             </b:column>
@@ -95,7 +96,7 @@
                                              id="per_nombres"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personasByPacientePerId.perNombres}"
+                                             value="#{CitaBean.historia.personasByPacientePerId.perNombres}"
                                              required="true"
                                              requiredMessage="Ingrese sus nombres"/>
                             </b:column>
@@ -107,7 +108,7 @@
                                              id="per_telefono"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personasByPacientePerId.perTelefono}"
+                                             value="#{CitaBean.historia.personasByPacientePerId.perTelefono}"
                                              required="true"
                                              requiredMessage="Ingrese su teléfono"/>
                             </b:column>
@@ -118,7 +119,7 @@
                                              placeholder="Ingrese su contacto de emergencia"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personasByPacientePerId.perContactoEmergencia}"
+                                             value="#{CitaBean.historia.personasByPacientePerId.perContactoEmergencia}"
                                              required="true"
                                              requiredMessage="Ingrese su contacto de emergencia"/>
                             </b:column>
@@ -129,7 +130,7 @@
                                              placeholder="Parentesco de su contacto"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personasByPacientePerId.perParentesco}"
+                                             value="#{CitaBean.historia.personasByPacientePerId.perParentesco}"
                                              required="true"
                                              requiredMessage="Ingrese el parentesco"/>
                             </b:column>
@@ -139,14 +140,14 @@
                                     id="per_nac"
                                     format="DD/MM/YYYY"
                                     locale="en"
-                                    value="#{HistoriaBean.historia.personasByPacientePerId.perNac}"
+                                    value="#{CitaBean.historia.personasByPacientePerId.perNac}"
                                     label="Fecha de Nacimiento"
                                     required="true"
                                     requiredMessage="Ingrese la fecha de nacimiento"
                                     max-date="12/31/2006"
-                                    ondtchange="#{HistoriaBean.calcularEdad()}">
+                                    ondtchange="#{CitaBean.calcularEdad()}">
                                     <f:ajax event="blur"
-                                            listener="#{HistoriaBean.calcularEdad()}"
+                                            listener="#{CitaBean.calcularEdad()}"
                                             render="per_edad"/>
                                 </b:dateTimePicker>
                             </b:column>
@@ -156,7 +157,7 @@
                                              id="per_edad"
                                              size="13"
                                              maxlength="100"
-                                             value="#{HistoriaBean.historia.personasByPacientePerId.perEdad}"
+                                             value="#{CitaBean.historia.personasByPacientePerId.perEdad}"
                                              required="true"
                                              disabled="true"
                                              requiredMessage="Ingrese su edad"/>
@@ -164,12 +165,12 @@
                             
                             <b:column span="2">
                                 <b:selectOneMenu label="Estado Civil" id="per_estado_civil"
-                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perEstadoCivil}"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perEstadoCivil}"
                                                  required="true"
                                                  requiredMessage="Seleccione su estado civil">
                                     <f:selectItem itemLabel="Seleccione"
                                                   itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{HistoriaBean.lista_estados_civiles}"
+                                    <f:selectItems value="#{CitaBean.lista_estados_civiles}"
                                                    var="e" itemLabel="#{e.ecDescripcion}"
                                                    itemValue="#{e.ecCodigo}" />
                                 </b:selectOneMenu>
@@ -179,26 +180,26 @@
                         <br/>
                         <b:row>
                             <b:column span="4">
-                                <b:selectOneMenu label="Residencia" id="per_residencia"
-                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perResidencia}"
-                                                 required="true"
-                                                 requiredMessage="Seleccione su ciudad de residencia">
-                                    <f:selectItem itemLabel="Seleccione"
-                                                  itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{HistoriaBean.lista_ciudades}"
-                                                   var="c" itemLabel="#{c.ciuNombre}"
-                                                   itemValue="#{c.id.ciuCodigo}" />
-                                </b:selectOneMenu>
+                                <b:inputText label="Dirección"
+                                             placeholder="Ingrese su dirección"
+                                             id="per_residencia"
+                                             size="13"
+                                             maxlength="300"
+                                             value="#{CitaBean.historia.personasByPacientePerId.perResidencia}"
+                                             required="true"
+                                             requiredMessage="Ingrese su dirección"/>
+                                <b:message for="per_residencia" />
+                                
                                 <b:message for="per_residencia" />
                             </b:column>
                             <b:column span="4">
                                 <b:selectOneMenu label="Procedencia" id="per_procedencia"
-                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perProcedencia}"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perProcedencia}"
                                                  required="true"
                                                  requiredMessage="Seleccione su ciudad de procedencia">
                                     <f:selectItem itemLabel="Seleccione"
                                                   itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{HistoriaBean.lista_ciudades}"
+                                    <f:selectItems value="#{CitaBean.lista_ciudades}"
                                                    var="c" itemLabel="#{c.ciuNombre}"
                                                    itemValue="#{c.id.ciuCodigo}" />
                                 </b:selectOneMenu>
@@ -208,7 +209,7 @@
 
                                 <b:selectOneMenu label="Sexo del paciente"
                                                  id="per_sexo"
-                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perSexo}"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perSexo}"
                                                  required="true"
                                                  requiredMessage="Seleccione el sexo del paciente">
                                     <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
@@ -219,7 +220,7 @@
                             </b:column>
                             <b:column span="2">
                                 <b:selectOneMenu label="Género" id="per_identidad_genero"
-                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perIdentidadGenero}"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perIdentidadGenero}"
                                                  required="true"
                                                  requiredMessage="Seleccione el género">
                                     <f:selectItem itemLabel="Seleccione"
@@ -235,7 +236,7 @@
                         <b:row>
                             <b:column span="2">
                                 <b:selectOneMenu label="Grupo sanguíneo" id="per_grupo_sanguineo"
-                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perGrupoSanguineo}"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perGrupoSanguineo}"
                                                  required="true"
                                                  requiredMessage="Seleccione el grupo sanguíneo">
                                     <f:selectItem itemLabel="Seleccione"
@@ -254,12 +255,12 @@
                             </b:column>
                             <b:column span="3">
                                 <b:selectOneMenu label="Profesión" id="per_profesion"
-                                                 value="#{HistoriaBean.historia.personasByPacientePerId.perProfesion}"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perProfesion}"
                                                  required="true"
                                                  requiredMessage="Seleccione la profesión">
                                     <f:selectItem itemLabel="Seleccione"
                                                   itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{HistoriaBean.lista_ocupaciones}"
+                                    <f:selectItems value="#{CitaBean.lista_ocupaciones}"
                                                    var="o" itemLabel="#{o.ocuDescripcion}"
                                                    itemValue="#{o.ocuId}" />
                                     <f:ajax render="" />
@@ -275,18 +276,18 @@
                         <br></br>
                         <b:panel title="Historia clínica" look="info" collapsible="false">
                             <b:row>
-                                <b:column span="3">
+                                <b:column span="6">
                                     <b:inputTextarea label="Motivo de la consulta"
                                                  placeholder="Motivo consulta"
                                                  id="motivo_consulta"
                                                  size="13"
                                                  maxlength="100"
-                                                 value="#{HistoriaBean.historia.hisMotivo}"
+                                                 value="#{CitaBean.historia.hisMotivo}"
                                                  required="true"
                                                  requiredMessage="Motivo consulta"/>
                                 </b:column>
-                                <b:column span="3">
-                                    <b:inputTextarea value="#{HistoriaBean.nombre_enfermedad}"
+                                <b:column span="6">
+                                    <b:inputTextarea value="#{CitaBean.historia.hisEnfermedad}"
                                                  label="Enfermedad"
                                                  placeholder="Describa la enfermedad"
                                                  id="nomEnfermedadActual">
@@ -301,156 +302,226 @@
                         <b:panel title="Signos vitales" look="info" collapsible="false">
                             <b:row>
                                 <b:column span="3">
-                                    <b:inputText label="Presion Arterial Sistólica"
-                                                 placeholder="P.S."
-                                                 id="sig_pre_sistolica"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigPresionSistolica}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la presión sistólica"/>
-                                </b:column>
+                                <b:inputText label="Presion Arterial Sistólica"
+                                             placeholder="P.S."
+                                             id="sig_pre_sistolica"
+                                             size="13"
+                                             value="#{CitaBean.signos.sigPresionSistolica}"
+                                             required="true"
+                                             maxlength="3"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese la presión sistólica">
+                                <f:validateLongRange minimum="50" maximum="200"/>
+                                <f:ajax event="change"
+                                        listener="#{CitaBean.calcularPresionArterialMedia()}"
+                                        render="sig_presion_arterial_media growl"/>
+                                </b:inputText>
+                            </b:column>
                                 <b:column span="3">
-                                    <b:inputText label="Presion Arterial Diastólica"
-                                                 placeholder="P.D."
-                                                 id="sig_pre_diastolica"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigPresionDiastolica}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la presión diastólica"/>
-                                </b:column>
+                                <b:inputText label="Presion Arterial Diastólica"
+                                             placeholder="P.D."
+                                             id="sig_pre_diastolica"
+                                             size="13"
+                                             maxlength="3"
+                                             value="#{CitaBean.signos.sigPresionDiastolica}"
+                                             required="true"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese la presión diastólica">
+                                <f:validateLongRange minimum="50" maximum="200"/>
+                                <f:ajax event="change"
+                                        listener="#{CitaBean.calcularPresionArterialMedia()}"
+                                        render="sig_presion_arterial_media growl"/>
+                                </b:inputText>
+                            </b:column>
                                 <b:column span="3">
-                                    <b:inputText label="Presión Arterial Media"
-                                                 placeholder="P.A.M."
-                                                 id="sig_presion_arterial_media"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigPresionArterialMedia}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la presión arterial media"/>
-                                </b:column>
-                                <b:column span="2">
-                                    <b:inputText label="Temperatura"
-                                                 placeholder="Temperatura"
-                                                 id="sig_temperatura"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigTemperatura}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la temperatura"/>
-                                </b:column>
+                                <b:inputText label="Presión Arterial Media"
+                                             placeholder="P.A.M."
+                                             id="sig_presion_arterial_media"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{CitaBean.signos.sigPresionArterialMedia}"
+                                             required="true"
+                                             disabled="true"
+                                             requiredMessage="Ingrese la presión arterial media"/>
+                            </b:column>
+                            <b:column span="2">
+                                <b:inputText label="Temperatura °C"
+                                             placeholder="Temperatura °C"
+                                             id="sig_temperatura"
+                                             size="13"
+                                             maxlength="2"
+                                             value="#{CitaBean.signos.sigTemperatura}"
+                                             required="true"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese la temperatura">
+                                <f:validateLongRange minimum="20" maximum="60"/>
+                                <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
+                            </b:column>
                             </b:row>
                             <b:row>
                                 <b:column span="3">
-                                    <b:inputText label="Frecuencia Respiratoria"
-                                                 placeholder="F.R."
-                                                 id="sig_frecuencia_respiratoria"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigFrecuenciaRespiratoria}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la frecuencia respiratoria"/>
-                                </b:column>
-                                <b:column span="3">
-                                    <b:inputText label="Frecuencia Cardíaca"
-                                                 placeholder="F.C."
-                                                 id="sig_frecuencia_cardiaca"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigFrecuenciaCardiaca}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la frecuencia cardiaca"/>
-                                </b:column>
-                                <b:column span="2">
-                                    <b:inputText label="Saturacion"
-                                                 placeholder="Saturación"
-                                                 id="sig_saturacion"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigSaturacion}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la saturacion"/>
-                                </b:column>
+                                <b:inputText label="Frecuencia Respiratoria (minuto)"
+                                             placeholder="F.R."
+                                             id="sig_frecuencia_respiratoria"
+                                             size="13"
+                                             maxlength="3"
+                                             value="#{CitaBean.signos.sigFrecuenciaRespiratoria}"
+                                             required="true"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese la frecuencia respiratoria">
+                                <f:validateLongRange minimum="10" maximum="100"/>
+                                <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Frecuencia Cardíaca (minuto)"
+                                             placeholder="F.C."
+                                             id="sig_frecuencia_cardiaca"
+                                             size="13"
+                                             maxlength="3"
+                                             value="#{CitaBean.signos.sigFrecuenciaCardiaca}"
+                                             required="true"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese la frecuencia cardiaca">
+                                <f:validateLongRange minimum="10" maximum="300"/>
+                                <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
+                            </b:column>
+                            <b:column span="2">
+                                <b:inputText label="Saturacion (%)"
+                                             placeholder="Saturación (%)"
+                                             id="sig_saturacion"
+                                             size="13"
+                                             maxlength="2"
+                                             value="#{CitaBean.signos.sigSaturacion}"
+                                             required="true"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese la saturacion">
+                                <f:validateLongRange minimum="50" maximum="100"/>
+                                <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
+                            </b:column>
                             </b:row>
 
                         </b:panel>
                         <b:panel title="Datos Antropométricos" look="info" collapsible="false">
                             <b:row>
                                 <b:column span="2">
-                                    <b:inputText label="Peso (kg)"
-                                                 placeholder="Peso"
-                                                 id="sig_peso"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigPeso}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese el peso"/>
-                                </b:column>
-                                <b:column span="2">
-                                    <b:inputText label="Estatura (m)"
-                                                 placeholder="Estatura"
-                                                 id="sig_pestatura"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigEstatura}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la estatura"/>
-                                </b:column>
-                                <b:column span="3">
-                                    <b:inputText label="Indice de masa corporal"
-                                                 placeholder="I.M.C."
-                                                 id="sig_imc"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigImc}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la indice de masa corporal"/>
-                                </b:column>
-                                <b:column span="3">
-                                    <b:inputText label="Perímetro abdominal"
-                                                 placeholder="Perímetro Abdominal"
-                                                 id="sig_perimetro_abdominal"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigPerimetroAbdominal}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese el perímetro abdominal"/>
-                                </b:column>
+                                <b:inputText label="Peso (kg)"
+                                             placeholder="Peso"
+                                             id="sig_peso"
+                                             size="13"
+                                             maxlength="6"
+                                             value="#{CitaBean.signos.sigPeso}"
+                                             required="true"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                             requiredMessage="Ingrese el peso">
+                                    <f:ajax event="change"
+                                        listener="#{CitaBean.calcularIMC()}"
+                                        render="sig_imc"/>
+                                    <f:validateLongRange minimum="10" maximum="500"/>
+                                    <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
+                            </b:column>
+                            <b:column span="2">
+                                <b:inputText label="Estatura (m)"
+                                             placeholder="Estatura"
+                                             id="sig_pestatura"
+                                             size="13"
+                                             maxlength="6"
+                                             value="#{CitaBean.signos.sigEstatura}"
+                                             required="true"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                             requiredMessage="Ingrese la estatura">
+                                    <f:ajax event="change"
+                                        listener="#{CitaBean.calcularIMC()}"
+                                        render="sig_imc"/>
+                                    <f:validateLongRange minimum="0" maximum="3"/>
+                                    <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Indice de masa corporal"
+                                             placeholder="I.M.C."
+                                             id="sig_imc"
+                                             size="13"
+                                             maxlength="100"
+                                             value="#{CitaBean.signos.sigImc}"
+                                             required="true"
+                                             disabled="true"
+                                             requiredMessage="Ingrese la indice de masa corporal"/>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Perímetro abdominal (cm)"
+                                             placeholder="Perímetro Abdominal"
+                                             id="sig_perimetro_abdominal"
+                                             size="13"
+                                             maxlength="3"
+                                             value="#{CitaBean.signos.sigPerimetroAbdominal}"
+                                             required="false"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             requiredMessage="Ingrese el perímetro abdominal">
+                                    <f:validateLongRange minimum="10" maximum="500"/>
+                                    <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
+                            </b:column>
                             </b:row>
                         </b:panel>
                         <b:panel title="Mediciones Capilares" look="info" collapsible="false">
                             <b:row>
-                                <b:column span="2">
-                                    <b:inputText label="Glucosa Capilar"
-                                                 placeholder="Glucosa Capilar"
-                                                 id="sig_glucosa_capilar"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigGlucosaCapilar}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la glucosa capilar"/>
-                                </b:column>
                                 <b:column span="3">
-                                    <b:inputText label="Valor Hemoglobina"
-                                                 placeholder="Valor Hemoglobina"
-                                                 id="sig_valor_hemoglobina"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigValorHemoglobina}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese el valor de la hemoglobina"/>
-                                </b:column>
-                                <b:column span="3">
-                                    <b:inputText label="Valor Hemoglobina Corregido"
-                                                 placeholder="Valor Hemoglobina Corregido"
-                                                 id="sig_valor_hemoglobina_corredigo"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{HistoriaBean.signos.sigValorHemoglobinaCorr}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese el valor de la hemoglobina corregido"/>
-                                </b:column>
+                                <b:inputText label="Glucosa Capilar (mg/dL)"
+                                             placeholder="Glucosa Capilar"
+                                             id="sig_glucosa_capilar"
+                                             size="13"
+                                             maxlength="5"
+                                             value="#{CitaBean.signos.sigGlucosaCapilar}"
+                                             required="false"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                             requiredMessage="Ingrese la glucosa capilar">
+                                    <f:validateLongRange minimum="40" maximum="300"/>
+                                    <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Valor Hemoglobina (g/dl)"
+                                             placeholder="Valor Hemoglobina"
+                                             id="sig_valor_hemoglobina"
+                                             size="13"
+                                             maxlength="4"
+                                             value="#{CitaBean.signos.sigValorHemoglobina}"
+                                             required="false"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                             requiredMessage="Ingrese el valor de la hemoglobina">
+                                    <f:validateLongRange minimum="5" maximum="30"/>
+                                    <f:ajax event="change"
+                                            listener="#{CitaBean.calcularHemoglobinaCorregido()}"
+                                            render="sig_valor_hemoglobina_corregido growl"/>
+                                </b:inputText>
+                            </b:column>
+                            <b:column span="3">
+                                <b:inputText label="Valor Hemoglobina Corregido"
+                                             placeholder="Valor Hemoglobina Corregido"
+                                             id="sig_valor_hemoglobina_corregido"
+                                             size="13"
+                                             maxlength="5"
+                                             value="#{CitaBean.signos.sigValorHemoglobinaCorr}"
+                                             required="false"
+                                             disabled="true"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                             requiredMessage="Ingrese el valor de la hemoglobina corregido">
+                                    <f:validateLongRange minimum="5" maximum="30"/>
+                                </b:inputText>
+                            </b:column>
                             </b:row>
                         </b:panel>
                         <h3>
@@ -465,7 +536,7 @@
                                     <b:column span="3">
                                     <b:selectBooleanCheckbox label="Revisión sin patología"
                                                              id="rev_sis_patologia_check"
-                                                             value="#{HistoriaBean.revision.revSisPatologia}"/>
+                                                             value="#{CitaBean.revision.revSisPatologia}"/>
                                 </b:column>
                                 </b:row>
                                 <b:row>
@@ -478,10 +549,10 @@
                                 <b:column span="3">
                                     <b:selectBooleanCheckbox label="Órganos de los sentidos"
                                                              id="rev_sis_sentidos_check"
-                                                             value="#{HistoriaBean.revision_checks[0]}"
-                                                             disabled="#{!HistoriaBean.revision_checks[0]}">
+                                                             value="#{CitaBean.revision_checks[0]}"
+                                                             disabled="#{!CitaBean.revision_checks[0]}">
                                         <f:ajax event="change"
-                                                listener="#{HistoriaBean.cambiarCheck(0)}"
+                                                listener="#{CitaBean.cambiarCheck(0)}"
                                                 render="panel_sentidos rev_sis_sentidos_check" />
                                     </b:selectBooleanCheckbox>
                                     <b:panel id="panel_sentidos">
@@ -489,17 +560,17 @@
                                          placeholder="Especifique"
                                          id="rev_sis_sentidos"
                                          maxlength="100"
-                                         value="#{HistoriaBean.revision.revSisSentidos}"/>
-<!--                                         rendered="# {HistoriaBean.revision_checks[0]}"-->
+                                         value="#{CitaBean.revision.revSisSentidos}"/>
+<!--                                         rendered="# {CitaBean.revision_checks[0]}"-->
                                     </b:panel>
                                 </b:column>
                                 <b:column span="3">
                                     <b:selectBooleanCheckbox label="Respiratorio"
                                                              id="rev_sis_respiratorio_check"
-                                                             value="#{HistoriaBean.revision_checks[1]}"
-                                                             disabled="#{!HistoriaBean.revision_checks[1]}">
+                                                             value="#{CitaBean.revision_checks[1]}"
+                                                             disabled="#{!CitaBean.revision_checks[1]}">
                                     <f:ajax event="change"
-                                                listener="#{HistoriaBean.cambiarCheck(1)}"
+                                                listener="#{CitaBean.cambiarCheck(1)}"
                                                 render="panel_respiratorio" />
                                     </b:selectBooleanCheckbox>
                                     <b:panel id="panel_respiratorio">
@@ -507,16 +578,16 @@
                                          placeholder="Especifique"
                                          id="rev_sis_respiratorio"
                                          maxlength="100"
-                                         value="#{HistoriaBean.revision.revSisRespiratorio}"/>
+                                         value="#{CitaBean.revision.revSisRespiratorio}"/>
                                     </b:panel>
                                 </b:column>
                                 <b:column span="3">
                                     <b:selectBooleanCheckbox label="Cardiovascular"
                                                              id="rev_sis_cardiovascular_check"
-                                                             value="#{HistoriaBean.revision_checks[2]}"
-                                                             disabled="#{!HistoriaBean.revision_checks[2]}">
+                                                             value="#{CitaBean.revision_checks[2]}"
+                                                             disabled="#{!CitaBean.revision_checks[2]}">
                                     <f:ajax event="change"
-                                                listener="#{HistoriaBean.cambiarCheck(2)}"
+                                                listener="#{CitaBean.cambiarCheck(2)}"
                                                 render="panel_cardiovascular" />
                                     </b:selectBooleanCheckbox>
                                     <b:panel id="panel_cardiovascular">
@@ -524,16 +595,16 @@
                                          placeholder="Especifique"
                                          id="rev_sis_cardiovascular"
                                          maxlength="100"
-                                         value="#{HistoriaBean.revision.revSisCardiovascular}"/>
+                                         value="#{CitaBean.revision.revSisCardiovascular}"/>
                                     </b:panel>
                                 </b:column>
                                 <b:column span="3">
                                     <b:selectBooleanCheckbox label="Digestivo"
                                                              id="rev_sis_digestivo_check"
-                                                             value="#{HistoriaBean.revision_checks[3]}"
-                                                             disabled="#{!HistoriaBean.revision_checks[3]}">
+                                                             value="#{CitaBean.revision_checks[3]}"
+                                                             disabled="#{!CitaBean.revision_checks[3]}">
                                        <f:ajax event="change"
-                                                listener="#{HistoriaBean.cambiarCheck(3)}"
+                                                listener="#{CitaBean.cambiarCheck(3)}"
                                                 render="panel_digestivo" />
                                     </b:selectBooleanCheckbox>
                                     <b:panel id="panel_digestivo">
@@ -541,7 +612,7 @@
                                          placeholder="Especifique"
                                          id="rev_sis_digestivo"
                                          maxlength="100"
-                                         value="#{HistoriaBean.revision.revSisDigestivo}"/>
+                                         value="#{CitaBean.revision.revSisDigestivo}"/>
                                     </b:panel>
                                 </b:column>
                             </b:row>
@@ -549,10 +620,10 @@
                                 <b:column span="3">
                                     <b:selectBooleanCheckbox label="Genital"
                                                              id="rev_sis_genital_check"
-                                                             value="#{HistoriaBean.revision_checks[4]}"
-                                                             disabled="#{!HistoriaBean.revision_checks[4]}">
+                                                             value="#{CitaBean.revision_checks[4]}"
+                                                             disabled="#{!CitaBean.revision_checks[4]}">
                                         <f:ajax event="change"
-                                                listener="#{HistoriaBean.cambiarCheck(4)}"
+                                                listener="#{CitaBean.cambiarCheck(4)}"
                                                 render="panel_genital" />
                                     </b:selectBooleanCheckbox>
                                     <b:panel id="panel_genital">
@@ -560,16 +631,16 @@
                                          placeholder="Especifique"
                                          id="rev_sis_genital"
                                          maxlength="100"
-                                         value="#{HistoriaBean.revision.revSisGenital}"/>
+                                         value="#{CitaBean.revision.revSisGenital}"/>
                                     </b:panel>
                                 </b:column>
                                 <b:column span="3">
                                     <b:selectBooleanCheckbox label="Urinario"
                                                              id="rev_sis_urinario_check"
-                                                             value="#{HistoriaBean.revision_checks[5]}"
-                                                             disabled="#{!HistoriaBean.revision_checks[5]}">
+                                                             value="#{CitaBean.revision_checks[5]}"
+                                                             disabled="#{!CitaBean.revision_checks[5]}">
                                     <f:ajax event="change"
-                                                listener="#{HistoriaBean.cambiarCheck(5)}"
+                                                listener="#{CitaBean.cambiarCheck(5)}"
                                                 render="panel_urinario" />
                                     </b:selectBooleanCheckbox>
                                     <b:panel id="panel_urinario">
@@ -577,16 +648,16 @@
                                          placeholder="Especifique"
                                          id="rev_sis_urinario"
                                          maxlength="100"
-                                         value="#{HistoriaBean.revision.revSisUrinario}"/>
+                                         value="#{CitaBean.revision.revSisUrinario}"/>
                                     </b:panel>
                                 </b:column>
                                 <b:column span="3">
                                     <b:selectBooleanCheckbox label="Esquelético"
                                                              id="rev_sis_esqueletico_check"
-                                                             value="#{HistoriaBean.revision_checks[6]}"
-                                                             disabled="#{!HistoriaBean.revision_checks[6]}">
+                                                             value="#{CitaBean.revision_checks[6]}"
+                                                             disabled="#{!CitaBean.revision_checks[6]}">
                                     <f:ajax event="change"
-                                                listener="#{HistoriaBean.cambiarCheck(6)}"
+                                                listener="#{CitaBean.cambiarCheck(6)}"
                                                 render="panel_esqueletico" />
                                     </b:selectBooleanCheckbox>
                                     <b:panel id="panel_esqueletico">
@@ -594,16 +665,16 @@
                                          placeholder="Especifique"
                                          id="rev_sis_esqueletico"
                                          maxlength="100"
-                                         value="#{HistoriaBean.revision.revSisEsqueletico}"/>
+                                         value="#{CitaBean.revision.revSisEsqueletico}"/>
                                     </b:panel>
                                 </b:column>
                                 <b:column span="3">
                                     <b:selectBooleanCheckbox label="Muscular"
                                                              id="rev_sis_muscular_check"
-                                                             value="#{HistoriaBean.revision_checks[7]}"
-                                                             disabled="#{!HistoriaBean.revision_checks[7]}">
+                                                             value="#{CitaBean.revision_checks[7]}"
+                                                             disabled="#{!CitaBean.revision_checks[7]}">
                                     <f:ajax event="change"
-                                                listener="#{HistoriaBean.cambiarCheck(7)}"
+                                                listener="#{CitaBean.cambiarCheck(7)}"
                                                 render="panel_muscular" />
                                     </b:selectBooleanCheckbox>
                                     <b:panel id="panel_muscular">
@@ -611,7 +682,7 @@
                                          placeholder="Especifique"
                                          id="rev_sis_muscular"
                                          maxlength="100"
-                                         value="#{HistoriaBean.revision.revSisMuscular}"/>
+                                         value="#{CitaBean.revision.revSisMuscular}"/>
                                     </b:panel>
                                 </b:column>
                             </b:row>
@@ -619,10 +690,10 @@
                                 <b:column span="3">
                                     <b:selectBooleanCheckbox label="Sistema Nervioso"
                                                              id="rev_sis_nervioso_check"
-                                                             value="#{HistoriaBean.revision_checks[8]}"
-                                                             disabled="#{!HistoriaBean.revision_checks[8]}">
+                                                             value="#{CitaBean.revision_checks[8]}"
+                                                             disabled="#{!CitaBean.revision_checks[8]}">
                                     <f:ajax event="change"
-                                                listener="#{HistoriaBean.cambiarCheck(8)}"
+                                                listener="#{CitaBean.cambiarCheck(8)}"
                                                 render="panel_nervioso" />
                                     </b:selectBooleanCheckbox>
                                     <b:panel id="panel_nervioso">
@@ -630,16 +701,16 @@
                                          placeholder="Especifique"
                                          id="rev_sis_nervioso"
                                          maxlength="100"
-                                         value="#{HistoriaBean.revision.revSisNervioso}"/>
+                                         value="#{CitaBean.revision.revSisNervioso}"/>
                                     </b:panel>
                                 </b:column>
                                 <b:column span="3">
                                     <b:selectBooleanCheckbox label="Endócrino"
                                                              id="rev_sis_endocrino_check"
-                                                             value="#{HistoriaBean.revision_checks[9]}"
-                                                             disabled="#{!HistoriaBean.revision_checks[9]}">
+                                                             value="#{CitaBean.revision_checks[9]}"
+                                                             disabled="#{!CitaBean.revision_checks[9]}">
                                     <f:ajax event="change"
-                                                listener="#{HistoriaBean.cambiarCheck(9)}"
+                                                listener="#{CitaBean.cambiarCheck(9)}"
                                                 render="panel_endocrino" />
                                     </b:selectBooleanCheckbox>
                                     <b:panel id="panel_endocrino">
@@ -647,16 +718,16 @@
                                          placeholder="Especifique"
                                          id="rev_sis_endocrino"
                                          maxlength="100"
-                                         value="#{HistoriaBean.revision.revSisEndocrino}"/>
+                                         value="#{CitaBean.revision.revSisEndocrino}"/>
                                     </b:panel>
                                 </b:column>
                                 <b:column span="3">
                                     <b:selectBooleanCheckbox label="Hemolinfático"
                                                              id="rev_sis_hemolinfatico_check"
-                                                             value="#{HistoriaBean.revision_checks[10]}"
-                                                             disabled="#{!HistoriaBean.revision_checks[10]}">
+                                                             value="#{CitaBean.revision_checks[10]}"
+                                                             disabled="#{!CitaBean.revision_checks[10]}">
                                     <f:ajax event="change"
-                                                listener="#{HistoriaBean.cambiarCheck(10)}"
+                                                listener="#{CitaBean.cambiarCheck(10)}"
                                                 render="panel_hemolinfatico" />
                                     </b:selectBooleanCheckbox>
                                     <b:panel id="panel_hemolinfatico">
@@ -664,16 +735,16 @@
                                          placeholder="Especifique"
                                          id="rev_sis_hemolinfatico"
                                          maxlength="100"
-                                         value="#{HistoriaBean.revision.revSisHemolinfatico}"/>
+                                         value="#{CitaBean.revision.revSisHemolinfatico}"/>
                                     </b:panel>
                                 </b:column>
                                 <b:column span="3">
                                     <b:selectBooleanCheckbox label="Tegumentario (Piel-Faneras)"
                                                              id="rev_sis_tegumentario_check"
-                                                             value="#{HistoriaBean.revision_checks[11]}"
-                                                             disabled="#{!HistoriaBean.revision_checks[11]}">
+                                                             value="#{CitaBean.revision_checks[11]}"
+                                                             disabled="#{!CitaBean.revision_checks[11]}">
                                     <f:ajax event="change"
-                                                listener="#{HistoriaBean.cambiarCheck(11)}"
+                                                listener="#{CitaBean.cambiarCheck(11)}"
                                                 render="panel_tegumentario" />
                                     </b:selectBooleanCheckbox>
                                     <b:panel id="panel_tegumentario">
@@ -681,43 +752,18 @@
                                          placeholder="Especifique"
                                          id="rev_sis_tegumentario"
                                          maxlength="100"
-                                         value="#{HistoriaBean.revision.revSisTegumentario}"/>
+                                         value="#{CitaBean.revision.revSisTegumentario}"/>
                                     </b:panel>
                                 </b:column>
                             </b:row>
                             </b:column>
                         </b:panel>
                         <b:row contentDisabled="false">
-                        <b:panel title="Diagnóstico Médico" look="info" collapsible="false">
-                            <b:row>
-                                <b:column span="6">
-                                    <b:inputTextarea label="Diagnóstico"
-                                                 placeholder="Ingrese el diagnóstico"
-                                                 id="dia_observacion"
-                                                 size="13"
-                                                 value="#{HistoriaBean.diagnostico.diaObservacion}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese el diagnóstico"/>
-                                </b:column>
-                            </b:row>
-                        </b:panel>
-                            <b:panel title="Tratamiento" look="info" collapsible="false">
-                            <b:row>
-                                <b:column span="6">
-                                    <b:inputTextarea label="Diagnóstico"
-                                                 placeholder="Ingrese el tratamiento"
-                                                 id="tra_medicamento"
-                                                 size="13"
-                                                 value="#{HistoriaBean.diagnostico.diaObservacion}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese el tratamiento"/>
-                                </b:column>
-                            </b:row>
-                        </b:panel>
+                        
                         <b:column span="4" offset="4">
                             <b:commandButton large-screen="full-width" id="submit"
                                              value="Actualizar Cita Médica"
-                                             action="#{HistoriaBean.actualizarCita()}"
+                                             action="#{CitaBean.actualizarCita()}"
                                              look="primary" ajax="true" update="@form :growl"/>
                         </b:column>
                     </b:row>

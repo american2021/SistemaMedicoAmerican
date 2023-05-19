@@ -58,7 +58,7 @@
                                              typeahead="true"
                                              id="nomPersona"
                                              typeahead-limit="20"
-                                             typeahead-values="#{PersonaBean.recuperarNombres()}">
+                                             typeahead-values="#{PersonaBean.recuperarNombresRol(5)}">
                                     <f:ajax event="change"
                                             listener="#{PersonaBean.recuperarPacientesListener()}"
                                             render="commentform :growl" />

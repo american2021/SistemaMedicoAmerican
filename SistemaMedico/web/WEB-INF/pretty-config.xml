@@ -60,9 +60,14 @@
         <view-id value="/faces/medico/actualizacionPaciente.xhtml"/>
     </url-mapping>
     
-    <url-mapping id="actualizacion-paciente">
-        <pattern value="/actualizacion-paciente" />
-        <view-id value="/faces/medico/actualizacionPaciente.xhtml"/>
+    <url-mapping id="actualizacion-signos">
+        <pattern value="/actualizacion-signos" />
+        <view-id value="/faces/medico/actualizacionSignos.xhtml"/>
+    </url-mapping>
+    
+    <url-mapping id="actualizacion-colaborador">
+        <pattern value="/actualizacion-colaborador" />
+        <view-id value="/faces/administrador/actualizacionColaborador.xhtml"/>
     </url-mapping>
     
     <url-mapping id="registro-signos">
