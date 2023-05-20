@@ -198,6 +198,7 @@ public final class PersonaBean implements Serializable{
     public String guardarPersonaYSignosInicial(){
         //Seteo de los datos de la persona
         persona.setPerFechaUlt(new Date());
+        persona.setPerEsPaciente('S');
         persona.setPerUsuario(session.getAttribute("usuario").toString());
         
         PersonaDAO.crearPersona(persona);
@@ -218,6 +219,7 @@ public final class PersonaBean implements Serializable{
     public String guardarPersonaYSignos(){
         //Seteo de los datos de la persona
         persona.setPerFechaUlt(new Date());
+        persona.setPerEsPaciente('S');
         persona.setPerUsuario(session.getAttribute("usuario").toString());
         
         //Seteo de los datos del usuario
@@ -233,6 +235,7 @@ public final class PersonaBean implements Serializable{
     public String guardarColaborador(){
         //Seteo de los datos de la persona
         persona.setPerFechaUlt(new Date());
+        persona.setPerEsPaciente('N');
         persona.setPerUsuario(session.getAttribute("usuario").toString());
 //        
 //        //Seteo de los datos del usuario
@@ -249,7 +252,7 @@ public final class PersonaBean implements Serializable{
         return "/faces/privado/home?faces-redirect=true";
     }
     
-    public void guardarPaciente(){
+    public void guardarSignosYPaciente(){
         signos.setSigPresionSistolica(sig_presion_sistolica);
         signos.setSigPresionDiastolica(sig_presion_diastolica);
         signos.setSigPresionArterialMedia(sig_presion_arterial_media);
@@ -353,7 +356,7 @@ public final class PersonaBean implements Serializable{
     }
     
     public String redireccionarPacienteGuardado() throws InterruptedException{
-        guardarPaciente();
+        guardarSignosYPaciente();
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesMessages.info(":growlInfo", "Paciente creado con éxito", "This is a specific message!");
@@ -362,7 +365,7 @@ public final class PersonaBean implements Serializable{
     }
     
     public String redireccionarIniciarCita(){
-        guardarPaciente();
+        guardarSignosYPaciente();
         citaBean.VerCitaMedica(CitaDAO.recuperarUltimaHistoriaID());
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
@@ -521,10 +524,9 @@ public final class PersonaBean implements Serializable{
     }
     
     public void recuperarPacientesListener(){
-        String nombres[] = getPer_nombre_completo().split(" - ");
-        if (nombres.length > 1) {
-
-            persona = PersonaDAO.recuperarPersonaNombre(nombres[1], nombres[0]);
+        String nombres[] = getPer_nombre_completo().split(" - ");        
+        if (nombres.length >= 1) {
+            persona = PersonaDAO.recuperarPersonaNombre(nombres[0], nombres[1]);
 
             if (persona != null) {
                 per_nombre_completo = persona.getPerApellidos() + " - " + persona.getPerNombres();
@@ -536,11 +538,11 @@ public final class PersonaBean implements Serializable{
 
             } else {
                 per_nombre_completo = "";
-                FacesMessages.info(":growl", "Paciente no registrado", "This is a specific message!");
+                FacesMessages.info(":growl", "Paciente no registrado o duplicado", "This is a specific message!");
             }
 
         } else {
-            FacesMessages.info(":growl", "Paciente no registrado", "This is a specific message!");
+            FacesMessages.info(":growl", "Nombre no válido", "This is a specific message!");
             per_nombre_completo = "";
         }
     }

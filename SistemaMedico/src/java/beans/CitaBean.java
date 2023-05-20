@@ -92,10 +92,19 @@ public final class CitaBean implements Serializable{
         historias = CitaDAO.recuperarHistorias();
     }
     
-    public String getNombreCompleto(int id){
-        Historias h = CitaDAO.recuperarHistoriaID(id);
+    public String getNombreCompleto(Historias h){
         return h.getPersonasByPacientePerId().getPerNombres()
                 +" "+h.getPersonasByPacientePerId().getPerApellidos();
+    }
+    
+     public String getNombreCompletoMedico(Historias h){
+        try{
+            return h.getPersonasByMedicoPerId().getPerNombres()
+                    +" "+h.getPersonasByMedicoPerId().getPerApellidos();
+        }
+        catch(Exception e){
+            return "Por asignar";
+        }
     }
     
     public void actualizarCita(){

@@ -1,5 +1,5 @@
 package datos;
-// Generated 19-may-2023 9:47:12 by Hibernate Tools 4.3.1
+// Generated 19-may-2023 16:40:11 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -17,6 +17,7 @@ public class Personas  implements java.io.Serializable {
      private String perNombres;
      private String perApellidos;
      private char perSexo;
+     private Character perEsPaciente;
      private Date perNac;
      private String perGrupoSanguineo;
      private char perIdentidadGenero;
@@ -58,11 +59,12 @@ public class Personas  implements java.io.Serializable {
         this.perFechaUlt = perFechaUlt;
         this.perUsuario = perUsuario;
     }
-    public Personas(String perCedula, String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, char perIdentidadGenero, String perProfesion, String perResidencia, String perProcedencia, String perTelefono, String perContactoEmergencia, String perParentesco, String perEstadoCivil, int perEdad, Date perFechaUlt, String perUsuario, Set usuarioses, Set historiasesForMedicoPerId, Set historiasesForPacientePerId, Set antecedenteses) {
+    public Personas(String perCedula, String perNombres, String perApellidos, char perSexo, Character perEsPaciente, Date perNac, String perGrupoSanguineo, char perIdentidadGenero, String perProfesion, String perResidencia, String perProcedencia, String perTelefono, String perContactoEmergencia, String perParentesco, String perEstadoCivil, int perEdad, Date perFechaUlt, String perUsuario, Set usuarioses, Set historiasesForMedicoPerId, Set historiasesForPacientePerId, Set antecedenteses) {
        this.perCedula = perCedula;
        this.perNombres = perNombres;
        this.perApellidos = perApellidos;
        this.perSexo = perSexo;
+       this.perEsPaciente = perEsPaciente;
        this.perNac = perNac;
        this.perGrupoSanguineo = perGrupoSanguineo;
        this.perIdentidadGenero = perIdentidadGenero;
@@ -116,6 +118,13 @@ public class Personas  implements java.io.Serializable {
     
     public void setPerSexo(char perSexo) {
         this.perSexo = perSexo;
+    }
+    public Character getPerEsPaciente() {
+        return this.perEsPaciente;
+    }
+    
+    public void setPerEsPaciente(Character perEsPaciente) {
+        this.perEsPaciente = perEsPaciente;
     }
     public Date getPerNac() {
         return this.perNac;

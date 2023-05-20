@@ -52,7 +52,6 @@ public class PersonaDAO {
         Query query = session.createQuery("from Personas where perNombres = '" + nombre + "' and perApellidos = '" + apellido + "'");
         Personas persona = null;
         if (!query.list().isEmpty()) {
-
             try {
                 persona = (Personas) query.uniqueResult();
                 persona.getHistoriasesForPacientePerId().size();
@@ -86,7 +85,6 @@ public class PersonaDAO {
     }
     
     public static List<String> recuperarNombres() {
-
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("SELECT concat(per_apellidos,' - ',per_nombres) FROM Personas");
@@ -111,18 +109,11 @@ public class PersonaDAO {
     }
     
     public static List<String> recuperarNombresPacientes() {
-        List<String> pacientes = new ArrayList<>();
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM Personas");
-        List<Personas> personas = query.list();
-        personas.forEach((persona)->{
-            try {
-                Usuarios u = (Usuarios)persona.getUsuarioses().iterator().next();
-            } catch (Exception e) {
-                pacientes.add(persona.getPerNombres()+" - "+persona.getPerApellidos());
-            }
-            });
+        Query query = session.createQuery(
+                "SELECT concat(per_nombres,' - ',per_apellidos) FROM Personas WHERE per_es_paciente = 'S'");
+        List<String> pacientes = query.list();
         session.getTransaction().commit();
         session.close();
         return pacientes;
