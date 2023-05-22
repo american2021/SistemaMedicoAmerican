@@ -50,7 +50,7 @@
                     <b:row>
                         <br/>
                     </b:row>
-                    <b:form class="pageForm" id="commentform">
+                    <b:form class="pageForm" id="commentform" onkeypress="if (event.keyCode == 13) { return false; }">
                         <b:row>
                             <b:column span="6" offset="3">
                                 <b:inputText value="#{PersonaBean.per_nombre_completo}"
@@ -208,6 +208,7 @@
                                 <b:selectOneMenu label="Profesión" id="per_profesion"
                                                  value="#{PersonaBean.persona.perProfesion}"
                                                  required="true"
+                                                 disabled="#{PersonaBean.inhabilitar_profesion}"
                                                  requiredMessage="Seleccione la profesión">
                                     <f:selectItem itemLabel="Seleccione"
                                                   itemValue="" noSelectionOption="true" />
@@ -215,20 +216,20 @@
                                                    var="o" itemLabel="#{o.ocuDescripcion}"
                                                    itemValue="#{o.ocuId}" />
                                     <f:ajax event="change"
-                                            render="ocupacion_especifica"
+                                            render="profesion_especifica"
                                             listener="#{PersonaBean.especificar_ocupacion()}"/>
                                 </b:selectOneMenu>
                                 <b:message for="per_profesion" />
                             </b:column>
                             <b:column span="4">
-                                <h:panelGroup id="ocupacion_especifica">
+                                <h:panelGroup id="profesion_especifica">
                                     <b:inputText label="Especifique"
                                              placeholder="Profesión"
                                              size="13"
                                              maxlength="100"
                                              required="true"
-                                             value="#{PersonaBean.persona.perProfesion}"
-                                             rendered="#{PersonaBean.renderizar_ocupacion_abierta}"
+                                             value="#{PersonaBean.profesion_abierta}"
+                                             rendered="#{PersonaBean.renderizar_profesion_abierta}"
                                              requiredMessage="Ingrese su oficio">
                                     <f:validateLength minimum="3"/>
                                     </b:inputText>
@@ -238,8 +239,8 @@
 
                         </b:panel>
                         <b:panel title="Datos de Contacto de emergencia" look="info" collapsible="false">
-                            <b:column span="2">
-                                    <b:inputText label="Contacto"
+                            <b:column span="4">
+                                    <b:inputText label="Teléfono Contacto de Emergencia"
                                                  id="per_contacto_emergencia"
                                                  placeholder="Ingrese su contacto de emergencia"
                                                  size="13"
@@ -254,18 +255,13 @@
                                                  id="per_parentesco"
                                                  value="#{PersonaBean.persona.perParentesco}"
                                                  required="true"
+                                                 disabled="#{PersonaBean.inhabilitar_parentesco}"
                                                  requiredMessage="Seleccione el parentesco">
                                     <f:selectItem itemLabel="Seleccione"
-                                                  noSelectionOption="true"/>
-                                    <f:selectItem itemValue="Padre" />
-                                    <f:selectItem itemValue="Madre" />
-                                    <f:selectItem itemValue="Abuelo" />
-                                    <f:selectItem itemValue="Abuela" />
-                                    <f:selectItem itemValue="Tía" />
-                                    <f:selectItem itemValue="Tío" />
-                                    <f:selectItem itemValue="Hermano" />
-                                    <f:selectItem itemValue="Hermana" />
-                                    <f:selectItem itemValue="Otro"/>
+                                                      itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{PersonaBean.lista_parentescos}"
+                                                   var="p" itemLabel="#{p.parNombre}"
+                                                   itemValue="#{p.parId}" />
                                     <f:ajax event="change"
                                             render="parentesco_especifico"
                                             listener="#{PersonaBean.especificar_parentesco()}"/>
@@ -278,7 +274,7 @@
                                              size="13"
                                              maxlength="100"
                                              required="true"
-                                             value="#{PersonaBean.persona.perParentesco}"
+                                             value="#{PersonaBean.parentesco_abierto}"
                                              rendered="#{PersonaBean.renderizar_parentesco_abierto}"
                                              requiredMessage="Ingrese el parentesco">
                                     <f:validateLength minimum="3"/>
@@ -318,7 +314,6 @@
                                 <b:column span="4" offset="4">
                                     <b:commandButton large-screen="full-width" id="submit"
                                                      value="Actualizar Datos"
-                                                     oncomplete="$('#modalEdicionSignos').modal('hide')"
                                                      action="#{PersonaBean.actualizarPaciente()}"
                                                      look="primary" ajax="true" update="@form :growl"/>
                                 </b:column>

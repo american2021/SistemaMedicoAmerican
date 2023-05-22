@@ -223,8 +223,8 @@
                                              size="13"
                                              maxlength="100"
                                              required="true"
-                                             value="#{PersonaBean.persona.perProfesion}"
-                                             rendered="#{PersonaBean.renderizar_ocupacion_abierta}"
+                                             value="#{PersonaBean.profesion_abierta}"
+                                             rendered="#{PersonaBean.renderizar_profesion_abierta}"
                                              requiredMessage="Ingrese su oficio">
                                     <f:validateLength minimum="3"/>
                                     </b:inputText>
@@ -254,16 +254,10 @@
                                                  required="true"
                                                  requiredMessage="Seleccione el parentesco">
                                     <f:selectItem itemLabel="Seleccione"
-                                                  noSelectionOption="true"/>
-                                    <f:selectItem itemValue="Padre" />
-                                    <f:selectItem itemValue="Madre" />
-                                    <f:selectItem itemValue="Abuelo" />
-                                    <f:selectItem itemValue="Abuela" />
-                                    <f:selectItem itemValue="Tía" />
-                                    <f:selectItem itemValue="Tío" />
-                                    <f:selectItem itemValue="Hermano" />
-                                    <f:selectItem itemValue="Hermana" />
-                                    <f:selectItem itemValue="Otro"/>
+                                                      itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{PersonaBean.lista_parentescos}"
+                                                   var="p" itemLabel="#{p.parNombre}"
+                                                   itemValue="#{p.parId}" />
                                     <f:ajax event="change"
                                             render="parentesco_especifico"
                                             listener="#{PersonaBean.especificar_parentesco()}"/>
@@ -276,7 +270,7 @@
                                              size="13"
                                              maxlength="100"
                                              required="true"
-                                             value="#{PersonaBean.persona.perParentesco}"
+                                             value="#{PersonaBean.parentesco_abierto}"
                                              rendered="#{PersonaBean.renderizar_parentesco_abierto}"
                                              requiredMessage="Ingrese el parentesco">
                                     <f:validateLength minimum="3"/>

@@ -9,6 +9,7 @@ import dao.CiudadesDAO;
 import dao.EstadosCivilesDAO;
 import dao.CitaDAO;
 import dao.OcupacionDAO;
+import dao.ParentescoDAO;
 import dao.PersonaDAO;
 import dao.RevisionSistemasDAO;
 import dao.SignosDAO;
@@ -17,6 +18,7 @@ import datos.Ciudades;
 import datos.Estadocivil;
 import datos.Historias;
 import datos.Ocupaciones;
+import datos.Parentescos;
 import java.util.Date;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
@@ -49,11 +51,13 @@ public final class PersonaBean implements Serializable{
     private CitaBean citaBean;
     
     // Banderas para renderizar opciones abiertas
-    private String renderizar_ocupacion_abierta;
+    private String renderizar_profesion_abierta;
     private String renderizar_parentesco_abierto;
+    private String inhabilitar_profesion;
+    private String inhabilitar_parentesco;
     
     // Auxiliar para cargar opciones abiertas
-    private String ocupacion_abierta;
+    private String profesion_abierta;
     private String parentesco_abierto;
     
     private String per_nombre_completo;
@@ -86,6 +90,7 @@ public final class PersonaBean implements Serializable{
     private Date sig_fecha_ult;
     private String sig_usuario;
     private List<Ocupaciones> lista_ocupaciones;
+    private List<Parentescos> lista_parentescos;
     private List<Ciudades> lista_ciudades;
     private List<Estadocivil> lista_estados_civiles;
     
@@ -105,7 +110,7 @@ public final class PersonaBean implements Serializable{
         inicializarSignos();
         inicializarHistoria();
         inicializarRevision();
-        inicializarProfesiones();
+        inicializarProfesionesYParentescos();
         inicializarCiudades();
         inicializarEstadosCiviles();
     }
@@ -115,8 +120,12 @@ public final class PersonaBean implements Serializable{
         persona = new Personas();
         usuario = new Usuarios();
         per_nombre_completo = "";
-        renderizar_ocupacion_abierta = "false";
+        renderizar_profesion_abierta = "false";
         renderizar_parentesco_abierto = "false";
+        inhabilitar_parentesco = "true";
+        inhabilitar_profesion = "true";
+        profesion_abierta = "";
+        parentesco_abierto = "";
         cantidad_historias = 0;
     }
     
@@ -196,12 +205,16 @@ public final class PersonaBean implements Serializable{
     }
     
     public String guardarPersonaYSignosInicial(){
+        if(profesion_abierta.length()>0){
+            persona.setPerProfesion(profesion_abierta);
+        }
+        if(parentesco_abierto.length()>0){
+            persona.setPerParentesco(parentesco_abierto);
+        }
         //Seteo de los datos de la persona
         persona.setPerFechaUlt(new Date());
         persona.setPerEsPaciente('S');
         persona.setPerUsuario(session.getAttribute("usuario").toString());
-        
-        PersonaDAO.crearPersona(persona);
         
         guardarSignosHistoriaRevisionPrimeraVez();
         
@@ -217,6 +230,12 @@ public final class PersonaBean implements Serializable{
      * @return 
      */
     public String guardarPersonaYSignos(){
+        if(profesion_abierta.length()>0){
+            persona.setPerProfesion(profesion_abierta);
+        }
+        if(parentesco_abierto.length()>0){
+            persona.setPerParentesco(parentesco_abierto);
+        }
         //Seteo de los datos de la persona
         persona.setPerFechaUlt(new Date());
         persona.setPerEsPaciente('S');
@@ -374,27 +393,37 @@ public final class PersonaBean implements Serializable{
         return "/faces/medico/citaMedica.xhtml?faces-redirect=true";
     }
     
-    public void actualizarPaciente(){
+    public String actualizarPaciente(){
+        if(profesion_abierta.length()>0){
+            persona.setPerProfesion(profesion_abierta);
+        }
+        if(parentesco_abierto.length()>0){
+            persona.setPerParentesco(parentesco_abierto);
+        }
         PersonaDAO.crearActualizarPersona(persona);
+        context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         FacesMessages.info(":growlInfo", "Se han actualizado los datos del paciente", "This is a specific message!");
+        // Fragmento para conservar los mensajes entre vistas
+        return "/faces/privado/home.xhtml?faces-redirect=true";
     }
     
     public void especificar_ocupacion(){
         if(persona.getPerProfesion().equals("51")){
-            persona.setPerProfesion("");
-            renderizar_ocupacion_abierta = "true";
+            renderizar_profesion_abierta = "true";
         }
         else{
-            renderizar_ocupacion_abierta = "false";
+            profesion_abierta = "";
+            renderizar_profesion_abierta = "false";
         }
     }
     
     public void especificar_parentesco(){
-        if(persona.getPerParentesco().equals("Otro")){
-            persona.setPerParentesco("");
+        if(persona.getPerParentesco().equals("9")){
             renderizar_parentesco_abierto = "true";
         }
         else{
+            parentesco_abierto = "";
             renderizar_parentesco_abierto = "false";
         }
     }
@@ -511,8 +540,9 @@ public final class PersonaBean implements Serializable{
         FacesMessages.info(":growlInfo", "Médico asignado con éxito!", "This is a specific message!");
     }
     
-    public void inicializarProfesiones(){
+    public void inicializarProfesionesYParentescos(){
         lista_ocupaciones = OcupacionDAO.recuperarOcupaciones();
+        lista_parentescos = ParentescoDAO.recuperarParentescos();
     }
     
     public void inicializarCiudades(){
@@ -531,6 +561,23 @@ public final class PersonaBean implements Serializable{
             if (persona != null) {
                 per_nombre_completo = persona.getPerApellidos() + " - " + persona.getPerNombres();
                 cantidad_historias = persona.getHistoriasesForPacientePerId().size();
+                inhabilitar_parentesco = "false";
+                inhabilitar_profesion = "false";
+                try{
+                    Integer.valueOf(persona.getPerProfesion());
+                }
+                catch(NumberFormatException e){
+                    renderizar_profesion_abierta = "true";
+                    profesion_abierta = persona.getPerProfesion();
+                    persona.setPerProfesion("51");
+                }
+                try {
+                    Integer.valueOf(persona.getPerParentesco());
+                } catch (NumberFormatException e) {
+                    renderizar_parentesco_abierto = "true";
+                    parentesco_abierto = persona.getPerParentesco();
+                    persona.setPerParentesco("9");
+                }
                 //List<Signos> signos = new ArrayList<>();
                 //antecedentes.addAll(p.getAntecedenteses());
                 //sig_presion_sistolica = antecedentes.get(-1).get;
@@ -771,12 +818,12 @@ public final class PersonaBean implements Serializable{
         this.usuario = usuario;
     }
 
-    public String getRenderizar_ocupacion_abierta() {
-        return renderizar_ocupacion_abierta;
+    public String getRenderizar_profesion_abierta() {
+        return renderizar_profesion_abierta;
     }
 
-    public void setRenderizar_ocupacion_abierta(String renderizar_ocupacion_abierta) {
-        this.renderizar_ocupacion_abierta = renderizar_ocupacion_abierta;
+    public void setRenderizar_profesion_abierta(String renderizar_profesion_abierta) {
+        this.renderizar_profesion_abierta = renderizar_profesion_abierta;
     }
 
     public Historias getHistoria() {
@@ -812,12 +859,12 @@ public final class PersonaBean implements Serializable{
         this.citaBean = messageBean;
     }
 
-    public String getOcupacion_abierta() {
-        return ocupacion_abierta;
+    public String getProfesion_abierta() {
+        return profesion_abierta;
     }
 
-    public void setOcupacion_abierta(String ocupacion_abierta) {
-        this.ocupacion_abierta = ocupacion_abierta;
+    public void setProfesion_abierta(String profesion_abierta) {
+        this.profesion_abierta = profesion_abierta;
     }
 
     public String getParentesco_abierto() {
@@ -827,4 +874,28 @@ public final class PersonaBean implements Serializable{
     public void setParentesco_abierto(String parentesco_abierto) {
         this.parentesco_abierto = parentesco_abierto;
     }   
+
+    public String getInhabilitar_profesion() {
+        return inhabilitar_profesion;
+    }
+
+    public void setInhabilitar_profesion(String inhabilitar_profesion) {
+        this.inhabilitar_profesion = inhabilitar_profesion;
+    }
+
+    public String getInhabilitar_parentesco() {
+        return inhabilitar_parentesco;
+    }
+
+    public void setInhabilitar_parentesco(String inhabilitar_parentesco) {
+        this.inhabilitar_parentesco = inhabilitar_parentesco;
+    }
+
+    public List<Parentescos> getLista_parentescos() {
+        return lista_parentescos;
+    }
+
+    public void setLista_parentescos(List<Parentescos> lista_parentescos) {
+        this.lista_parentescos = lista_parentescos;
+    }
 }

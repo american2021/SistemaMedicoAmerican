@@ -3,13 +3,13 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 22-may-2023 9:47:52 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="datos.Roles" table="roles" catalog="smed" optimistic-lock="version">
-        <id name="rolId" type="int">
-            <column name="rol_id" />
+    <class name="datos.Parentescos" table="parentescos" catalog="smed" optimistic-lock="version">
+        <id name="parId" type="int">
+            <column name="par_id" />
             <generator class="assigned" />
         </id>
-        <property name="rolDescripcion" type="string">
-            <column name="rol_descripcion" length="45" not-null="true" />
+        <property name="parNombre" type="string">
+            <column name="par_nombre" length="45" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>
