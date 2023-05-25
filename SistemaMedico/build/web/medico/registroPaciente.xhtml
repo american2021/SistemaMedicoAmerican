@@ -7,7 +7,7 @@
       xmlns:my="http://java.sun.com/jsf/composite/recursos"
       xmlns:p="http://primefaces.org/ui"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
-
+    
     <f:event listener="#{LoginBean.comprobarLogin()}" type="preRenderView" />
 
     <h:head>
@@ -15,9 +15,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
     </h:head>
-
-    <my:cabecera id="cabecera"/>
-
+    
     <script>
         $.blockUI.defaults.css = {
             padding: 0,
@@ -35,6 +33,9 @@
         $.blockUI.defaults.overlayCSS.opacity = 0.5;
         $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
     </script>
+
+    <my:cabecera id="cabecera"/>
+
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
@@ -68,16 +69,18 @@
                 <b:row>
                     <br/>
                 </b:row>
-                <b:form class="pageForm" id="commentform">
+                <b:form class="pageForm" id="commentform" onkeypress="if (event.keyCode == 13) { return false; }">
                     <b:panel title="Datos Generales" look="info" collapsible="false">
                         <b:row>
                             <b:column span="4">
                                 <b:inputText label="Cédula"
-                                             placeholder="Ingrese su cédula"
+                                             placeholder="Ingrese la cédula"
                                              id="per_cedula"
                                              size="13"
                                              maxlength="100"
                                              value="#{PersonaBean.persona.perCedula}"
+                                             validator="#{PersonaBean.validarCedulaCreada}"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
                                              required="true"
                                              requiredMessage="Ingrese su cédula"/>
                             </b:column>
@@ -110,9 +113,10 @@
                                              placeholder="Digite su número"
                                              id="per_telefono"
                                              size="13"
-                                             maxlength="100"
+                                             maxlength="10"
                                              value="#{PersonaBean.persona.perTelefono}"
                                              required="true"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
                                              requiredMessage="Ingrese su teléfono"/>
                             </b:column>
                             <b:column span="2">
@@ -241,9 +245,10 @@
                                              id="per_contacto_emergencia"
                                              placeholder="Contacto"
                                              size="13"
-                                             maxlength="100"
+                                             maxlength="10"
                                              value="#{PersonaBean.persona.perContactoEmergencia}"
                                              required="true"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
                                              requiredMessage="Ingrese su contacto de emergencia"/>
                             </b:column>
                             
@@ -289,8 +294,11 @@
                                              size="13"
                                              maxlength="300"
                                              value="#{PersonaBean.persona.perResidencia}"
+                                             validatorMessage="Dirección muy corta"
                                              required="true"
-                                             requiredMessage="Ingrese su dirección"/>
+                                             requiredMessage="Ingrese su dirección">
+                                <f:validateLength minimum="3"/>
+                                </b:inputText>
                                 <b:message for="per_residencia" />
                             </b:column>
                             <b:column span="4">

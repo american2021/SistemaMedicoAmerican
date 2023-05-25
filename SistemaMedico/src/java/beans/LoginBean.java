@@ -51,7 +51,7 @@ public class LoginBean implements Serializable {
     HttpSession session;
 
     public LoginBean() {
-        inicializarUsuario();
+        //inicializarUsuario();
     }
     
     public void inicializarUsuario(){
@@ -63,31 +63,29 @@ public class LoginBean implements Serializable {
 
     public String login() {
         usuario = UsuarioDAO.obtenerUsuario(usu_nombre);
-        rolActual = usuario.getRolesRolId();
-        if(usuario != null){
+        
+        if (usuario != null) {
+            rolActual = usuario.getRolesRolId();
             valido = usuario.getUsuContra().equalsIgnoreCase(convertirMD5(usu_contra));
-        if (valido) {
-            estaLogueado = true;
-            session.setAttribute("usuario", usuario.getUsuNombre());            
-            return "/privado/home.xhtml?faces-redirect=true";
+            if (valido) {
+                estaLogueado = true;
+                session.setAttribute("usuario", usuario.getUsuNombre());
+                return "/privado/home.xhtml?faces-redirect=true";
             } else {
-
-            FacesMessages.warning(":growl", "La clave es incorrecta", "This is a specific message!");
+                FacesMessages.warning(":growl", "Revise sus credenciales", "This is a specific message!");
+                return "";
             }
-        }
-        else{
+        } else {
             FacesMessages.warning(":growl", "El usuario no existe en el sistema", "This is a specific message!");
+            return "";
         }
-
-        return "";
-
     }
     
     public String logout() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         estaLogueado = false;
-        return "/index?faces-redirect=true";
+        return "/?faces-redirect=true";
 
     }
 
@@ -110,7 +108,7 @@ public class LoginBean implements Serializable {
         if (estaLogueado) {
 
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("./");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("./home");
             } catch (IOException ex) {
                 Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -153,7 +151,6 @@ public class LoginBean implements Serializable {
     }
 
     public void comprobarLogin() {
-
         if (!estaLogueado) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("./");

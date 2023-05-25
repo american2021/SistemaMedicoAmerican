@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <!--    <f:event listener="# {loginBean.accessoNoLogueado()}" type="preRenderView" />-->
-    <f:event listener="#{LoginBean.inicializarUsuario()}" type="preRenderView" />
+    <!--    <f:event listener="#{LoginBean.inicializarUsuario()}" type="preRenderView" />-->
 
     <h:head>
         <meta charset="UTF-8"/>
@@ -15,19 +15,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>American College</title>
         <link rel="shortcut icon" type="image/x-icon" href="./img/favicon.ico" />
-        <!-- <link rel="stylesheet" href="#//{request.contextPath}/css/main.css" type="text/css" />-->
+        <link rel="stylesheet" href="#//{request.contextPath}/css/main.css" type="text/css" />
         <link rel="stylesheet" type="text/css" href= "/css/mainL.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
         <script src="/js/main.js"></script>
     </h:head>
-
-
-
-
-
-
-
-
 
     <script>
         $.blockUI.defaults.css = {
@@ -47,7 +39,6 @@
         $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
     </script>
 
-
     <h:body>
 
         <b:growl id="growl" severity="warn" escape="true" />
@@ -60,9 +51,9 @@
                         <h2>Ingreso</h2>
                         <span></span>
 
-                        <b:inputText placeholder="Usuario/Correo" id="nomPersona" size="20" maxlength="60" value="#{LoginBean.usu_nombre}" required="true" requiredMessage="Ingrese el usuario"/>
+                        <b:inputText placeholder="Usuario/Correo" id="nomPersona" size="20" maxlength="60" value="#{LoginBean.usu_nombre}" required="true" requiredMessage="Ingrese el usuario"></b:inputText>
                         <b:inputSecret placeholder="Contraseña" id="clavePersona" size="20" maxlength="60" value="#{LoginBean.usu_contra}" required="true" requiredMessage="Ingrese la clave">
-<!--                            <f:attribute name="usuIng" value="# {LoginBean.usu_nombre}" />-->
+                            <!--<f:attribute name="usuIng" value="# {LoginBean.usu_nombre}" />-->
                         </b:inputSecret>
                         <a href="cambio-clave-int">Olvide mi Contraseña</a>
                         <b:commandButton  id="ingresar" value="Iniciar Sesion"

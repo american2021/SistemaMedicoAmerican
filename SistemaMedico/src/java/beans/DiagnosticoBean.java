@@ -6,14 +6,10 @@
 package beans;
 
 import dao.DiagnosticoDAO;
-import dao.EnfermedadDAO;
 import datos.Diagnosticos;
-import datos.Enfermedades;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import java.util.List;
-import net.bootsfaces.utils.FacesMessages;
 
 /**
  *

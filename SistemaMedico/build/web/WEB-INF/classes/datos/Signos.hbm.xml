@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 22-may-2023 9:47:52 by Hibernate Tools 4.3.1 -->
+<!-- Generated 22-may-2023 17:51:46 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Signos" table="signos" catalog="smed" optimistic-lock="version">
         <id name="sigId" type="java.lang.Integer">
@@ -32,11 +32,11 @@
         <property name="sigTemperatura" type="int">
             <column name="sig_temperatura" not-null="true" />
         </property>
-        <property name="sigPeso" type="float">
-            <column name="sig_peso" precision="5" not-null="true" />
+        <property name="sigPeso" type="java.lang.Float">
+            <column name="sig_peso" precision="5" />
         </property>
-        <property name="sigEstatura" type="float">
-            <column name="sig_estatura" precision="5" not-null="true" />
+        <property name="sigEstatura" type="java.lang.Float">
+            <column name="sig_estatura" precision="5" />
         </property>
         <property name="sigImc" type="int">
             <column name="sig_imc" not-null="true" />

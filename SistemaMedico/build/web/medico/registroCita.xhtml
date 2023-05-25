@@ -54,16 +54,16 @@
                     <b:row>
                             <b:column span="6" offset="3">
                                 <b:inputText value="#{PersonaBean.per_nombre_completo}"
-                                                 label="Paciente"
-                                                 placeholder="Digite el nombre de un paciente"
-                                                 typeahead="true"
-                                                 id="nomPersona"
-                                                 typeahead-limit="20"
-                                                 typeahead-values="#{PersonaBean.recuperarNombres()}">
+                                             label="Paciente"
+                                             placeholder="Digite el nombre de un paciente"
+                                             typeahead="true"
+                                             id="nomPersona"
+                                             typeahead-limit="20"
+                                             typeahead-values="#{PersonaBean.recuperarNombresPacientes()}">
                                     <f:ajax event="change"
                                             listener="#{PersonaBean.recuperarPacientesListener()}"
-                                            render="per_cedula commentform :growl"/>
-                                    </b:inputText>
+                                            render="commentform :growl" />
+                                </b:inputText>
                                 <br/>
                                     <h6>El paciente tiene #{PersonaBean.cantidad_historias} historia/s clínicas</h6>
                             </b:column>
@@ -109,164 +109,6 @@
                         <br/>
                         </b:panel>
                         
-                        <h3>
-                            <b>Signos del paciente</b>
-                        </h3>
-                        <b:panel title="Signos vitales" look="info" collapsible="false">
-                            <b:row>
-                                <b:column span="3">
-                                    <b:inputText label="Presion Arterial Sistólica"
-                                                 placeholder="P.S."
-                                                 id="sig_pre_sistolica"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_presion_sistolica}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la presión sistólica"/>
-                                </b:column>
-                                <b:column span="3">
-                                    <b:inputText label="Presion Arterial Diastólica"
-                                                 placeholder="P.D."
-                                                 id="sig_pre_diastolica"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_presion_diastolica}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la presión diastólica"/>
-                                </b:column>
-                                <b:column span="3">
-                                    <b:inputText label="Presión Arterial Media"
-                                                 placeholder="P.A.M."
-                                                 id="sig_presion_arterial_media"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_presion_arterial_media}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la presión arterial media"/>
-                                </b:column>
-                                <b:column span="2">
-                                    <b:inputText label="Temperatura"
-                                                 placeholder="Temperatura"
-                                                 id="sig_temperatura"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_temperatura}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la temperatura"/>
-                                </b:column>
-                            </b:row>
-                            <b:row>
-                                <b:column span="3">
-                                    <b:inputText label="Frecuencia Respiratoria"
-                                                 placeholder="F.R."
-                                                 id="sig_frecuencia_respiratoria"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_frecuencia_respiratoria}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la frecuencia respiratoria"/>
-                                </b:column>
-                                <b:column span="3">
-                                    <b:inputText label="Frecuencia Cardíaca"
-                                                 placeholder="F.C."
-                                                 id="sig_frecuencia_cardiaca"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_frecuencia_cardiaca}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la frecuencia cardiaca"/>
-                                </b:column>
-                                <b:column span="2">
-                                    <b:inputText label="Saturacion"
-                                                 placeholder="Saturación"
-                                                 id="sig_saturacion"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_saturacion}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la saturacion"/>
-                                </b:column>
-                            </b:row>
-
-                        </b:panel>
-                        <b:panel title="Datos Antropométricos" look="info" collapsible="false">
-                            <b:row>
-                                <b:column span="2">
-                                    <b:inputText label="Peso (kg)"
-                                                 placeholder="Peso"
-                                                 id="sig_peso"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_peso}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese el peso"/>
-                                </b:column>
-                                <b:column span="2">
-                                    <b:inputText label="Estatura (m)"
-                                                 placeholder="Estatura"
-                                                 id="sig_pestatura"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_estatura}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la estatura"/>
-                                </b:column>
-                                <b:column span="3">
-                                    <b:inputText label="Indice de masa corporal"
-                                                 placeholder="I.M.C."
-                                                 id="sig_imc"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_imc}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la indice de masa corporal"/>
-                                </b:column>
-                                <b:column span="3">
-                                    <b:inputText label="Perímetro abdominal"
-                                                 placeholder="Perímetro Abdominal"
-                                                 id="sig_perimetro_abdominal"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_perimetro_abdominal}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese el perímetro abdominal"/>
-                                </b:column>
-                            </b:row>
-                        </b:panel>
-                        <b:panel title="Mediciones Capilares" look="info" collapsible="false">
-                            <b:row>
-                                <b:column span="2">
-                                    <b:inputText label="Glucosa Capilar"
-                                                 placeholder="Glucosa Capilar"
-                                                 id="sig_glucosa_capilar"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_glucosa_capilar}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese la glucosa capilar"/>
-                                </b:column>
-                                <b:column span="3">
-                                    <b:inputText label="Valor Hemoglobina"
-                                                 placeholder="Valor Hemoglobina"
-                                                 id="sig_valor_hemoglobina"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_valor_hemoglobina}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese el valor de la hemoglobina"/>
-                                </b:column>
-                                <b:column span="3">
-                                    <b:inputText label="Valor Hemoglobina Corregido"
-                                                 placeholder="Valor Hemoglobina Corregido"
-                                                 id="sig_valor_hemoglobina_corredigo"
-                                                 size="13"
-                                                 maxlength="100"
-                                                 value="#{PersonaBean.sig_valor_hemoglobina_corr}"
-                                                 required="true"
-                                                 requiredMessage="Ingrese el valor de la hemoglobina corregido"/>
-                                </b:column>
-                            </b:row>
-                        </b:panel>
                 </b:form>
             </b:panel>
         </b:container>

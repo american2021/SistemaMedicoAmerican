@@ -6,16 +6,17 @@
 package beans;
 
 import dao.CiudadesDAO;
-import dao.DiagnosticoDAO;
 import dao.EstadosCivilesDAO;
 import dao.CitaDAO;
 import dao.OcupacionDAO;
+import dao.ParentescoDAO;
 import dao.SignosDAO;
 import datos.Ciudades;
 import datos.Diagnosticos;
 import datos.Estadocivil;
 import datos.Historias;
 import datos.Ocupaciones;
+import datos.Parentescos;
 import datos.RevisionSistemas;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
@@ -46,7 +47,14 @@ public final class CitaBean implements Serializable{
     private Signos signos;
     private int historia_actual_id;
     private List<Ocupaciones> lista_ocupaciones;
+    private List<Parentescos> lista_parentescos;
     private RevisionSistemas revision;
+    
+    private String renderizar_profesion_abierta;
+    private String renderizar_parentesco_abierto;
+    
+    private String profesion_abierta;
+    private String parentesco_abierto;
     
     private List<Ciudades> lista_ciudades;
     private List<Estadocivil> lista_estados_civiles;
@@ -65,7 +73,9 @@ public final class CitaBean implements Serializable{
         revision_checks = new ArrayList<>();        
         diagnostico = new Diagnosticos();
         nombre_enfermedad = "";
-        inicializarProfesiones();
+        profesion_abierta = "";
+        parentesco_abierto = "";
+        inicializarProfesionesYParentescos();
         inicializarCiudades();
         inicializarEstadosCiviles();
     }
@@ -125,12 +135,6 @@ public final class CitaBean implements Serializable{
         historiasdia = CitaDAO.recuperarHistoriasDia(formatter.format(dia));
     }
     
-    public void recuperarHistoriaID(int id){
-        historia_actual_id = id;
-        historia = CitaDAO.recuperarHistoriaID(id);
-        nombre_enfermedad = historia.getEnfermedades().getEnfNombre();
-    }
-    
     /**
      * Id de la historia a cargar
      * @param id 
@@ -148,7 +152,23 @@ public final class CitaBean implements Serializable{
         setRevisionChecks();
         
         signos = historia.getSignos();
-        return "/faces/medico/citaMedica.xhtml?faces-redirect=true";
+        
+        try {
+            Integer.valueOf(historia.getPersonasByPacientePerId().getPerProfesion());
+        } catch (NumberFormatException e) {
+            renderizar_profesion_abierta = "true";
+            profesion_abierta = historia.getPersonasByPacientePerId().getPerProfesion();
+            historia.getPersonasByPacientePerId().setPerProfesion("51");
+        }
+        try {
+            Integer.valueOf(historia.getPersonasByPacientePerId().getPerParentesco());
+        } catch (NumberFormatException e) {
+            renderizar_parentesco_abierto = "true";
+            parentesco_abierto = historia.getPersonasByPacientePerId().getPerParentesco();
+            historia.getPersonasByPacientePerId().setPerParentesco("9");
+        }
+        
+        return "/medico/citaMedica.xhtml?faces-redirect=true";
     }
     
     public void cambiarCheck(int id_check){
@@ -189,6 +209,26 @@ public final class CitaBean implements Serializable{
             case 11:
                 revision.setRevSisTegumentario("");
             break;
+        }
+    }
+    
+    public void especificar_ocupacion(){
+        if(historia.getPersonasByPacientePerId().getPerProfesion().equals("51")){
+            renderizar_profesion_abierta = "true";
+        }
+        else{
+            profesion_abierta = "";
+            renderizar_profesion_abierta = "false";
+        }
+    }
+    
+    public void especificar_parentesco(){
+        if(historia.getPersonasByPacientePerId().getPerParentesco().equals("9")){
+            renderizar_parentesco_abierto = "true";
+        }
+        else{
+            parentesco_abierto = "";
+            renderizar_parentesco_abierto = "false";
         }
     }
     
@@ -317,8 +357,9 @@ public final class CitaBean implements Serializable{
         lista_estados_civiles = EstadosCivilesDAO.recuperarEstados();
     }
     
-    public void inicializarProfesiones(){        
+    public void inicializarProfesionesYParentescos(){        
         lista_ocupaciones = OcupacionDAO.recuperarOcupaciones();
+        lista_parentescos = ParentescoDAO.recuperarParentescos();
     }
 
     public List<Historias> getHistorias() {
@@ -414,6 +455,45 @@ public final class CitaBean implements Serializable{
 
     public void setDiagnostico(Diagnosticos diagnostico) {
         this.diagnostico = diagnostico;
+    }    
+
+    public String getRenderizar_profesion_abierta() {
+        return renderizar_profesion_abierta;
     }
-    
+
+    public void setRenderizar_profesion_abierta(String renderizar_profesion_abierta) {
+        this.renderizar_profesion_abierta = renderizar_profesion_abierta;
+    }
+
+    public String getRenderizar_parentesco_abierto() {
+        return renderizar_parentesco_abierto;
+    }
+
+    public void setRenderizar_parentesco_abierto(String renderizar_parentesco_abierto) {
+        this.renderizar_parentesco_abierto = renderizar_parentesco_abierto;
+    }
+
+    public String getProfesion_abierta() {
+        return profesion_abierta;
+    }
+
+    public void setProfesion_abierta(String profesion_abierta) {
+        this.profesion_abierta = profesion_abierta;
+    }
+
+    public String getParentesco_abierto() {
+        return parentesco_abierto;
+    }
+
+    public void setParentesco_abierto(String parentesco_abierto) {
+        this.parentesco_abierto = parentesco_abierto;
+    }
+
+    public List<Parentescos> getLista_parentescos() {
+        return lista_parentescos;
+    }
+
+    public void setLista_parentescos(List<Parentescos> lista_parentescos) {
+        this.lista_parentescos = lista_parentescos;
+    }
 }

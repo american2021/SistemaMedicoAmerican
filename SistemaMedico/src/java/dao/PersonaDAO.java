@@ -71,6 +71,7 @@ public class PersonaDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Personas where per_id = " + id);
+        System.out.println(query);
         Personas persona = null;
         if (!query.list().isEmpty()) {
 
@@ -117,5 +118,23 @@ public class PersonaDAO {
         session.getTransaction().commit();
         session.close();
         return pacientes;
+    }
+    
+    public static Personas recuperarPersonaCedula(String cedula) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Personas where per_cedula = '" + cedula + "'");
+        System.out.println(query);
+        Personas persona = null;
+        if (!query.list().isEmpty()) {
+
+            persona = (Personas) query.list().get(0);
+
+        }
+        session.getTransaction().commit();
+        session.close();
+        return persona;
+
     }
 }

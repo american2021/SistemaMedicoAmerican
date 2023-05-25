@@ -41,7 +41,7 @@
                 <b:panel span="10" offset="0">
                     <b:row>
                         <b:column span="12" style="text-align: center;">
-                            <h2><b>Actualización de datos del paciente</b></h2>
+                            <h2><b>Actualización de datos del paciente (Modo admin)</b></h2>
                         </b:column>
                         <b:column span="12" style="text-align: center;">
                             <h6>Todos los campos marcados con * son obligatorios</h6>
@@ -76,8 +76,8 @@
                                                  size="13"
                                                  maxlength="100"
                                                  value="#{PersonaBean.persona.perCedula}"
+                                                 validator="#{PersonaBean.validarCedulaRUC}"
                                                  required="true"
-                                                 disabled="true"
                                                  requiredMessage="Ingrese su cédula"/>
                                 </b:column>
                                 <b:column span="4">
@@ -293,11 +293,8 @@
                                              size="13"
                                              maxlength="300"
                                              value="#{PersonaBean.persona.perResidencia}"
-                                             validatorMessage="Dirección muy corta"
                                              required="true"
-                                             requiredMessage="Ingrese su dirección"
-                                             >
-                                </b:inputText>
+                                             requiredMessage="Ingrese su dirección"/>
                                 <b:message for="per_residencia" />
                             </b:column>
                                 <b:column span="4">

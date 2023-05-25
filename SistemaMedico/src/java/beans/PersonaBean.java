@@ -36,7 +36,10 @@ import org.apache.commons.lang.RandomStringUtils;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.component.UIComponent;
+import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -222,7 +225,7 @@ public final class PersonaBean implements Serializable{
         context.getExternalContext().getFlash().setKeepMessages(true);
         
         FacesMessages.info(":growlInfo", "Paciente creado con éxito", "This is a specific message!");
-        return "/faces/privado/home.xhtml?faces-redirect=true";
+        return "/privado/home.xhtml?faces-redirect=true";
     }
     
     /**
@@ -241,14 +244,7 @@ public final class PersonaBean implements Serializable{
         persona.setPerEsPaciente('S');
         persona.setPerUsuario(session.getAttribute("usuario").toString());
         
-        //Seteo de los datos del usuario
-        usuario.setUsuContra(convertirMD5(generarClaveAleatoria()));
-        usuario.setUsuNombre(generarUsuario(persona.getPerNombres(), persona.getPerApellidos()));
-        usuario.setUsuUsuario(session.getAttribute("usuario").toString());
-        usuario.setRolesRolId(5);
-        usuario.setPersonas(persona);
-        usuario.setUsuFechaUlt(new Date());
-        return "/faces/medico/registroSignos.xhtml?faces-redirect=true";
+        return "/medico/registroSignos.xhtml?faces-redirect=true";
     }
     
     public String guardarColaborador(){
@@ -268,7 +264,7 @@ public final class PersonaBean implements Serializable{
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesMessages.info(":growlInfo", "Colaborador creado con éxito", "This is a specific message!");
-        return "/faces/privado/home?faces-redirect=true";
+        return "/privado/home?faces-redirect=true";
     }
     
     public void guardarSignosYPaciente(){
@@ -317,7 +313,6 @@ public final class PersonaBean implements Serializable{
         
         //Llamada a beans para guardar datos
         PersonaDAO.crearPersona(persona);
-        PersonaDAO.crearUsuario(usuario);
         RevisionSistemasDAO.crearActualizarRevision(revision);
         CitaDAO.crearHistoriaPrimeraVez(historia, revision);
         SignosDAO.crearSignosPrimeraVez(signos);
@@ -331,8 +326,8 @@ public final class PersonaBean implements Serializable{
         signos.setSigFrecuenciaRespiratoria(0);
         signos.setSigFrecuenciaCardiaca(0);
         signos.setSigSaturacion(0);
-        signos.setSigPeso(0);
-        signos.setSigEstatura(0);
+        signos.setSigPeso(0f);
+        signos.setSigEstatura(0f);
         signos.setSigImc(0);
         signos.setSigPerimetroAbdominal(0);
         signos.setSigGlucosaCapilar(0f);
@@ -380,7 +375,7 @@ public final class PersonaBean implements Serializable{
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesMessages.info(":growlInfo", "Paciente creado con éxito", "This is a specific message!");
         // Fragmento para conservar los mensajes entre vistas
-        return "/faces/privado/home.xhtml?faces-redirect=true";
+        return "/privado/home.xhtml?faces-redirect=true";
     }
     
     public String redireccionarIniciarCita(){
@@ -390,7 +385,7 @@ public final class PersonaBean implements Serializable{
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesMessages.info(":growlInfo", "Cita Iniciada", "This is a specific message!");
         // Fragmento para conservar los mensajes entre vistas
-        return "/faces/medico/citaMedica.xhtml?faces-redirect=true";
+        return "/medico/citaMedica.xhtml?faces-redirect=true";
     }
     
     public String actualizarPaciente(){
@@ -405,7 +400,7 @@ public final class PersonaBean implements Serializable{
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesMessages.info(":growlInfo", "Se han actualizado los datos del paciente", "This is a specific message!");
         // Fragmento para conservar los mensajes entre vistas
-        return "/faces/privado/home.xhtml?faces-redirect=true";
+        return "/privado/home.xhtml?faces-redirect=true";
     }
     
     public void especificar_ocupacion(){
@@ -485,6 +480,63 @@ public final class PersonaBean implements Serializable{
         }
         return nomUsu.toLowerCase();
 
+    }
+    
+    public void validarCedulaCreada(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        if (PersonaDAO.recuperarPersonaCedula((String) value) == null) {
+            if (!validarCedula((String) value)) {
+                    throw new ValidatorException(new FacesMessage("Cedula inválida"));
+                }
+        } else {
+
+            throw new ValidatorException(new FacesMessage("Esta cédula ya existe en los registros"));
+
+        }
+
+    }
+    
+    public static boolean validarCedula(String cedula) {
+
+        int suma = 0;
+        if (cedula.length() < 10) {
+
+            return false;
+
+        } else {
+
+            int a[] = new int[cedula.length() / 2];
+            int b[] = new int[(cedula.length() / 2)];
+            int c = 0;
+            int d = 1;
+            for (int i = 0; i < cedula.length() / 2; i++) {
+                a[i] = Integer.parseInt(String.valueOf(cedula.charAt(c)));
+                c = c + 2;
+                if (i < (cedula.length() / 2) - 1) {
+                    b[i] = Integer.parseInt(String.valueOf(cedula.charAt(d)));
+                    d = d + 2;
+                }
+
+            }
+
+            for (int i = 0; i < a.length; i++) {
+                a[i] = a[i] * 2;
+                if (a[i] > 9) {
+                    a[i] = a[i] - 9;
+                }
+                suma = suma + a[i] + b[i];
+            }
+            int aux = suma / 10;
+            int dec = (aux + 1) * 10;
+            if ((dec - suma) == Integer.parseInt(String.valueOf(cedula.charAt(cedula.length() - 1)))) {
+                return true;
+            } else if (suma % 10 == 0 && cedula.charAt(cedula.length() - 1) == '0') {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
     }
     
     public String convertirMD5(String valor) {

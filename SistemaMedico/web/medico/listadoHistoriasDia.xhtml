@@ -15,21 +15,27 @@
         <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
     </h:head>
-
-
-
-
-
-
+    
+        <script>
+        $.blockUI.defaults.css = {
+            padding: 0,
+            margin: 0,
+            width: '30%',
+            top: '40%',
+            left: '35%',
+            textAlign: 'center',
+            color: '#000',
+            border: '0px solid #aaa',
+            backgroundColor: 'transparent',
+            cursor: 'wait'
+        };
+        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
+        $.blockUI.defaults.overlayCSS.opacity = 0.5;
+        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
+    </script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
-
-
-
-
-
-
-
 
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
 
@@ -84,38 +90,12 @@
                             <b:dataTableColumn label="Médico Tratante" value="#{CitaBean.getNombreCompletoMedico(historia)}" style="width: 30%"/>
                             <b:dataTableColumn label="Paciente" value="#{CitaBean.getNombreCompleto(historia)}" style="width: 30%" order="asc"/>
                             <b:dataTableColumn label="Fecha" value="#{historia.hisFechaCreacion}" style="width: 5%" />
-<!--                            <b:dataTableColumn label="Signos" style="width: 10%" >
-                                <b:row>
-                                    <b:column span="1" offset="0">
-                                        <b:commandButton ajax="true"
-                                                         update=":modalEdicionSignos:formEdicionSignos :growl"
-                                                         action="# {CitaBean.recuperarSignosId(historia.signos.sigId)}"
-                                                         oncomplete="$('#modalEdicionSignos').modal('show')"
-                                                         tooltip="Editar Historia" look="warning">
-                                            <b:iconAwesome name="pencil"></b:iconAwesome>
-                                        </b:commandButton>
-                                    </b:column>
-                                </b:row>
-                            </b:dataTableColumn>
-                            <b:dataTableColumn label="Enfermedad" style="width: 10%" >
-                                <b:row>
-                                    <b:column span="1" offset="0">
-                                        <b:commandButton ajax="true"
-                                                         update=":modalEdicionHistoria:formEdicionHistoria :growl"
-                                                         action="# {CitaBean.recuperarHistoriaID(historia.hisId)}"
-                                                         oncomplete="$('#modalEdicionHistoria').modal('show')"
-                                                         tooltip="Editar Enfermedad" look="warning">
-                                            <b:iconAwesome name="pencil"></b:iconAwesome>
-                                        </b:commandButton>
-                                    </b:column>
-                                </b:row>
-                            </b:dataTableColumn>-->
+
                             <b:dataTableColumn label="Cita" style="width: 5%" >
                                 <b:row>
                                     <b:column span="1" offset="0">
                                         <b:commandButton ajax="true"
                                                          action="#{CitaBean.VerCitaMedica(historia.hisId)}"
-                                                         oncomplete="$('#modalEdicionHistoria').modal('show')"
                                                          tooltip="Revisar cita" look="success">
                                             <b:iconAwesome name="eye"></b:iconAwesome>
                                         </b:commandButton>

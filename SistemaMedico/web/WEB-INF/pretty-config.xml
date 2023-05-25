@@ -60,6 +60,11 @@
         <view-id value="/faces/medico/actualizacionPaciente.xhtml"/>
     </url-mapping>
     
+    <url-mapping id="actualizacion-paciente-admin">
+        <pattern value="/actualizacion-paciente-admin" />
+        <view-id value="/faces/administrador/actualizacionPacienteAdmin.xhtml"/>
+    </url-mapping>
+    
     <url-mapping id="actualizacion-signos">
         <pattern value="/actualizacion-signos" />
         <view-id value="/faces/medico/actualizacionSignos.xhtml"/>
@@ -92,7 +97,7 @@
     
     <url-mapping id="cambio-clave-user">
         <pattern value="/cambio-clave-user" />
-        <view-id value="/privado/cambioClave.xhtml" />
+        <view-id value="/faces/privado/cambioClave.xhtml" />
     </url-mapping>
     
 </pretty-config>

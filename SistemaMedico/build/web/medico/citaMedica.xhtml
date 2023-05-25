@@ -7,7 +7,7 @@
       xmlns:my="http://java.sun.com/jsf/composite/recursos"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
-
+    
     <f:event listener="#{LoginBean.comprobarLogin()}" type="preRenderView" />
     #{personasBean.cargarPersona()}
 
@@ -16,6 +16,24 @@
         <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
     </h:head>
+    
+    <script>
+        $.blockUI.defaults.css = {
+            padding: 0,
+            margin: 0,
+            width: '30%',
+            top: '40%',
+            left: '35%',
+            textAlign: 'center',
+            color: '#000',
+            border: '0px solid #aaa',
+            backgroundColor: 'transparent',
+            cursor: 'wait'
+        };
+        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
+        $.blockUI.defaults.overlayCSS.opacity = 0.5;
+        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
+    </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
@@ -111,28 +129,6 @@
                                              value="#{CitaBean.historia.personasByPacientePerId.perTelefono}"
                                              required="true"
                                              requiredMessage="Ingrese su teléfono"/>
-                            </b:column>
-                            
-                            <b:column span="2">
-                                <b:inputText label="Contacto"
-                                             id="per_contacto_emergencia"
-                                             placeholder="Ingrese su contacto de emergencia"
-                                             size="13"
-                                             maxlength="100"
-                                             value="#{CitaBean.historia.personasByPacientePerId.perContactoEmergencia}"
-                                             required="true"
-                                             requiredMessage="Ingrese su contacto de emergencia"/>
-                            </b:column>
-                            
-                            <b:column span="3">
-                                <b:inputText label="Parentesco del Contacto"
-                                             id="per_parentesco"
-                                             placeholder="Parentesco de su contacto"
-                                             size="13"
-                                             maxlength="100"
-                                             value="#{CitaBean.historia.personasByPacientePerId.perParentesco}"
-                                             required="true"
-                                             requiredMessage="Ingrese el parentesco"/>
                             </b:column>
                             
                             <b:column span="2">
@@ -253,7 +249,7 @@
                                     <f:ajax render="" />
                                 </b:selectOneMenu>
                             </b:column>
-                            <b:column span="3">
+                                <b:column span="3">
                                 <b:selectOneMenu label="Profesión" id="per_profesion"
                                                  value="#{CitaBean.historia.personasByPacientePerId.perProfesion}"
                                                  required="true"
@@ -263,10 +259,69 @@
                                     <f:selectItems value="#{CitaBean.lista_ocupaciones}"
                                                    var="o" itemLabel="#{o.ocuDescripcion}"
                                                    itemValue="#{o.ocuId}" />
-                                    <f:ajax render="" />
+                                    <f:ajax event="change"
+                                            render="profesion_especifica"
+                                            listener="#{CitaBean.especificar_ocupacion()}"/>
                                 </b:selectOneMenu>
                                 <b:message for="per_profesion" />
                             </b:column>
+                            <b:column span="4">
+                                <h:panelGroup id="profesion_especifica">
+                                    <b:inputText label="Especifique"
+                                             placeholder="Profesión"
+                                             size="13"
+                                             maxlength="100"
+                                             required="true"
+                                             value="#{CitaBean.profesion_abierta}"
+                                             rendered="#{CitaBean.renderizar_profesion_abierta}"
+                                             requiredMessage="Ingrese su oficio">
+                                    <f:validateLength minimum="3"/>
+                                    </b:inputText>
+                                    </h:panelGroup>
+                                </b:column>
+                        </b:row>
+                        <br/>
+                        <b:row>
+                            <b:column span="4">
+                                    <b:inputText label="Teléfono Contacto de Emergencia"
+                                                 id="per_contacto_emergencia"
+                                                 placeholder="Ingrese su contacto de emergencia"
+                                                 size="13"
+                                                 maxlength="100"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perContactoEmergencia}"
+                                                 required="true"
+                                                 requiredMessage="Ingrese su contacto de emergencia"/>
+                                </b:column>
+                            <b:column span="4">
+                                <b:selectOneMenu label="Parentesco del contacto de emergencia"
+                                                 id="per_parentesco"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perParentesco}"
+                                                 required="true"
+                                                 requiredMessage="Seleccione el parentesco">
+                                    <f:selectItem itemLabel="Seleccione"
+                                                      itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{CitaBean.lista_parentescos}"
+                                                   var="p" itemLabel="#{p.parNombre}"
+                                                   itemValue="#{p.parId}" />
+                                    <f:ajax event="change"
+                                            render="parentesco_especifico"
+                                            listener="#{CitaBean.especificar_parentesco()}"/>
+                                </b:selectOneMenu>
+                            </b:column>
+                            <b:column span="4">
+                                <h:panelGroup id="parentesco_especifico">
+                                    <b:inputText label="Especifique"
+                                             placeholder="Parentesco"
+                                             size="13"
+                                             maxlength="100"
+                                             required="true"
+                                             value="#{CitaBean.parentesco_abierto}"
+                                             rendered="#{CitaBean.renderizar_parentesco_abierto}"
+                                             requiredMessage="Ingrese el parentesco">
+                                    <f:validateLength minimum="3"/>
+                                    </b:inputText>
+                                    </h:panelGroup>
+                                </b:column>
                         </b:row>
                         <br/>
                         </b:panel>
