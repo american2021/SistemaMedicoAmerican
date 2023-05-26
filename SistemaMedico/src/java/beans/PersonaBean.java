@@ -36,6 +36,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
@@ -65,7 +66,7 @@ public final class PersonaBean implements Serializable{
     
     private String per_nombre_completo;
     private String nombre_medico;
-    private String primerNombre;
+    private String nombre_usuario;
     private String nombre_enfermedad;
     
     //Creación de objetos
@@ -108,6 +109,7 @@ public final class PersonaBean implements Serializable{
             
     public PersonaBean(){
         session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        nombre_usuario = session.getAttribute("nombre_usuario").toString().split(" ")[0];
         // Para conservar mensajes entre vistas
         inicializarPersona();
         inicializarSignos();
@@ -195,7 +197,7 @@ public final class PersonaBean implements Serializable{
         persona = PersonaDAO.recuperarPersonaID(usu.getPersonas().getPerId());
         
         String[] splited = persona.getPerNombres().split("\\s+");
-        primerNombre = splited[0].substring(0, 1).toUpperCase() + splited[0].substring(1).toLowerCase();
+        nombre_usuario = splited[0].substring(0, 1).toUpperCase() + splited[0].substring(1).toLowerCase();
     }
     
     public void inicializarHistoria(){
@@ -226,6 +228,18 @@ public final class PersonaBean implements Serializable{
         
         FacesMessages.info(":growlInfo", "Paciente creado con éxito", "This is a specific message!");
         return "/privado/home.xhtml?faces-redirect=true";
+    }
+    
+    public void registrarCitaNueva(){
+        Set historias_aux = persona.getHistoriasesForPacientePerId();
+        historia = new Historias();
+        historia.setHisFechaUlt(new Date());
+        historia.setHisFechaCreacion(new Date());
+        historia.setHisUsuario(session.getAttribute("usuario").toString());
+        historia.setHisMotivo("Por definir");
+        historia.setHisEnfermedad("Por definir");
+        historias_aux.add(this);
+        
     }
     
     /**
@@ -846,12 +860,12 @@ public final class PersonaBean implements Serializable{
         this.lista_estados_civiles = lista_estados_civiles;
     }
 
-    public String getPrimerNombre() {
-        return primerNombre;
+    public String getNombre_usuario() {
+        return nombre_usuario;
     }
 
-    public void setPrimerNombre(String primerNombre) {
-        this.primerNombre = primerNombre;
+    public void setNombre_usuario(String nombre_usuario) {
+        this.nombre_usuario = nombre_usuario;
     }
 
     public String getNombre_medico() {

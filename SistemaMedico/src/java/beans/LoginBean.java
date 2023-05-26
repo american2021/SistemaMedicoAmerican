@@ -5,6 +5,7 @@
  */
 package beans;
 
+import dao.PersonaDAO;
 import dao.UsuarioDAO;
 import datos.Personas;
 import datos.Usuarios;
@@ -47,11 +48,12 @@ public class LoginBean implements Serializable {
     private String claveAct;
     private String cambioRol;
     private boolean valido;
+    private String nombre_usuario;
     
     HttpSession session;
 
     public LoginBean() {
-        //inicializarUsuario();
+        inicializarUsuario();
     }
     
     public void inicializarUsuario(){
@@ -59,33 +61,37 @@ public class LoginBean implements Serializable {
         usuario = null;
         usu_contra = "";
         usu_nombre = "";
+        nombre_usuario = "";
     }
 
     public String login() {
         usuario = UsuarioDAO.obtenerUsuario(usu_nombre);
-        
-        if (usuario != null) {
-            rolActual = usuario.getRolesRolId();
+        rolActual = usuario.getRolesRolId();
+        if(usuario != null){
             valido = usuario.getUsuContra().equalsIgnoreCase(convertirMD5(usu_contra));
-            if (valido) {
-                estaLogueado = true;
-                session.setAttribute("usuario", usuario.getUsuNombre());
-                return "/privado/home.xhtml?faces-redirect=true";
+        if (valido) {
+            estaLogueado = true;
+            session.setAttribute("usuario", usuario.getUsuNombre());            
+            session.setAttribute("nombre_usuario",
+                    PersonaDAO.recuperarPersonaID(usuario.getPersonas().getPerId()).getPerNombres());    
+            return "/privado/home.xhtml?faces-redirect=true";
             } else {
-                FacesMessages.warning(":growl", "Revise sus credenciales", "This is a specific message!");
-                return "";
+                FacesMessages.warning(":growl", "La clave es incorrecta", "This is a specific message!");
             }
-        } else {
-            FacesMessages.warning(":growl", "El usuario no existe en el sistema", "This is a specific message!");
-            return "";
         }
+        else{
+            FacesMessages.warning(":growl", "El usuario no existe en el sistema", "This is a specific message!");
+        }
+
+        return "";
+
     }
     
     public String logout() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         estaLogueado = false;
-        return "/?faces-redirect=true";
+        return "/index?faces-redirect=true";
 
     }
 
@@ -108,7 +114,7 @@ public class LoginBean implements Serializable {
         if (estaLogueado) {
 
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("./home");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("./");
             } catch (IOException ex) {
                 Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -151,6 +157,7 @@ public class LoginBean implements Serializable {
     }
 
     public void comprobarLogin() {
+
         if (!estaLogueado) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("./");
@@ -384,4 +391,12 @@ public class LoginBean implements Serializable {
         this.cambioRol = cambioRol;
     }
 
+    public String getNombre_usuario() {
+        return nombre_usuario;
+    }
+
+    public void setNombre_usuario(String nombre_usuario) {
+        this.nombre_usuario = nombre_usuario;
+    }
+    
 }
