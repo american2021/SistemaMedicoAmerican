@@ -12,13 +12,6 @@
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
     </h:head>
 
-
-
-
-
-
-
-
     <script>
         $.blockUI.defaults.css = {
             padding: 0,
@@ -39,35 +32,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
 
     <my:cabecera id="cabecera"/>
-    <my:menuLateralMedico id="menuLateralMedico"/>
 
     <h:body>
-
+        <b:column>
+                <!-- Se cargan los respectivos menús laterales -->
+            <my:menuLateralMedico id="menuLateralMedico"/>
+            <my:menuLateralAdministrador id="menuLateralAdministrador"/>
+            <my:menuLateralContador id="menuLateralContador"/>
+            <my:menuLateralEstudiante id="menuLateralEstudiante"/>
         <p:idleMonitor timeout="600000">
             <p:ajax event="idle" listener="#{LoginBean.sesionInactiva()}" />
         </p:idleMonitor>
@@ -109,21 +84,23 @@
                     <br />
                     <b:row>
                         <b:column span="3" offset="3">
-<!--                            <b:commandButton
+                            <b:commandButton
                                     large-screen="full-width"
                                     id="submit"
                                     value="Aceptar"
-                                    action="# {LoginBean.cambiarClaveUsuario()}"
-                                    look="success" />-->
+                                    action="#{LoginBean.cambiarClaveUsuario()}"
+                                    look="info" />
                         </b:column>
                         <b:column span="3">
-                            <b:button large-screen="full-width" id="salir" value="Regresar" href="./" look="danger" />
+                            <b:button large-screen="full-width" id="salir" value="Regresar"
+                                      href="./home" look="danger" />
                         </b:column>
                     </b:row>
                 </b:form>
                 <br/>
             </b:panel>
         </b:container>
+        </b:column>
     </h:body>
     <my:piePagina id="piePagina"/>
 </html>

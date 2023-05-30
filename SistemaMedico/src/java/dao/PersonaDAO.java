@@ -8,7 +8,6 @@ package dao;
 import conexion.HibernateUtil;
 import datos.Personas;
 import datos.Usuarios;
-import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;

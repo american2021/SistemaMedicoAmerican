@@ -10,6 +10,11 @@
         <view-id value="/faces/index.xhtml" />
     </url-mapping>
     
+    <url-mapping id="cambio-clave-correcto">
+        <pattern value="/cambio-clave-correcto" />
+        <view-id value="/faces/administrador/cambioClaveCorrecto.xhtml" />
+    </url-mapping>
+    
     <url-mapping id="home">
         <pattern value="/home"/>
         <view-id value="/faces/privado/home.xhtml" />

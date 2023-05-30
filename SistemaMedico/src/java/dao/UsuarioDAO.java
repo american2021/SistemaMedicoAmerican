@@ -15,6 +15,13 @@ import org.hibernate.Session;
  * @author Administrador
  */
 public class UsuarioDAO {
+        public static void crearActualizarUsuario(Usuarios usuario){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.saveOrUpdate(usuario);
+        session.getTransaction().commit();
+        session.close();
+    }
     
     public static Usuarios obtenerUsuario(String usu_nombre) {
 

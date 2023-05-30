@@ -49,14 +49,14 @@ public class LoginBean implements Serializable {
     private String cambioRol;
     private boolean valido;
     private String nombre_usuario;
-    
+
     HttpSession session;
 
     public LoginBean() {
         inicializarUsuario();
     }
-    
-    public void inicializarUsuario(){
+
+    public void inicializarUsuario() {
         session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         usuario = null;
         usu_contra = "";
@@ -67,26 +67,25 @@ public class LoginBean implements Serializable {
     public String login() {
         usuario = UsuarioDAO.obtenerUsuario(usu_nombre);
         rolActual = usuario.getRolesRolId();
-        if(usuario != null){
+        if (usuario != null) {
             valido = usuario.getUsuContra().equalsIgnoreCase(convertirMD5(usu_contra));
-        if (valido) {
-            estaLogueado = true;
-            session.setAttribute("usuario", usuario.getUsuNombre());            
-            session.setAttribute("nombre_usuario",
-                    PersonaDAO.recuperarPersonaID(usuario.getPersonas().getPerId()).getPerNombres());    
-            return "/privado/home.xhtml?faces-redirect=true";
+            if (valido) {
+                estaLogueado = true;
+                session.setAttribute("usuario", usuario.getUsuNombre());
+                session.setAttribute("nombre_usuario",
+                        PersonaDAO.recuperarPersonaID(usuario.getPersonas().getPerId()).getPerNombres());
+                return "/privado/home.xhtml?faces-redirect=true";
             } else {
                 FacesMessages.warning(":growl", "La clave es incorrecta", "This is a specific message!");
             }
-        }
-        else{
+        } else {
             FacesMessages.warning(":growl", "El usuario no existe en el sistema", "This is a specific message!");
         }
 
         return "";
 
     }
-    
+
     public String logout() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
@@ -107,6 +106,60 @@ public class LoginBean implements Serializable {
 
         }
 
+    }
+
+    public String cambiarClaveUsuario() {
+
+        if (convertirMD5(claveAct).equalsIgnoreCase(usuario.getUsuContra())) {
+
+            if (claveCamb1.equals(claveCamb2)) {
+
+                if (claveCamb1.length() > 5) {
+
+                    usuario.setUsuContra(convertirMD5(claveCamb1));
+                    UsuarioDAO.crearActualizarUsuario(usuario);
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+                    FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+                    return "/administrador/cambioClaveCorrecto.xhtml?faces-redirect=true";
+
+                } else {
+
+                    FacesMessages.warning(":growl", "La contraseña debe tener mas de 6 caracteres", "This is a specific message!");
+
+                }
+
+                /*
+                Pattern pat = Pattern.compile("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$");
+                Matcher mat1 = pat.matcher(claveCamb1);
+
+                if (mat1.matches()) {
+
+                    usuario.setClave(Correo.convertirMD5(claveCamb1));
+                    usuario.setCambioClave('N');
+                    UsuarioAppDAO.actualizarUsuarioApp(usuario);
+                    claveAct = "";
+                    claveCamb1 = "";
+                    claveCamb2 = "";
+                    FacesMessages.info(":growl", "Contraseña modificada exitosamente", "This is a specific message!");
+
+                } else {
+
+                    FacesMessages.warning(":growl", "La contraseña debe tener entre 8 y 16 caracteres, un dígito, una minúscula y una mayúscula", "This is a specific message!");
+
+                }*/
+            } else {
+
+                FacesMessages.warning(":growl", "La nueva clave no es igual a la nueva clave repetida", "This is a specific message!");
+
+            }
+
+        } else {
+
+            FacesMessages.warning(":growl", "La contraseña actual es incorrecta", "This is a specific message!");
+
+        }
+
+        return "";
     }
 
     public void accessoNoLogueado() {
@@ -132,25 +185,25 @@ public class LoginBean implements Serializable {
         }
 
     }
-    
+
     public String renderizarAdministrador() {
 
         return String.valueOf(rolActual == 1);
 
     }
-    
+
     public String renderizarEstudiante() {
 
         return String.valueOf(rolActual == 4);
 
     }
-    
+
     public String renderizarMedico() {
 
         return String.valueOf(rolActual == 2);
 
     }
-    
+
     public String renderizarContador() {
         return String.valueOf(rolActual == 3);
 
@@ -398,5 +451,5 @@ public class LoginBean implements Serializable {
     public void setNombre_usuario(String nombre_usuario) {
         this.nombre_usuario = nombre_usuario;
     }
-    
+
 }

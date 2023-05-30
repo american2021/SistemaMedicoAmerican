@@ -27,22 +27,6 @@ public class SignosDAO {
         session.close();
     }    
     
-    public static void crearSignosPrimeraVez(Signos signos) {
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("from Historias order by his_id desc");
-        Historias historia = (Historias) query.list().get(0);
-        query = session.createQuery("from Enfermedades where enf_id = 1");
-        Enfermedades enfermedad = (Enfermedades) query.uniqueResult();
-        session.save(signos);
-        historia.setSignos(signos);
-        historia.setEnfermedades(enfermedad);
-        session.saveOrUpdate(historia);
-        session.getTransaction().commit();
-        session.close();
-    }
-    
     public static Signos recuperarSignosId(int id) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();

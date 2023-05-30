@@ -1,5 +1,5 @@
 package datos;
-// Generated 22-may-2023 17:51:46 by Hibernate Tools 4.3.1
+// Generated 29-may-2023 18:02:02 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -24,7 +24,8 @@ public class Signos  implements java.io.Serializable {
      private Float sigPeso;
      private Float sigEstatura;
      private int sigImc;
-     private Integer sigPerimetroAbdominal;
+     private Float sigPerimetroAbdominal;
+     private Float sigPerimetroBrazo;
      private Float sigGlucosaCapilar;
      private Float sigValorHemoglobina;
      private Float sigValorHemoglobinaCorr;
@@ -47,7 +48,7 @@ public class Signos  implements java.io.Serializable {
         this.sigTemperatura = sigTemperatura;
         this.sigImc = sigImc;
     }
-    public Signos(int sigTipo, int sigPresionSistolica, int sigPresionDiastolica, int sigFrecuenciaRespiratoria, int sigFrecuenciaCardiaca, int sigPresionArterialMedia, int sigSaturacion, int sigTemperatura, Float sigPeso, Float sigEstatura, int sigImc, Integer sigPerimetroAbdominal, Float sigGlucosaCapilar, Float sigValorHemoglobina, Float sigValorHemoglobinaCorr, Date sigFechaUlt, String sigUsuario, Set historiases) {
+    public Signos(int sigTipo, int sigPresionSistolica, int sigPresionDiastolica, int sigFrecuenciaRespiratoria, int sigFrecuenciaCardiaca, int sigPresionArterialMedia, int sigSaturacion, int sigTemperatura, Float sigPeso, Float sigEstatura, int sigImc, Float sigPerimetroAbdominal, Float sigPerimetroBrazo, Float sigGlucosaCapilar, Float sigValorHemoglobina, Float sigValorHemoglobinaCorr, Date sigFechaUlt, String sigUsuario, Set historiases) {
        this.sigTipo = sigTipo;
        this.sigPresionSistolica = sigPresionSistolica;
        this.sigPresionDiastolica = sigPresionDiastolica;
@@ -60,6 +61,7 @@ public class Signos  implements java.io.Serializable {
        this.sigEstatura = sigEstatura;
        this.sigImc = sigImc;
        this.sigPerimetroAbdominal = sigPerimetroAbdominal;
+       this.sigPerimetroBrazo = sigPerimetroBrazo;
        this.sigGlucosaCapilar = sigGlucosaCapilar;
        this.sigValorHemoglobina = sigValorHemoglobina;
        this.sigValorHemoglobinaCorr = sigValorHemoglobinaCorr;
@@ -152,12 +154,19 @@ public class Signos  implements java.io.Serializable {
     public void setSigImc(int sigImc) {
         this.sigImc = sigImc;
     }
-    public Integer getSigPerimetroAbdominal() {
+    public Float getSigPerimetroAbdominal() {
         return this.sigPerimetroAbdominal;
     }
     
-    public void setSigPerimetroAbdominal(Integer sigPerimetroAbdominal) {
+    public void setSigPerimetroAbdominal(Float sigPerimetroAbdominal) {
         this.sigPerimetroAbdominal = sigPerimetroAbdominal;
+    }
+    public Float getSigPerimetroBrazo() {
+        return this.sigPerimetroBrazo;
+    }
+    
+    public void setSigPerimetroBrazo(Float sigPerimetroBrazo) {
+        this.sigPerimetroBrazo = sigPerimetroBrazo;
     }
     public Float getSigGlucosaCapilar() {
         return this.sigGlucosaCapilar;

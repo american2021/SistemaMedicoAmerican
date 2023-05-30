@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:p="http://primefaces.org/ui" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:b="http://bootsfaces.net/ui" xmlns:my="http://java.sun.com/jsf/composite/recursos" xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>American College</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
+        <link rel="stylesheet" href="./css/main.css" type="text/css" />
+    </h:head>
+
+
+
+
+
+
+    <script>
+        $.blockUI.defaults.css = {
+            padding: 0,
+            margin: 0,
+            width: '30%',
+            top: '40%',
+            left: '35%',
+            textAlign: 'center',
+            color: '#000',
+            border: '0px solid #aaa',
+            backgroundColor: 'transparent',
+            cursor: 'wait'
+        };
+        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
+        $.blockUI.defaults.overlayCSS.opacity = 0.5;
+        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+    <h:body>
+        <p:idleMonitor timeout="600000">
+            <p:ajax event="idle" listener="#{loginBean.sesionInactiva()}" />
+        </p:idleMonitor>
+        <b:container fluid="true">
+            <br/><br/><br/><br/><br/><br/>
+            <b:panel span="4" offset="4" style="background-color: white; box-shadow: 0 0 20px #49688E;
+                     border-radius: 3%;">
+                <b:form id="formP">
+                    <b:row>
+                        <b:column span="12">
+                            <b:image library="images" value="img/instLogo.png" alt="American College" style=" display: block;
+                                     margin-left: auto;
+                                     margin-right: auto;" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="12" style="text-align: center;">
+                            <h3>¡¡ Cambio de clave exitoso !!</h3>
+                        </b:column>
+                        <b:column span="12" style="text-align: center;">
+                            <h6>Su clave ha sido modificada, por favor ingrese al sistema nuevamente.</h6>
+                        </b:column>
+                    </b:row>
+
+                    <b:row>
+                        <b:column span="6" offset="3">
+                            <br/>
+                            <b:commandButton large-screen="full-width"
+                                             look="info"
+                                             id="submit"
+                                             value="Aceptar"
+                                             action="/privado/home.xhtml?faces-redirect=true" />
+                        </b:column>
+                    </b:row>
+                </b:form>
+            </b:panel>
+        </b:container>
+    </h:body>
+    <my:piePagina id="piePagina"/>
+
+</html>

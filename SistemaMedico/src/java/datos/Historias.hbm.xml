@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 22-may-2023 17:51:46 by Hibernate Tools 4.3.1 -->
+<!-- Generated 29-may-2023 18:02:03 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Historias" table="historias" catalog="smed" optimistic-lock="version">
         <id name="hisId" type="java.lang.Integer">
@@ -18,7 +18,7 @@
             <column name="medico_per_id" />
         </many-to-one>
         <many-to-one name="personasByPacientePerId" class="datos.Personas" fetch="select">
-            <column name="paciente_per_id" not-null="true" />
+            <column name="paciente_per_id" />
         </many-to-one>
         <many-to-one name="resultados" class="datos.Resultados" fetch="select">
             <column name="resultados_res_id" />

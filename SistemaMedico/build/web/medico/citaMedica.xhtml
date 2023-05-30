@@ -502,8 +502,8 @@
                                         render="growl"/>
                                 </b:inputText>
                             </b:column>
-                            <b:column span="3">
-                                <b:inputText label="Indice de masa corporal"
+                            <b:column span="2">
+                                <b:inputText label="Indice masa corporal"
                                              placeholder="I.M.C."
                                              id="sig_imc"
                                              size="13"
@@ -521,9 +521,24 @@
                                              maxlength="3"
                                              value="#{CitaBean.signos.sigPerimetroAbdominal}"
                                              required="false"
-                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el perímetro abdominal">
                                     <f:validateLongRange minimum="10" maximum="500"/>
+                                    <f:ajax event="change"
+                                        render="growl"/>
+                                </b:inputText>
+                            </b:column>
+                                <b:column span="3">
+                                <b:inputText label="Perímetro brazo (cm)"
+                                             placeholder="Perímetro Brazo"
+                                             id="sig_perimetro_brazo"
+                                             size="13"
+                                             maxlength="3"
+                                             value="#{CitaBean.signos.sigPerimetroBrazo}"
+                                             required="false"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                             requiredMessage="Ingrese el perímetro abdominal">
+                                    <f:validateLongRange minimum="10" maximum="100"/>
                                     <f:ajax event="change"
                                         render="growl"/>
                                 </b:inputText>

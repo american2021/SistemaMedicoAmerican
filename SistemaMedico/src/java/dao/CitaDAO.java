@@ -19,15 +19,6 @@ import org.hibernate.Session;
  * @author Administrador
  */
 public class CitaDAO {
-    
-    public static void crearActualizarHistoria(Historias historia){
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.saveOrUpdate(historia);
-        session.getTransaction().commit();
-        session.close();
-    } 
-    
     public static void crearActualizarHistoriaConEnfermedad(Historias historia){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -41,7 +32,6 @@ public class CitaDAO {
     }   
     
     public static List<Historias> recuperarHistorias() {
-
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Historias");
@@ -49,7 +39,7 @@ public class CitaDAO {
         historias.forEach((historia) -> {
             //Necesario para cargar los datos de la persona en modo eager
             historia.getPersonasByPacientePerId().getPerNombres();
-            historia.getEnfermedades().getEnfNombre();
+            //historia.getEnfermedades().getEnfNombre();
             historia.getSignos().getSigEstatura();
             try {
                 historia.getPersonasByMedicoPerId().getPerNombres();
@@ -91,7 +81,6 @@ public class CitaDAO {
         if (!query.list().isEmpty()) {
 
             historia = (Historias) query.uniqueResult();
-            historia.getEnfermedades().getEnfNombre();
             historia.getSignos().getSigPresionSistolica();
             historia.getRevisionSistemas().getRevSisSentidos();
             historia.getPersonasByPacientePerId().getPerNombres();
@@ -105,20 +94,7 @@ public class CitaDAO {
         return historia;
     }
     
-    public static void crearHistoriaPrimeraVez(Historias historia, RevisionSistemas revision) {
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("from Personas order by per_id desc");
-        Personas persona = (Personas) query.list().get(0);
-        historia.setPersonasByPacientePerId(persona);
-        historia.setRevisionSistemas(revision);
-        session.save(historia);
-        session.getTransaction().commit();
-        session.close();
-    }
-    
-    public static int recuperarUltimaHistoriaID(){
+    public static int recuperarIDUltimaHistoria(){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("FROM Historias order by his_id desc");

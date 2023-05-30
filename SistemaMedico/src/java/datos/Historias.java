@@ -1,5 +1,5 @@
 package datos;
-// Generated 22-may-2023 17:51:46 by Hibernate Tools 4.3.1
+// Generated 29-may-2023 18:02:02 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -32,8 +32,7 @@ public class Historias  implements java.io.Serializable {
     }
 
 	
-    public Historias(Personas personasByPacientePerId, String hisMotivo, String hisEnfermedad, Date hisFechaCreacion) {
-        this.personasByPacientePerId = personasByPacientePerId;
+    public Historias(String hisMotivo, String hisEnfermedad, Date hisFechaCreacion) {
         this.hisMotivo = hisMotivo;
         this.hisEnfermedad = hisEnfermedad;
         this.hisFechaCreacion = hisFechaCreacion;

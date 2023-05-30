@@ -146,7 +146,6 @@ public final class CitaBean implements Serializable{
     public String VerCitaMedica(int hisId) {
         this.historia_actual_id = hisId;
         historia = CitaDAO.recuperarHistoriaID(hisId);
-        nombre_enfermedad = historia.getEnfermedades().getEnfNombre();
         revision = historia.getRevisionSistemas();
         
         setRevisionChecks();
