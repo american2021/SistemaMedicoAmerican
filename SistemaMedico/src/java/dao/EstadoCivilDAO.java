@@ -17,7 +17,7 @@ import org.hibernate.Session;
  *
  * @author Administrador
  */
-public class EstadosCivilesDAO {
+public class EstadoCivilDAO {
     
     public static List<Estadocivil> recuperarEstados() {
 
@@ -29,4 +29,14 @@ public class EstadosCivilesDAO {
         session.close();
         return estados;
     }
+    
+    public static String recuperarEstadoCivilPorCodigo(String codigo){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Estadocivil where ecCodigo = '"+codigo+"'");
+        Estadocivil estado = (Estadocivil) query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return (String)estado.getEcDescripcion();
+    }   
 }

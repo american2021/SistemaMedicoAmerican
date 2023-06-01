@@ -9,7 +9,7 @@
       xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
     
     <f:event listener="#{LoginBean.comprobarLogin()}" type="preRenderView" />
-    #{personasBean.cargarPersona()}
+    #{CitaBean.inicializarDiagnostico()}
 
     <h:head>
         <title>American College</title>
@@ -197,7 +197,7 @@
                                                   itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{CitaBean.lista_ciudades}"
                                                    var="c" itemLabel="#{c.ciuNombre}"
-                                                   itemValue="#{c.id.ciuCodigo}" />
+                                                   itemValue="#{c.ciuCodigo}" />
                                 </b:selectOneMenu>
                                 <b:message for="per_procedencia" />
                             </b:column>
@@ -404,10 +404,10 @@
                                              placeholder="Temperatura °C"
                                              id="sig_temperatura"
                                              size="13"
-                                             maxlength="2"
+                                             maxlength="5"
                                              value="#{CitaBean.signos.sigTemperatura}"
                                              required="true"
-                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese la temperatura">
                                 <f:validateLongRange minimum="20" maximum="60"/>
                                 <f:ajax event="change"
@@ -589,7 +589,7 @@
                                              disabled="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el valor de la hemoglobina corregido">
-                                    <f:validateLongRange minimum="5" maximum="30"/>
+                                    <f:validateLongRange minimum="0" maximum="30"/>
                                 </b:inputText>
                             </b:column>
                             </b:row>
@@ -828,6 +828,23 @@
                             </b:row>
                             </b:column>
                         </b:panel>
+                        <h:panelGroup id="diagnostisco" rendered="#{LoginBean.renderizarDiagnosticos()}">
+                        <h3>
+                            <b>Diagnóstico</b>
+                        </h3>
+                        <b:panel title="Registro de diagnóstico del paciente" look="info" collapsible="false">
+                            <b:row>
+                                <b:column span="12">
+                                    <b:inputTextarea label="Diagnóstico"
+                                                 placeholder="Diagnóstico"
+                                                 id="dia_descripcion"
+                                                 size="13"
+                                                 value="#{CitaBean.diagnostico.diaObservacion}"
+                                                 maxlength="500"/>
+                                </b:column>
+                            </b:row>
+                        </b:panel>
+                            </h:panelGroup>
                         <b:row contentDisabled="false">
                         
                         <b:column span="4" offset="4">

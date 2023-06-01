@@ -119,10 +119,10 @@
                                              placeholder="Temperatura °C"
                                              id="sig_temperatura"
                                              size="13"
-                                             maxlength="2"
+                                             maxlength="5"
                                              value="#{PersonaBean.sig_temperatura}"
                                              required="true"
-                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese la temperatura">
                                 <f:validateLongRange minimum="20" maximum="60"/>
                                 <f:ajax event="change"
@@ -304,7 +304,7 @@
                                              disabled="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el valor de la hemoglobina corregido">
-                                    <f:validateLongRange minimum="5" maximum="30"/>
+                                    <f:validateLongRange minimum="0" maximum="30"/>
                                 </b:inputText>
                             </b:column>
                         </b:row>

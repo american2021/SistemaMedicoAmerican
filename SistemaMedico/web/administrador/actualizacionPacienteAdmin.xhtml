@@ -74,9 +74,9 @@
                                                  placeholder="Ingrese la cédula"
                                                  id="per_cedula"
                                                  size="13"
-                                                 maxlength="100"
+                                                 maxlength="10"
                                                  value="#{PersonaBean.persona.perCedula}"
-                                                 validator="#{PersonaBean.validarCedulaRUC}"
+                                                 validator="#{PersonaBean.validarCedulaExistente}"
                                                  required="true"
                                                  requiredMessage="Ingrese su cédula"/>
                                 </b:column>
@@ -306,7 +306,7 @@
                                                       itemValue="" noSelectionOption="true" />
                                         <f:selectItems value="#{PersonaBean.lista_ciudades}"
                                                        var="c" itemLabel="#{c.ciuNombre}"
-                                                       itemValue="#{c.id.ciuCodigo}" />
+                                                       itemValue="#{c.ciuCodigo}" />
                                     </b:selectOneMenu>
                                     <b:message for="per_procedencia" />
                                 </b:column>

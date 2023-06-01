@@ -19,13 +19,13 @@ import org.hibernate.Session;
  * @author Administrador
  */
 public class CitaDAO {
-    public static void crearActualizarHistoriaConEnfermedad(Historias historia){
+    public static void crearActualizarHistoriaConDatos(Historias historia){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        
         session.saveOrUpdate(historia.getPersonasByPacientePerId());
         session.saveOrUpdate(historia.getRevisionSistemas());
         session.saveOrUpdate(historia.getSignos());
+        //session.saveOrUpdate(historia.getDiagnosticos());
         session.saveOrUpdate(historia);
         session.getTransaction().commit();
         session.close();
@@ -85,7 +85,7 @@ public class CitaDAO {
             historia.getRevisionSistemas().getRevSisSentidos();
             historia.getPersonasByPacientePerId().getPerNombres();
             try {
-                historia.getPersonasByMedicoPerId().getPerNombres();
+                historia.getDiagnosticos().getDiaObservacion();
             } catch (Exception e) {
                 
             }            

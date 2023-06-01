@@ -10,6 +10,11 @@
         <view-id value="/faces/index.xhtml" />
     </url-mapping>
     
+    <url-mapping id="index2">
+        <pattern value="/" />
+        <view-id value="/faces/index.xhtml" />
+    </url-mapping>
+    
     <url-mapping id="cambio-clave-correcto">
         <pattern value="/cambio-clave-correcto" />
         <view-id value="/faces/administrador/cambioClaveCorrecto.xhtml" />
@@ -20,14 +25,19 @@
         <view-id value="/faces/privado/home.xhtml" />
     </url-mapping>
     
-    <url-mapping id="listado-historias">
-        <pattern value="/listado-historias" />
-        <view-id value="/faces/medico/listadoHistorias.xhtml"/>
+    <url-mapping id="listado-pacientes">
+        <pattern value="/listado-pacientes" />
+        <view-id value="/faces/medico/listadoPacientes.xhtml"/>
     </url-mapping>
     
-    <url-mapping id="listado-historias-dia">
-        <pattern value="/listado-historias-dia" />
-        <view-id value="/faces/medico/listadoHistoriasDia.xhtml"/>
+    <url-mapping id="listado-citas">
+        <pattern value="/listado-citas" />
+        <view-id value="/faces/medico/listadoCitas.xhtml"/>
+    </url-mapping>
+    
+    <url-mapping id="listado-citas-dia">
+        <pattern value="/listado-citas-dia" />
+        <view-id value="/faces/medico/listadoCitasDia.xhtml"/>
     </url-mapping>
     
     <url-mapping id="asignacion-medico">

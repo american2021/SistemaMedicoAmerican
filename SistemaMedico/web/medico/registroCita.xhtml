@@ -45,8 +45,10 @@
 
     <h:body>
         <b:column>
+            <my:menuLateralAdministrador id="menuAdministrador"/>
             <my:menuLateralMedico id="menuLateralMedico"/>
-            <my:menuLateralAdministrador id="menuLateralAdministrador"/>
+            <my:menuLateralEstudiante id="menuLateralEstudiante"/>
+            <my:menuLateralContador id="menuLateralContador"/>
             <p:idleMonitor timeout="600000">
                 <p:ajax event="idle" listener="#{LoginBean.sesionInactiva()}" />
             </p:idleMonitor>
@@ -57,7 +59,7 @@
             <b:panel span="10" offset="0">
                 <b:row>
                     <b:column span="12" style="text-align: center;">
-                        <h2><b>Registro de historia del paciente</b></h2>
+                        <h2><b>Registro de nueva cita del paciente</b></h2>
                     </b:column>
                     <b:column span="12" style="text-align: center;">
                         <h6>Todos los campos marcados con * son obligatorios</h6>

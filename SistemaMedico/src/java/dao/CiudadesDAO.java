@@ -7,7 +7,6 @@ package dao;
 
 import conexion.HibernateUtil;
 import datos.Ciudades;
-import datos.Ocupaciones;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -22,7 +21,7 @@ public class CiudadesDAO {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Ciudades where paiCodigo = 'ECU' order by ciuNombre asc");
+        Query query = session.createQuery("from Ciudades order by ciuNombre asc");
         List<Ciudades> ciudades = query.list();
         session.getTransaction().commit();
         session.close();

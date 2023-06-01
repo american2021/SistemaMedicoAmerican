@@ -9,9 +9,6 @@
         <cc:attribute name="label" default="Menu"/>
     </cc:interface>
     <cc:implementation>
-        
-
-        
         <!--
                                 HOME ESTUDIANTE
         -->
@@ -38,23 +35,23 @@
                         </b:row>
                     </a>
                 </b:column>
-                
-<!--                <b:column span="2" class="divMainHome">
-                    <a href="actualizacion-signos" class="linkHome">
-                        <b:row>
-                            <h:graphicImage class="divIconHome" value="# {pathManager.path}/icon/signos.png" />
-                        </b:row>
-                        <h5 class="divTitleHome" id="reply-title">
-                            <b>Actualización de signos</b>
-                        </h5>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Actualización de signos del paciente.
-                            </span>
-                        </b:row>
-                    </a>
-                </b:column>-->
-                
+
+                <!--                <b:column span="2" class="divMainHome">
+                                    <a href="actualizacion-signos" class="linkHome">
+                                        <b:row>
+                                            <h:graphicImage class="divIconHome" value="# {pathManager.path}/icon/signos.png" />
+                                        </b:row>
+                                        <h5 class="divTitleHome" id="reply-title">
+                                            <b>Actualización de signos</b>
+                                        </h5>
+                                        <b:row>
+                                            <span class="divTextHome"> 
+                                                Actualización de signos del paciente.
+                                            </span>
+                                        </b:row>
+                                    </a>
+                                </b:column>-->
+
                 <b:column span="2" class="divMainHome">
                     <a href="actualizacion-paciente" class="linkHome">
                         <b:row>
@@ -72,30 +69,31 @@
                     </a>
                 </b:column>
                 <b:column span="2" class="divMainHome">
-                    <a href="registro-cita" class="linkHome">
+                    <a href="listado-pacientes" class="linkHome">
                         <b:row>
-                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/actualizar.png" />
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/pacientes.png" />
                         </b:row>
                         <h5 class="divTitleHome" id="reply-title">
-                            <b>Crear nueva cita</b>
+                            <b>Lista pacientes</b>
                         </h5>
+                        <br/>
                         <b:row>
                             <span class="divTextHome"> 
-                                Crear historia clínica.
+                                Listado de pacientes.
                             </span>
                         </b:row>
                     </a>
                 </b:column>
             </b:row>
-            
+
             <b:row>
                 <h3 id="reply-title">
                     <b>Citas médicas</b>
                 </h3>
                 <b:column span="2" class="divMainHome">
-                    <a href="listado-historias" class="linkHome">
+                    <a href="listado-citas" class="linkHome">
                         <b:row>
-                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/account.png" />
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/citas.png" />
                         </b:row>
                         <h5 class="divTitleHome" id="reply-title">
                             <b>Citas Médicas</b>
@@ -108,9 +106,9 @@
                     </a>
                 </b:column>
                 <b:column span="2" class="divMainHome">
-                    <a href="listado-historias-dia" class="linkHome">
+                    <a href="listado-citas-dia" class="linkHome">
                         <b:row>
-                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/account.png" />
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/citas-dia.png" />
                         </b:row>
                         <h5 class="divTitleHome" id="reply-title">
                             <b>Citas Médicas del día</b>
@@ -118,6 +116,21 @@
                         <b:row>
                             <span class="divTextHome"> 
                                 Listado de citas de hoy de los pacientes
+                            </span>
+                        </b:row>
+                    </a>
+                </b:column>
+                <b:column span="2" class="divMainHome">
+                    <a href="registro-cita" class="linkHome">
+                        <b:row>
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/agenda.png" />
+                        </b:row>
+                        <h5 class="divTitleHome" id="reply-title">
+                            <b>Crear nueva cita</b>
+                        </h5>
+                        <b:row>
+                            <span class="divTextHome"> 
+                                Crear historia clínica.
                             </span>
                         </b:row>
                     </a>
@@ -161,7 +174,7 @@
             </b:row>
             <br></br>
             <br></br>
-            
+
         </b:panel>
     </cc:implementation>
 </html>

@@ -1,5 +1,5 @@
 package datos;
-// Generated 29-may-2023 18:02:02 by Hibernate Tools 4.3.1
+// Generated 01-jun-2023 9:18:19 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -10,29 +10,27 @@ import java.util.Date;
 public class Ciudades  implements java.io.Serializable {
 
 
-     private CiudadesId id;
+     private int ciuCodigo;
      private String ciuNombre;
-     private String ciuCanton;
      private Date fechaUlt;
      private String usuario;
 
     public Ciudades() {
     }
 
-    public Ciudades(CiudadesId id, String ciuNombre, String ciuCanton, Date fechaUlt, String usuario) {
-       this.id = id;
+    public Ciudades(int ciuCodigo, String ciuNombre, Date fechaUlt, String usuario) {
+       this.ciuCodigo = ciuCodigo;
        this.ciuNombre = ciuNombre;
-       this.ciuCanton = ciuCanton;
        this.fechaUlt = fechaUlt;
        this.usuario = usuario;
     }
    
-    public CiudadesId getId() {
-        return this.id;
+    public int getCiuCodigo() {
+        return this.ciuCodigo;
     }
     
-    public void setId(CiudadesId id) {
-        this.id = id;
+    public void setCiuCodigo(int ciuCodigo) {
+        this.ciuCodigo = ciuCodigo;
     }
     public String getCiuNombre() {
         return this.ciuNombre;
@@ -40,13 +38,6 @@ public class Ciudades  implements java.io.Serializable {
     
     public void setCiuNombre(String ciuNombre) {
         this.ciuNombre = ciuNombre;
-    }
-    public String getCiuCanton() {
-        return this.ciuCanton;
-    }
-    
-    public void setCiuCanton(String ciuCanton) {
-        this.ciuCanton = ciuCanton;
     }
     public Date getFechaUlt() {
         return this.fechaUlt;

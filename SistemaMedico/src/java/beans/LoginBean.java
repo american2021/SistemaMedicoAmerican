@@ -208,6 +208,15 @@ public class LoginBean implements Serializable {
         return String.valueOf(rolActual == 3);
 
     }
+    
+    public String renderizarDiagnosticos() {
+        if(rolActual == 1 || rolActual == 2){
+            return "true";
+        }
+        else{
+            return "false";
+        }
+    }
 
     public void comprobarLogin() {
 

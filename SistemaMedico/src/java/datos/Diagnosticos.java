@@ -1,5 +1,5 @@
 package datos;
-// Generated 29-may-2023 18:02:02 by Hibernate Tools 4.3.1
+// Generated 01-jun-2023 9:18:19 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -17,7 +17,7 @@ public class Diagnosticos  implements java.io.Serializable {
      private String diaCodigoCie;
      private String diaDescripcionCie;
      private String diaObservacion;
-     private int tratamientosTraId;
+     private Integer tratamientosTraId;
      private Date diaFechaUlt;
      private String diaUsuario;
      private Set historiases = new HashSet(0);
@@ -26,14 +26,11 @@ public class Diagnosticos  implements java.io.Serializable {
     }
 
 	
-    public Diagnosticos(Historias historias, String diaCodigoCie, String diaDescripcionCie, String diaObservacion, int tratamientosTraId) {
+    public Diagnosticos(Historias historias, String diaObservacion) {
         this.historias = historias;
-        this.diaCodigoCie = diaCodigoCie;
-        this.diaDescripcionCie = diaDescripcionCie;
         this.diaObservacion = diaObservacion;
-        this.tratamientosTraId = tratamientosTraId;
     }
-    public Diagnosticos(Historias historias, String diaCodigoCie, String diaDescripcionCie, String diaObservacion, int tratamientosTraId, Date diaFechaUlt, String diaUsuario, Set historiases) {
+    public Diagnosticos(Historias historias, String diaCodigoCie, String diaDescripcionCie, String diaObservacion, Integer tratamientosTraId, Date diaFechaUlt, String diaUsuario, Set historiases) {
        this.historias = historias;
        this.diaCodigoCie = diaCodigoCie;
        this.diaDescripcionCie = diaDescripcionCie;
@@ -79,11 +76,11 @@ public class Diagnosticos  implements java.io.Serializable {
     public void setDiaObservacion(String diaObservacion) {
         this.diaObservacion = diaObservacion;
     }
-    public int getTratamientosTraId() {
+    public Integer getTratamientosTraId() {
         return this.tratamientosTraId;
     }
     
-    public void setTratamientosTraId(int tratamientosTraId) {
+    public void setTratamientosTraId(Integer tratamientosTraId) {
         this.tratamientosTraId = tratamientosTraId;
     }
     public Date getDiaFechaUlt() {

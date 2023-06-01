@@ -1,25 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 29-may-2023 18:02:03 by Hibernate Tools 4.3.1 -->
+<!-- Generated 01-jun-2023 9:18:20 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Ciudades" table="ciudades" catalog="smed" optimistic-lock="version">
-        <composite-id name="id" class="datos.CiudadesId">
-            <key-property name="paiCodigo" type="string">
-                <column name="paiCodigo" length="3" />
-            </key-property>
-            <key-property name="prvCodigo" type="string">
-                <column name="prvCodigo" length="3" />
-            </key-property>
-            <key-property name="ciuCodigo" type="string">
-                <column name="ciuCodigo" length="4" />
-            </key-property>
-        </composite-id>
+        <id name="ciuCodigo" type="int">
+            <column name="ciuCodigo" />
+            <generator class="assigned" />
+        </id>
         <property name="ciuNombre" type="string">
             <column name="ciuNombre" length="40" not-null="true" />
-        </property>
-        <property name="ciuCanton" type="string">
-            <column name="ciuCanton" length="4" not-null="true" />
         </property>
         <property name="fechaUlt" type="timestamp">
             <column name="fechaUlt" length="19" not-null="true" />

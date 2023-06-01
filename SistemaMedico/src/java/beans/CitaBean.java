@@ -6,8 +6,9 @@
 package beans;
 
 import dao.CiudadesDAO;
-import dao.EstadosCivilesDAO;
+import dao.EstadoCivilDAO;
 import dao.CitaDAO;
+import dao.DiagnosticoDAO;
 import dao.OcupacionDAO;
 import dao.ParentescoDAO;
 import dao.SignosDAO;
@@ -30,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import net.bootsfaces.utils.FacesMessages;
 import java.util.Date;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -62,7 +65,11 @@ public final class CitaBean implements Serializable{
     // Variable para setear los checkbox de la revisión del sistema
     private ArrayList<Boolean> revision_checks;
     
+    FacesContext context;
+    HttpSession session;
+    
     public CitaBean(){
+        session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         inicializarHistorias();
         inicializarSignos();
     }
@@ -73,6 +80,8 @@ public final class CitaBean implements Serializable{
         revision_checks = new ArrayList<>();        
         diagnostico = new Diagnosticos();
         nombre_enfermedad = "";
+        renderizar_profesion_abierta = "false";
+        renderizar_parentesco_abierto = "false";
         profesion_abierta = "";
         parentesco_abierto = "";
         inicializarProfesionesYParentescos();
@@ -84,13 +93,17 @@ public final class CitaBean implements Serializable{
         signos = new Signos();
     }
     
+    public void inicializarDiagnostico(){
+        diagnostico = new Diagnosticos();
+    }
+    
     public void actualizarSignosHistoria(){
         SignosDAO.crearActualizarSignos(signos);
         FacesMessages.info(":growlInfo", "Se han actualizado los signos del paciente", "This is a specific message!");
     }
     
     public void actualizarHistoria(){
-        CitaDAO.crearActualizarHistoriaConEnfermedad(historia);
+        CitaDAO.crearActualizarHistoriaConDatos(historia);
         FacesMessages.info(":growlInfo", "Sistemas Digestivo"+historia.getRevisionSistemas().getRevSisDigestivo(), "This is a specific message!");
         //FacesMessages.info(":growlInfo", "Se han actualizado la historia clínica", "This is a specific message!");
     }
@@ -117,13 +130,31 @@ public final class CitaBean implements Serializable{
         }
     }
     
-    public void actualizarCita(){
-        //diagnostico.setHistorias(historia);
-        //DiagnosticoDAO.crearActualizarDiagnostico(diagnostico);
+    public String actualizarCita(){
+        if (profesion_abierta.length() > 0) {
+            historia.getPersonasByPacientePerId().setPerProfesion(profesion_abierta);
+        }
+        if (parentesco_abierto.length() > 0) {
+            historia.getPersonasByPacientePerId().setPerParentesco(parentesco_abierto);
+        }
+        // Si existe un diagnóstico lo guardará
+        revision.setRevSisUsuario(session.getAttribute("usuario").toString());
         historia.setRevisionSistemas(revision);
         setRevisionChecks();
-        CitaDAO.crearActualizarHistoriaConEnfermedad(historia);
+        CitaDAO.crearActualizarHistoriaConDatos(historia);
+        context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
+        return "/medico/listadoCitas.xhtml?faces-redirect=true";
+//        if(diagnostico.getDiaObservacion().length() > 0){
+//            diagnostico.setHistorias(historia);
+//            DiagnosticoDAO.crearActualizarDiagnostico(diagnostico);
+//            historia.setDiagnosticos(diagnostico);
+//            CitaDAO.crearActualizarHistoriaConDatos(historia);
+//            FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica con diagnóstico", "This is a specific message!");
+//        }else{
+//            FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
+//        }
     }
     
     public void recuperarHistoriasDia() {
@@ -147,6 +178,11 @@ public final class CitaBean implements Serializable{
         this.historia_actual_id = hisId;
         historia = CitaDAO.recuperarHistoriaID(hisId);
         revision = historia.getRevisionSistemas();
+        if(historia.getDiagnosticos() != null){
+            diagnostico = historia.getDiagnosticos();
+//            System.out.println("Este es el diagnóstico: ");
+//            System.out.println(diagnostico.getDiaObservacion());
+        }
         
         setRevisionChecks();
         
@@ -243,8 +279,8 @@ public final class CitaBean implements Serializable{
     }
     
     public void calcularIMC(){
-        if(signos.getSigPeso() != 0 && signos.getSigEstatura() != 0){
-            signos.setSigImc(Math.round(signos.getSigPeso() /(int)(Math.pow(signos.getSigEstatura(), 2))));
+        if(signos.getSigPeso() != 0f && signos.getSigEstatura() != 0f){
+            signos.setSigImc(Math.round(signos.getSigPeso() /(signos.getSigEstatura()*signos.getSigEstatura())));
         }
     }
     
@@ -353,7 +389,7 @@ public final class CitaBean implements Serializable{
     }
     
     public void inicializarEstadosCiviles(){
-        lista_estados_civiles = EstadosCivilesDAO.recuperarEstados();
+        lista_estados_civiles = EstadoCivilDAO.recuperarEstados();
     }
     
     public void inicializarProfesionesYParentescos(){        

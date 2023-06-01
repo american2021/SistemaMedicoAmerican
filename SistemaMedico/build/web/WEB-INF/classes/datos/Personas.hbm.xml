@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 29-may-2023 18:02:03 by Hibernate Tools 4.3.1 -->
+<!-- Generated 01-jun-2023 9:18:20 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Personas" table="personas" catalog="smed" optimistic-lock="version">
         <id name="perId" type="java.lang.Integer">
@@ -76,7 +76,7 @@
         </set>
         <set name="historiasesForPacientePerId" table="historias" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="paciente_per_id" />
+                <column name="paciente_per_id" not-null="true" />
             </key>
             <one-to-many class="datos.Historias" />
         </set>

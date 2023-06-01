@@ -48,17 +48,15 @@
                         <h2>Ingreso</h2>
                         <span></span>
 
-                        <b:inputText placeholder="Usuario/Correo" id="nomPersona" size="20" maxlength="60" value="#{LoginBean.usu_nombre}" required="true" requiredMessage="Ingrese el usuario"></b:inputText>
-                        <b:inputSecret placeholder="Contraseña" id="clavePersona" size="20" maxlength="60" value="#{LoginBean.usu_contra}" required="true" requiredMessage="Ingrese la clave">
-                            <!--<f:attribute name="usuIng" value="# {LoginBean.usu_nombre}" />-->
-                        </b:inputSecret>
+                        <b:inputText placeholder="Usuario/Correo" id="nomPersona" size="20" maxlength="60" value="#{LoginBean.usu_nombre}" required="true" requiredMessage="Ingrese el usuario"/>
+                        
+                        <b:inputSecret placeholder="Contraseña" id="clavePersona" size="20" maxlength="60" value="#{LoginBean.usu_contra}" required="true" requiredMessage="Ingrese la clave"/>
                         <a href="cambio-clave-int">Olvide mi Contraseña</a>
-                        <b:commandButton  id="ingresar" value="Iniciar Sesion"
-                                          action="#{LoginBean.login()}"
-                                          style="border-radius: 20px;
+                        <b:commandButton  id="ingresar" value="Iniciar Sesion" action="#{LoginBean.login()}"
+                                          style="color: #ffffff;
+                                          border-radius: 20px;
                                           border: 1px solid #002147;
                                           background:linear-gradient(30deg, #002147, #324153);
-                                          color: #ffffff;
                                           font-size: 12px;
                                           padding: 12px 45px;
                                           letter-spacing: 1px;

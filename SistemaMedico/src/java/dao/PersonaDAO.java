@@ -48,7 +48,7 @@ public class PersonaDAO {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Personas where perNombres = '" + nombre + "' and perApellidos = '" + apellido + "'");
+        Query query = session.createQuery("from Personas where per_nombres = '" + nombre + "' and per_apellidos = '" + apellido + "'");
         Personas persona = null;
         if (!query.list().isEmpty()) {
             try {
@@ -70,7 +70,7 @@ public class PersonaDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Personas where per_id = " + id);
-        System.out.println(query);
+        System.out.println("Aquí hay un query en persona dao: "+query);
         Personas persona = null;
         if (!query.list().isEmpty()) {
 
@@ -112,8 +112,19 @@ public class PersonaDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
-                "SELECT concat(per_nombres,' - ',per_apellidos) FROM Personas WHERE per_es_paciente = 'S'");
+                "SELECT concat(per_nombres,' - ',per_apellidos,'') FROM Personas WHERE per_es_paciente = 'S'");
         List<String> pacientes = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return pacientes;
+    }
+    
+        public static List<Personas> recuperarPacientes() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery(
+                "FROM Personas WHERE per_es_paciente = 'S'");
+        List<Personas> pacientes = query.list();
         session.getTransaction().commit();
         session.close();
         return pacientes;
@@ -134,6 +145,5 @@ public class PersonaDAO {
         session.getTransaction().commit();
         session.close();
         return persona;
-
     }
 }

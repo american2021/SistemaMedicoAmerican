@@ -1,5 +1,5 @@
 package datos;
-// Generated 29-may-2023 18:02:02 by Hibernate Tools 4.3.1
+// Generated 01-jun-2023 9:18:19 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -20,7 +20,7 @@ public class Signos  implements java.io.Serializable {
      private int sigFrecuenciaCardiaca;
      private int sigPresionArterialMedia;
      private int sigSaturacion;
-     private int sigTemperatura;
+     private Float sigTemperatura;
      private Float sigPeso;
      private Float sigEstatura;
      private int sigImc;
@@ -37,7 +37,7 @@ public class Signos  implements java.io.Serializable {
     }
 
 	
-    public Signos(int sigTipo, int sigPresionSistolica, int sigPresionDiastolica, int sigFrecuenciaRespiratoria, int sigFrecuenciaCardiaca, int sigPresionArterialMedia, int sigSaturacion, int sigTemperatura, int sigImc) {
+    public Signos(int sigTipo, int sigPresionSistolica, int sigPresionDiastolica, int sigFrecuenciaRespiratoria, int sigFrecuenciaCardiaca, int sigPresionArterialMedia, int sigSaturacion, int sigImc) {
         this.sigTipo = sigTipo;
         this.sigPresionSistolica = sigPresionSistolica;
         this.sigPresionDiastolica = sigPresionDiastolica;
@@ -45,10 +45,9 @@ public class Signos  implements java.io.Serializable {
         this.sigFrecuenciaCardiaca = sigFrecuenciaCardiaca;
         this.sigPresionArterialMedia = sigPresionArterialMedia;
         this.sigSaturacion = sigSaturacion;
-        this.sigTemperatura = sigTemperatura;
         this.sigImc = sigImc;
     }
-    public Signos(int sigTipo, int sigPresionSistolica, int sigPresionDiastolica, int sigFrecuenciaRespiratoria, int sigFrecuenciaCardiaca, int sigPresionArterialMedia, int sigSaturacion, int sigTemperatura, Float sigPeso, Float sigEstatura, int sigImc, Float sigPerimetroAbdominal, Float sigPerimetroBrazo, Float sigGlucosaCapilar, Float sigValorHemoglobina, Float sigValorHemoglobinaCorr, Date sigFechaUlt, String sigUsuario, Set historiases) {
+    public Signos(int sigTipo, int sigPresionSistolica, int sigPresionDiastolica, int sigFrecuenciaRespiratoria, int sigFrecuenciaCardiaca, int sigPresionArterialMedia, int sigSaturacion, Float sigTemperatura, Float sigPeso, Float sigEstatura, int sigImc, Float sigPerimetroAbdominal, Float sigPerimetroBrazo, Float sigGlucosaCapilar, Float sigValorHemoglobina, Float sigValorHemoglobinaCorr, Date sigFechaUlt, String sigUsuario, Set historiases) {
        this.sigTipo = sigTipo;
        this.sigPresionSistolica = sigPresionSistolica;
        this.sigPresionDiastolica = sigPresionDiastolica;
@@ -126,11 +125,11 @@ public class Signos  implements java.io.Serializable {
     public void setSigSaturacion(int sigSaturacion) {
         this.sigSaturacion = sigSaturacion;
     }
-    public int getSigTemperatura() {
+    public Float getSigTemperatura() {
         return this.sigTemperatura;
     }
     
-    public void setSigTemperatura(int sigTemperatura) {
+    public void setSigTemperatura(Float sigTemperatura) {
         this.sigTemperatura = sigTemperatura;
     }
     public Float getSigPeso() {
