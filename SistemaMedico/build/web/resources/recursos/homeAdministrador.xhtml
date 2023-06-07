@@ -10,11 +10,11 @@
     </cc:interface>
     <cc:implementation>
         <!--
-                                HOME MEDICO
+                                HOME ADMINISTRADOR
         -->
         <b:panel span="10" offset="0" rendered="#{LoginBean.renderizarAdministrador()}">
             <!--
-                           Solo funciones de MEDICO
+                           Funciones de administrador   
             -->
             <b:row>
                 <h3 id="reply-title">
@@ -160,8 +160,23 @@
             
             <b:row>
                 <h3 id="reply-title">
-                    <b>Diagnósticos</b>
+                    <b>Asignación de médico y Diagnósticos</b>
                 </h3>
+                <b:column span="2" class="divMainHome">
+                    <a href="asignacion-medico" class="linkHome">
+                        <b:row>
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/account.png" />
+                        </b:row>
+                        <h5 class="divTitleHome" id="reply-title">
+                            <b>Asignación de médico</b>
+                        </h5>
+                        <b:row>
+                            <span class="divTextHome"> 
+                                Asignar médico a una cita.
+                            </span>
+                        </b:row>
+                    </a>
+                </b:column>
                 <b:column span="2" class="divMainHome">
                     <a href="listado-citas" class="linkHome">
                         <b:row>

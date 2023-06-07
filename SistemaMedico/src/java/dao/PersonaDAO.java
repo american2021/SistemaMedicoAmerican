@@ -48,7 +48,7 @@ public class PersonaDAO {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Personas where per_nombres = '" + nombre + "' and per_apellidos = '" + apellido + "'");
+        Query query = session.createQuery("from Personas where per_nombres like '" + nombre + "%' and per_apellidos like '" + apellido + "%'");
         Personas persona = null;
         if (!query.list().isEmpty()) {
             try {
@@ -100,8 +100,21 @@ public class PersonaDAO {
         session.beginTransaction();
         Query query = session.createQuery("FROM Personas");
         List<Personas> personas = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return personas;
+    }
+    
+    public static List<Personas> recuperarColaboradores() {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Personas WHERE per_es_paciente = 'N'");
+        List<Personas> personas = query.list();
         personas.forEach((persona)->{
-            Usuarios u = (Usuarios)persona.getUsuarioses().iterator().next();
+            if(persona.getUsuarioses().size() != 0){
+                Usuarios u = (Usuarios)persona.getUsuarioses().iterator().next();
+            }
         });
         session.getTransaction().commit();
         session.close();
@@ -112,7 +125,7 @@ public class PersonaDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
-                "SELECT concat(per_nombres,' - ',per_apellidos,'') FROM Personas WHERE per_es_paciente = 'S'");
+                "SELECT concat(per_nombres,' - ',per_apellidos) FROM Personas WHERE per_es_paciente = 'S'");
         List<String> pacientes = query.list();
         session.getTransaction().commit();
         session.close();
@@ -135,7 +148,6 @@ public class PersonaDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Personas where per_cedula = '" + cedula + "'");
-        System.out.println(query);
         Personas persona = null;
         if (!query.list().isEmpty()) {
 

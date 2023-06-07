@@ -75,6 +75,7 @@ public final class CitaBean implements Serializable{
     }
     
     public void inicializarHistorias(){
+        System.out.println("Inicializando citabean");
         historias = new ArrayList<>();
         historiasdia = new ArrayList<>();
         revision_checks = new ArrayList<>();        
@@ -91,10 +92,6 @@ public final class CitaBean implements Serializable{
     
     public void inicializarSignos(){
         signos = new Signos();
-    }
-    
-    public void inicializarDiagnostico(){
-        diagnostico = new Diagnosticos();
     }
     
     public void actualizarSignosHistoria(){
@@ -144,17 +141,18 @@ public final class CitaBean implements Serializable{
         CitaDAO.crearActualizarHistoriaConDatos(historia);
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
-        FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
+        
+        if(diagnostico.getDiaObservacion().length() > 0){
+            diagnostico.setHistorias(historia);
+            DiagnosticoDAO.crearActualizarDiagnostico(diagnostico);
+            historia.setDiagnosticos(diagnostico);
+            CitaDAO.crearActualizarHistoriaConDatos(historia);
+            FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica con diagnóstico", "This is a specific message!");
+        }else{
+            FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
+        }
+        
         return "/medico/listadoCitas.xhtml?faces-redirect=true";
-//        if(diagnostico.getDiaObservacion().length() > 0){
-//            diagnostico.setHistorias(historia);
-//            DiagnosticoDAO.crearActualizarDiagnostico(diagnostico);
-//            historia.setDiagnosticos(diagnostico);
-//            CitaDAO.crearActualizarHistoriaConDatos(historia);
-//            FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica con diagnóstico", "This is a specific message!");
-//        }else{
-//            FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
-//        }
     }
     
     public void recuperarHistoriasDia() {
@@ -180,8 +178,6 @@ public final class CitaBean implements Serializable{
         revision = historia.getRevisionSistemas();
         if(historia.getDiagnosticos() != null){
             diagnostico = historia.getDiagnosticos();
-//            System.out.println("Este es el diagnóstico: ");
-//            System.out.println(diagnostico.getDiaObservacion());
         }
         
         setRevisionChecks();

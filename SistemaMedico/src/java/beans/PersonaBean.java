@@ -252,6 +252,13 @@ public final class PersonaBean implements Serializable {
         return "/privado/home.xhtml?faces-redirect=true";
     }
 
+    public String recuperarSexoPorCodigo(int id) {
+        if (id == '1') {
+            return "M";
+        }
+        return "F";
+    }
+
     public String recuperarEstadoCivilPorCodigo(String codigo) {
         return EstadoCivilDAO.recuperarEstadoCivilPorCodigo(codigo);
     }
@@ -423,7 +430,7 @@ public final class PersonaBean implements Serializable {
             persona.setPerParentesco(parentesco_abierto);
         }
         PersonaDAO.crearActualizarPersona(persona);
-        
+
         // Fragmento para conservar los mensajes entre vistas
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
@@ -518,7 +525,7 @@ public final class PersonaBean implements Serializable {
         }
 
     }
-    
+
     public void validarCedulaExistente(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
         validarCedula((String) value);
@@ -570,6 +577,14 @@ public final class PersonaBean implements Serializable {
         }
     }
 
+    public void validarEdad(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        if (persona.getPerEdad() == 0) {
+            throw new ValidatorException(new FacesMessage("Compruebe la edad del paciente"));
+        }
+
+    }
+
     public String convertirMD5(String valor) {
 
         String md5Hex = DigestUtils
@@ -584,14 +599,14 @@ public final class PersonaBean implements Serializable {
 
     public List<String> recuperarNombresRol(int rol) {
         List<String> colaboradores = new ArrayList<>();
-        Usuarios usuario;
+        Usuarios u = new Usuarios();
         int tipo_usuario;
-        for (Personas persona : PersonaDAO.recuperarPersonas()) {
-            usuario = (Usuarios) persona.getUsuarioses().iterator().next();
-            tipo_usuario = usuario.getRolesRolId();
-            if (tipo_usuario == rol) {
-                colaboradores.add(persona.getPerNombres() + " - " + persona.getPerApellidos());
-            }
+        for (Personas p : PersonaDAO.recuperarColaboradores()) {
+                u = (Usuarios) p.getUsuarioses().iterator().next();
+                tipo_usuario = u.getRolesRolId();
+                if (tipo_usuario == rol) {
+                    colaboradores.add(p.getPerNombres() + " - " + p.getPerApellidos());
+                }
         }
         return colaboradores;
     }
@@ -614,13 +629,16 @@ public final class PersonaBean implements Serializable {
         return medicos;
     }
 
-    public void asignarMedico() {
+    public String asignarMedico() {
         Personas medico
                 = PersonaDAO.recuperarPersonaNombre(nombre_medico.split(" - ")[0],
                         nombre_medico.split(" - ")[1]);
         historia.setPersonasByMedicoPerId(medico);
         HistoriaDAO.crearActualizarHistoria(historia);
+        context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
         FacesMessages.info(":growlInfo", "Médico asignado con éxito!", "This is a specific message!");
+        return "/medico/asignacionMedico.xhtml?faces-redirect=true";
     }
 
     public void inicializarProfesionesYParentescos() {
@@ -937,8 +955,8 @@ public final class PersonaBean implements Serializable {
     }
 
     // setter must be present or managed property won't work
-    public void setCitaBean(CitaBean messageBean) {
-        this.citaBean = messageBean;
+    public void setCitaBean(CitaBean cita) {
+        this.citaBean = cita;
     }
 
     public String getProfesion_abierta() {

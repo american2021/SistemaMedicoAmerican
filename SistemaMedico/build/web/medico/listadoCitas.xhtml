@@ -8,8 +8,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
 
-    <f:event listener="#{LoginBean.comprobarLogin}"
-             type="preRenderView" /> #{personasBean.cargarPersona()}
+    <f:event listener="#{LoginBean.comprobarLogin}" type="preRenderView" />
+    #{personasBean.cargarPersona()}
 
     <h:head>
         <title>American College</title>
@@ -17,6 +17,9 @@
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
     </h:head>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
+    
     <script>
         $.blockUI.defaults.css = {
             padding: 0,
@@ -34,10 +37,6 @@
         $.blockUI.defaults.overlayCSS.opacity = 0.5;
         $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
     </script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
-
 
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
 
@@ -45,7 +44,6 @@
     <my:menuLateralMedico id="menuLateralMedico"/>
     <my:menuLateralEstudiante id="menuLateralEstudiante"/>
     <my:menuLateralAdministrador id="menuLateralAdministrador"/>
-
 
     <h:body>
 
@@ -104,5 +102,5 @@
         </b:container>
         <br/><br/><br/><br/>
     </h:body>
-
+    <my:piePagina id="piePagina"/>
 </html>

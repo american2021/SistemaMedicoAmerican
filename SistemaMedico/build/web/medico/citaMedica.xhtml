@@ -6,16 +6,19 @@
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:my="http://java.sun.com/jsf/composite/recursos"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:ps="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     
-    <f:event listener="#{LoginBean.comprobarLogin()}" type="preRenderView" />
-    #{CitaBean.inicializarDiagnostico()}
+    <f:event listener="#{LoginBean.comprobarLogin}" type="preRenderView" />
 
     <h:head>
         <title>American College</title>
         <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
     </h:head>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
     
     <script>
         $.blockUI.defaults.css = {
@@ -34,9 +37,6 @@
         $.blockUI.defaults.overlayCSS.opacity = 0.5;
         $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
     </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
 
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
 
@@ -140,8 +140,7 @@
                                     label="Fecha de Nacimiento"
                                     required="true"
                                     requiredMessage="Ingrese la fecha de nacimiento"
-                                    max-date="12/31/2006"
-                                    ondtchange="#{CitaBean.calcularEdad()}">
+                                    max-date="12/31/2006">
                                     <f:ajax event="blur"
                                             listener="#{CitaBean.calcularEdad()}"
                                             render="per_edad"/>
@@ -185,8 +184,6 @@
                                              required="true"
                                              requiredMessage="Ingrese su dirección"/>
                                 <b:message for="per_residencia" />
-                                
-                                <b:message for="per_residencia" />
                             </b:column>
                             <b:column span="4">
                                 <b:selectOneMenu label="Procedencia" id="per_procedencia"
@@ -209,8 +206,8 @@
                                                  required="true"
                                                  requiredMessage="Seleccione el sexo del paciente">
                                     <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
-                                    <f:selectItem itemLabel="Hombre" itemValue="1" />
-                                    <f:selectItem itemLabel="Mujer" itemValue="2" />
+                                    <f:selectItem itemLabel="Hombre" itemValue="H" />
+                                    <f:selectItem itemLabel="Mujer" itemValue="M" />
                                 </b:selectOneMenu>
                                 <b:message for="tipoPersona" />
                             </b:column>
@@ -860,4 +857,5 @@
         </b:container>
         <br/><br/><br/><br/>
     </h:body>
+    <my:piePagina id="piePagina"/>
 </html>
