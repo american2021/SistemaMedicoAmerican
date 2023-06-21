@@ -16,7 +16,12 @@ import org.hibernate.Session;
  * @author Administrador
  */
 public class OcupacionDAO {
-    
+
+    /**
+     * Método para recuperar las ocupaciones registradas en el sistema.
+     *
+     * @return
+     */
     public static List<Ocupaciones> recuperarOcupaciones() {
 
         Session session = HibernateUtil.getSessionFactory().openSession();

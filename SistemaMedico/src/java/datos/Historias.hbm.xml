@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 01-jun-2023 9:18:20 by Hibernate Tools 4.3.1 -->
+<!-- Generated 07-jun-2023 17:26:52 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Historias" table="historias" catalog="smed" optimistic-lock="version">
         <id name="hisId" type="java.lang.Integer">
@@ -35,11 +35,11 @@
         <property name="hisEnfermedad" type="string">
             <column name="his_enfermedad" length="300" not-null="true" />
         </property>
-        <property name="hisFechaCreacion" type="date">
-            <column name="his_fecha_creacion" length="10" not-null="true" />
+        <property name="hisFechaCreacion" type="timestamp">
+            <column name="his_fecha_creacion" length="19" not-null="true" />
         </property>
-        <property name="hisFechaUlt" type="date">
-            <column name="his_fecha_ult" length="10" />
+        <property name="hisFechaUlt" type="timestamp">
+            <column name="his_fecha_ult" length="19" />
         </property>
         <property name="hisUsuario" type="string">
             <column name="his_usuario" length="300" />

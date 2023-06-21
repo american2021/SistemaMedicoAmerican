@@ -6,9 +6,7 @@
 package dao;
 
 import conexion.HibernateUtil;
-import datos.Ciudades;
 import datos.Estadocivil;
-import datos.Ocupaciones;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -18,7 +16,12 @@ import org.hibernate.Session;
  * @author Administrador
  */
 public class EstadoCivilDAO {
-    
+
+    /**
+     * Método para recuperar la lista de estados civiles.
+     *
+     * @return
+     */
     public static List<Estadocivil> recuperarEstados() {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -29,14 +32,20 @@ public class EstadoCivilDAO {
         session.close();
         return estados;
     }
-    
-    public static String recuperarEstadoCivilPorCodigo(String codigo){
+
+    /**
+     * Método para recuperar el nombre de un estado civil según su código.
+     *
+     * @param codigo
+     * @return
+     */
+    public static String recuperarEstadoCivilPorCodigo(String codigo) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Estadocivil where ecCodigo = '"+codigo+"'");
+        Query query = session.createQuery("from Estadocivil where ecCodigo = '" + codigo + "'");
         Estadocivil estado = (Estadocivil) query.uniqueResult();
         session.getTransaction().commit();
         session.close();
-        return (String)estado.getEcDescripcion();
-    }   
+        return (String) estado.getEcDescripcion();
+    }
 }

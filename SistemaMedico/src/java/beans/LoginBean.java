@@ -74,6 +74,8 @@ public class LoginBean implements Serializable {
                 session.setAttribute("usuario", usuario.getUsuNombre());
                 session.setAttribute("nombre_usuario",
                         PersonaDAO.recuperarPersonaID(usuario.getPersonas().getPerId()).getPerNombres());
+                session.setAttribute("rol", rolActual);
+                session.setAttribute("per_id", usuario.getPersonas().getPerId());
                 return "/privado/home.xhtml?faces-redirect=true";
             } else {
                 FacesMessages.warning(":growl", "La clave es incorrecta", "This is a specific message!");

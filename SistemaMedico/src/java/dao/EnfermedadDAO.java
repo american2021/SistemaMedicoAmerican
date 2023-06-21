@@ -16,15 +16,25 @@ import org.hibernate.Session;
  * @author Administrador
  */
 public class EnfermedadDAO {
-    
-    public static void crearActualizarEnfermedad(Enfermedades enfermedad){
+
+    /**
+     * Método para crear o actualizar una enfermedad.
+     *
+     * @param enfermedad
+     */
+    public static void crearActualizarEnfermedad(Enfermedades enfermedad) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         session.saveOrUpdate(enfermedad);
         session.getTransaction().commit();
         session.close();
     }
-    
+
+    /**
+     * Método para obtener una lista del nombre de las enfermedades.
+     *
+     * @return
+     */
     public static List<String> listarEnfermedades() {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -36,19 +46,24 @@ public class EnfermedadDAO {
         return enfermedades;
 
     }
-    
+
+    /**
+     * Método para obtener una enfermedad según su nombre.
+     *
+     * @param nombre
+     * @return
+     */
     public static Enfermedades recuperarEnfermedadNombre(String nombre) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Enfermedades where enf_nombre = '" + nombre +"'");
+        Query query = session.createQuery("from Enfermedades where enf_nombre = '" + nombre + "'");
         Enfermedades enfermedad = null;
         if (!query.list().isEmpty()) {
 
             enfermedad = (Enfermedades) query.list().get(0);
 
         }
-        //persona.setSign(recuperarSignosPorCodigo(persona.getPerId()));
         session.getTransaction().commit();
         session.close();
         return enfermedad;

@@ -6,10 +6,7 @@
 package dao;
 
 import conexion.HibernateUtil;
-import datos.Enfermedades;
 import datos.Historias;
-import datos.Personas;
-import datos.RevisionSistemas;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -19,7 +16,13 @@ import org.hibernate.Session;
  * @author Administrador
  */
 public class CitaDAO {
-    public static void crearActualizarHistoriaConDatos(Historias historia){
+
+    /**
+     * Método para crear o actualizar una historia (Encabezado de cita).
+     *
+     * @param historia
+     */
+    public static void crearActualizarHistoriaConDatos(Historias historia) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         session.saveOrUpdate(historia.getPersonasByPacientePerId());
@@ -29,12 +32,30 @@ public class CitaDAO {
         session.saveOrUpdate(historia);
         session.getTransaction().commit();
         session.close();
-    }   
-    
+    }
+
+    /**
+     * Método para crear o actualizar una historia.
+     *
+     * @param historia
+     */
+    public static void crearActualizarHistoria(Historias historia) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.saveOrUpdate(historia);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    /**
+     * Método para recuperar todas las historias en orden ascendente.
+     *
+     * @return
+     */
     public static List<Historias> recuperarHistorias() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Historias");
+        Query query = session.createQuery("from Historias order by his_id asc");
         List<Historias> historias = query.list();
         historias.forEach((historia) -> {
             //Necesario para cargar los datos de la persona en modo eager
@@ -44,19 +65,52 @@ public class CitaDAO {
             try {
                 historia.getPersonasByMedicoPerId().getPerNombres();
             } catch (Exception e) {
-                
-            } 
+
+            }
+        });
+        session.getTransaction().commit();
+        session.close();
+        return historias;
+    }
+
+    /**
+     * Método para recuperar las historias asignadas a un médico.
+     *
+     * @param medico_id
+     * @return
+     */
+    public static List<Historias> recuperarHistoriasMedico(int medico_id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Historias where medico_per_id = " + medico_id + " order by his_id asc");
+        List<Historias> historias = query.list();
+        historias.forEach((historia) -> {
+            //Necesario para cargar los datos de la persona en modo eager
+            historia.getPersonasByPacientePerId().getPerNombres();
+            //historia.getEnfermedades().getEnfNombre();
+            historia.getSignos().getSigEstatura();
+            try {
+                historia.getPersonasByMedicoPerId().getPerNombres();
+            } catch (Exception e) {
+
+            }
         });
         //System.out.println(historias.get(0).getPersonas().getPerApellidos());
         session.getTransaction().commit();
         session.close();
         return historias;
     }
-    
+
+    /**
+     * Método para recuperar las historias del día.
+     *
+     * @param dia
+     * @return
+     */
     public static List<Historias> recuperarHistoriasDia(String dia) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Historias where his_fecha_creacion like '%"+dia+"%'");
+        Query query = session.createQuery("from Historias where his_fecha_creacion like '%" + dia + "%' order by his_id asc");
         List<Historias> historias = query.list();
         historias.forEach((historia) -> {
             //Necesario para cargar los datos de la persona en modo eager
@@ -64,19 +118,52 @@ public class CitaDAO {
             try {
                 historia.getPersonasByMedicoPerId().getPerNombres();
             } catch (Exception e) {
-                
-            } 
+
+            }
         });
-        //System.out.println(historias.get(0).getPersonas().getPerApellidos());
         session.getTransaction().commit();
         session.close();
         return historias;
     }
-    
+
+    /**
+     * Método para recuperar las historias del día asignadas a un médico.
+     *
+     * @param dia
+     * @param medico_id
+     * @return
+     */
+    public static List<Historias> recuperarHistoriasMedicoDia(String dia, int medico_id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Historias "
+                + "where his_fecha_creacion like '%" + dia + "%' "
+                + "and medico_per_id = " + medico_id + " order by his_id asc");
+        List<Historias> historias = query.list();
+        historias.forEach((historia) -> {
+            //Necesario para cargar los datos de la persona en modo eager
+            historia.getPersonasByPacientePerId().getPerNombres();
+            try {
+                historia.getPersonasByMedicoPerId().getPerNombres();
+            } catch (Exception e) {
+
+            }
+        });
+        session.getTransaction().commit();
+        session.close();
+        return historias;
+    }
+
+    /**
+     * Método para recuperar una historia según su id.
+     *
+     * @param id
+     * @return
+     */
     public static Historias recuperarHistoriaID(int id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Historias where his_id = "+id);
+        Query query = session.createQuery("from Historias where his_id = " + id);
         Historias historia = null;
         if (!query.list().isEmpty()) {
 
@@ -87,14 +174,19 @@ public class CitaDAO {
             try {
                 historia.getDiagnosticos().getDiaObservacion();
             } catch (Exception e) {
-                
-            }            
+
+            }
         }
         session.close();
         return historia;
     }
-    
-    public static int recuperarIDUltimaHistoria(){
+
+    /**
+     * Método para recuperar la última historia registrada.
+     *
+     * @return
+     */
+    public static int recuperarIDUltimaHistoria() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("FROM Historias order by his_id desc");

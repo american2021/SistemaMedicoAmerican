@@ -16,7 +16,12 @@ import org.hibernate.Session;
  * @author Administrador
  */
 public class CiudadesDAO {
-    
+
+    /**
+     * Método para recuperar la lista de ciudades.
+     *
+     * @return
+     */
     public static List<Ciudades> recuperarCiudades() {
 
         Session session = HibernateUtil.getSessionFactory().openSession();

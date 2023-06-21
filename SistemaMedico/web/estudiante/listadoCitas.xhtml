@@ -12,7 +12,7 @@
     #{personasBean.cargarPersona()}
 
     <h:head>
-        <title>American College</title>
+        <title>Departamento Médico</title>
         <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
     </h:head>
@@ -80,7 +80,9 @@
                             <b:dataTableColumn label="Médico Tratante" value="#{CitaBean.getNombreCompletoMedico(historia)}" style="width: 30%"/>
                             <b:dataTableColumn label="Paciente" value="#{CitaBean.getNombreCompleto(historia)}" style="width: 30%" order="asc"/>
                             <b:dataTableColumn label="Fecha" value="#{historia.hisFechaCreacion}" style="width: 5%" />
-                            <b:dataTableColumn label="Cita" style="width: 5%" >
+                            <b:dataTableColumn label="Cita" style="width: 5%;padding-left: 1%;padding-right: 1%"
+                                               orderable="false"
+                                               searchable="false">
                                 <b:row>
                                     <b:column span="1">
                                         <b:commandButton ajax="true"

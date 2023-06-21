@@ -16,14 +16,18 @@ import org.hibernate.Session;
  * @author Administrador
  */
 public class ParentescoDAO {
-    
+
+    /**
+     * Método para recuperar los parentescos registrados.
+     *
+     * @return
+     */
     public static List<Parentescos> recuperarParentescos() {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Parentescos");
         List<Parentescos> parentescos = query.list();
-        //System.out.println(historias.get(0).getPersonas().getPerApellidos());
         session.getTransaction().commit();
         session.close();
         return parentescos;

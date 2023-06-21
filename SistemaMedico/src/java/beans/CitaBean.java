@@ -23,6 +23,11 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import datos.Signos;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -31,8 +36,20 @@ import java.util.ArrayList;
 import java.util.List;
 import net.bootsfaces.utils.FacesMessages;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 /**
  *
@@ -74,6 +91,9 @@ public final class CitaBean implements Serializable{
         inicializarSignos();
     }
     
+    /**
+     * Método para inicializar las citas vacías 
+     */
     public void inicializarHistorias(){
         System.out.println("Inicializando citabean");
         historias = new ArrayList<>();
@@ -90,34 +110,78 @@ public final class CitaBean implements Serializable{
         inicializarEstadosCiviles();
     }
     
+    /**
+     * Método para inicializar una toma de signos vacía
+     */
     public void inicializarSignos(){
         signos = new Signos();
     }
     
+    /**
+     * Método para actualizar los signos 
+     */
     public void actualizarSignosHistoria(){
         SignosDAO.crearActualizarSignos(signos);
         FacesMessages.info(":growlInfo", "Se han actualizado los signos del paciente", "This is a specific message!");
     }
     
+    /**
+     * Método para actualizar la cita
+     */
     public void actualizarHistoria(){
         CitaDAO.crearActualizarHistoriaConDatos(historia);
         FacesMessages.info(":growlInfo", "Sistemas Digestivo"+historia.getRevisionSistemas().getRevSisDigestivo(), "This is a specific message!");
         //FacesMessages.info(":growlInfo", "Se han actualizado la historia clínica", "This is a specific message!");
     }
     
+    /**
+     * Método para recuperar todas las historias (En caso de estar logueado
+     * como médico, recuperará únicamente las historias asignadas a ese médico)
+     */
     public void recuperarHistorias() {
-
+        if(session.getAttribute("rol").toString().equals("2")){
+            historias.clear();
+            historias = CitaDAO.recuperarHistoriasMedico((Integer)session.getAttribute("per_id"));
+        }
+        else{
         historias.clear();
         
         historias = CitaDAO.recuperarHistorias();
+        }
     }
     
+    
+    /**
+     * Método para recuperar todas las historias del día(En caso de estar logueado
+     * como médico, recuperará únicamente las historias asignadas a ese médico)
+     */
+    public void recuperarHistoriasDia() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date dia = new Date();
+
+        if(session.getAttribute("rol").toString().equals("2")){
+            historiasdia.clear();
+            historiasdia = CitaDAO.recuperarHistoriasMedicoDia(formatter.format(dia),(Integer)session.getAttribute("per_id"));
+        }
+        else{
+            historiasdia.clear();
+        
+            historiasdia = CitaDAO.recuperarHistoriasDia(formatter.format(dia));
+        }
+        
+    }
+    
+    /**
+     * Método para recuperar el nombre completo del paciente de una cita
+     * @param h
+     * @return 
+     */
     public String getNombreCompleto(Historias h){
         return h.getPersonasByPacientePerId().getPerNombres()
                 +" "+h.getPersonasByPacientePerId().getPerApellidos();
     }
     
-     public String getNombreCompletoMedico(Historias h){
+    public String getNombreCompletoMedico(Historias h){
         try{
             return h.getPersonasByMedicoPerId().getPerNombres()
                     +" "+h.getPersonasByMedicoPerId().getPerApellidos();
@@ -155,13 +219,35 @@ public final class CitaBean implements Serializable{
         return "/medico/listadoCitas.xhtml?faces-redirect=true";
     }
     
-    public void recuperarHistoriasDia() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date dia = new Date();
+    public void imprimirDiagnostico() throws net.sf.jasperreports.engine.JRException, IOException {
+        String valor = "Valor";
+        Map<String, Object> parametros = new HashMap<>();
 
-        historiasdia.clear();
-        
-        historiasdia = CitaDAO.recuperarHistoriasDia(formatter.format(dia));
+        String pathJRXML = "c:\\formatoReportes\\recetaMedica.jrxml";
+
+        JRBeanCollectionDataSource listaItems = new JRBeanCollectionDataSource(null);
+        parametros.put("Dato", "Este es un dato");// se agrega la coleccion de datos a los parametros
+
+        JasperReport jasperReport;
+        //jasperReport = JasperCompileManager.compileReport(pathJRXML);
+        InputStream input = new FileInputStream(new File(pathJRXML));
+        JasperDesign jasperDesing = JRXmlLoader.load(input);
+        jasperReport = JasperCompileManager.compileReport(jasperDesing);
+        //File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/rptJSF.jasper"));
+        //File jasper = new File(pathJASPER);
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JREmptyDataSource());
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+                .getResponse();
+
+        response.addHeader("Content-disposition", "inline; filename=recetaMedica.pdf");
+        BufferedOutputStream output = null;
+        response.setHeader("pragma", "public");
+        output = new BufferedOutputStream(response.getOutputStream(), 10240);
+        byte[] bytes = JasperExportManager.exportReportToPdf(jasperPrint);
+        response.getOutputStream().write(bytes);
+        response.setContentType("application/pdf");
+        FacesContext.getCurrentInstance().responseComplete();
     }
     
     /**

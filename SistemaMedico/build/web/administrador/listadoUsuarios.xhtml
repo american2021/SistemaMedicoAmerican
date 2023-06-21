@@ -8,18 +8,15 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ps="http://xmlns.jcp.org/jsf/passthrough">
 
-    <f:event listener="#{LoginBean.comprobarLogin}" type="preRenderView" />
-    #{personasBean.cargarPersona()}
+    <f:event listener="#{LoginBean.comprobarLogin}" type="preRenderView" />    
+    #{PersonaBean.inicializarColaboradores()}
 
     <h:head>
-        <title>American College</title>
+        <title>Departamento Médico</title>
         <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
     </h:head>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
-    
+
     <script>
         $.blockUI.defaults.css = {
             padding: 0,
@@ -37,23 +34,17 @@
         $.blockUI.defaults.overlayCSS.opacity = 0.5;
         $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
     </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
 
-    <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom"/>
+
+    <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
 
     <my:cabecera id="cabecera"/>
     <my:menuLateralMedico id="menuLateralMedico"/>
     <my:menuLateralEstudiante id="menuLateralEstudiante"/>
     <my:menuLateralAdministrador id="menuLateralAdministrador"/>
-
-
-
-
-
-
-
-
-
-
 
 
     <h:body>
@@ -70,39 +61,38 @@
 
 
                 <b:form id="commentform">
-                    #{CitaBean.inicializarHistorias()}
-                    #{CitaBean.recuperarHistoriasDia()}
+                    #{PersonaBean.inicializarPacientes()}
                     <h3 id="reply-title">
-                        <b>Historial de citas médicas del día</b>
+                        <b>Listado de usuarios registrados</b>
                     </h3>
                     <!-- ******************************************************************************************************************************************* -->
                     <br/>
                     <b:container id="container" fluid="true" contentDisabled="false">
 
                         <b:dataTable large-screen="full-width" id="inscritosTabla"
-                                     value="#{CitaBean.historiasdia}" var="historia"
+                                     value="#{PersonaBean.colaboradores}" var="paciente"
                                      responsive="true" style="font-size: 11px"
                                      info="true" content-disabled="false"
                                      excel="true" csv="true" pdf="true" print="true"
                                      paginated="true" searching="true"
                                      page-length="25" multi-column-search="true"
                                      multi-column-search-position="top" >
-                            <b:dataTableColumn label="Código" value="#{historia.hisId}" style="width: 10%" />
-                            <b:dataTableColumn label="Médico Tratante" value="#{CitaBean.getNombreCompletoMedico(historia)}" style="width: 30%"/>
-                            <b:dataTableColumn label="Paciente" value="#{CitaBean.getNombreCompleto(historia)}" style="width: 30%" order="asc"/>
-                            <b:dataTableColumn label="Fecha" value="#{historia.hisFechaCreacion}" style="width: 5%" />
-
-                            <b:dataTableColumn label="Cita" style="width: 5%" >
-                                <b:row>
-                                    <b:column span="1" offset="0">
-                                        <b:commandButton ajax="true"
-                                                         action="#{CitaBean.VerCitaMedica(historia.hisId)}"
-                                                         tooltip="Revisar cita" look="success">
-                                            <b:iconAwesome name="eye"></b:iconAwesome>
-                                        </b:commandButton>
-                                    </b:column>
-                                </b:row>
-                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Código"
+                                               value="#{paciente.perId}" style="width: 1%" />
+                            <b:dataTableColumn label="Cédula"
+                                               value="#{paciente.perCedula}" style="width: 10%" />
+                            <b:dataTableColumn label="Nombres"
+                                               value="#{paciente.perNombres} #{paciente.perApellidos}"
+                                               style="width: 15%"/>
+                            <b:dataTableColumn label="Edad"
+                                               value="#{paciente.perEdad}"
+                                               style="width: 3%" />
+                            <b:dataTableColumn label="Teléfono"
+                                               value="#{paciente.perTelefono}"
+                                               style="width: 5%" />
+                            <b:dataTableColumn label="Usuario"
+                                               value="#{PersonaBean.recuperarNombreUsuario(paciente.perId)}"
+                                               style="width: 5%" />
                         </b:dataTable>
 
                         <!-- ******************************************************************************************************************************************* -->

@@ -12,7 +12,7 @@
     <f:event listener="#{LoginBean.comprobarLogin}" type="preRenderView" />
 
     <h:head>
-        <title>American College</title>
+        <title>Departamento Médico</title>
         <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
     </h:head>
@@ -843,7 +843,16 @@
                         </b:panel>
                             </h:panelGroup>
                         <b:row contentDisabled="false">
-                        
+                        <b:column span="4" offset="4">
+                            
+                            <b:commandButton id="boton_imprimir_diagnostico"
+                                             action="#{CitaBean.imprimirDiagnostico()}"
+                                             icon-awesome="file-pdf-o"
+                                             value="Imprimir diagnósticos" look="primary"
+                                             iconAwesome="user"
+                                             onclick="this.form.target = '_blank'"/>
+                        </b:column>
+                        <br/>
                         <b:column span="4" offset="4">
                             <b:commandButton large-screen="full-width" id="submit"
                                              value="Actualizar Cita Médica"

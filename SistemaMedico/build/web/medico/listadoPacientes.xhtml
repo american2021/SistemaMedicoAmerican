@@ -12,7 +12,7 @@
     #{personasBean.cargarPersona()}
 
     <h:head>
-        <title>American College</title>
+        <title>Departamento Médico</title>
         <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
     </h:head>
@@ -49,7 +49,7 @@
 
     <h:body>
 
-        <p:idleMonitor timeout="10000">
+        <p:idleMonitor timeout="600000">
             <p:ajax event="idle" listener="#{LoginBean.sesionInactiva()}" />
         </p:idleMonitor>
 

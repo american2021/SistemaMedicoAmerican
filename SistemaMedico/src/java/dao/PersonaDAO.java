@@ -7,7 +7,6 @@ package dao;
 
 import conexion.HibernateUtil;
 import datos.Personas;
-import datos.Usuarios;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -17,33 +16,27 @@ import org.hibernate.Session;
  * @author Administrador
  */
 public class PersonaDAO {
-    
-    public static void crearPersona(Personas persona) {
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.save(persona);
-        session.getTransaction().commit();
-        session.close();
-    }
-    
-    public static void crearActualizarPersona(Personas persona){
+    /**
+     * Método para crear o actualizar una persona.
+     *
+     * @param persona
+     */
+    public static void crearActualizarPersona(Personas persona) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         session.saveOrUpdate(persona);
         session.getTransaction().commit();
         session.close();
-    }    
-    
-    public static void crearUsuario(Usuarios usuario) {
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.save(usuario);
-        session.getTransaction().commit();
-        session.close();
     }
-    
+
+    /**
+     * Método para encontrar una persona según su nombre y apellido.
+     *
+     * @param nombre
+     * @param apellido
+     * @return
+     */
     public static Personas recuperarPersonaNombre(String nombre, String apellido) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -59,18 +52,23 @@ public class PersonaDAO {
             }
 
         }
-        //persona.setSign(recuperarSignosPorCodigo(persona.getPerId()));
         session.getTransaction().commit();
         session.close();
         return persona;
     }
-    
+
+    /**
+     * Método para recuperar una persona según su id.
+     *
+     * @param id
+     * @return
+     */
     public static Personas recuperarPersonaID(int id) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Personas where per_id = " + id);
-        System.out.println("Aquí hay un query en persona dao: "+query);
+        System.out.println("Aquí hay un query en persona dao: " + query);
         Personas persona = null;
         if (!query.list().isEmpty()) {
 
@@ -78,49 +76,32 @@ public class PersonaDAO {
             persona.getHistoriasesForPacientePerId().size();
 
         }
-        //persona.setSign(recuperarSignosPorCodigo(persona.getPerId()));
         session.getTransaction().commit();
         session.close();
         return persona;
     }
-    
-    public static List<String> recuperarNombres() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("SELECT concat(per_apellidos,' - ',per_nombres) FROM Personas");
-        List<String> personas = query.list();
-        session.getTransaction().commit();
-        session.close();
-        return personas;
-    }
-    
-    public static List<Personas> recuperarPersonas() {
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("FROM Personas");
-        List<Personas> personas = query.list();
-        session.getTransaction().commit();
-        session.close();
-        return personas;
-    }
-    
+    /**
+     * Método para recuperar los colaboradores registrados en el sistema.
+     *
+     * @return
+     */
     public static List<Personas> recuperarColaboradores() {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("FROM Personas WHERE per_es_paciente = 'N'");
-        List<Personas> personas = query.list();
-        personas.forEach((persona)->{
-            if(persona.getUsuarioses().size() != 0){
-                Usuarios u = (Usuarios)persona.getUsuarioses().iterator().next();
-            }
-        });
+        List<Personas> colaboradores = query.list();
         session.getTransaction().commit();
         session.close();
-        return personas;
+        return colaboradores;
     }
-    
+
+    /**
+     * Métododo para recuperar los nombres de los pacientes.
+     *
+     * @return
+     */
     public static List<String> recuperarNombresPacientes() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -131,8 +112,13 @@ public class PersonaDAO {
         session.close();
         return pacientes;
     }
-    
-        public static List<Personas> recuperarPacientes() {
+
+    /**
+     * Métoco para recuperar los pacientes
+     *
+     * @return
+     */
+    public static List<Personas> recuperarPacientes() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
@@ -142,7 +128,13 @@ public class PersonaDAO {
         session.close();
         return pacientes;
     }
-    
+
+    /**
+     * Método para recuperar una persona según su cédula.
+     *
+     * @param cedula
+     * @return
+     */
     public static Personas recuperarPersonaCedula(String cedula) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();

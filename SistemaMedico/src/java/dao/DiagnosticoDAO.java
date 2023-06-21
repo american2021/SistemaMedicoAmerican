@@ -14,8 +14,13 @@ import org.hibernate.Session;
  * @author Administrador
  */
 public class DiagnosticoDAO {
-    
-    public static void crearActualizarDiagnostico(Diagnosticos diagnostico){
+
+    /**
+     * Método para crear o actualizar un diagnóstico.
+     *
+     * @param diagnostico
+     */
+    public static void crearActualizarDiagnostico(Diagnosticos diagnostico) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         session.saveOrUpdate(diagnostico);

@@ -8,7 +8,6 @@ package beans;
 import dao.CiudadesDAO;
 import dao.EstadoCivilDAO;
 import dao.CitaDAO;
-import dao.HistoriaDAO;
 import dao.OcupacionDAO;
 import dao.ParentescoDAO;
 import dao.PersonaDAO;
@@ -107,6 +106,7 @@ public final class PersonaBean implements Serializable {
 
     //Declaración de colecciones de datos
     private List<Personas> pacientes;
+    private List<Personas> colaboradores;
 
     FacesContext context;
 
@@ -123,6 +123,10 @@ public final class PersonaBean implements Serializable {
 
     public void inicializarPacientes() {
         pacientes = PersonaDAO.recuperarPacientes();
+    }
+    
+    public void inicializarColaboradores() {
+        colaboradores = PersonaDAO.recuperarColaboradores();
     }
 
     public void inicializarPersona() {
@@ -240,8 +244,10 @@ public final class PersonaBean implements Serializable {
         //Seteo de los datos de la persona
         persona.setPerFechaUlt(new Date());
         persona.setPerEsPaciente('S');
+        // Calcular la edad en caso de que no se haya visto reflejada en el campo correspondiente
+        calcularEdad();
         persona.setPerUsuario(session.getAttribute("usuario").toString());
-        PersonaDAO.crearPersona(persona);
+        PersonaDAO.crearActualizarPersona(persona);
 
         guardarDatosHistoriaInicial();
 
@@ -285,8 +291,8 @@ public final class PersonaBean implements Serializable {
         usuario.setUsuUsuario(session.getAttribute("usuario").toString());
         usuario.setPersonas(persona);
         usuario.setUsuFechaUlt(new Date());
-        PersonaDAO.crearPersona(persona);
-        PersonaDAO.crearUsuario(usuario);
+        PersonaDAO.crearActualizarPersona(persona);
+        UsuarioDAO.crearActualizarUsuario(usuario);
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesMessages.info(":growlInfo", "Colaborador creado con éxito", "This is a specific message!");
@@ -343,10 +349,10 @@ public final class PersonaBean implements Serializable {
         historia.setSignos(signos);
         historia.setRevisionSistemas(revision);
 
-        PersonaDAO.crearPersona(persona);
+        PersonaDAO.crearActualizarPersona(persona);
         historia.setPersonasByPacientePerId(persona);
         //Llamada a beans para guardar datos
-        HistoriaDAO.crearActualizarHistoria(historia);
+        CitaDAO.crearActualizarHistoria(historia);
     }
 
     public void guardarDatosHistoriaInicial() {
@@ -400,7 +406,7 @@ public final class PersonaBean implements Serializable {
         historia.setPersonasByPacientePerId(persona);
 
         //Llamada a beans para guardar datos        
-        HistoriaDAO.crearActualizarHistoria(historia);
+        CitaDAO.crearActualizarHistoria(historia);
     }
 
     public String redireccionarPacienteGuardado() throws InterruptedException {
@@ -593,10 +599,6 @@ public final class PersonaBean implements Serializable {
 
     }
 
-    public List<String> recuperarNombres() {
-        return PersonaDAO.recuperarNombres();
-    }
-
     public List<String> recuperarNombresRol(int rol) {
         List<String> colaboradores = new ArrayList<>();
         Usuarios u = new Usuarios();
@@ -616,17 +618,11 @@ public final class PersonaBean implements Serializable {
     }
 
     public List<String> recuperarNombresColaboradores() {
-        List<String> medicos = new ArrayList<>();
-        Usuarios usuario;
-        int tipo_usuario;
-        for (Personas persona : PersonaDAO.recuperarPersonas()) {
-            usuario = (Usuarios) persona.getUsuarioses().iterator().next();
-            tipo_usuario = usuario.getRolesRolId();
-            if (tipo_usuario != 5) {
-                medicos.add(persona.getPerNombres() + " - " + persona.getPerApellidos());
-            }
+        List<String> colaboradores = new ArrayList<>();
+        for (Personas colaborador : PersonaDAO.recuperarColaboradores()) {
+            colaboradores.add(colaborador.getPerNombres() + " - " + colaborador.getPerApellidos());
         }
-        return medicos;
+        return colaboradores;
     }
 
     public String asignarMedico() {
@@ -634,7 +630,7 @@ public final class PersonaBean implements Serializable {
                 = PersonaDAO.recuperarPersonaNombre(nombre_medico.split(" - ")[0],
                         nombre_medico.split(" - ")[1]);
         historia.setPersonasByMedicoPerId(medico);
-        HistoriaDAO.crearActualizarHistoria(historia);
+        CitaDAO.crearActualizarHistoria(historia);
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         FacesMessages.info(":growlInfo", "Médico asignado con éxito!", "This is a specific message!");
@@ -652,6 +648,10 @@ public final class PersonaBean implements Serializable {
 
     public void inicializarEstadosCiviles() {
         lista_estados_civiles = EstadoCivilDAO.recuperarEstados();
+    }
+    
+    public String recuperarNombreUsuario(int per_id){
+        return UsuarioDAO.obtenerUsuarioPorPerId(per_id).getUsuNombre();
     }
 
     public void recuperarPacientesListener() {
@@ -1007,4 +1007,13 @@ public final class PersonaBean implements Serializable {
         this.sig_perimetro_brazo = sig_perimetro_brazo;
     }
 
+    public List<Personas> getColaboradores() {
+        return colaboradores;
+    }
+
+    public void setColaboradores(List<Personas> colaboradores) {
+        this.colaboradores = colaboradores;
+    }
+    
+    
 }

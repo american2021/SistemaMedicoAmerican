@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 01-jun-2023 9:18:20 by Hibernate Tools 4.3.1 -->
+<!-- Generated 07-jun-2023 17:26:52 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Antecedentes" table="antecedentes" catalog="smed" optimistic-lock="version">
         <id name="antId" type="java.lang.Integer">
@@ -89,8 +89,8 @@
         <property name="antObsSexualidad" type="string">
             <column name="ant_obs_sexualidad" length="500" />
         </property>
-        <property name="antFechaUlt" type="date">
-            <column name="ant_fecha_ult" length="10" />
+        <property name="antFechaUlt" type="timestamp">
+            <column name="ant_fecha_ult" length="19" />
         </property>
         <property name="antUsuario" type="string">
             <column name="ant_usuario" length="300" />

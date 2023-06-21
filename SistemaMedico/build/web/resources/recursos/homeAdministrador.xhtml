@@ -28,27 +28,9 @@
                         <h5 class="divTitleHome" id="reply-title">
                             <b>Registro de paciente</b>
                         </h5>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Registrar información de un nuevo paciente.
-                            </span>
-                        </b:row>
-                    </a>
-                </b:column>
-                <b:column span="2" class="divMainHome">
-                    <a href="listado-pacientes" class="linkHome">
-                        <b:row>
-                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/pacientes.png" />
-                        </b:row>
-                        <h5 class="divTitleHome" id="reply-title">
-                            <b>Lista pacientes</b>
-                        </h5>
-                        <br/>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Listado de pacientes.
-                            </span>
-                        </b:row>
+                        <div style="text-align: center; color: black">
+                            Registrar información de un nuevo paciente.
+                        </div>
                     </a>
                 </b:column>
                 <b:column span="2" class="divMainHome">
@@ -59,16 +41,26 @@
                         <h5 class="divTitleHome" id="reply-title">
                             <b>Actualizar paciente</b>
                         </h5>
-                        <br/>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Actualizar información de un paciente.
-                            </span>
-                        </b:row>
+                        <div style="text-align: center; color: black">
+                            Actualizar información de un paciente.
+                        </div>
                     </a>
-                </b:column>                
+                </b:column>
+                <b:column span="2" class="divMainHome">
+                    <a href="listado-pacientes" class="linkHome">
+                        <b:row>
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/pacientes.png" />
+                        </b:row>
+                        <h5 class="divTitleHome" id="reply-title">
+                            <b>Lista pacientes</b>
+                        </h5>
+                        <div style="text-align: center; color: black">
+                            Listado de pacientes.
+                        </div>
+                    </a>
+                </b:column>
             </b:row>
-            
+
             <b:row>
                 <h3 id="reply-title">
                     <b>Personal administrativo</b>
@@ -81,14 +73,12 @@
                         <h5 class="divTitleHome" id="reply-title">
                             <b>Registro de colaborador</b>
                         </h5>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Registrar información de un colaborador.
-                            </span>
-                        </b:row>
+                        <div style="text-align: center; color: black">
+                            Registrar información de un colaborador.
+                        </div>
                     </a>
                 </b:column>
-                
+
                 <b:column span="2" class="divMainHome">
                     <a href="actualizacion-colaborador" class="linkHome">
                         <b:row>
@@ -97,16 +87,26 @@
                         <h5 class="divTitleHome" id="reply-title">
                             <b>Actualizar Colaborador</b>
                         </h5>
-                        <br/>
+                        <div style="text-align: center; color: black">
+                            Actualizar información de un colaborador.
+                        </div>
+                    </a>
+                </b:column>
+                <b:column span="2" class="divMainHome">
+                    <a href="listado-usuarios" class="linkHome">
                         <b:row>
-                            <span class="divTextHome"> 
-                                Actualizar información de un colaborador.
-                            </span>
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/usuarios.png" />
                         </b:row>
+                        <h5 class="divTitleHome" id="reply-title">
+                            <b>Listar Usuarios</b>
+                        </h5>
+                        <div style="text-align: center; color: black">
+                            Listar los usuarios del sistema.
+                        </div>
                     </a>
                 </b:column>
             </b:row>
-            
+
             <b:row>
                 <h3 id="reply-title">
                     <b>Citas médicas</b>
@@ -119,11 +119,9 @@
                         <h5 class="divTitleHome" id="reply-title">
                             <b>Citas Médicas</b>
                         </h5>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Listado de citas de los pacientes
-                            </span>
-                        </b:row>
+                        <div style="text-align: center; color: black">
+                            Listado de citas de los pacientes
+                        </div>
                     </a>
                 </b:column>
                 <b:column span="2" class="divMainHome">
@@ -134,11 +132,9 @@
                         <h5 class="divTitleHome" id="reply-title">
                             <b>Citas Médicas del día</b>
                         </h5>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Listado de citas de hoy de los pacientes
-                            </span>
-                        </b:row>
+                        <div style="text-align: center; color: black">
+                            Listado de citas de hoy de los pacientes
+                        </div>
                     </a>
                 </b:column>
                 <b:column span="2" class="divMainHome">
@@ -149,15 +145,13 @@
                         <h5 class="divTitleHome" id="reply-title">
                             <b>Crear nueva cita</b>
                         </h5>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Crear historia clínica.
-                            </span>
-                        </b:row>
+                        <div style="text-align: center; color: black">
+                            Crear cita médica.
+                        </div>
                     </a>
                 </b:column>
             </b:row>
-            
+
             <b:row>
                 <h3 id="reply-title">
                     <b>Asignación de médico y Diagnósticos</b>
@@ -165,31 +159,27 @@
                 <b:column span="2" class="divMainHome">
                     <a href="asignacion-medico" class="linkHome">
                         <b:row>
-                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/account.png" />
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/doctor.png" />
                         </b:row>
                         <h5 class="divTitleHome" id="reply-title">
                             <b>Asignación de médico</b>
                         </h5>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Asignar médico a una cita.
-                            </span>
-                        </b:row>
+                        <div style="text-align: center; color: black">
+                            Asignar médico a una cita.
+                        </div>
                     </a>
                 </b:column>
                 <b:column span="2" class="divMainHome">
                     <a href="listado-citas" class="linkHome">
                         <b:row>
-                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/citas.png" />
+                            <h:graphicImage class="divIconHome" value="#{pathManager.path}/icon/lupa.png" />
                         </b:row>
                         <h5 class="divTitleHome" id="reply-title">
                             <b>Diagnosticar paciente</b>
                         </h5>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Listado de citas de los pacientes
-                            </span>
-                        </b:row>
+                        <div style="text-align: center; color: black">
+                            Diagnosticar paciente
+                        </div>
                     </a>
                 </b:column>
             </b:row>
@@ -206,11 +196,9 @@
                         <h5 class="divTitleHome" id="reply-title">
                             <b>Registro</b>
                         </h5>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Registrar Nueva Patología
-                            </span>
-                        </b:row>
+                        <div style="text-align: center; color: black">
+                            Registrar Nueva Patología
+                        </div>
                     </a>
                 </b:column>
                 <b:column span="2" class="divMainHome">
@@ -221,17 +209,15 @@
                         <h5 class="divTitleHome" id="reply-title">
                             <b>Edicion</b>
                         </h5>
-                        <b:row>
-                            <span class="divTextHome"> 
-                                Editar las patologías existentes
-                            </span>
-                        </b:row>
+                        <div style="text-align: center; color: black">
+                            Editar las patologías existentes
+                        </div>
                     </a>
                 </b:column>
             </b:row>
             <br></br>
             <br></br>
-            
+
         </b:panel>
     </cc:implementation>
 </html>

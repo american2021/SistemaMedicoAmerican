@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 01-jun-2023 9:18:20 by Hibernate Tools 4.3.1 -->
+<!-- Generated 07-jun-2023 17:26:52 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.RevisionSistemas" table="revision_sistemas" catalog="smed" optimistic-lock="version">
         <id name="revSisId" type="java.lang.Integer">
@@ -12,40 +12,40 @@
             <column name="rev_sis_patologia" length="5" not-null="true" />
         </property>
         <property name="revSisSentidos" type="string">
-            <column name="rev_sis_sentidos" length="5" not-null="true" />
+            <column name="rev_sis_sentidos" length="100" not-null="true" />
         </property>
         <property name="revSisRespiratorio" type="string">
-            <column name="rev_sis_respiratorio" length="5" not-null="true" />
+            <column name="rev_sis_respiratorio" length="100" not-null="true" />
         </property>
         <property name="revSisCardiovascular" type="string">
-            <column name="rev_sis_cardiovascular" length="5" not-null="true" />
+            <column name="rev_sis_cardiovascular" length="100" not-null="true" />
         </property>
         <property name="revSisDigestivo" type="string">
-            <column name="rev_sis_digestivo" length="5" not-null="true" />
+            <column name="rev_sis_digestivo" length="100" not-null="true" />
         </property>
         <property name="revSisGenital" type="string">
-            <column name="rev_sis_genital" length="5" not-null="true" />
+            <column name="rev_sis_genital" length="100" not-null="true" />
         </property>
         <property name="revSisUrinario" type="string">
-            <column name="rev_sis_urinario" length="5" not-null="true" />
+            <column name="rev_sis_urinario" length="100" not-null="true" />
         </property>
         <property name="revSisEsqueletico" type="string">
-            <column name="rev_sis_esqueletico" length="5" not-null="true" />
+            <column name="rev_sis_esqueletico" length="100" not-null="true" />
         </property>
         <property name="revSisMuscular" type="string">
-            <column name="rev_sis_muscular" length="5" not-null="true" />
+            <column name="rev_sis_muscular" length="100" not-null="true" />
         </property>
         <property name="revSisNervioso" type="string">
-            <column name="rev_sis_nervioso" length="5" not-null="true" />
+            <column name="rev_sis_nervioso" length="100" not-null="true" />
         </property>
         <property name="revSisEndocrino" type="string">
-            <column name="rev_sis_endocrino" length="5" not-null="true" />
+            <column name="rev_sis_endocrino" length="100" not-null="true" />
         </property>
         <property name="revSisHemolinfatico" type="string">
-            <column name="rev_sis_hemolinfatico" length="5" not-null="true" />
+            <column name="rev_sis_hemolinfatico" length="100" not-null="true" />
         </property>
         <property name="revSisTegumentario" type="string">
-            <column name="rev_sis_tegumentario" length="5" not-null="true" />
+            <column name="rev_sis_tegumentario" length="100" not-null="true" />
         </property>
         <property name="revSisFisicoPatologia" type="string">
             <column name="rev_sis_fisico_patologia" length="5" not-null="true" />
