@@ -46,7 +46,7 @@
     <my:menuLateralContador id="menuLateralContador"/>
 
     <h:body>
-
+        <b:growl id="growl" escape="true" />
         <b:modal id="modalAsignacionMedico" title="Asigación de médico" closable="true"
                  close-on-escape="true" backdrop="true" size="modal-lg">
             <b:form id="formEdicionSignos" >
@@ -83,9 +83,6 @@
         <p:idleMonitor timeout="600000">
             <p:ajax event="idle" listener="#{LoginBean.sesionInactiva()}" />
         </p:idleMonitor>
-
-
-        <b:growl id="growl" escape="true" />
 
         <b:container fluid="true">
             <b:panel span="10" offset="0">

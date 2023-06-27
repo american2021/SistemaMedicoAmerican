@@ -40,21 +40,52 @@
 
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
 
-    <b:modal id="modalRol" title="Rol de usuario" style="font-weight: bold;" closable="true" close-on-escape="true" backdrop="true" >
-        <b:panel span="14">
-            <b:form>
-                <b:selectOneMenu value="#{loginBean.cambioRol}">
-                    <f:selectItem itemLabel="Seleccionar el rol de usuario con el que desea trabajar" itemValue="" noSelectionOption="true" />
-                    <f:selectItems value="#{loginBean.recuperarRoles()}" var="r" itemLabel="#{r}" itemValue="#{r}" />
-                </b:selectOneMenu>
-                <b:panel span="4" offset="5">
+    <b:modal id="modalCreacionDiagnostico" title="Creación de diagnóstico" closable="true"
+                 close-on-escape="true" backdrop="true" size="modal-lg">
+            <b:form id="formAddDiagnostico" >
+
+                <b:panel title="Ingrese la información para crear el nuevo diagnóstico " look="info" collapsible="false" id="panelSignos">
                     <b:row>
-                        <b:commandButton value="Cambiar Rol" action="#{loginBean.cambiarRol()}" look="primary" />
+                        <b:inputText label="Código CIE-10"
+                                                 placeholder="Código CIE-10"
+                                                 id="dia_codigo_cie"
+                                                 span="3"
+                                                 maxlength="10"
+                                                 value="#{CitaBean.nuevo_diagnostico.diaCodigoCie}"
+                                                 required="true"
+                                                 requiredMessage="Ingrese el código del diagnóstico"/>
+                    </b:row>
+                    <b:row>
+                        <b:inputTextarea label="Descripción del Diagnóstico"
+                                                 placeholder="Descripción del diagnóstico"
+                                                 id="dia_descripcion_cie"
+                                                 span="6"
+                                                 maxlength="500"
+                                                 value="#{CitaBean.nuevo_diagnostico.diaDescripcionCie}"
+                                                 required="true"
+                                                 requiredMessage="Ingrese la descripción del diagnóstico"/>
+                        <b:inputTextarea label="Observación del Diagnóstico"
+                                                 placeholder="Observación del diagnóstico"
+                                                 id="dia_observación_cie"
+                                                 span="6"
+                                                 maxlength="500"
+                                                 value="#{CitaBean.nuevo_diagnostico.diaObservacionCie}"
+                                                 required="true"
+                                                 requiredMessage="Ingrese la observación del diagnóstico"/>
+                    </b:row>
+                    <b:row>
+                        <b:column span="4" offset="4">
+                            <b:commandButton large-screen="full-width" id="submit"
+                                             value="Crear Diagnóstico"
+                                             oncomplete="$('#modalCreacionDiagnostico').modal('hide')"
+                                             action="#{CitaBean.crearDiagnosticoCIE10()}"
+                                             look="primary" ajax="true" update="@form :growl"/>
+                        </b:column>
                     </b:row>
                 </b:panel>
+
             </b:form>
-        </b:panel>
-    </b:modal>
+        </b:modal>
 
     <my:cabecera id="cabecera"/>
     <my:menuLateralMedico id="menuLateralMedico"/>
@@ -117,6 +148,7 @@
                                              value="#{CitaBean.historia.personasByPacientePerId.perNombres}"
                                              required="true"
                                              requiredMessage="Ingrese sus nombres"/>
+                                <b:message for="per_nombres" />
                             </b:column>
                         </b:row>
                         <br/>
@@ -368,6 +400,7 @@
                                         listener="#{CitaBean.calcularPresionArterialMedia()}"
                                         render="sig_presion_arterial_media growl"/>
                                 </b:inputText>
+                                <b:message for="sig_pre_sistolica"/>
                             </b:column>
                                 <b:column span="3">
                                 <b:inputText label="Presion Arterial Diastólica"
@@ -827,32 +860,62 @@
                         </b:panel>
                         <h:panelGroup id="diagnostisco" rendered="#{LoginBean.renderizarDiagnosticos()}">
                         <h3>
-                            <b>Diagnóstico</b>
+                            <b>Diagnóstico Y Tratamiento</b>
                         </h3>
-                        <b:panel title="Registro de diagnóstico del paciente" look="info" collapsible="false">
-                            <b:row>
-                                <b:column span="12">
-                                    <b:inputTextarea label="Diagnóstico"
-                                                 placeholder="Diagnóstico"
-                                                 id="dia_descripcion"
-                                                 size="13"
-                                                 value="#{CitaBean.diagnostico.diaObservacion}"
-                                                 maxlength="500"/>
-                                </b:column>
-                            </b:row>
-                        </b:panel>
+                            <b:panel title="Diagnóstico y tratamiento de la cita" look="info" collapsible="false">
+                                <b:row>
+                                    <b:column span="6" >
+                                        <b:inputText value="#{CitaBean.nombre_diagnostico}"
+                                                     label="Diagnóstico"
+                                                     placeholder="Escoja un diagnóstico"
+                                                     typeahead="true"
+                                                     id="dia_descripcion"
+                                                     typeahead-limit="20"
+                                                     typeahead-values="#{CitaBean.recuperarNombresDiagnosticos()}">
+                                            <f:ajax event="change"
+                                                    listener="#{CitaBean.recuperarDiagnosticosLinstener()}"
+                                                    render="commentform :growl" />
+                                        </b:inputText>
+
+                                    </b:column>
+                                    <br/>
+                                    <b:column offset="1" span="3" >
+                                        <b:commandButton ajax="true"
+                                                         value="Crear diagnóstico"
+                                                         update=":modalCreacionDiagnostico:formAddDiagnostico :growl"
+                                                         oncomplete="$('#modalCreacionDiagnostico').modal('show')"
+                                                         tooltip="Crear Diagnóstico" look="success"
+                                                         style="margin-left: 30%">
+                                            <b:iconAwesome name="plus"></b:iconAwesome>
+                                        </b:commandButton>
+                                    </b:column>
+                                    <b:column span="2" >
+                                        <b:commandButton id="boton_imprimir_diagnostico"
+                                                         action="#{CitaBean.imprimirDiagnostico()}"
+                                                         value="Imprimir diagnóstico" look="primary"
+                                                         onclick="this.form.target = '_blank'"/>
+                                    </b:column>
+                                </b:row>
+                                <b:row>
+                                    <b:column span="6" >
+                                        <b:inputText value="#{CitaBean.nombre_diagnostico}"
+                                                     label="Tratamiento"
+                                                     placeholder="Escoja un diagnóstico"
+                                                     typeahead="true"
+                                                     id="tra_nombre"
+                                                     typeahead-limit="20"
+                                                     typeahead-values="#{CitaBean.recuperarNombresDiagnosticos()}">
+                                            <f:ajax event="change"
+                                                    listener="#{CitaBean.recuperarDiagnosticosLinstener()}"
+                                                    render="commentform :growl" />
+                                        </b:inputText>
+
+                                    </b:column>
+                                    <br/>
+                                </b:row>
+                            </b:panel>
                             </h:panelGroup>
                         <b:row contentDisabled="false">
-                        <b:column span="4" offset="4">
-                            
-                            <b:commandButton id="boton_imprimir_diagnostico"
-                                             action="#{CitaBean.imprimirDiagnostico()}"
-                                             icon-awesome="file-pdf-o"
-                                             value="Imprimir diagnósticos" look="primary"
-                                             iconAwesome="user"
-                                             onclick="this.form.target = '_blank'"/>
-                        </b:column>
-                        <br/>
                         <b:column span="4" offset="4">
                             <b:commandButton large-screen="full-width" id="submit"
                                              value="Actualizar Cita Médica"

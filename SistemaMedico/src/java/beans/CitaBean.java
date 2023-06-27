@@ -63,6 +63,7 @@ public final class CitaBean implements Serializable{
     private List<Historias> historiasdia;
     private String nombre_enfermedad;
     private Diagnosticos diagnostico;
+    private Diagnosticos nuevo_diagnostico;
     private Historias historia;
     private Signos signos;
     private int historia_actual_id;
@@ -75,6 +76,7 @@ public final class CitaBean implements Serializable{
     
     private String profesion_abierta;
     private String parentesco_abierto;
+    private String nombre_diagnostico;
     
     private List<Ciudades> lista_ciudades;
     private List<Estadocivil> lista_estados_civiles;
@@ -150,6 +152,35 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método para recuperar lso diagnósticos registrados en la base
+     * @return 
+     */
+    public List<String> recuperarNombresDiagnosticos() {
+        return CitaDAO.recuperarNombresDiagnosticos();
+    }
+    
+    /**
+     * Método que realiza una acción cuando un diagnóstico es seleccionado
+     */
+    public void recuperarDiagnosticosLinstener(){
+        String diagnostico_codigo[] = getNombre_diagnostico().split(" - ");
+        if (diagnostico_codigo.length == 2) {
+            diagnostico = CitaDAO.recuperarDiagnosticoCodigoCie(diagnostico_codigo[0]);
+
+            if (diagnostico != null) {
+                FacesMessages.info(":growlInfo", "Diasgnóstico definido", "This is a specific message!");
+                }
+            else {
+                FacesMessages.info(":growlInfo", "No se ha encontrado el diasgnóstico", "This is a specific message!");
+                nombre_diagnostico = "";
+            }
+        }
+        else {
+            FacesMessages.info(":growlInfo", "Nombre no válido", "This is a specific message!");
+            nombre_diagnostico = "";
+        }
+    }
     
     /**
      * Método para recuperar todas las historias del día(En caso de estar logueado
@@ -206,8 +237,7 @@ public final class CitaBean implements Serializable{
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         
-        if(diagnostico.getDiaObservacion().length() > 0){
-            diagnostico.setHistorias(historia);
+        if(diagnostico.getDiaObservacionCie().length() > 0){
             DiagnosticoDAO.crearActualizarDiagnostico(diagnostico);
             historia.setDiagnosticos(diagnostico);
             CitaDAO.crearActualizarHistoriaConDatos(historia);
@@ -217,6 +247,18 @@ public final class CitaBean implements Serializable{
         }
         
         return "/medico/listadoCitas.xhtml?faces-redirect=true";
+    }
+    
+    /**
+     * Método para crear un nuevo diagnóstico CIE 10ma edición
+     */
+    public void crearDiagnosticoCIE10(){
+        nuevo_diagnostico.setDiaEdicionCie("10");
+        nuevo_diagnostico.setDiaFechaUlt(new Date());
+        nuevo_diagnostico.setDiaUsuario(session.getAttribute("usuario").toString());
+        DiagnosticoDAO.crearActualizarDiagnostico(nuevo_diagnostico);
+        recuperarNombresDiagnosticos();
+        FacesMessages.info(":growlInfo", "Diagnóstico Creado", "This is a specific message!");
     }
     
     public void imprimirDiagnostico() throws net.sf.jasperreports.engine.JRException, IOException {
@@ -259,6 +301,7 @@ public final class CitaBean implements Serializable{
     }
     
     public String VerCitaMedica(int hisId) {
+        nuevo_diagnostico = new Diagnosticos();
         this.historia_actual_id = hisId;
         historia = CitaDAO.recuperarHistoriaID(hisId);
         revision = historia.getRevisionSistemas();
@@ -613,4 +656,21 @@ public final class CitaBean implements Serializable{
     public void setLista_parentescos(List<Parentescos> lista_parentescos) {
         this.lista_parentescos = lista_parentescos;
     }
+
+    public String getNombre_diagnostico() {
+        return nombre_diagnostico;
+    }
+
+    public void setNombre_diagnostico(String nombre_diagnostico) {
+        this.nombre_diagnostico = nombre_diagnostico;
+    }
+
+    public Diagnosticos getNuevo_diagnostico() {
+        return nuevo_diagnostico;
+    }
+
+    public void setNuevo_diagnostico(Diagnosticos nuevo_diagnostico) {
+        this.nuevo_diagnostico = nuevo_diagnostico;
+    }
+    
 }

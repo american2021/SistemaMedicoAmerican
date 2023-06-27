@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 07-jun-2023 17:26:52 by Hibernate Tools 4.3.1 -->
+<!-- Generated 22-jun-2023 9:54:19 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Historias" table="historias" catalog="smed" optimistic-lock="version">
         <id name="hisId" type="java.lang.Integer">
@@ -49,12 +49,6 @@
                 <column name="historias_his_id" />
             </key>
             <one-to-many class="datos.Enfermedades" />
-        </set>
-        <set name="diagnosticoses" table="diagnosticos" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="historias_his_id" not-null="true" />
-            </key>
-            <one-to-many class="datos.Diagnosticos" />
         </set>
     </class>
 </hibernate-mapping>

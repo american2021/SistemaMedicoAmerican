@@ -6,6 +6,7 @@
 package dao;
 
 import conexion.HibernateUtil;
+import datos.Diagnosticos;
 import datos.Historias;
 import java.util.List;
 import org.hibernate.Query;
@@ -172,7 +173,7 @@ public class CitaDAO {
             historia.getRevisionSistemas().getRevSisSentidos();
             historia.getPersonasByPacientePerId().getPerNombres();
             try {
-                historia.getDiagnosticos().getDiaObservacion();
+                historia.getDiagnosticos().getDiaObservacionCie();
             } catch (Exception e) {
 
             }
@@ -195,5 +196,32 @@ public class CitaDAO {
         session.getTransaction().commit();
         session.close();
         return id;
+    }
+    
+    public static List<String> recuperarNombresDiagnosticos(){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery(
+                "SELECT concat(dia_codigo_cie,' - ',dia_descripcion_cie) FROM Diagnosticos");
+        List<String> diagnosticos = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return diagnosticos;
+    }
+    
+    public static Diagnosticos recuperarDiagnosticoCodigoCie(String codigo_cie) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Diagnosticos where dia_codigo_cie = '" + codigo_cie + "'");
+        Diagnosticos diagnostico = null;
+        if (!query.list().isEmpty()) {
+
+            diagnostico = (Diagnosticos) query.uniqueResult();
+
+        }
+        session.getTransaction().commit();
+        session.close();
+        return diagnostico;
     }
 }

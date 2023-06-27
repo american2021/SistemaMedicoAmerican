@@ -678,13 +678,8 @@ public final class PersonaBean implements Serializable {
                     parentesco_abierto = persona.getPerParentesco();
                     persona.setPerParentesco("9");
                 }
-                //List<Signos> signos = new ArrayList<>();
-                //antecedentes.addAll(p.getAntecedenteses());
-                //sig_presion_sistolica = antecedentes.get(-1).get;
-                //FacesMessages.info(":growlInfo", "El motivo de la consulta es: "+motivo, "This is a specific message!");
-
             } else {
-                FacesMessages.info(":growlInfo", "Paciente no registrado o duplicado", "This is a specific message!");
+                FacesMessages.info(":growlInfo", "No se ha encontrado el diasgnóstico", "This is a specific message!");
                 per_nombre_completo = "";
             }
 

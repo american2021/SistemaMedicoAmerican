@@ -1,5 +1,5 @@
 package datos;
-// Generated 07-jun-2023 17:26:51 by Hibernate Tools 4.3.1
+// Generated 22-jun-2023 9:54:18 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -26,7 +26,6 @@ public class Historias  implements java.io.Serializable {
      private Date hisFechaUlt;
      private String hisUsuario;
      private Set enfermedadeses = new HashSet(0);
-     private Set diagnosticoses = new HashSet(0);
 
     public Historias() {
     }
@@ -38,7 +37,7 @@ public class Historias  implements java.io.Serializable {
         this.hisEnfermedad = hisEnfermedad;
         this.hisFechaCreacion = hisFechaCreacion;
     }
-    public Historias(Diagnosticos diagnosticos, Enfermedades enfermedades, Personas personasByMedicoPerId, Personas personasByPacientePerId, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, String hisMotivo, String hisEnfermedad, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Set enfermedadeses, Set diagnosticoses) {
+    public Historias(Diagnosticos diagnosticos, Enfermedades enfermedades, Personas personasByMedicoPerId, Personas personasByPacientePerId, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, String hisMotivo, String hisEnfermedad, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Set enfermedadeses) {
        this.diagnosticos = diagnosticos;
        this.enfermedades = enfermedades;
        this.personasByMedicoPerId = personasByMedicoPerId;
@@ -52,7 +51,6 @@ public class Historias  implements java.io.Serializable {
        this.hisFechaUlt = hisFechaUlt;
        this.hisUsuario = hisUsuario;
        this.enfermedadeses = enfermedadeses;
-       this.diagnosticoses = diagnosticoses;
     }
    
     public Integer getHisId() {
@@ -152,13 +150,6 @@ public class Historias  implements java.io.Serializable {
     
     public void setEnfermedadeses(Set enfermedadeses) {
         this.enfermedadeses = enfermedadeses;
-    }
-    public Set getDiagnosticoses() {
-        return this.diagnosticoses;
-    }
-    
-    public void setDiagnosticoses(Set diagnosticoses) {
-        this.diagnosticoses = diagnosticoses;
     }
 
 
