@@ -5,7 +5,7 @@
         <group>
             <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/web/medico/asignacionMedico.xhtml</file>
             <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/web/medico/actualizacionPaciente.xhtml</file>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/web/medico/registroPaciente.xhtml</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/src/java/dao/CitaDAO.java</file>
             <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/src/java/beans/CitaBean.java</file>
             <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/web/medico/citaMedica.xhtml</file>
             <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/SistemaMedico/SistemaMedico/web/medico/registroSignos.xhtml</file>

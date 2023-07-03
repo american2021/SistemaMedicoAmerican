@@ -1,5 +1,5 @@
 package datos;
-// Generated 22-jun-2023 9:54:18 by Hibernate Tools 4.3.1
+// Generated 29-jun-2023 8:59:55 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -17,7 +17,6 @@ public class Diagnosticos  implements java.io.Serializable {
      private String diaDescripcionCie;
      private String diaObservacionCie;
      private String diaEdicionCie;
-     private Integer tratamientosTraId;
      private Date diaFechaUlt;
      private String diaUsuario;
      private Set historiases = new HashSet(0);
@@ -26,15 +25,15 @@ public class Diagnosticos  implements java.io.Serializable {
     }
 
 	
-    public Diagnosticos(String diaObservacionCie) {
-        this.diaObservacionCie = diaObservacionCie;
+    public Diagnosticos(String diaCodigoCie, String diaDescripcionCie) {
+        this.diaCodigoCie = diaCodigoCie;
+        this.diaDescripcionCie = diaDescripcionCie;
     }
-    public Diagnosticos(String diaCodigoCie, String diaDescripcionCie, String diaObservacionCie, String diaEdicionCie, Integer tratamientosTraId, Date diaFechaUlt, String diaUsuario, Set historiases) {
+    public Diagnosticos(String diaCodigoCie, String diaDescripcionCie, String diaObservacionCie, String diaEdicionCie, Date diaFechaUlt, String diaUsuario, Set historiases) {
        this.diaCodigoCie = diaCodigoCie;
        this.diaDescripcionCie = diaDescripcionCie;
        this.diaObservacionCie = diaObservacionCie;
        this.diaEdicionCie = diaEdicionCie;
-       this.tratamientosTraId = tratamientosTraId;
        this.diaFechaUlt = diaFechaUlt;
        this.diaUsuario = diaUsuario;
        this.historiases = historiases;
@@ -74,13 +73,6 @@ public class Diagnosticos  implements java.io.Serializable {
     
     public void setDiaEdicionCie(String diaEdicionCie) {
         this.diaEdicionCie = diaEdicionCie;
-    }
-    public Integer getTratamientosTraId() {
-        return this.tratamientosTraId;
-    }
-    
-    public void setTratamientosTraId(Integer tratamientosTraId) {
-        this.tratamientosTraId = tratamientosTraId;
     }
     public Date getDiaFechaUlt() {
         return this.diaFechaUlt;

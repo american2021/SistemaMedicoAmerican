@@ -199,10 +199,8 @@
                                              requiredMessage="Campo Vacío">
                                     <f:ajax event="change"
                                         listener="#{PersonaBean.calcularIMC()}"
-                                        render="sig_imc"/>
+                                        render="sig_imc growl"/>
                                     <f:validateLongRange minimum="10" maximum="500"/>
-                                    <f:ajax event="change"
-                                        render=""/>
                                 </b:inputText>
                                 <b:message for="sig_peso"/>
                             </b:column>
@@ -218,10 +216,8 @@
                                              requiredMessage="Campo vacío">
                                     <f:ajax event="change"
                                         listener="#{PersonaBean.calcularIMC()}"
-                                        render="sig_imc"/>
+                                        render="sig_imc growl"/>
                                     <f:validateLongRange minimum="0" maximum="3"/>
-                                    <f:ajax event="change"
-                                        render=""/>
                                 </b:inputText>
                                 <b:message for="sig_estatura"/>
                             </b:column>

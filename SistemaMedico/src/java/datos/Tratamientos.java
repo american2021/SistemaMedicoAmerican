@@ -1,5 +1,5 @@
 package datos;
-// Generated 22-jun-2023 9:54:18 by Hibernate Tools 4.3.1
+// Generated 29-jun-2023 8:59:55 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,73 +13,49 @@ public class Tratamientos  implements java.io.Serializable {
 
 
      private Integer traId;
-     private Medicamentos medicamentos;
+     private String traCodigoCie;
+     private String traDescripcionCie;
+     private String traObservacionCie;
+     private String traEdicionCie;
      private String traMedicamento;
      private char traViaAdministracion;
      private String traDosisUnitaria;
      private String traUnidadAdministracion;
-     private String traFrecuencia;
-     private Date traInicioTratamiento;
-     private Date traHora1;
-     private Date traHora2;
-     private Date traHora3;
-     private Date traHora4;
      private Integer traDuracion;
-     private Character traDuracionUnidadTiempo;
-     private int traCantidad;
      private String traIndicaciones;
      private String traAdvertencias;
-     private String traEvolucion;
      private Date traFechaUlt;
      private String traUsuario;
-     private int diagnosticosDiagnosticosId;
+     private Set historiases = new HashSet(0);
      private Set medicamentoses = new HashSet(0);
 
     public Tratamientos() {
     }
 
 	
-    public Tratamientos(Medicamentos medicamentos, String traMedicamento, char traViaAdministracion, String traDosisUnitaria, String traUnidadAdministracion, String traFrecuencia, Date traInicioTratamiento, Date traHora1, Date traHora2, Date traHora3, Date traHora4, int traCantidad, String traIndicaciones, String traAdvertencias, String traEvolucion, Date traFechaUlt, String traUsuario, int diagnosticosDiagnosticosId) {
-        this.medicamentos = medicamentos;
+    public Tratamientos(String traMedicamento, char traViaAdministracion, String traDosisUnitaria, String traUnidadAdministracion, Date traFechaUlt, String traUsuario) {
         this.traMedicamento = traMedicamento;
         this.traViaAdministracion = traViaAdministracion;
         this.traDosisUnitaria = traDosisUnitaria;
         this.traUnidadAdministracion = traUnidadAdministracion;
-        this.traFrecuencia = traFrecuencia;
-        this.traInicioTratamiento = traInicioTratamiento;
-        this.traHora1 = traHora1;
-        this.traHora2 = traHora2;
-        this.traHora3 = traHora3;
-        this.traHora4 = traHora4;
-        this.traCantidad = traCantidad;
-        this.traIndicaciones = traIndicaciones;
-        this.traAdvertencias = traAdvertencias;
-        this.traEvolucion = traEvolucion;
         this.traFechaUlt = traFechaUlt;
         this.traUsuario = traUsuario;
-        this.diagnosticosDiagnosticosId = diagnosticosDiagnosticosId;
     }
-    public Tratamientos(Medicamentos medicamentos, String traMedicamento, char traViaAdministracion, String traDosisUnitaria, String traUnidadAdministracion, String traFrecuencia, Date traInicioTratamiento, Date traHora1, Date traHora2, Date traHora3, Date traHora4, Integer traDuracion, Character traDuracionUnidadTiempo, int traCantidad, String traIndicaciones, String traAdvertencias, String traEvolucion, Date traFechaUlt, String traUsuario, int diagnosticosDiagnosticosId, Set medicamentoses) {
-       this.medicamentos = medicamentos;
+    public Tratamientos(String traCodigoCie, String traDescripcionCie, String traObservacionCie, String traEdicionCie, String traMedicamento, char traViaAdministracion, String traDosisUnitaria, String traUnidadAdministracion, Integer traDuracion, String traIndicaciones, String traAdvertencias, Date traFechaUlt, String traUsuario, Set historiases, Set medicamentoses) {
+       this.traCodigoCie = traCodigoCie;
+       this.traDescripcionCie = traDescripcionCie;
+       this.traObservacionCie = traObservacionCie;
+       this.traEdicionCie = traEdicionCie;
        this.traMedicamento = traMedicamento;
        this.traViaAdministracion = traViaAdministracion;
        this.traDosisUnitaria = traDosisUnitaria;
        this.traUnidadAdministracion = traUnidadAdministracion;
-       this.traFrecuencia = traFrecuencia;
-       this.traInicioTratamiento = traInicioTratamiento;
-       this.traHora1 = traHora1;
-       this.traHora2 = traHora2;
-       this.traHora3 = traHora3;
-       this.traHora4 = traHora4;
        this.traDuracion = traDuracion;
-       this.traDuracionUnidadTiempo = traDuracionUnidadTiempo;
-       this.traCantidad = traCantidad;
        this.traIndicaciones = traIndicaciones;
        this.traAdvertencias = traAdvertencias;
-       this.traEvolucion = traEvolucion;
        this.traFechaUlt = traFechaUlt;
        this.traUsuario = traUsuario;
-       this.diagnosticosDiagnosticosId = diagnosticosDiagnosticosId;
+       this.historiases = historiases;
        this.medicamentoses = medicamentoses;
     }
    
@@ -90,12 +66,33 @@ public class Tratamientos  implements java.io.Serializable {
     public void setTraId(Integer traId) {
         this.traId = traId;
     }
-    public Medicamentos getMedicamentos() {
-        return this.medicamentos;
+    public String getTraCodigoCie() {
+        return this.traCodigoCie;
     }
     
-    public void setMedicamentos(Medicamentos medicamentos) {
-        this.medicamentos = medicamentos;
+    public void setTraCodigoCie(String traCodigoCie) {
+        this.traCodigoCie = traCodigoCie;
+    }
+    public String getTraDescripcionCie() {
+        return this.traDescripcionCie;
+    }
+    
+    public void setTraDescripcionCie(String traDescripcionCie) {
+        this.traDescripcionCie = traDescripcionCie;
+    }
+    public String getTraObservacionCie() {
+        return this.traObservacionCie;
+    }
+    
+    public void setTraObservacionCie(String traObservacionCie) {
+        this.traObservacionCie = traObservacionCie;
+    }
+    public String getTraEdicionCie() {
+        return this.traEdicionCie;
+    }
+    
+    public void setTraEdicionCie(String traEdicionCie) {
+        this.traEdicionCie = traEdicionCie;
     }
     public String getTraMedicamento() {
         return this.traMedicamento;
@@ -125,68 +122,12 @@ public class Tratamientos  implements java.io.Serializable {
     public void setTraUnidadAdministracion(String traUnidadAdministracion) {
         this.traUnidadAdministracion = traUnidadAdministracion;
     }
-    public String getTraFrecuencia() {
-        return this.traFrecuencia;
-    }
-    
-    public void setTraFrecuencia(String traFrecuencia) {
-        this.traFrecuencia = traFrecuencia;
-    }
-    public Date getTraInicioTratamiento() {
-        return this.traInicioTratamiento;
-    }
-    
-    public void setTraInicioTratamiento(Date traInicioTratamiento) {
-        this.traInicioTratamiento = traInicioTratamiento;
-    }
-    public Date getTraHora1() {
-        return this.traHora1;
-    }
-    
-    public void setTraHora1(Date traHora1) {
-        this.traHora1 = traHora1;
-    }
-    public Date getTraHora2() {
-        return this.traHora2;
-    }
-    
-    public void setTraHora2(Date traHora2) {
-        this.traHora2 = traHora2;
-    }
-    public Date getTraHora3() {
-        return this.traHora3;
-    }
-    
-    public void setTraHora3(Date traHora3) {
-        this.traHora3 = traHora3;
-    }
-    public Date getTraHora4() {
-        return this.traHora4;
-    }
-    
-    public void setTraHora4(Date traHora4) {
-        this.traHora4 = traHora4;
-    }
     public Integer getTraDuracion() {
         return this.traDuracion;
     }
     
     public void setTraDuracion(Integer traDuracion) {
         this.traDuracion = traDuracion;
-    }
-    public Character getTraDuracionUnidadTiempo() {
-        return this.traDuracionUnidadTiempo;
-    }
-    
-    public void setTraDuracionUnidadTiempo(Character traDuracionUnidadTiempo) {
-        this.traDuracionUnidadTiempo = traDuracionUnidadTiempo;
-    }
-    public int getTraCantidad() {
-        return this.traCantidad;
-    }
-    
-    public void setTraCantidad(int traCantidad) {
-        this.traCantidad = traCantidad;
     }
     public String getTraIndicaciones() {
         return this.traIndicaciones;
@@ -202,13 +143,6 @@ public class Tratamientos  implements java.io.Serializable {
     public void setTraAdvertencias(String traAdvertencias) {
         this.traAdvertencias = traAdvertencias;
     }
-    public String getTraEvolucion() {
-        return this.traEvolucion;
-    }
-    
-    public void setTraEvolucion(String traEvolucion) {
-        this.traEvolucion = traEvolucion;
-    }
     public Date getTraFechaUlt() {
         return this.traFechaUlt;
     }
@@ -223,12 +157,12 @@ public class Tratamientos  implements java.io.Serializable {
     public void setTraUsuario(String traUsuario) {
         this.traUsuario = traUsuario;
     }
-    public int getDiagnosticosDiagnosticosId() {
-        return this.diagnosticosDiagnosticosId;
+    public Set getHistoriases() {
+        return this.historiases;
     }
     
-    public void setDiagnosticosDiagnosticosId(int diagnosticosDiagnosticosId) {
-        this.diagnosticosDiagnosticosId = diagnosticosDiagnosticosId;
+    public void setHistoriases(Set historiases) {
+        this.historiases = historiases;
     }
     public Set getMedicamentoses() {
         return this.medicamentoses;

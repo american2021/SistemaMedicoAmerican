@@ -12,6 +12,7 @@ import dao.DiagnosticoDAO;
 import dao.OcupacionDAO;
 import dao.ParentescoDAO;
 import dao.SignosDAO;
+import dao.TratamientoDAO;
 import datos.Ciudades;
 import datos.Diagnosticos;
 import datos.Estadocivil;
@@ -23,11 +24,13 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import datos.Signos;
+import datos.Tratamientos;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -63,7 +66,9 @@ public final class CitaBean implements Serializable{
     private List<Historias> historiasdia;
     private String nombre_enfermedad;
     private Diagnosticos diagnostico;
+    private Tratamientos tratamiento;
     private Diagnosticos nuevo_diagnostico;
+    private Tratamientos nuevo_tratamiento;
     private Historias historia;
     private Signos signos;
     private int historia_actual_id;
@@ -77,6 +82,7 @@ public final class CitaBean implements Serializable{
     private String profesion_abierta;
     private String parentesco_abierto;
     private String nombre_diagnostico;
+    private String nombre_tratamiento;
     
     private List<Ciudades> lista_ciudades;
     private List<Estadocivil> lista_estados_civiles;
@@ -86,6 +92,8 @@ public final class CitaBean implements Serializable{
     
     FacesContext context;
     HttpSession session;
+    
+    Format formatter = new SimpleDateFormat("yyyy-MM-dd");
     
     public CitaBean(){
         session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -161,24 +169,54 @@ public final class CitaBean implements Serializable{
     }
     
     /**
+     * Método para recuperar lso diagnósticos registrados en la base
+     * @return 
+     */
+    public List<String> recuperarNombresTratamientos() {
+        return CitaDAO.recuperarNombresTratamientos();
+    }
+    
+    /**
      * Método que realiza una acción cuando un diagnóstico es seleccionado
      */
-    public void recuperarDiagnosticosLinstener(){
+    public void recuperarDiagnosticosListener(){
         String diagnostico_codigo[] = getNombre_diagnostico().split(" - ");
         if (diagnostico_codigo.length == 2) {
             diagnostico = CitaDAO.recuperarDiagnosticoCodigoCie(diagnostico_codigo[0]);
 
             if (diagnostico != null) {
-                FacesMessages.info(":growlInfo", "Diasgnóstico definido", "This is a specific message!");
+                historia.setDiagnosticos(diagnostico);
                 }
             else {
-                FacesMessages.info(":growlInfo", "No se ha encontrado el diasgnóstico", "This is a specific message!");
+                FacesMessages.info(":growlInfo", "No se ha encontrado el diagnóstico", "This is a specific message!");
                 nombre_diagnostico = "";
             }
         }
         else {
             FacesMessages.info(":growlInfo", "Nombre no válido", "This is a specific message!");
             nombre_diagnostico = "";
+        }
+    }
+    
+    /**
+     * Método que realiza una acción cuando un diagnóstico es seleccionado
+     */
+    public void recuperarTratamientosListener(){
+        String tratamiento_codigo[] = getNombre_tratamiento().split(" - ");
+        if (tratamiento_codigo.length == 2) {
+            tratamiento = CitaDAO.recuperarTratamientoCodigoCie(tratamiento_codigo[0]);
+
+            if (tratamiento != null) {
+                historia.setTratamientos(tratamiento);
+                }
+            else {
+                FacesMessages.info(":growlInfo", "No se ha encontrado el tratamiento", "This is a specific message!");
+                nombre_tratamiento = "";
+            }
+        }
+        else {
+            FacesMessages.info(":growlInfo", "Nombre no válido", "This is a specific message!");
+            nombre_tratamiento = "";
         }
     }
     
@@ -261,14 +299,31 @@ public final class CitaBean implements Serializable{
         FacesMessages.info(":growlInfo", "Diagnóstico Creado", "This is a specific message!");
     }
     
+    /**
+     * Método para crear un nuevo tratamiento CIE 10ma edición
+     */
+    public void crearTratamientoCIE10(){
+        nuevo_tratamiento.setTraEdicionCie("10");
+        nuevo_tratamiento.setTraFechaUlt(new Date());
+        nuevo_tratamiento.setTraUsuario(session.getAttribute("usuario").toString());
+        TratamientoDAO.crearActualizarTratamiento(nuevo_tratamiento);
+        recuperarNombresTratamientos();
+        FacesMessages.info(":growlInfo", "Tratamiento Creado", "This is a specific message!");
+    }
+    
     public void imprimirDiagnostico() throws net.sf.jasperreports.engine.JRException, IOException {
-        String valor = "Valor";
         Map<String, Object> parametros = new HashMap<>();
 
         String pathJRXML = "c:\\formatoReportes\\recetaMedica.jrxml";
 
         JRBeanCollectionDataSource listaItems = new JRBeanCollectionDataSource(null);
-        parametros.put("Dato", "Este es un dato");// se agrega la coleccion de datos a los parametros
+        parametros.put("paciente",
+                historia.getPersonasByPacientePerId().getPerNombres()
+                +historia.getPersonasByPacientePerId().getPerApellidos());// se agrega la coleccion de datos a los parametros
+        parametros.put("edad", historia.getPersonasByPacientePerId().getPerEdad());// se agrega la coleccion de datos a los parametros
+        parametros.put("fecha", formatter.format(new Date()));
+        parametros.put("medicamentos",historia.getTratamientos().getTraMedicamento());
+        parametros.put("indicaciones", historia.getHisIndicaciones());
 
         JasperReport jasperReport;
         //jasperReport = JasperCompileManager.compileReport(pathJRXML);
@@ -282,7 +337,7 @@ public final class CitaBean implements Serializable{
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
                 .getResponse();
 
-        response.addHeader("Content-disposition", "inline; filename=recetaMedica.pdf");
+        response.addHeader("Content-disposition", "inline; filename=RecetaMedica.pdf");
         BufferedOutputStream output = null;
         response.setHeader("pragma", "public");
         output = new BufferedOutputStream(response.getOutputStream(), 10240);
@@ -302,11 +357,15 @@ public final class CitaBean implements Serializable{
     
     public String VerCitaMedica(int hisId) {
         nuevo_diagnostico = new Diagnosticos();
+        nuevo_tratamiento = new Tratamientos();
         this.historia_actual_id = hisId;
         historia = CitaDAO.recuperarHistoriaID(hisId);
         revision = historia.getRevisionSistemas();
         if(historia.getDiagnosticos() != null){
             diagnostico = historia.getDiagnosticos();
+        }
+        if(historia.getTratamientos() != null){
+            tratamiento = historia.getTratamientos();
         }
         
         setRevisionChecks();
@@ -405,7 +464,7 @@ public final class CitaBean implements Serializable{
     
     public void calcularIMC(){
         if(signos.getSigPeso() != 0f && signos.getSigEstatura() != 0f){
-            signos.setSigImc(Math.round(signos.getSigPeso() /(signos.getSigEstatura()*signos.getSigEstatura())));
+            signos.setSigImc(Math.round(signos.getSigPeso() / (int)(Math.pow(signos.getSigEstatura(), 2))));
         }
     }
     
@@ -615,7 +674,17 @@ public final class CitaBean implements Serializable{
 
     public void setDiagnostico(Diagnosticos diagnostico) {
         this.diagnostico = diagnostico;
-    }    
+    }
+
+    public Tratamientos getTratamiento() {
+        return tratamiento;
+    }
+
+    public void setTratamiento(Tratamientos tratamiento) {
+        this.tratamiento = tratamiento;
+    }
+    
+    
 
     public String getRenderizar_profesion_abierta() {
         return renderizar_profesion_abierta;
@@ -672,5 +741,22 @@ public final class CitaBean implements Serializable{
     public void setNuevo_diagnostico(Diagnosticos nuevo_diagnostico) {
         this.nuevo_diagnostico = nuevo_diagnostico;
     }
+
+    public Tratamientos getNuevo_tratamiento() {
+        return nuevo_tratamiento;
+    }
+
+    public void setNuevo_tratamiento(Tratamientos nuevo_tratamiento) {
+        this.nuevo_tratamiento = nuevo_tratamiento;
+    }
+
+    public String getNombre_tratamiento() {
+        return nombre_tratamiento;
+    }
+
+    public void setNombre_tratamiento(String nombre_tratamiento) {
+        this.nombre_tratamiento = nombre_tratamiento;
+    }
+    
     
 }

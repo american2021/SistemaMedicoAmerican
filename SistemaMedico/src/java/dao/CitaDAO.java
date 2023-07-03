@@ -8,6 +8,7 @@ package dao;
 import conexion.HibernateUtil;
 import datos.Diagnosticos;
 import datos.Historias;
+import datos.Tratamientos;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -197,8 +198,13 @@ public class CitaDAO {
         session.close();
         return id;
     }
-    
-    public static List<String> recuperarNombresDiagnosticos(){
+
+    /**
+     * Método para recuperar los nombres de los diagnósticos con su codigo cie
+     *
+     * @return
+     */
+    public static List<String> recuperarNombresDiagnosticos() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
@@ -208,7 +214,29 @@ public class CitaDAO {
         session.close();
         return diagnosticos;
     }
-    
+
+    /**
+     * Método para recuperar los nombres de los tratamientos con su codigo cie
+     *
+     * @return
+     */
+    public static List<String> recuperarNombresTratamientos() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery(
+                "SELECT concat(tra_codigo_cie,' - ',tra_descripcion_cie) FROM Tratamientos");
+        List<String> tratamientos = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return tratamientos;
+    }
+
+    /**
+     * Método para recuperar un diagnóstico según su código
+     *
+     * @param codigo_cie
+     * @return
+     */
     public static Diagnosticos recuperarDiagnosticoCodigoCie(String codigo_cie) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -223,5 +251,26 @@ public class CitaDAO {
         session.getTransaction().commit();
         session.close();
         return diagnostico;
+    }
+    /**
+     * Método para recuperar un diagnóstico según su código
+     *
+     * @param codigo_cie
+     * @return
+     */
+    public static Tratamientos recuperarTratamientoCodigoCie(String codigo_cie) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Tratamientos where tra_codigo_cie = '" + codigo_cie + "'");
+        Tratamientos tratamiento = null;
+        if (!query.list().isEmpty()) {
+
+            tratamiento = (Tratamientos) query.uniqueResult();
+
+        }
+        session.getTransaction().commit();
+        session.close();
+        return tratamiento;
     }
 }

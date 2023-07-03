@@ -1,5 +1,5 @@
 package datos;
-// Generated 22-jun-2023 9:54:18 by Hibernate Tools 4.3.1
+// Generated 29-jun-2023 8:59:55 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;

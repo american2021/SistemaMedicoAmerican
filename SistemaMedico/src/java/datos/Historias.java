@@ -1,5 +1,5 @@
 package datos;
-// Generated 22-jun-2023 9:54:18 by Hibernate Tools 4.3.1
+// Generated 29-jun-2023 8:59:55 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -20,8 +20,10 @@ public class Historias  implements java.io.Serializable {
      private Resultados resultados;
      private RevisionSistemas revisionSistemas;
      private Signos signos;
+     private Tratamientos tratamientos;
      private String hisMotivo;
      private String hisEnfermedad;
+     private String hisIndicaciones;
      private Date hisFechaCreacion;
      private Date hisFechaUlt;
      private String hisUsuario;
@@ -37,7 +39,7 @@ public class Historias  implements java.io.Serializable {
         this.hisEnfermedad = hisEnfermedad;
         this.hisFechaCreacion = hisFechaCreacion;
     }
-    public Historias(Diagnosticos diagnosticos, Enfermedades enfermedades, Personas personasByMedicoPerId, Personas personasByPacientePerId, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, String hisMotivo, String hisEnfermedad, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Set enfermedadeses) {
+    public Historias(Diagnosticos diagnosticos, Enfermedades enfermedades, Personas personasByMedicoPerId, Personas personasByPacientePerId, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, Tratamientos tratamientos, String hisMotivo, String hisEnfermedad, String hisIndicaciones, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Set enfermedadeses) {
        this.diagnosticos = diagnosticos;
        this.enfermedades = enfermedades;
        this.personasByMedicoPerId = personasByMedicoPerId;
@@ -45,8 +47,10 @@ public class Historias  implements java.io.Serializable {
        this.resultados = resultados;
        this.revisionSistemas = revisionSistemas;
        this.signos = signos;
+       this.tratamientos = tratamientos;
        this.hisMotivo = hisMotivo;
        this.hisEnfermedad = hisEnfermedad;
+       this.hisIndicaciones = hisIndicaciones;
        this.hisFechaCreacion = hisFechaCreacion;
        this.hisFechaUlt = hisFechaUlt;
        this.hisUsuario = hisUsuario;
@@ -109,6 +113,13 @@ public class Historias  implements java.io.Serializable {
     public void setSignos(Signos signos) {
         this.signos = signos;
     }
+    public Tratamientos getTratamientos() {
+        return this.tratamientos;
+    }
+    
+    public void setTratamientos(Tratamientos tratamientos) {
+        this.tratamientos = tratamientos;
+    }
     public String getHisMotivo() {
         return this.hisMotivo;
     }
@@ -122,6 +133,13 @@ public class Historias  implements java.io.Serializable {
     
     public void setHisEnfermedad(String hisEnfermedad) {
         this.hisEnfermedad = hisEnfermedad;
+    }
+    public String getHisIndicaciones() {
+        return this.hisIndicaciones;
+    }
+    
+    public void setHisIndicaciones(String hisIndicaciones) {
+        this.hisIndicaciones = hisIndicaciones;
     }
     public Date getHisFechaCreacion() {
         return this.hisFechaCreacion;
