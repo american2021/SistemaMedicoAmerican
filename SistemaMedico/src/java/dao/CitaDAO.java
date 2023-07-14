@@ -30,7 +30,7 @@ public class CitaDAO {
         session.saveOrUpdate(historia.getPersonasByPacientePerId());
         session.saveOrUpdate(historia.getRevisionSistemas());
         session.saveOrUpdate(historia.getSignos());
-        //session.saveOrUpdate(historia.getDiagnosticos());
+        session.saveOrUpdate(historia.getDiagnosticos());
         session.saveOrUpdate(historia);
         session.getTransaction().commit();
         session.close();
@@ -170,7 +170,7 @@ public class CitaDAO {
         if (!query.list().isEmpty()) {
 
             historia = (Historias) query.uniqueResult();
-            historia.getSignos().getSigPresionSistolica();
+            historia.getSignos().getHistoriases().size();
             historia.getRevisionSistemas().getRevSisSentidos();
             historia.getPersonasByPacientePerId().getPerNombres();
             try {

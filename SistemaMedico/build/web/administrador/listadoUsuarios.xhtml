@@ -70,7 +70,7 @@
                     <b:container id="container" fluid="true" contentDisabled="false">
 
                         <b:dataTable large-screen="full-width" id="inscritosTabla"
-                                     value="#{PersonaBean.colaboradores}" var="paciente"
+                                     value="#{PersonaBean.colaboradores}" var="colaborador"
                                      responsive="true" style="font-size: 11px"
                                      info="true" content-disabled="false"
                                      excel="true" csv="true" pdf="true" print="true"
@@ -78,20 +78,20 @@
                                      page-length="25" multi-column-search="true"
                                      multi-column-search-position="top" >
                             <b:dataTableColumn label="Código"
-                                               value="#{paciente.perId}" style="width: 1%" />
+                                               value="#{colaborador.perId}" style="width: 1%" />
                             <b:dataTableColumn label="Cédula"
-                                               value="#{paciente.perCedula}" style="width: 10%" />
+                                               value="#{colaborador.perCedula}" style="width: 10%" />
                             <b:dataTableColumn label="Nombres"
-                                               value="#{paciente.perNombres} #{paciente.perApellidos}"
+                                               value="#{colaborador.perNombres} #{colaborador.perApellidos}"
                                                style="width: 15%"/>
                             <b:dataTableColumn label="Edad"
-                                               value="#{paciente.perEdad}"
+                                               value="#{colaborador.perEdad}"
                                                style="width: 3%" />
                             <b:dataTableColumn label="Teléfono"
-                                               value="#{paciente.perTelefono}"
+                                               value="#{colaborador.perTelefono}"
                                                style="width: 5%" />
                             <b:dataTableColumn label="Usuario"
-                                               value="#{PersonaBean.recuperarNombreUsuario(paciente.perId)}"
+                                               value="#{PersonaBean.recuperarNombreUsuario(colaborador.perId)}"
                                                style="width: 5%" />
                         </b:dataTable>
 

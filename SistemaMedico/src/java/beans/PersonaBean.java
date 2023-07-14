@@ -187,7 +187,7 @@ public final class PersonaBean implements Serializable {
 
     public void calcularIMC() {
         if (sig_peso != null && sig_estatura != null) {
-            sig_imc = Math.round(sig_peso / (int) (Math.pow(sig_estatura, 2)));
+            sig_imc = Math.round(sig_peso / (float) (Math.pow(sig_estatura/100, 2)));
         }
     }
 

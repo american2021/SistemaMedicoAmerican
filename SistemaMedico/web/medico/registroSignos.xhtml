@@ -196,30 +196,31 @@
                                              value="#{PersonaBean.sig_peso}"
                                              required="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                             validator-message="Revise que el peso esté en el rango (10-500)"
                                              requiredMessage="Campo Vacío">
                                     <f:ajax event="change"
                                         listener="#{PersonaBean.calcularIMC()}"
-                                        render="sig_imc growl"/>
+                                        render="sig_imc sig_peso msg_sig_peso"/>
                                     <f:validateLongRange minimum="10" maximum="500"/>
                                 </b:inputText>
-                                <b:message for="sig_peso"/>
+                                <b:message id="msg_sig_peso" for="sig_peso"/>
                             </b:column>
                             <b:column span="3">
-                                <b:inputText label="Estatura (m)"
+                                <b:inputText label="Estatura (cm)"
                                              placeholder="Estatura"
                                              id="sig_estatura"
-                                             size="13"
-                                             maxlength="6"
+                                             maxlength="5"
                                              value="#{PersonaBean.sig_estatura}"
                                              required="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                             validator-message="Revise que la estatura esté en el rango (50-400 cm)"
                                              requiredMessage="Campo vacío">
                                     <f:ajax event="change"
                                         listener="#{PersonaBean.calcularIMC()}"
-                                        render="sig_imc growl"/>
-                                    <f:validateLongRange minimum="0" maximum="3"/>
+                                        render="sig_imc sig_estatura msg_estatura"/>
+                                    <f:validateLongRange minimum="50" maximum="400"/>
                                 </b:inputText>
-                                <b:message for="sig_estatura"/>
+                                <b:message id="msg_estatura" for="sig_estatura"/>
                             </b:column>
                             <b:column span="2">
                                 <b:inputText label="Indice masa corporal"

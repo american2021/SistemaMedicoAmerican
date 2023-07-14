@@ -1,5 +1,5 @@
 package datos;
-// Generated 29-jun-2023 8:59:55 by Hibernate Tools 4.3.1
+// Generated 14-jul-2023 9:13:32 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -33,11 +33,13 @@ public class Tratamientos  implements java.io.Serializable {
     }
 
 	
-    public Tratamientos(String traMedicamento, char traViaAdministracion, String traDosisUnitaria, String traUnidadAdministracion, Date traFechaUlt, String traUsuario) {
+    public Tratamientos(String traMedicamento, char traViaAdministracion, String traDosisUnitaria, String traUnidadAdministracion, String traIndicaciones, String traAdvertencias, Date traFechaUlt, String traUsuario) {
         this.traMedicamento = traMedicamento;
         this.traViaAdministracion = traViaAdministracion;
         this.traDosisUnitaria = traDosisUnitaria;
         this.traUnidadAdministracion = traUnidadAdministracion;
+        this.traIndicaciones = traIndicaciones;
+        this.traAdvertencias = traAdvertencias;
         this.traFechaUlt = traFechaUlt;
         this.traUsuario = traUsuario;
     }

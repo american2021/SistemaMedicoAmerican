@@ -1,5 +1,5 @@
 package datos;
-// Generated 29-jun-2023 8:59:55 by Hibernate Tools 4.3.1
+// Generated 14-jul-2023 9:13:32 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -25,9 +25,8 @@ public class Diagnosticos  implements java.io.Serializable {
     }
 
 	
-    public Diagnosticos(String diaCodigoCie, String diaDescripcionCie) {
-        this.diaCodigoCie = diaCodigoCie;
-        this.diaDescripcionCie = diaDescripcionCie;
+    public Diagnosticos(String diaObservacionCie) {
+        this.diaObservacionCie = diaObservacionCie;
     }
     public Diagnosticos(String diaCodigoCie, String diaDescripcionCie, String diaObservacionCie, String diaEdicionCie, Date diaFechaUlt, String diaUsuario, Set historiases) {
        this.diaCodigoCie = diaCodigoCie;

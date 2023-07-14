@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 29-jun-2023 8:59:56 by Hibernate Tools 4.3.1 -->
+<!-- Generated 14-jul-2023 9:13:33 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Historias" table="historias" catalog="smed" optimistic-lock="version">
         <id name="hisId" type="java.lang.Integer">
@@ -41,8 +41,8 @@
         <property name="hisIndicaciones" type="string">
             <column name="his_indicaciones" length="500" />
         </property>
-        <property name="hisFechaCreacion" type="timestamp">
-            <column name="his_fecha_creacion" length="19" not-null="true" />
+        <property name="hisFechaCreacion" type="date">
+            <column name="his_fecha_creacion" length="10" not-null="true" />
         </property>
         <property name="hisFechaUlt" type="timestamp">
             <column name="his_fecha_ult" length="19" />

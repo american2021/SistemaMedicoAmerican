@@ -271,18 +271,11 @@ public final class CitaBean implements Serializable{
         revision.setRevSisUsuario(session.getAttribute("usuario").toString());
         historia.setRevisionSistemas(revision);
         setRevisionChecks();
-        CitaDAO.crearActualizarHistoriaConDatos(historia);
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         
-        if(diagnostico.getDiaObservacionCie().length() > 0){
-            DiagnosticoDAO.crearActualizarDiagnostico(diagnostico);
-            historia.setDiagnosticos(diagnostico);
-            CitaDAO.crearActualizarHistoriaConDatos(historia);
-            FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica con diagnóstico", "This is a specific message!");
-        }else{
-            FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
-        }
+        CitaDAO.crearActualizarHistoria(historia);
+        FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
         
         return "/medico/listadoCitas.xhtml?faces-redirect=true";
     }
@@ -464,7 +457,7 @@ public final class CitaBean implements Serializable{
     
     public void calcularIMC(){
         if(signos.getSigPeso() != 0f && signos.getSigEstatura() != 0f){
-            signos.setSigImc(Math.round(signos.getSigPeso() / (int)(Math.pow(signos.getSigEstatura(), 2))));
+            signos.setSigImc(Math.round(signos.getSigPeso() / (float)Math.pow(signos.getSigEstatura()/100, 2)));
         }
     }
     
