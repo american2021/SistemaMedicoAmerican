@@ -66,8 +66,8 @@ public class LoginBean implements Serializable {
 
     public String login() {
         usuario = UsuarioDAO.obtenerUsuario(usu_nombre);
-        rolActual = usuario.getRolesRolId();
         if (usuario != null) {
+            rolActual = usuario.getRolesRolId();
             valido = usuario.getUsuContra().equalsIgnoreCase(convertirMD5(usu_contra));
             if (valido) {
                 estaLogueado = true;
@@ -78,10 +78,10 @@ public class LoginBean implements Serializable {
                 session.setAttribute("per_id", usuario.getPersonas().getPerId());
                 return "/privado/home.xhtml?faces-redirect=true";
             } else {
-                FacesMessages.warning(":growl", "La clave es incorrecta", "This is a specific message!");
+                FacesMessages.warning(":growl", "El usuario o clave son incorrectos", "This is a specific message!");
             }
         } else {
-            FacesMessages.warning(":growl", "El usuario no existe en el sistema", "This is a specific message!");
+            FacesMessages.warning(":growl", "El usuario o clave son incorrectos", "This is a specific message!");
         }
 
         return "";

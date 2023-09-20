@@ -7,6 +7,7 @@ package dao;
 
 import conexion.HibernateUtil;
 import datos.Tratamientos;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -26,5 +27,19 @@ public class TratamientoDAO {
         session.saveOrUpdate(tratamiento);
         session.getTransaction().commit();
         session.close();
+    }
+    
+    
+    public static Tratamientos recuperarTratamiento(int id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Tratamientos where tra_id = " + id);
+        Tratamientos tratamiento = (Tratamientos) query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        if (tratamiento != null) {
+            return tratamiento;
+        }
+        return null;
     }
 }

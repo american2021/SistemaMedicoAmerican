@@ -76,8 +76,9 @@
                                      paginated="true" searching="true"
                                      page-length="25" multi-column-search="true"
                                      multi-column-search-position="top" >
-                            <b:dataTableColumn label="Código Paciente" value="#{CitaBean.historia.personasByPacientePerId.perId}" style="width: 10%" />
-                            <b:dataTableColumn label="Médico Tratante" value="#{CitaBean.getNombreCompletoMedico(historia)}" style="width: 30%"/>
+                            <b:dataTableColumn label="Código Paciente" value="#{historia.personasByPacientePerId.perId}" style="width: 10%" />
+                            <!--<b:dataTableColumn label="Médico Tratante" value="# {CitaBean.getNombreCompletoMedico(historia)}" style="width: 30%"/>-->
+                            <b:dataTableColumn label="Médico Tratante" value="ESTEFANIA MARILYN CAÑAR CUEVA" style="width: 30%"/>
                             <b:dataTableColumn label="Paciente" value="#{CitaBean.getNombreCompleto(historia)}" style="width: 30%" order="asc"/>
                             <b:dataTableColumn label="Fecha" value="#{historia.hisFechaCreacion}" style="width: 5%" />
                             <b:dataTableColumn label="Cita" style="width: 5%;padding-left: 1%;padding-right: 1%"

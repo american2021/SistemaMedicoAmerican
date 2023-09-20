@@ -8,6 +8,7 @@ package dao;
 import conexion.HibernateUtil;
 import datos.Diagnosticos;
 import datos.Historias;
+import datos.RevisionSistemas;
 import datos.Tratamientos;
 import java.util.List;
 import org.hibernate.Query;
@@ -171,7 +172,7 @@ public class CitaDAO {
 
             historia = (Historias) query.uniqueResult();
             historia.getSignos().getHistoriases().size();
-            historia.getRevisionSistemas().getRevSisSentidos();
+            historia.getRevisionSistemas().getRevSisId();
             historia.getPersonasByPacientePerId().getPerNombres();
             try {
                 historia.getDiagnosticos().getDiaObservacionCie();

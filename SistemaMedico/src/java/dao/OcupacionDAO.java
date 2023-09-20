@@ -26,7 +26,7 @@ public class OcupacionDAO {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Ocupaciones");
+        Query query = session.createQuery("from Ocupaciones order by ocu_descripcion asc");
         List<Ocupaciones> ocupaciones = query.list();
         //System.out.println(historias.get(0).getPersonas().getPerApellidos());
         session.getTransaction().commit();

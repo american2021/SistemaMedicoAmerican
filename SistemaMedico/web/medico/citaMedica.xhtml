@@ -476,7 +476,7 @@
                                 </b:column>
                                 <b:column span="6">
                                     <b:inputTextarea value="#{CitaBean.historia.hisEnfermedad}"
-                                                 label="Enfermedad"
+                                                 label="Enfermedad actual"
                                                  placeholder="Describa la enfermedad"
                                                  id="nomEnfermedadActual">
                             </b:inputTextarea>
@@ -998,6 +998,7 @@
                                         <b:inputText value="#{CitaBean.nombre_diagnostico}"
                                                      label="Tratamiento"
                                                      placeholder="Escoja un tratamiento"
+                                                     rendered="false"
                                                      typeahead="true"
                                                      id="tra_nombre"
                                                      typeahead-limit="20"
@@ -1011,6 +1012,7 @@
                                     <b:column offset="3" span="3" >
                                         <b:commandButton ajax="true"
                                                          value=" Crear tratamiento"
+                                                         rendered="false"
                                                          update=":modalCreacionDiagnostico:formAddTratamiento :growl"
                                                          oncomplete="$('#modalCreacionTratamiento').modal('show')"
                                                          tooltip="Crear Tratamiento" look="success"
@@ -1021,14 +1023,14 @@
                                     <br/>
                                 </b:row>
                                 <b:row>
-                                    <b:inputTextarea label="Indicaciones diagnóstico"
-                                                 placeholder="Indicaciones diagnóstico"
+                                    <b:inputTextarea label="Indicaciones terapéuticas"
+                                                 placeholder="Indicaciones terapéuticas"
                                                  id="dia_indicaciones_diagnostico"
                                                  span="6"
                                                  maxlength="500"
                                                  value="#{CitaBean.historia.hisIndicaciones}"
                                                  required="true"
-                                                 requiredMessage="Ingrese las indicaciones del diagnóstico"/>
+                                                 requiredMessage="Ingrese las indicaciones terapéuticas"/>
                                 </b:row>
                                 <br/>
                                 <b:row>

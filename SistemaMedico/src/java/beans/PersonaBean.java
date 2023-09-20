@@ -27,6 +27,7 @@ import datos.Personas;
 import datos.RevisionSistemas;
 import datos.Signos;
 import datos.Usuarios;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 import javax.faces.context.FacesContext;
@@ -703,6 +704,11 @@ public final class PersonaBean implements Serializable {
 
     public Personas getPersona() {
         return persona;
+    }
+    
+    public String getFechaActual(){
+        //return new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        return "09/08/2023";
     }
 
     public Integer getSig_presion_sistolica() {

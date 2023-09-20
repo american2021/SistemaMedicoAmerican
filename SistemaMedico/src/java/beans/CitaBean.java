@@ -11,6 +11,8 @@ import dao.CitaDAO;
 import dao.DiagnosticoDAO;
 import dao.OcupacionDAO;
 import dao.ParentescoDAO;
+import dao.PersonaDAO;
+import dao.RevisionSistemasDAO;
 import dao.SignosDAO;
 import dao.TratamientoDAO;
 import datos.Ciudades;
@@ -149,15 +151,15 @@ public final class CitaBean implements Serializable{
      * como médico, recuperará únicamente las historias asignadas a ese médico)
      */
     public void recuperarHistorias() {
-        if(session.getAttribute("rol").toString().equals("2")){
-            historias.clear();
-            historias = CitaDAO.recuperarHistoriasMedico((Integer)session.getAttribute("per_id"));
-        }
-        else{
+//        if(session.getAttribute("rol").toString().equals("2")){
+//            historias.clear();
+//            historias = CitaDAO.recuperarHistoriasMedico((Integer)session.getAttribute("per_id"));
+//        }
+//        else{
         historias.clear();
         
         historias = CitaDAO.recuperarHistorias();
-        }
+        //}
     }
     
     /**
@@ -228,15 +230,15 @@ public final class CitaBean implements Serializable{
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date dia = new Date();
 
-        if(session.getAttribute("rol").toString().equals("2")){
-            historiasdia.clear();
-            historiasdia = CitaDAO.recuperarHistoriasMedicoDia(formatter.format(dia),(Integer)session.getAttribute("per_id"));
-        }
-        else{
+//        if(session.getAttribute("rol").toString().equals("2")){
+//            historiasdia.clear();
+//            historiasdia = CitaDAO.recuperarHistoriasMedicoDia(formatter.format(dia),(Integer)session.getAttribute("per_id"));
+//        }
+//        else{
             historiasdia.clear();
         
             historiasdia = CitaDAO.recuperarHistoriasDia(formatter.format(dia));
-        }
+        //}
         
     }
     
@@ -269,7 +271,14 @@ public final class CitaBean implements Serializable{
         }
         // Si existe un diagnóstico lo guardará
         revision.setRevSisUsuario(session.getAttribute("usuario").toString());
+        RevisionSistemasDAO.crearActualizarRevision(revision);
         historia.setRevisionSistemas(revision);
+        SignosDAO.crearActualizarSignos(signos);
+        historia.setSignos(signos);
+        if(tratamiento != null){
+            TratamientoDAO.crearActualizarTratamiento(tratamiento);
+        }
+        historia.setTratamientos(tratamiento);
         setRevisionChecks();
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
@@ -277,7 +286,7 @@ public final class CitaBean implements Serializable{
         CitaDAO.crearActualizarHistoria(historia);
         FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
         
-        return "/medico/listadoCitas.xhtml?faces-redirect=true";
+        return "/estudiante/listadoCitas.xhtml?faces-redirect=true";
     }
     
     /**
@@ -353,12 +362,13 @@ public final class CitaBean implements Serializable{
         nuevo_tratamiento = new Tratamientos();
         this.historia_actual_id = hisId;
         historia = CitaDAO.recuperarHistoriaID(hisId);
-        revision = historia.getRevisionSistemas();
+        signos = SignosDAO.recuperarSignosId(historia.getSignos().getSigId());
+        revision = RevisionSistemasDAO.recuperarRevision(historia.getRevisionSistemas().getRevSisId());
         if(historia.getDiagnosticos() != null){
             diagnostico = historia.getDiagnosticos();
         }
         if(historia.getTratamientos() != null){
-            tratamiento = historia.getTratamientos();
+            tratamiento = TratamientoDAO.recuperarTratamiento(historia.getTratamientos().getTraId());
         }
         
         setRevisionChecks();
