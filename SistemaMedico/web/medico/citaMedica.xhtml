@@ -228,7 +228,7 @@
                                              size="13"
                                              maxlength="100"
                                              value="#{CitaBean.historia.personasByPacientePerId.perCedula}"
-                                             required="true"
+                                             required="false"
                                              requiredMessage="Ingrese su cédula"/>
                             </b:column>
                             <b:column span="4">
@@ -239,7 +239,7 @@
                                              size="13"
                                              maxlength="100"
                                              value="#{CitaBean.historia.personasByPacientePerId.perApellidos}"
-                                             required="true"
+                                             required="false"
                                              requiredMessage="Ingrese sus apellidos"/>
                             </b:column>
                             <b:column span="4">
@@ -250,7 +250,7 @@
                                              size="13"
                                              maxlength="100"
                                              value="#{CitaBean.historia.personasByPacientePerId.perNombres}"
-                                             required="true"
+                                             required="false"
                                              requiredMessage="Ingrese sus nombres"/>
                                 <b:message for="per_nombres" />
                             </b:column>
@@ -263,7 +263,7 @@
                                              size="13"
                                              maxlength="100"
                                              value="#{CitaBean.historia.personasByPacientePerId.perTelefono}"
-                                             required="true"
+                                             required="false"
                                              requiredMessage="Ingrese su teléfono"/>
                             </b:column>
                             
@@ -274,7 +274,7 @@
                                     locale="en"
                                     value="#{CitaBean.historia.personasByPacientePerId.perNac}"
                                     label="Fecha de Nacimiento"
-                                    required="true"
+                                    required="false"
                                     requiredMessage="Ingrese la fecha de nacimiento"
                                     max-date="12/31/2006">
                                     <f:ajax event="blur"
@@ -289,7 +289,7 @@
                                              size="13"
                                              maxlength="100"
                                              value="#{CitaBean.historia.personasByPacientePerId.perEdad}"
-                                             required="true"
+                                             required="false"
                                              disabled="true"
                                              requiredMessage="Ingrese su edad"/>
                             </b:column>
@@ -297,7 +297,7 @@
                             <b:column span="2">
                                 <b:selectOneMenu label="Estado Civil" id="per_estado_civil"
                                                  value="#{CitaBean.historia.personasByPacientePerId.perEstadoCivil}"
-                                                 required="true"
+                                                 required="false"
                                                  requiredMessage="Seleccione su estado civil">
                                     <f:selectItem itemLabel="Seleccione"
                                                   itemValue="" noSelectionOption="true" />
@@ -317,14 +317,14 @@
                                              size="13"
                                              maxlength="300"
                                              value="#{CitaBean.historia.personasByPacientePerId.perResidencia}"
-                                             required="true"
+                                             required="false"
                                              requiredMessage="Ingrese su dirección"/>
                                 <b:message for="per_residencia" />
                             </b:column>
                             <b:column span="4">
                                 <b:selectOneMenu label="Procedencia" id="per_procedencia"
                                                  value="#{CitaBean.historia.personasByPacientePerId.perProcedencia}"
-                                                 required="true"
+                                                 required="false"
                                                  requiredMessage="Seleccione su ciudad de procedencia">
                                     <f:selectItem itemLabel="Seleccione"
                                                   itemValue="" noSelectionOption="true" />
@@ -339,7 +339,7 @@
                                 <b:selectOneMenu label="Sexo del paciente"
                                                  id="per_sexo"
                                                  value="#{CitaBean.historia.personasByPacientePerId.perSexo}"
-                                                 required="true"
+                                                 required="false"
                                                  requiredMessage="Seleccione el sexo del paciente">
                                     <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
                                     <f:selectItem itemLabel="Hombre" itemValue="H" />
@@ -366,7 +366,7 @@
                             <b:column span="2">
                                 <b:selectOneMenu label="Grupo sanguíneo" id="per_grupo_sanguineo"
                                                  value="#{CitaBean.historia.personasByPacientePerId.perGrupoSanguineo}"
-                                                 required="true"
+                                                 required="false"
                                                  requiredMessage="Seleccione el grupo sanguíneo">
                                     <f:selectItem itemLabel="Seleccione"
                                                   noSelectionOption="true"/>
@@ -385,7 +385,7 @@
                                 <b:column span="3">
                                 <b:selectOneMenu label="Profesión" id="per_profesion"
                                                  value="#{CitaBean.historia.personasByPacientePerId.perProfesion}"
-                                                 required="true"
+                                                 required="false"
                                                  requiredMessage="Seleccione la profesión">
                                     <f:selectItem itemLabel="Seleccione"
                                                   itemValue="" noSelectionOption="true" />
@@ -404,7 +404,7 @@
                                              placeholder="Profesión"
                                              size="13"
                                              maxlength="100"
-                                             required="true"
+                                             required="false"
                                              value="#{CitaBean.profesion_abierta}"
                                              rendered="#{CitaBean.renderizar_profesion_abierta}"
                                              requiredMessage="Ingrese su oficio">
@@ -422,14 +422,14 @@
                                                  size="13"
                                                  maxlength="100"
                                                  value="#{CitaBean.historia.personasByPacientePerId.perContactoEmergencia}"
-                                                 required="true"
+                                                 required="false"
                                                  requiredMessage="Ingrese su contacto de emergencia"/>
                                 </b:column>
                             <b:column span="4">
                                 <b:selectOneMenu label="Parentesco del contacto de emergencia"
                                                  id="per_parentesco"
                                                  value="#{CitaBean.historia.personasByPacientePerId.perParentesco}"
-                                                 required="true"
+                                                 required="false"
                                                  requiredMessage="Seleccione el parentesco">
                                     <f:selectItem itemLabel="Seleccione"
                                                       itemValue="" noSelectionOption="true" />
@@ -447,7 +447,7 @@
                                              placeholder="Parentesco"
                                              size="13"
                                              maxlength="100"
-                                             required="true"
+                                             required="false"
                                              value="#{CitaBean.parentesco_abierto}"
                                              rendered="#{CitaBean.renderizar_parentesco_abierto}"
                                              requiredMessage="Ingrese el parentesco">
@@ -653,7 +653,7 @@
                                              size="13"
                                              maxlength="3"
                                              value="#{CitaBean.signos.sigPerimetroAbdominal}"
-                                             required="false"
+                                             required="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el perímetro abdominal">
                                     <f:validateLongRange minimum="10" maximum="500"/>
@@ -668,7 +668,7 @@
                                              size="13"
                                              maxlength="3"
                                              value="#{CitaBean.signos.sigPerimetroBrazo}"
-                                             required="false"
+                                             required="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el perímetro abdominal">
                                     <f:validateLongRange minimum="10" maximum="100"/>
@@ -687,7 +687,7 @@
                                              size="13"
                                              maxlength="5"
                                              value="#{CitaBean.signos.sigGlucosaCapilar}"
-                                             required="false"
+                                             required="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese la glucosa capilar">
                                     <f:validateLongRange minimum="40" maximum="300"/>
@@ -702,7 +702,7 @@
                                              size="13"
                                              maxlength="4"
                                              value="#{CitaBean.signos.sigValorHemoglobina}"
-                                             required="false"
+                                             required="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el valor de la hemoglobina">
                                     <f:validateLongRange minimum="5" maximum="30"/>
@@ -718,7 +718,7 @@
                                              size="13"
                                              maxlength="5"
                                              value="#{CitaBean.signos.sigValorHemoglobinaCorr}"
-                                             required="false"
+                                             required="true"
                                              disabled="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el valor de la hemoglobina corregido">
