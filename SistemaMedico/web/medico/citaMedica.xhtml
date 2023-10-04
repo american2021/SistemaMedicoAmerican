@@ -607,7 +607,7 @@
                                              size="13"
                                              maxlength="6"
                                              value="#{CitaBean.signos.sigPeso}"
-                                             required="true"
+                                             required="false"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el peso">
                                     <f:ajax event="change"
@@ -623,7 +623,7 @@
                                              size="3"
                                              maxlength="5"
                                              value="#{CitaBean.signos.sigEstatura}"
-                                             required="true"
+                                             required="false"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese la estatura"
                                              validator-message="Revise que la estatura esté en el rango (50-400 cm)">
@@ -642,7 +642,7 @@
                                              size="13"
                                              maxlength="100"
                                              value="#{CitaBean.signos.sigImc}"
-                                             required="true"
+                                             required="false"
                                              disabled="true"
                                              requiredMessage="Ingrese la indice de masa corporal"/>
                             </b:column>
@@ -653,7 +653,7 @@
                                              size="13"
                                              maxlength="3"
                                              value="#{CitaBean.signos.sigPerimetroAbdominal}"
-                                             required="true"
+                                             required="false"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el perímetro abdominal">
                                     <f:validateLongRange minimum="10" maximum="500"/>
@@ -668,7 +668,7 @@
                                              size="13"
                                              maxlength="3"
                                              value="#{CitaBean.signos.sigPerimetroBrazo}"
-                                             required="true"
+                                             required="false"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el perímetro abdominal">
                                     <f:validateLongRange minimum="10" maximum="100"/>
@@ -687,7 +687,7 @@
                                              size="13"
                                              maxlength="5"
                                              value="#{CitaBean.signos.sigGlucosaCapilar}"
-                                             required="true"
+                                             required="false"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese la glucosa capilar">
                                     <f:validateLongRange minimum="40" maximum="300"/>
@@ -702,7 +702,7 @@
                                              size="13"
                                              maxlength="4"
                                              value="#{CitaBean.signos.sigValorHemoglobina}"
-                                             required="true"
+                                             required="false"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el valor de la hemoglobina">
                                     <f:validateLongRange minimum="5" maximum="30"/>
@@ -718,7 +718,7 @@
                                              size="13"
                                              maxlength="5"
                                              value="#{CitaBean.signos.sigValorHemoglobinaCorr}"
-                                             required="true"
+                                             required="false"
                                              disabled="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el valor de la hemoglobina corregido">
