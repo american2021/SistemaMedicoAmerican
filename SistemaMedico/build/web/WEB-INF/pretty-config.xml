@@ -15,9 +15,35 @@
         <view-id value="/faces/index.xhtml" />
     </url-mapping>
     
+    <!--ADMINISTRADOR-->
+    <url-mapping id="listado-usuarios">
+        <pattern value="/listado-usuarios" />
+        <view-id value="/faces/administrador/listadoUsuarios.xhtml"/>
+    </url-mapping>
+    
+    <url-mapping id="actualizacion-colaborador">
+        <pattern value="/actualizacion-colaborador" />
+        <view-id value="/faces/administrador/actualizacionColaborador.xhtml"/>
+    </url-mapping>
+    
+    <url-mapping id="actualizacion-paciente-admin">
+        <pattern value="/actualizacion-paciente-admin" />
+        <view-id value="/faces/administrador/actualizacionPacienteAdmin.xhtml"/>
+    </url-mapping>
+    
     <url-mapping id="cambio-clave-correcto">
         <pattern value="/cambio-clave-correcto" />
         <view-id value="/faces/administrador/cambioClaveCorrecto.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="registro-personal-administrativo">
+        <pattern value="/registro-personal-administrativo"/>
+        <view-id value="/faces/administrador/registroPersonalAdministrativo.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="eliminacion-paciente">
+        <pattern value="/eliminacion-paciente"/>
+        <view-id value="/faces/administrador/eliminacionPaciente.xhtml" />
     </url-mapping>
     
     <url-mapping id="home">
@@ -28,11 +54,6 @@
     <url-mapping id="listado-pacientes">
         <pattern value="/listado-pacientes" />
         <view-id value="/faces/medico/listadoPacientes.xhtml"/>
-    </url-mapping>
-    
-    <url-mapping id="listado-usuarios">
-        <pattern value="/listado-usuarios" />
-        <view-id value="/faces/administrador/listadoUsuarios.xhtml"/>
     </url-mapping>
     
     <url-mapping id="listado-citas">
@@ -60,11 +81,6 @@
         <view-id value="/faces/medico/registroPaciente.xhtml" />
     </url-mapping>
     
-    <url-mapping id="registro-personal-administrativo">
-        <pattern value="/registro-personal-administrativo"/>
-        <view-id value="/faces/administrador/registroPersonalAdministrativo.xhtml" />
-    </url-mapping>
-    
     <url-mapping id="registro-patologia">
         <pattern value="/registro-patologia"/>
         <view-id value="/faces/medico/registroPatologia.xhtml" />
@@ -80,19 +96,9 @@
         <view-id value="/faces/medico/actualizacionPaciente.xhtml"/>
     </url-mapping>
     
-    <url-mapping id="actualizacion-paciente-admin">
-        <pattern value="/actualizacion-paciente-admin" />
-        <view-id value="/faces/administrador/actualizacionPacienteAdmin.xhtml"/>
-    </url-mapping>
-    
     <url-mapping id="actualizacion-signos">
         <pattern value="/actualizacion-signos" />
         <view-id value="/faces/medico/actualizacionSignos.xhtml"/>
-    </url-mapping>
-    
-    <url-mapping id="actualizacion-colaborador">
-        <pattern value="/actualizacion-colaborador" />
-        <view-id value="/faces/administrador/actualizacionColaborador.xhtml"/>
     </url-mapping>
     
     <url-mapping id="registro-signos">

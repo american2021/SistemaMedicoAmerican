@@ -138,8 +138,9 @@ public final class PersonaBean implements Serializable {
         usuario = new Usuarios();
         signos = new Signos();
         historia = new Historias();
-        cantidad_historias = 0;
         revision = new RevisionSistemas();
+        cantidad_historias = 0;
+        persona.setPerCedula("");
         per_nombre_completo = "";
         inhabilitar_parentesco = "true";
         inhabilitar_profesion = "true";
@@ -201,6 +202,15 @@ public final class PersonaBean implements Serializable {
                     + " " + historia.getPersonasByMedicoPerId().getPerApellidos();
         } catch (Exception e) {
             nombre_medico = "";
+        }
+    }
+    
+    public String habilitarElimiacion(){
+        if(persona.getPerCedula().length() == 0){
+            return "true";
+        }
+        else{
+            return "false";
         }
     }
 
@@ -279,6 +289,15 @@ public final class PersonaBean implements Serializable {
         context.getExternalContext().getFlash().setKeepMessages(true);
         //Inicializando signos y revision
         FacesMessages.info(":growlInfo", "Cita nueva creada con éxito", "This is a specific message!");
+        return "/privado/home?faces-redirect=true";
+    }
+    
+    public String eliminarPaciente() {
+
+        context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        //Inicializando signos y revision
+        FacesMessages.info(":growlInfo", persona.getPerNombres()+" listo para eliminar.", "This is a specific message!");
         return "/privado/home?faces-redirect=true";
     }
 
