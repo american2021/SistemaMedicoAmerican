@@ -495,7 +495,8 @@
                                                  requiredMessage="Motivo consulta"/>
                                 </b:column>
                                 <b:column span="6">
-                                    <b:inputTextarea value="#{CitaBean.historia.hisEnfermedad}"
+                                    <b:inputTextarea 
+                                                value="#{CitaBean.historia.hisEnfermedad}"
                                                  label="Enfermedad actual"
                                                  placeholder="Describa la enfermedad"
                                                  id="nomEnfermedadActual">
@@ -674,9 +675,7 @@
                                              maxlength="3"
                                              value="#{CitaBean.signos.sigPerimetroAbdominal}"
                                              required="false"
-                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
-                                             requiredMessage="Ingrese el perímetro abdominal">
-                                    <f:validateLongRange minimum="10" maximum="500"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;">
                                     <f:ajax event="change"
                                         render="growl"/>
                                 </b:inputText>
@@ -689,9 +688,7 @@
                                              maxlength="3"
                                              value="#{CitaBean.signos.sigPerimetroBrazo}"
                                              required="false"
-                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
-                                             requiredMessage="Ingrese el perímetro abdominal">
-                                    <f:validateLongRange minimum="10" maximum="100"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;">
                                     <f:ajax event="change"
                                         render="growl"/>
                                 </b:inputText>
@@ -708,9 +705,7 @@
                                              maxlength="5"
                                              value="#{CitaBean.signos.sigGlucosaCapilar}"
                                              required="false"
-                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
-                                             requiredMessage="Ingrese la glucosa capilar">
-                                    <f:validateLongRange minimum="40" maximum="300"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;">
                                     <f:ajax event="change"
                                         render="growl"/>
                                 </b:inputText>
@@ -723,9 +718,7 @@
                                              maxlength="4"
                                              value="#{CitaBean.signos.sigValorHemoglobina}"
                                              required="false"
-                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
-                                             requiredMessage="Ingrese el valor de la hemoglobina">
-                                    <f:validateLongRange minimum="5" maximum="30"/>
+                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;">
                                     <f:ajax event="change"
                                             listener="#{CitaBean.calcularHemoglobinaCorregido()}"
                                             render="sig_valor_hemoglobina_corregido growl"/>
@@ -1046,7 +1039,7 @@
                                     <b:inputTextarea label="Indicaciones terapéuticas"
                                                  placeholder="Indicaciones terapéuticas"
                                                  id="dia_indicaciones_diagnostico"
-                                                 span="6"
+                                                 span="7"
                                                  maxlength="500"
                                                  value="#{CitaBean.historia.hisIndicaciones}"
                                                  required="true"

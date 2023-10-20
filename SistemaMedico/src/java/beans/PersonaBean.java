@@ -476,7 +476,6 @@ public final class PersonaBean implements Serializable {
     public void calcularEdad() {
         String edad;
         if (persona.getPerNac() != null) {
-            System.out.println("persona.getPerNac()"+ persona.getPerNac());
             try {
                 LocalDate actual = LocalDate.now();
                 Calendar calendar = Calendar.getInstance();
@@ -486,14 +485,10 @@ public final class PersonaBean implements Serializable {
                     calendar.get(Calendar.MONTH) + 1,  // Los meses en Calendar son 0-indexados
                     calendar.get(Calendar.DAY_OF_MONTH)
                 );
-                System.out.println("nacimiento"+nacimiento);
-                System.out.println("actual"+actual);
                 Period periodo = Period.between(actual, nacimiento);
                 edad = periodo.getYears()*-1+ "Años-"+ periodo.getMonths()*-1+"Meses-"+ periodo.getDays()*-1+"Dias"; 
-                System.out.println("Edad: "+edad);
                 persona.setPerEdad(edad);
             } catch (Exception e) {
-                System.out.println("ERROR; "+e);
                 persona.setPerEdad("0");
             }
         } else {
@@ -620,8 +615,11 @@ public final class PersonaBean implements Serializable {
         List<String> colaboradores = new ArrayList<>();
         Usuarios u = new Usuarios();
         int tipo_usuario;
+        System.out.println("TEST");
         for (Personas p : PersonaDAO.recuperarColaboradores()) {
+            System.out.println("p: " + p.getPerApellidos());
                 u = (Usuarios) p.getUsuarioses().iterator().next();
+                System.out.println("u: "+u);
                 tipo_usuario = u.getRolesRolId();
                 if (tipo_usuario == rol) {
                     colaboradores.add(p.getPerNombres() + " - " + p.getPerApellidos());

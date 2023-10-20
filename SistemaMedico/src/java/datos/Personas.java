@@ -1,5 +1,5 @@
 package datos;
-// Generated 18/10/2023 17:37:10 by Hibernate Tools 4.3.1
+// Generated 20/10/2023 10:44:57 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -29,9 +29,9 @@ public class Personas  implements java.io.Serializable {
      private String perParentesco;
      private String perEstadoCivil;
      private String perEdad;
-     private String perOrientacionSexual;
      private Date perFechaUlt;
      private String perUsuario;
+     private char perOrientacionSexual;
      private Set usuarioses = new HashSet(0);
      private Set historiasesForMedicoPerId = new HashSet(0);
      private Set historiasesForPacientePerId = new HashSet(0);
@@ -41,7 +41,7 @@ public class Personas  implements java.io.Serializable {
     }
 
 	
-    public Personas(String perCedula, String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, char perIdentidadGenero, String perProfesion, String perEstadoCivil, String perEdad, String perOrientacionSexual, Date perFechaUlt, String perUsuario) {
+    public Personas(String perCedula, String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, char perIdentidadGenero, String perProfesion, String perEstadoCivil, String perEdad, Date perFechaUlt, String perUsuario, char perOrientacionSexual) {
         this.perCedula = perCedula;
         this.perNombres = perNombres;
         this.perApellidos = perApellidos;
@@ -52,11 +52,11 @@ public class Personas  implements java.io.Serializable {
         this.perProfesion = perProfesion;
         this.perEstadoCivil = perEstadoCivil;
         this.perEdad = perEdad;
-        this.perOrientacionSexual = perOrientacionSexual;
         this.perFechaUlt = perFechaUlt;
         this.perUsuario = perUsuario;
+        this.perOrientacionSexual = perOrientacionSexual;
     }
-    public Personas(String perCedula, String perNombres, String perApellidos, char perSexo, Character perEsPaciente, Date perNac, String perGrupoSanguineo, char perIdentidadGenero, String perProfesion, String perResidencia, String perProcedencia, String perTelefono, String perContactoEmergencia, String perParentesco, String perEstadoCivil, String perEdad, String perOrientacionSexual, Date perFechaUlt, String perUsuario, Set usuarioses, Set historiasesForMedicoPerId, Set historiasesForPacientePerId, Set antecedenteses) {
+    public Personas(String perCedula, String perNombres, String perApellidos, char perSexo, Character perEsPaciente, Date perNac, String perGrupoSanguineo, char perIdentidadGenero, String perProfesion, String perResidencia, String perProcedencia, String perTelefono, String perContactoEmergencia, String perParentesco, String perEstadoCivil, String perEdad, Date perFechaUlt, String perUsuario, char perOrientacionSexual, Set usuarioses, Set historiasesForMedicoPerId, Set historiasesForPacientePerId, Set antecedenteses) {
        this.perCedula = perCedula;
        this.perNombres = perNombres;
        this.perApellidos = perApellidos;
@@ -73,9 +73,9 @@ public class Personas  implements java.io.Serializable {
        this.perParentesco = perParentesco;
        this.perEstadoCivil = perEstadoCivil;
        this.perEdad = perEdad;
-       this.perOrientacionSexual = perOrientacionSexual;
        this.perFechaUlt = perFechaUlt;
        this.perUsuario = perUsuario;
+       this.perOrientacionSexual = perOrientacionSexual;
        this.usuarioses = usuarioses;
        this.historiasesForMedicoPerId = historiasesForMedicoPerId;
        this.historiasesForPacientePerId = historiasesForPacientePerId;
@@ -201,15 +201,6 @@ public class Personas  implements java.io.Serializable {
     public void setPerEdad(String perEdad) {
         this.perEdad = perEdad;
     }
-
-    public String getPerOrientacionSexual() {
-        return perOrientacionSexual;
-    }
-
-    public void setPerOrientacionSexual(String perOrientacionSexual) {
-        this.perOrientacionSexual = perOrientacionSexual;
-    }
-    
     public Date getPerFechaUlt() {
         return this.perFechaUlt;
     }
@@ -223,6 +214,13 @@ public class Personas  implements java.io.Serializable {
     
     public void setPerUsuario(String perUsuario) {
         this.perUsuario = perUsuario;
+    }
+    public char getPerOrientacionSexual() {
+        return this.perOrientacionSexual;
+    }
+    
+    public void setPerOrientacionSexual(char perOrientacionSexual) {
+        this.perOrientacionSexual = perOrientacionSexual;
     }
     public Set getUsuarioses() {
         return this.usuarioses;

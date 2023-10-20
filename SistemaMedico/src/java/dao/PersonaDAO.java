@@ -94,6 +94,7 @@ public class PersonaDAO {
         List<Personas> colaboradores = query.list();
         session.getTransaction().commit();
         session.close();
+        System.out.println("colaboradores: "+colaboradores);
         return colaboradores;
     }
 
