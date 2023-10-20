@@ -484,19 +484,24 @@
                         <br></br>
                         <b:panel title="Historia clínica" look="info" collapsible="false">
                             <b:row>
-                                <b:column span="6">
+                                <b:column span="12">
                                     <b:inputTextarea label="Motivo de la consulta"
                                                  placeholder="Motivo consulta"
                                                  id="motivo_consulta"
                                                  size="13"
+                                                 rows="3"
                                                  maxlength="100"
                                                  value="#{CitaBean.historia.hisMotivo}"
                                                  required="true"
                                                  requiredMessage="Motivo consulta"/>
                                 </b:column>
-                                <b:column span="6">
+                            </b:row>
+                            <b:row>
+                                <b:column span="12">
                                     <b:inputTextarea 
                                                 value="#{CitaBean.historia.hisEnfermedad}"
+                                                maxlength="3000"
+                                                rows="10"
                                                  label="Enfermedad actual"
                                                  placeholder="Describa la enfermedad"
                                                  id="nomEnfermedadActual">

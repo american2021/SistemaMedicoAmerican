@@ -7,6 +7,7 @@ package dao;
 
 import conexion.HibernateUtil;
 import datos.Personas;
+import datos.Usuarios;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -92,9 +93,13 @@ public class PersonaDAO {
         session.beginTransaction();
         Query query = session.createQuery("FROM Personas WHERE per_es_paciente = 'N'");
         List<Personas> colaboradores = query.list();
+        colaboradores.forEach((persona)->{
+            if(persona.getUsuarioses().size() != 0){
+                Usuarios u = (Usuarios)persona.getUsuarioses().iterator().next();
+            }
+        });
         session.getTransaction().commit();
         session.close();
-        System.out.println("colaboradores: "+colaboradores);
         return colaboradores;
     }
 

@@ -617,13 +617,13 @@ public final class PersonaBean implements Serializable {
         int tipo_usuario;
         System.out.println("TEST");
         for (Personas p : PersonaDAO.recuperarColaboradores()) {
-            System.out.println("p: " + p.getPerApellidos());
-                u = (Usuarios) p.getUsuarioses().iterator().next();
-                System.out.println("u: "+u);
-                tipo_usuario = u.getRolesRolId();
-                if (tipo_usuario == rol) {
-                    colaboradores.add(p.getPerNombres() + " - " + p.getPerApellidos());
-                }
+            System.out.println("p: " + p.getPerUsuario());
+            u = (Usuarios) p.getUsuarioses().iterator().next();
+            System.out.println("u: "+u);
+            tipo_usuario = u.getRolesRolId();
+            if (tipo_usuario == rol) {
+                colaboradores.add(p.getPerNombres() + " - " + p.getPerApellidos());
+            }
         }
         return colaboradores;
     }

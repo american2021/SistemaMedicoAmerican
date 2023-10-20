@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/recursos"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <f:event listener="#{LoginBean.comprobarLogin}" type="preRenderView" />
+
+    <h:head>
+        <title>Departamento Médico</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
+    </h:head>
+
+    <my:cabecera id="cabecera"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
+
+    <script>
+        $.blockUI.defaults.css = {
+            padding: 0,
+            margin: 0,
+            width: '30%',
+            top: '40%',
+            left: '35%',
+            textAlign: 'center',
+            color: '#000',
+            border: '0px solid #aaa',
+            backgroundColor: 'transparent',
+            cursor: 'wait'
+        };
+        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
+        $.blockUI.defaults.overlayCSS.opacity = 0.5;
+        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
+    </script>
+
+    <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
+
+    <b:growl id="growl" escape="true" />
+
+    <h:body>
+        <b:modal id="modalConfirmacion"
+                 title="¿Está seguro de que desea elimiar a #{PersonaBean.per_nombre_completo}?"
+                 closable="true"
+                 close-on-escape="true" backdrop="true" size="modal-lg">
+            <b:form id="formEliminacion" >
+                <b:row>
+                    <b:column offset="4">
+                        <b:commandButton span="2"
+                                         ajax="true"
+                                         value="Sí"
+                                         update=":modalConfirmacion:formEliminacion :growl"
+                                         action="#{PersonaBean.eliminarPaciente()}"
+                                         oncomplete="$('#modalConfirmacion').modal('show')"
+                                         tooltip="Elimiar" look="info">
+                        </b:commandButton>
+                        <b:commandButton span="2"
+                                         ajax="true"
+                                         value="No"
+                                         update=":modalConfirmacion:formEliminacion :growl"
+                                         oncomplete="$('#modalAsignacionMedico').modal('hide')"
+                                         tooltip="Cancelar" look="danger">
+                        </b:commandButton>
+                    </b:column>
+                </b:row>
+            </b:form>
+        </b:modal>
+        <b:column>
+            <my:menuLateralAdministrador id="menuAdministrador"/>
+            <my:menuLateralMedico id="menuLateralMedico"/>
+            <my:menuLateralEstudiante id="menuLateralEstudiante"/>
+            <my:menuLateralContador id="menuLateralContador"/>
+            <p:idleMonitor timeout="600000">
+                <p:ajax event="idle" listener="#{LoginBean.sesionInactiva()}" />
+            </p:idleMonitor>
+
+            <b:container fluid="true">
+                #{PersonaBean.inicializarPersona()}
+
+                <b:panel span="10" offset="0">
+                    <b:row>
+                        <b:column span="12" style="text-align: center;">
+                            <h2><b>Elimiación de paciente (pendiente de desarrollo falta la eliminación)</b></h2>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <br/>
+                    </b:row>
+                    <b:form class="pageForm" id="commentform">
+                        <b:row>
+                            <b:column span="6" offset="3">
+                                <b:inputText value="#{PersonaBean.per_nombre_completo}"
+                                             label="Paciente"
+                                             placeholder="Digite el nombre de un paciente"
+                                             typeahead="true"
+                                             id="nomPersona"
+                                             typeahead-limit="20"
+                                             typeahead-values="#{PersonaBean.recuperarNombresPacientes()}">
+                                    <f:ajax event="change"
+                                            listener="#{PersonaBean.recuperarPacientesListener()}"
+                                            render="modalConfirmacion commentform :growl" />
+                                </b:inputText>
+                                <br/>
+                                <h6>El paciente tiene #{PersonaBean.cantidad_historias} historia/s clínicas</h6>
+                            </b:column>
+                        </b:row>
+                        <h3>
+                            <b>Datos del paciente</b>
+                        </h3>
+                        <b:panel title="Datos generales" look="info" collapsible="false">
+                            <b:row>
+                                <b:column span="4">
+                                    <b:inputText label="Cédula"
+                                                 placeholder="Ingrese su cédula"
+                                                 id="per_cedula"
+                                                 size="13"
+                                                 maxlength="100"
+                                                 value="#{PersonaBean.persona.perCedula}"
+                                                 disabled="true"
+                                                 required="true"
+                                                 requiredMessage="Ingrese su cédula"/>
+                                </b:column>
+                                <b:column span="4">
+                                    <b:inputText style="text-transform:uppercase;" 
+                                                 label="Apellidos"
+                                                 placeholder="Ingrese sus apellidos"
+                                                 id="per_apellidos"
+                                                 size="13"
+                                                 maxlength="100"
+                                                 value="#{PersonaBean.persona.perApellidos}"
+                                                 disabled="true"
+                                                 required="true"
+                                                 requiredMessage="Ingrese sus apellidos"/>
+                                </b:column>
+                                <b:column span="4">
+                                    <b:inputText style="text-transform:uppercase;" 
+                                                 label="Nombres"
+                                                 placeholder="Ingrese sus nombres"
+                                                 id="per_nombres"
+                                                 size="13"
+                                                 maxlength="100"
+                                                 value="#{PersonaBean.persona.perNombres}"
+                                                 disabled="true"
+                                                 required="true"
+                                                 requiredMessage="Ingrese sus nombres"/>
+                                </b:column>
+                            </b:row>
+                            <br/>
+                        </b:panel>
+                        <b:row>
+                            <b:column offset="5" span="2">
+                                <b:commandButton ajax="true"
+                                                 value="Eliminar paciente"
+                                                 disabled="#{PersonaBean.habilitarElimiacion()}"
+                                                 update=":modalConfirmacion:formEliminacion :growl"
+                                                 oncomplete="$('#modalConfirmacion').modal('show')"
+                                                 tooltip="Elimiar paciente" look="danger">
+                                    <b:iconAwesome name="trash"></b:iconAwesome>
+                                </b:commandButton>
+                            </b:column>
+                        </b:row>
+
+                    </b:form>
+                </b:panel>
+            </b:container>
+            <br/><br/><br/><br/>
+        </b:column>
+    </h:body>
+    <my:piePagina id="piePagina"/>
+</html>
