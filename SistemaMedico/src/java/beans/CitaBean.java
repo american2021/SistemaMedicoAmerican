@@ -358,6 +358,7 @@ public final class CitaBean implements Serializable{
     }
     
     public String VerCitaMedica(int hisId) {
+        
         nuevo_diagnostico = new Diagnosticos();
         nuevo_tratamiento = new Tratamientos();
         this.historia_actual_id = hisId;
@@ -389,6 +390,9 @@ public final class CitaBean implements Serializable{
             parentesco_abierto = historia.getPersonasByPacientePerId().getPerParentesco();
             historia.getPersonasByPacientePerId().setPerParentesco("9");
         }
+        
+        PersonaBean p = new PersonaBean();
+        p.actualizarEdad(historia.getPersonasByPacientePerId());
         
         return "/medico/citaMedica.xhtml?faces-redirect=true";
     }
@@ -549,7 +553,7 @@ public final class CitaBean implements Serializable{
     }
     
     public void calcularEdad(){
-        int edad;
+        String edad;
         if(historia.getPersonasByPacientePerId().getPerNac()!=null){
         try{
             LocalDate actual = new Date()
@@ -560,14 +564,15 @@ public final class CitaBean implements Serializable{
                 .toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
-            edad = Period.between(actual, nacimiento).getYears()*-1;
+            Period periodo = Period.between(actual, nacimiento);
+            edad = periodo.getYears()*-1+ "Años-"+ periodo.getMonths()*-1+"Meses-"+ periodo.getDays()*-1+"Dias"; 
             historia.getPersonasByPacientePerId().setPerEdad(edad);
             }
             catch(Exception e){
             }
         }
         else{
-            historia.getPersonasByPacientePerId().setPerEdad(0);
+            historia.getPersonasByPacientePerId().setPerEdad("0");
         }
     }
     

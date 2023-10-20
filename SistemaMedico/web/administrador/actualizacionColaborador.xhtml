@@ -131,7 +131,7 @@
                                                  requiredMessage="Ingrese su teléfono"/>
                                 </b:column>
 
-                                <b:column span="2">
+                                <b:column span="3">
                                     <b:inputText label="Contacto"
                                                  id="per_contacto_emergencia"
                                                  placeholder="Ingrese su contacto de emergencia"
@@ -170,7 +170,7 @@
                                     </b:dateTimePicker>
                                 </b:column>
 
-                                <b:column span="1">
+                                <b:column span="2">
                                     <b:inputText label="Edad"
                                                  id="per_edad"
                                                  size="13"
@@ -181,19 +181,7 @@
                                                  requiredMessage="Ingrese su edad"/>
                                 </b:column>
 
-                                <b:column span="2">
-                                    <b:selectOneMenu label="Estado Civil" id="per_estado_civil"
-                                                     value="#{PersonaBean.persona.perEstadoCivil}"
-                                                     required="true"
-                                                     requiredMessage="Seleccione su estado civil">
-                                        <f:selectItem itemLabel="Seleccione"
-                                                      itemValue="" noSelectionOption="true" />
-                                        <f:selectItems value="#{PersonaBean.lista_estados_civiles}"
-                                                       var="e" itemLabel="#{e.ecDescripcion}"
-                                                       itemValue="#{e.ecCodigo}" />
-                                    </b:selectOneMenu>
-                                    <b:message for="per_estado_civil" />
-                                </b:column>
+                                
                             </b:row>
                             <br/>
                             <b:row>
@@ -234,8 +222,29 @@
                                     </b:selectOneMenu>
                                     <b:message for="tipoPersona" />
                                 </b:column>
+                                <b:column span="2" > 
+                                    <b:selectOneMenu label="Orientacion Sexual"
+                                                     id="per_orientacion_sexual"
+                                                     value="#{PersonaBean.persona.perOrientacionSexual}"
+                                                     required="true"
+                                                     requiredMessage="Seleccione">
+                                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Lesbiana" itemValue="1" />
+                                        <f:selectItem itemLabel="Bisexual" itemValue="2" />
+                                        <f:selectItem itemLabel="Heterosexual" itemValue="3" />
+                                        <f:selectItem itemLabel="Gay" itemValue="4" />
+                                        <f:selectItem itemLabel="No Sabe" itemValue="5" />
+                                        <f:selectItem itemLabel="No Responde" itemValue="6" />
+                                    </b:selectOneMenu>
+                                    <b:message for="per_orientacion_sexual" />
+                                </b:column>
+                                
+                            </b:row>
+                            <br/>
+                            <b:row>
+                                
                                 <b:column span="2">
-                                    <b:selectOneMenu label="Género" id="per_identidad_genero"
+                                    <b:selectOneMenu label="Identidad de Género" id="per_identidad_genero"
                                                      value="#{PersonaBean.persona.perIdentidadGenero}"
                                                      required="true"
                                                      requiredMessage="Seleccione el género">
@@ -243,13 +252,26 @@
                                                       noSelectionOption="true"/>
                                         <f:selectItem itemLabel="Masculino" itemValue="1" />
                                         <f:selectItem itemLabel="Femenino" itemValue="2" />
-                                        <f:selectItem itemLabel="Otro" itemValue="3" />
+                                        <f:selectItem itemLabel="Transfemenino" itemValue="3" />
+                                        <f:selectItem itemLabel="Transmasculino" itemValue="4" />
+                                        <f:selectItem itemLabel="No Sabe" itemValue="5" />
+                                        <f:selectItem itemLabel="No Responde" itemValue="6" />
                                     </b:selectOneMenu>
                                     <b:message for="per_identidad_genero" />
                                 </b:column>
-                            </b:row>
-                            <br/>
-                            <b:row>
+                                <b:column span="2">
+                                    <b:selectOneMenu label="Estado Civil" id="per_estado_civil"
+                                                     value="#{PersonaBean.persona.perEstadoCivil}"
+                                                     required="true"
+                                                     requiredMessage="Seleccione su estado civil">
+                                        <f:selectItem itemLabel="Seleccione"
+                                                      itemValue="" noSelectionOption="true" />
+                                        <f:selectItems value="#{PersonaBean.lista_estados_civiles}"
+                                                       var="e" itemLabel="#{e.ecDescripcion}"
+                                                       itemValue="#{e.ecCodigo}" />
+                                    </b:selectOneMenu>
+                                    <b:message for="per_estado_civil" />
+                                </b:column>
                                 <b:column span="2">
                                     <b:selectOneMenu label="Grupo sanguíneo" id="per_grupo_sanguineo"
                                                      value="#{PersonaBean.persona.perGrupoSanguineo}"

@@ -1,5 +1,5 @@
 package datos;
-// Generated 14-jul-2023 9:13:32 by Hibernate Tools 4.3.1
+// Generated 18/10/2023 17:37:10 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -28,7 +28,8 @@ public class Personas  implements java.io.Serializable {
      private String perContactoEmergencia;
      private String perParentesco;
      private String perEstadoCivil;
-     private int perEdad;
+     private String perEdad;
+     private String perOrientacionSexual;
      private Date perFechaUlt;
      private String perUsuario;
      private Set usuarioses = new HashSet(0);
@@ -40,7 +41,7 @@ public class Personas  implements java.io.Serializable {
     }
 
 	
-    public Personas(String perCedula, String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, char perIdentidadGenero, String perProfesion, String perResidencia, String perProcedencia, String perTelefono, String perContactoEmergencia, String perParentesco, String perEstadoCivil, int perEdad, Date perFechaUlt, String perUsuario) {
+    public Personas(String perCedula, String perNombres, String perApellidos, char perSexo, Date perNac, String perGrupoSanguineo, char perIdentidadGenero, String perProfesion, String perEstadoCivil, String perEdad, String perOrientacionSexual, Date perFechaUlt, String perUsuario) {
         this.perCedula = perCedula;
         this.perNombres = perNombres;
         this.perApellidos = perApellidos;
@@ -49,17 +50,13 @@ public class Personas  implements java.io.Serializable {
         this.perGrupoSanguineo = perGrupoSanguineo;
         this.perIdentidadGenero = perIdentidadGenero;
         this.perProfesion = perProfesion;
-        this.perResidencia = perResidencia;
-        this.perProcedencia = perProcedencia;
-        this.perTelefono = perTelefono;
-        this.perContactoEmergencia = perContactoEmergencia;
-        this.perParentesco = perParentesco;
         this.perEstadoCivil = perEstadoCivil;
         this.perEdad = perEdad;
+        this.perOrientacionSexual = perOrientacionSexual;
         this.perFechaUlt = perFechaUlt;
         this.perUsuario = perUsuario;
     }
-    public Personas(String perCedula, String perNombres, String perApellidos, char perSexo, Character perEsPaciente, Date perNac, String perGrupoSanguineo, char perIdentidadGenero, String perProfesion, String perResidencia, String perProcedencia, String perTelefono, String perContactoEmergencia, String perParentesco, String perEstadoCivil, int perEdad, Date perFechaUlt, String perUsuario, Set usuarioses, Set historiasesForMedicoPerId, Set historiasesForPacientePerId, Set antecedenteses) {
+    public Personas(String perCedula, String perNombres, String perApellidos, char perSexo, Character perEsPaciente, Date perNac, String perGrupoSanguineo, char perIdentidadGenero, String perProfesion, String perResidencia, String perProcedencia, String perTelefono, String perContactoEmergencia, String perParentesco, String perEstadoCivil, String perEdad, String perOrientacionSexual, Date perFechaUlt, String perUsuario, Set usuarioses, Set historiasesForMedicoPerId, Set historiasesForPacientePerId, Set antecedenteses) {
        this.perCedula = perCedula;
        this.perNombres = perNombres;
        this.perApellidos = perApellidos;
@@ -76,6 +73,7 @@ public class Personas  implements java.io.Serializable {
        this.perParentesco = perParentesco;
        this.perEstadoCivil = perEstadoCivil;
        this.perEdad = perEdad;
+       this.perOrientacionSexual = perOrientacionSexual;
        this.perFechaUlt = perFechaUlt;
        this.perUsuario = perUsuario;
        this.usuarioses = usuarioses;
@@ -196,13 +194,22 @@ public class Personas  implements java.io.Serializable {
     public void setPerEstadoCivil(String perEstadoCivil) {
         this.perEstadoCivil = perEstadoCivil;
     }
-    public int getPerEdad() {
+    public String getPerEdad() {
         return this.perEdad;
     }
     
-    public void setPerEdad(int perEdad) {
+    public void setPerEdad(String perEdad) {
         this.perEdad = perEdad;
     }
+
+    public String getPerOrientacionSexual() {
+        return perOrientacionSexual;
+    }
+
+    public void setPerOrientacionSexual(String perOrientacionSexual) {
+        this.perOrientacionSexual = perOrientacionSexual;
+    }
+    
     public Date getPerFechaUlt() {
         return this.perFechaUlt;
     }

@@ -63,6 +63,7 @@ public class CitaDAO {
         historias.forEach((historia) -> {
             //Necesario para cargar los datos de la persona en modo eager
             historia.getPersonasByPacientePerId().getPerNombres();
+            // Actuaizar Edad
             //historia.getEnfermedades().getEnfNombre();
             historia.getSignos().getSigEstatura();
             try {

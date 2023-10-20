@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 14-jul-2023 9:13:33 by Hibernate Tools 4.3.1 -->
+<!-- Generated 18/10/2023 17:37:12 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Personas" table="personas" catalog="smed" optimistic-lock="version">
         <id name="perId" type="java.lang.Integer">
@@ -36,25 +36,25 @@
             <column name="per_profesion" length="300" not-null="true" />
         </property>
         <property name="perResidencia" type="string">
-            <column name="per_residencia" length="300" not-null="true" />
+            <column name="per_residencia" length="300" />
         </property>
         <property name="perProcedencia" type="string">
-            <column name="per_procedencia" length="4" not-null="true" />
+            <column name="per_procedencia" length="4" />
         </property>
         <property name="perTelefono" type="string">
-            <column name="per_telefono" length="10" not-null="true" />
+            <column name="per_telefono" length="10" />
         </property>
         <property name="perContactoEmergencia" type="string">
-            <column name="per_contacto_emergencia" length="10" not-null="true" />
+            <column name="per_contacto_emergencia" length="10" />
         </property>
         <property name="perParentesco" type="string">
-            <column name="per_parentesco" length="200" not-null="true" />
+            <column name="per_parentesco" length="200" />
         </property>
         <property name="perEstadoCivil" type="string">
             <column name="per_estado_civil" length="45" not-null="true" />
         </property>
-        <property name="perEdad" type="int">
-            <column name="per_edad" not-null="true" />
+        <property name="perEdad" type="string">
+            <column name="per_edad" length="45" not-null="true" />
         </property>
         <property name="perFechaUlt" type="timestamp">
             <column name="per_fecha_ult" length="19" not-null="true" />

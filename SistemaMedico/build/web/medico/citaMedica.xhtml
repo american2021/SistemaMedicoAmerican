@@ -283,7 +283,7 @@
                                 </b:dateTimePicker>
                             </b:column>
                             
-                            <b:column span="1">
+                            <b:column span="2">
                                 <b:inputText label="Edad"
                                              id="per_edad"
                                              size="13"
@@ -306,6 +306,35 @@
                                                    itemValue="#{e.ecCodigo}" />
                                 </b:selectOneMenu>
                                 <b:message for="per_estado_civil" />
+                            </b:column>
+                            <b:column span="2">
+
+                                <b:selectOneMenu label="Sexo del paciente"
+                                                 id="per_sexo"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perSexo}"
+                                                 required="false"
+                                                 requiredMessage="Seleccione el sexo del paciente">
+                                    <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Hombre" itemValue="H" />
+                                    <f:selectItem itemLabel="Mujer" itemValue="M" />
+                                </b:selectOneMenu>
+                                <b:message for="tipoPersona" />
+                            </b:column>
+                            <b:column span="2" > 
+                                <b:selectOneMenu label="Orientacion Sexual"
+                                                 id="per_orientacion_sexual"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perOrientacionSexual}"
+                                                 required="true"
+                                                 requiredMessage="Seleccione">
+                                    <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Lesbiana" itemValue="1" />
+                                    <f:selectItem itemLabel="Bisexual" itemValue="2" />
+                                    <f:selectItem itemLabel="Heterosexual" itemValue="3" />
+                                    <f:selectItem itemLabel="Gay" itemValue="4" />
+                                    <f:selectItem itemLabel="No Sabe" itemValue="5" />
+                                    <f:selectItem itemLabel="No Responde" itemValue="6" />
+                                </b:selectOneMenu>
+                                <b:message for="per_orientacion_sexual" />
                             </b:column>
                         </b:row>
                         <br/>
@@ -334,21 +363,9 @@
                                 </b:selectOneMenu>
                                 <b:message for="per_procedencia" />
                             </b:column>
+                            
                             <b:column span="2">
-
-                                <b:selectOneMenu label="Sexo del paciente"
-                                                 id="per_sexo"
-                                                 value="#{CitaBean.historia.personasByPacientePerId.perSexo}"
-                                                 required="false"
-                                                 requiredMessage="Seleccione el sexo del paciente">
-                                    <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
-                                    <f:selectItem itemLabel="Hombre" itemValue="H" />
-                                    <f:selectItem itemLabel="Mujer" itemValue="M" />
-                                </b:selectOneMenu>
-                                <b:message for="tipoPersona" />
-                            </b:column>
-                            <b:column span="2">
-                                <b:selectOneMenu label="Género" id="per_identidad_genero"
+                                <b:selectOneMenu label="Identidad de Género" id="per_identidad_genero"
                                                  value="#{CitaBean.historia.personasByPacientePerId.perIdentidadGenero}"
                                                  required="true"
                                                  requiredMessage="Seleccione el género">
@@ -356,7 +373,10 @@
                                                   noSelectionOption="true"/>
                                     <f:selectItem itemLabel="Masculino" itemValue="1" />
                                     <f:selectItem itemLabel="Femenino" itemValue="2" />
-                                    <f:selectItem itemLabel="Otro" itemValue="3" />
+                                    <f:selectItem itemLabel="Transfemenino" itemValue="3" />
+                                    <f:selectItem itemLabel="Transmasculino" itemValue="4" />
+                                    <f:selectItem itemLabel="No Sabe" itemValue="5" />
+                                    <f:selectItem itemLabel="No Responde" itemValue="6" />
                                 </b:selectOneMenu>
                                 <b:message for="per_identidad_genero" />
                             </b:column>

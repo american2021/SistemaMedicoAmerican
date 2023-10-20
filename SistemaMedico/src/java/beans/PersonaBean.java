@@ -28,6 +28,7 @@ import datos.RevisionSistemas;
 import datos.Signos;
 import datos.Usuarios;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import javax.faces.context.FacesContext;
@@ -37,6 +38,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
@@ -444,6 +446,9 @@ public final class PersonaBean implements Serializable {
         FacesMessages.info(":growlInfo", "Se han actualizado los datos del paciente", "This is a specific message!");
         return "/privado/home.xhtml?faces-redirect=true";
     }
+    
+    public void actualizarEdad(int id){
+    }
 
     public void especificar_ocupacion() {
         if (persona.getPerProfesion().equals("51")) {
@@ -462,26 +467,37 @@ public final class PersonaBean implements Serializable {
             renderizar_parentesco_abierto = "false";
         }
     }
+    public Personas actualizarEdad(Personas persona1){
+        persona = persona1;
+        calcularEdad();
+        return persona;
+    }
 
     public void calcularEdad() {
-        int edad;
+        String edad;
         if (persona.getPerNac() != null) {
+            System.out.println("persona.getPerNac()"+ persona.getPerNac());
             try {
-                LocalDate actual = new Date()
-                        .toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDate();
-                LocalDate nacimiento = persona.getPerNac()
-                        .toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDate();
-                edad = Period.between(actual, nacimiento).getYears() * -1;
+                LocalDate actual = LocalDate.now();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(persona.getPerNac());
+                LocalDate nacimiento = LocalDate.of(
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH) + 1,  // Los meses en Calendar son 0-indexados
+                    calendar.get(Calendar.DAY_OF_MONTH)
+                );
+                System.out.println("nacimiento"+nacimiento);
+                System.out.println("actual"+actual);
+                Period periodo = Period.between(actual, nacimiento);
+                edad = periodo.getYears()*-1+ "Años-"+ periodo.getMonths()*-1+"Meses-"+ periodo.getDays()*-1+"Dias"; 
+                System.out.println("Edad: "+edad);
                 persona.setPerEdad(edad);
             } catch (Exception e) {
-                persona.setPerEdad(0);
+                System.out.println("ERROR; "+e);
+                persona.setPerEdad("0");
             }
         } else {
-            persona.setPerEdad(0);
+            persona.setPerEdad("0");
         }
     }
 
@@ -586,7 +602,7 @@ public final class PersonaBean implements Serializable {
 
     public void validarEdad(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
-        if (persona.getPerEdad() == 0) {
+        if (persona.getPerEdad() == "0") {
             throw new ValidatorException(new FacesMessage("Compruebe la edad del paciente"));
         }
 
@@ -659,6 +675,7 @@ public final class PersonaBean implements Serializable {
         String nombres[] = getPer_nombre_completo().split(" - ");
         if (nombres.length == 2) {
             persona = PersonaDAO.recuperarPersonaNombre(nombres[0], nombres[1]);
+            calcularEdad();
 
             if (persona != null) {
                 per_nombre_completo = persona.getPerApellidos() + " - " + persona.getPerNombres();
