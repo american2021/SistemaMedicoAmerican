@@ -350,6 +350,7 @@ public final class PersonaBean implements Serializable {
         historia.setHisFechaCreacion(new Date());
         historia.setHisUsuario(session.getAttribute("usuario").toString());
         historia.setHisMotivo("Por definir");
+//        historia.setHisAntecedentes("Por definir");
         historia.setHisEnfermedad("Por definir");
         historia.setSignos(signos);
         historia.setRevisionSistemas(revision);
@@ -405,6 +406,7 @@ public final class PersonaBean implements Serializable {
         historia.setHisFechaCreacion(new Date());
         historia.setHisUsuario(session.getAttribute("usuario").toString());
         historia.setHisMotivo("Por definir");
+//        historia.setHisAntecedentes("Por definir");
         historia.setHisEnfermedad("Por definir");
         historia.setSignos(signos);
         historia.setRevisionSistemas(revision);

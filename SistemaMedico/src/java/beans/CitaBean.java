@@ -43,6 +43,7 @@ import net.bootsfaces.utils.FacesMessages;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -64,6 +65,10 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 @SessionScoped
 public final class CitaBean implements Serializable{
     
+    // Inyección de dependencia para usar el historiaBean
+//    @ManagedProperty(value = "#{CitaBean}")
+    private Historias historia;
+    
     private List<Historias> historias;
     private List<Historias> historiasdia;
     private String nombre_enfermedad;
@@ -71,7 +76,6 @@ public final class CitaBean implements Serializable{
     private Tratamientos tratamiento;
     private Diagnosticos nuevo_diagnostico;
     private Tratamientos nuevo_tratamiento;
-    private Historias historia;
     private Signos signos;
     private int historia_actual_id;
     private List<Ocupaciones> lista_ocupaciones;
@@ -180,6 +184,7 @@ public final class CitaBean implements Serializable{
     
     /**
      * Método que realiza una acción cuando un diagnóstico es seleccionado
+     * @param historias
      */
     public void recuperarDiagnosticosListener(){
         String diagnostico_codigo[] = getNombre_diagnostico().split(" - ");
@@ -765,6 +770,9 @@ public final class CitaBean implements Serializable{
     public void setNombre_tratamiento(String nombre_tratamiento) {
         this.nombre_tratamiento = nombre_tratamiento;
     }
+    
+    
+    
     
     
 }

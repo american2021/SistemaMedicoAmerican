@@ -221,221 +221,204 @@
                         </h3>
                         <b:panel title="Datos generales" look="info" collapsible="false">
                             <b:row>
-                            <b:column span="4">
-                                <b:inputText label="Cédula"
-                                             placeholder="Ingrese su cédula"
-                                             id="per_cedula"
-                                             size="13"
-                                             maxlength="100"
-                                             value="#{CitaBean.historia.personasByPacientePerId.perCedula}"
-                                             required="false"
-                                             requiredMessage="Ingrese su cédula"/>
-                            </b:column>
-                            <b:column span="4">
-                                <b:inputText style="text-transform:uppercase;" 
-                                             label="Apellidos"
-                                             placeholder="Ingrese sus apellidos"
-                                             id="per_apellidos"
-                                             size="13"
-                                             maxlength="100"
-                                             value="#{CitaBean.historia.personasByPacientePerId.perApellidos}"
-                                             required="false"
-                                             requiredMessage="Ingrese sus apellidos"/>
-                            </b:column>
-                            <b:column span="4">
-                                <b:inputText style="text-transform:uppercase;" 
-                                             label="Nombres"
-                                             placeholder="Ingrese sus nombres"
-                                             id="per_nombres"
-                                             size="13"
-                                             maxlength="100"
-                                             value="#{CitaBean.historia.personasByPacientePerId.perNombres}"
-                                             required="false"
-                                             requiredMessage="Ingrese sus nombres"/>
-                                <b:message for="per_nombres" />
-                            </b:column>
-                        </b:row>
-                        <br/>
-                        <b:row>
-                            <b:column span="2">
-                                <b:inputText label="Teléfono"
-                                             id="per_telefono"
-                                             size="13"
-                                             maxlength="100"
-                                             value="#{CitaBean.historia.personasByPacientePerId.perTelefono}"
-                                             required="false"
-                                             requiredMessage="Ingrese su teléfono"/>
-                            </b:column>
-                            
-                            <b:column span="2">
-                                <b:dateTimePicker
-                                    id="per_nac"
-                                    format="DD/MM/YYYY"
-                                    locale="en"
-                                    value="#{CitaBean.historia.personasByPacientePerId.perNac}"
-                                    label="Fecha de Nacimiento"
-                                    required="false"
-                                    requiredMessage="Ingrese la fecha de nacimiento"
-                                    max-date="12/31/2006">
-                                    <f:ajax event="blur"
-                                            listener="#{CitaBean.calcularEdad()}"
-                                            render="per_edad"/>
-                                </b:dateTimePicker>
-                            </b:column>
-                            
-                            <b:column span="2">
-                                <b:inputText label="Edad"
-                                             id="per_edad"
-                                             size="13"
-                                             maxlength="100"
-                                             value="#{CitaBean.historia.personasByPacientePerId.perEdad}"
-                                             required="false"
-                                             disabled="true"
-                                             requiredMessage="Ingrese su edad"/>
-                            </b:column>
-                            
-                            <b:column span="2">
-                                <b:selectOneMenu label="Estado Civil" id="per_estado_civil"
-                                                 value="#{CitaBean.historia.personasByPacientePerId.perEstadoCivil}"
+                                <b:column span="2">
+                                    <b:inputText label="Cédula"
+                                                 placeholder="Ingrese su cédula"
+                                                 id="per_cedula"
+                                                 size="13"
+                                                 maxlength="100"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perCedula}"
                                                  required="false"
-                                                 requiredMessage="Seleccione su estado civil">
-                                    <f:selectItem itemLabel="Seleccione"
-                                                  itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{CitaBean.lista_estados_civiles}"
-                                                   var="e" itemLabel="#{e.ecDescripcion}"
-                                                   itemValue="#{e.ecCodigo}" />
-                                </b:selectOneMenu>
-                                <b:message for="per_estado_civil" />
-                            </b:column>
-                            <b:column span="2">
-
-                                <b:selectOneMenu label="Sexo del paciente"
-                                                 id="per_sexo"
-                                                 value="#{CitaBean.historia.personasByPacientePerId.perSexo}"
-                                                 required="false"
-                                                 requiredMessage="Seleccione el sexo del paciente">
-                                    <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
-                                    <f:selectItem itemLabel="Hombre" itemValue="H" />
-                                    <f:selectItem itemLabel="Mujer" itemValue="M" />
-                                </b:selectOneMenu>
-                                <b:message for="tipoPersona" />
-                            </b:column>
-                            <b:column span="2" > 
-                                <b:selectOneMenu label="Orientacion Sexual"
-                                                 id="per_orientacion_sexual"
-                                                 value="#{CitaBean.historia.personasByPacientePerId.perOrientacionSexual}"
-                                                 required="true"
-                                                 requiredMessage="Seleccione">
-                                    <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
-                                    <f:selectItem itemLabel="Lesbiana" itemValue="1" />
-                                    <f:selectItem itemLabel="Bisexual" itemValue="2" />
-                                    <f:selectItem itemLabel="Heterosexual" itemValue="3" />
-                                    <f:selectItem itemLabel="Gay" itemValue="4" />
-                                    <f:selectItem itemLabel="No Sabe" itemValue="5" />
-                                    <f:selectItem itemLabel="No Responde" itemValue="6" />
-                                </b:selectOneMenu>
-                                <b:message for="per_orientacion_sexual" />
-                            </b:column>
-                        </b:row>
-                        <br/>
-                        <b:row>
-                            <b:column span="4">
-                                <b:inputText label="Dirección"
-                                             placeholder="Ingrese su dirección"
-                                             id="per_residencia"
-                                             size="13"
-                                             maxlength="300"
-                                             value="#{CitaBean.historia.personasByPacientePerId.perResidencia}"
-                                             required="false"
-                                             requiredMessage="Ingrese su dirección"/>
-                                <b:message for="per_residencia" />
-                            </b:column>
-                            <b:column span="4">
-                                <b:selectOneMenu label="Procedencia" id="per_procedencia"
-                                                 value="#{CitaBean.historia.personasByPacientePerId.perProcedencia}"
-                                                 required="false"
-                                                 requiredMessage="Seleccione su ciudad de procedencia">
-                                    <f:selectItem itemLabel="Seleccione"
-                                                  itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{CitaBean.lista_ciudades}"
-                                                   var="c" itemLabel="#{c.ciuNombre}"
-                                                   itemValue="#{c.ciuCodigo}" />
-                                </b:selectOneMenu>
-                                <b:message for="per_procedencia" />
-                            </b:column>
-                            
-                            <b:column span="2">
-                                <b:selectOneMenu label="Identidad de Género" id="per_identidad_genero"
-                                                 value="#{CitaBean.historia.personasByPacientePerId.perIdentidadGenero}"
-                                                 required="true"
-                                                 requiredMessage="Seleccione el género">
-                                    <f:selectItem itemLabel="Seleccione"
-                                                  noSelectionOption="true"/>
-                                    <f:selectItem itemLabel="Masculino" itemValue="1" />
-                                    <f:selectItem itemLabel="Femenino" itemValue="2" />
-                                    <f:selectItem itemLabel="Transfemenino" itemValue="3" />
-                                    <f:selectItem itemLabel="Transmasculino" itemValue="4" />
-                                    <f:selectItem itemLabel="No Sabe" itemValue="5" />
-                                    <f:selectItem itemLabel="No Responde" itemValue="6" />
-                                </b:selectOneMenu>
-                                <b:message for="per_identidad_genero" />
-                            </b:column>
-                        </b:row>
-                        <br/>
-                        <b:row>
-                            <b:column span="2">
-                                <b:selectOneMenu label="Grupo sanguíneo" id="per_grupo_sanguineo"
-                                                 value="#{CitaBean.historia.personasByPacientePerId.perGrupoSanguineo}"
-                                                 required="false"
-                                                 requiredMessage="Seleccione el grupo sanguíneo">
-                                    <f:selectItem itemLabel="Seleccione"
-                                                  noSelectionOption="true"/>
-                                    <f:selectItem itemLabel="O-" itemValue="1" />
-                                    <f:selectItem itemLabel="O+" itemValue="2" />
-                                    <f:selectItem itemLabel="A-" itemValue="3" />
-                                    <f:selectItem itemLabel="A+" itemValue="4" />
-                                    <f:selectItem itemLabel="B-" itemValue="5" />
-                                    <f:selectItem itemLabel="B+" itemValue="6" />
-                                    <f:selectItem itemLabel="AB-" itemValue="7" />
-                                    <f:selectItem itemLabel="AB+" itemValue="8" />
-                                    <f:selectItem itemLabel="Otro" itemValue="9" />
-                                    <f:ajax render="" />
-                                </b:selectOneMenu>
-                            </b:column>
-                                <b:column span="3">
-                                <b:selectOneMenu label="Profesión" id="per_profesion"
-                                                 value="#{CitaBean.historia.personasByPacientePerId.perProfesion}"
-                                                 required="false"
-                                                 requiredMessage="Seleccione la profesión">
-                                    <f:selectItem itemLabel="Seleccione"
-                                                  itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{CitaBean.lista_ocupaciones}"
-                                                   var="o" itemLabel="#{o.ocuDescripcion}"
-                                                   itemValue="#{o.ocuId}" />
-                                    <f:ajax event="change"
-                                            render="profesion_especifica"
-                                            listener="#{CitaBean.especificar_ocupacion()}"/>
-                                </b:selectOneMenu>
-                                <b:message for="per_profesion" />
-                            </b:column>
-                            <b:column span="4">
-                                <h:panelGroup id="profesion_especifica">
-                                    <b:inputText label="Especifique"
-                                             placeholder="Profesión"
-                                             size="13"
-                                             maxlength="100"
-                                             required="false"
-                                             value="#{CitaBean.profesion_abierta}"
-                                             rendered="#{CitaBean.renderizar_profesion_abierta}"
-                                             requiredMessage="Ingrese su oficio">
-                                    <f:validateLength minimum="3"/>
-                                    </b:inputText>
-                                    </h:panelGroup>
+                                                 requiredMessage="Ingrese su cédula"/>
                                 </b:column>
-                        </b:row>
-                        <br/>
-                        <b:row>
-                            <b:column span="4">
+                                <b:column span="4">
+                                    <b:inputText style="text-transform:uppercase;" 
+                                                 label="Apellidos"
+                                                 placeholder="Ingrese sus apellidos"
+                                                 id="per_apellidos"
+                                                 size="13"
+                                                 maxlength="100"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perApellidos}"
+                                                 required="false"
+                                                 requiredMessage="Ingrese sus apellidos"/>
+                                </b:column>
+                                <b:column span="3">
+                                    <b:inputText style="text-transform:uppercase;" 
+                                                 label="Nombres"
+                                                 placeholder="Ingrese sus nombres"
+                                                 id="per_nombres"
+                                                 size="13"
+                                                 maxlength="100"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perNombres}"
+                                                 required="false"
+                                                 requiredMessage="Ingrese sus nombres"/>
+                                    <b:message for="per_nombres" />
+                                </b:column>
+                                <b:column span="3">
+                                    <b:selectOneMenu label="Profesión" id="per_profesion"
+                                                     value="#{CitaBean.historia.personasByPacientePerId.perProfesion}"
+                                                     required="false"
+                                                     requiredMessage="Seleccione la profesión">
+                                        <f:selectItem itemLabel="Seleccione"
+                                                      itemValue="" noSelectionOption="true" />
+                                        <f:selectItems value="#{CitaBean.lista_ocupaciones}"
+                                                       var="o" itemLabel="#{o.ocuDescripcion}"
+                                                       itemValue="#{o.ocuId}" />
+                                        <f:ajax event="change"
+                                                render="profesion_especifica"
+                                                listener="#{CitaBean.especificar_ocupacion()}"/>
+                                    </b:selectOneMenu>
+                                    <b:message for="per_profesion" />
+                                </b:column>
+                            </b:row>
+                            <br/>
+                            <b:row>
+                                <b:column span="2">
+                                    <b:inputText label="Teléfono"
+                                                 id="per_telefono"
+                                                 size="13"
+                                                 maxlength="100"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perTelefono}"
+                                                 required="false"
+                                                 requiredMessage="Ingrese su teléfono"/>
+                                </b:column>
+                            
+                                <b:column span="2">
+                                    <b:dateTimePicker
+                                        id="per_nac"
+                                        format="DD/MM/YYYY"
+                                        locale="en"
+                                        value="#{CitaBean.historia.personasByPacientePerId.perNac}"
+                                        label="Fecha de Nacimiento"
+                                        required="false"
+                                        requiredMessage="Ingrese la fecha de nacimiento"
+                                        max-date="12/31/2006">
+                                        <f:ajax event="blur"
+                                                listener="#{CitaBean.calcularEdad()}"
+                                                render="per_edad"/>
+                                    </b:dateTimePicker>
+                                </b:column>
+                            
+                                <b:column span="2">
+                                    <b:inputText label="Edad"
+                                                 id="per_edad"
+                                                 size="13"
+                                                 maxlength="100"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perEdad}"
+                                                 required="false"
+                                                 disabled="true"
+                                                 requiredMessage="Ingrese su edad"/>
+                                </b:column>
+                            
+                                <b:column span="2">
+                                    <b:selectOneMenu label="Estado Civil" id="per_estado_civil"
+                                                     value="#{CitaBean.historia.personasByPacientePerId.perEstadoCivil}"
+                                                     required="false"
+                                                     requiredMessage="Seleccione su estado civil">
+                                        <f:selectItem itemLabel="Seleccione"
+                                                      itemValue="" noSelectionOption="true" />
+                                        <f:selectItems value="#{CitaBean.lista_estados_civiles}"
+                                                       var="e" itemLabel="#{e.ecDescripcion}"
+                                                       itemValue="#{e.ecCodigo}" />
+                                    </b:selectOneMenu>
+                                    <b:message for="per_estado_civil" />
+                                </b:column>
+                                <b:column span="2">
+
+                                    <b:selectOneMenu label="Sexo del paciente"
+                                                     id="per_sexo"
+                                                     value="#{CitaBean.historia.personasByPacientePerId.perSexo}"
+                                                     required="false"
+                                                     requiredMessage="Seleccione el sexo del paciente">
+                                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Hombre" itemValue="H" />
+                                        <f:selectItem itemLabel="Mujer" itemValue="M" />
+                                    </b:selectOneMenu>
+                                    <b:message for="tipoPersona" />
+                                </b:column>
+                                <b:column span="2" > 
+                                    <b:selectOneMenu label="Orientacion Sexual"
+                                                     id="per_orientacion_sexual"
+                                                     value="#{CitaBean.historia.personasByPacientePerId.perOrientacionSexual}"
+                                                     required="true"
+                                                     requiredMessage="Seleccione">
+                                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Lesbiana" itemValue="1" />
+                                        <f:selectItem itemLabel="Bisexual" itemValue="2" />
+                                        <f:selectItem itemLabel="Heterosexual" itemValue="3" />
+                                        <f:selectItem itemLabel="Gay" itemValue="4" />
+                                        <f:selectItem itemLabel="No Sabe" itemValue="5" />
+                                        <f:selectItem itemLabel="No Responde" itemValue="6" />
+                                    </b:selectOneMenu>
+                                    <b:message for="per_orientacion_sexual" />
+                                </b:column>
+                            </b:row>
+                            <br/>
+                            <b:row>
+                                <b:column span="4">
+                                    <b:inputText label="Dirección"
+                                                 placeholder="Ingrese su dirección"
+                                                 id="per_residencia"
+                                                 size="13"
+                                                 maxlength="300"
+                                                 value="#{CitaBean.historia.personasByPacientePerId.perResidencia}"
+                                                 required="false"
+                                                 requiredMessage="Ingrese su dirección"/>
+                                    <b:message for="per_residencia" />
+                                </b:column>
+                                <b:column span="4">
+                                    <b:selectOneMenu label="Procedencia" id="per_procedencia"
+                                                     value="#{CitaBean.historia.personasByPacientePerId.perProcedencia}"
+                                                     required="false"
+                                                     requiredMessage="Seleccione su ciudad de procedencia">
+                                        <f:selectItem itemLabel="Seleccione"
+                                                      itemValue="" noSelectionOption="true" />
+                                        <f:selectItems value="#{CitaBean.lista_ciudades}"
+                                                       var="c" itemLabel="#{c.ciuNombre}"
+                                                       itemValue="#{c.ciuCodigo}" />
+                                    </b:selectOneMenu>
+                                    <b:message for="per_procedencia" />
+                                </b:column>
+                            
+                                <b:column span="2">
+                                    <b:selectOneMenu label="Identidad de Género" id="per_identidad_genero"
+                                                     value="#{CitaBean.historia.personasByPacientePerId.perIdentidadGenero}"
+                                                     required="true"
+                                                     requiredMessage="Seleccione el género">
+                                        <f:selectItem itemLabel="Seleccione"
+                                                      noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="Masculino" itemValue="1" />
+                                        <f:selectItem itemLabel="Femenino" itemValue="2" />
+                                        <f:selectItem itemLabel="Transfemenino" itemValue="3" />
+                                        <f:selectItem itemLabel="Transmasculino" itemValue="4" />
+                                        <f:selectItem itemLabel="No Sabe" itemValue="5" />
+                                        <f:selectItem itemLabel="No Responde" itemValue="6" />
+                                    </b:selectOneMenu>
+                                    <b:message for="per_identidad_genero" />
+                                </b:column>
+                                <b:column span="2">
+                                    <b:selectOneMenu label="Grupo sanguíneo" id="per_grupo_sanguineo"
+                                                     value="#{CitaBean.historia.personasByPacientePerId.perGrupoSanguineo}"
+                                                     required="false"
+                                                     requiredMessage="Seleccione el grupo sanguíneo">
+                                        <f:selectItem itemLabel="Seleccione"
+                                                      noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="O-" itemValue="1" />
+                                        <f:selectItem itemLabel="O+" itemValue="2" />
+                                        <f:selectItem itemLabel="A-" itemValue="3" />
+                                        <f:selectItem itemLabel="A+" itemValue="4" />
+                                        <f:selectItem itemLabel="B-" itemValue="5" />
+                                        <f:selectItem itemLabel="B+" itemValue="6" />
+                                        <f:selectItem itemLabel="AB-" itemValue="7" />
+                                        <f:selectItem itemLabel="AB+" itemValue="8" />
+                                        <f:selectItem itemLabel="Otro" itemValue="9" />
+                                        <f:ajax render="" />
+                                    </b:selectOneMenu>
+                                </b:column>
+                            </b:row>
+                            <br/>
+                            <b:row>
+                                <b:column span="4">
                                     <b:inputText label="Teléfono Contacto de Emergencia"
                                                  id="per_contacto_emergencia"
                                                  placeholder="Ingrese su contacto de emergencia"
@@ -445,38 +428,51 @@
                                                  required="false"
                                                  requiredMessage="Ingrese su contacto de emergencia"/>
                                 </b:column>
-                            <b:column span="4">
-                                <b:selectOneMenu label="Parentesco del contacto de emergencia"
-                                                 id="per_parentesco"
-                                                 value="#{CitaBean.historia.personasByPacientePerId.perParentesco}"
-                                                 required="false"
-                                                 requiredMessage="Seleccione el parentesco">
-                                    <f:selectItem itemLabel="Seleccione"
-                                                      itemValue="" noSelectionOption="true" />
-                                    <f:selectItems value="#{CitaBean.lista_parentescos}"
-                                                   var="p" itemLabel="#{p.parNombre}"
-                                                   itemValue="#{p.parId}" />
-                                    <f:ajax event="change"
-                                            render="parentesco_especifico"
-                                            listener="#{CitaBean.especificar_parentesco()}"/>
-                                </b:selectOneMenu>
-                            </b:column>
-                            <b:column span="4">
-                                <h:panelGroup id="parentesco_especifico">
-                                    <b:inputText label="Especifique"
-                                             placeholder="Parentesco"
-                                             size="13"
-                                             maxlength="100"
-                                             required="false"
-                                             value="#{CitaBean.parentesco_abierto}"
-                                             rendered="#{CitaBean.renderizar_parentesco_abierto}"
-                                             requiredMessage="Ingrese el parentesco">
-                                    <f:validateLength minimum="3"/>
-                                    </b:inputText>
-                                    </h:panelGroup>
+                                <b:column span="4">
+                                    <b:selectOneMenu label="Parentesco del contacto de emergencia"
+                                                     id="per_parentesco"
+                                                     value="#{CitaBean.historia.personasByPacientePerId.perParentesco}"
+                                                     required="false"
+                                                     requiredMessage="Seleccione el parentesco">
+                                        <f:selectItem itemLabel="Seleccione"
+                                                          itemValue="" noSelectionOption="true" />
+                                        <f:selectItems value="#{CitaBean.lista_parentescos}"
+                                                       var="p" itemLabel="#{p.parNombre}"
+                                                       itemValue="#{p.parId}" />
+                                        <f:ajax event="change"
+                                                render="parentesco_especifico"
+                                                listener="#{CitaBean.especificar_parentesco()}"/>
+                                    </b:selectOneMenu>
                                 </b:column>
-                        </b:row>
-                        <br/>
+                                <b:column span="4">
+                                    <h:panelGroup id="parentesco_especifico">
+                                        <b:inputText label="Especifique"
+                                                 placeholder="Parentesco"
+                                                 size="13"
+                                                 maxlength="100"
+                                                 required="false"
+                                                 value="#{CitaBean.parentesco_abierto}"
+                                                 rendered="#{CitaBean.renderizar_parentesco_abierto}"
+                                                 requiredMessage="Ingrese el parentesco">
+                                        <f:validateLength minimum="3"/>
+                                        </b:inputText>
+                                        </h:panelGroup>
+                                </b:column>
+                                <b:column span="4">
+                                    <h:panelGroup id="profesion_especifica">
+                                        <b:inputText label="Especifique"
+                                                 placeholder="Profesión"
+                                                 size="13"
+                                                 maxlength="100"
+                                                 required="false"
+                                                 value="#{CitaBean.profesion_abierta}"
+                                                 rendered="#{CitaBean.renderizar_profesion_abierta}"
+                                                 requiredMessage="Ingrese su oficio">
+                                        <f:validateLength minimum="3"/>
+                                        </b:inputText>
+                                        </h:panelGroup>
+                                </b:column>
+                            </b:row>
                         </b:panel>
                         <h3>
                             <b>Historia Clínica</b>
@@ -484,32 +480,61 @@
                         <br></br>
                         <b:panel title="Historia clínica" look="info" collapsible="false">
                             <b:row>
-                                <b:column span="12">
+                                <b:column span="5">
                                     <b:inputTextarea label="Motivo de la consulta"
                                                  placeholder="Motivo consulta"
                                                  id="motivo_consulta"
                                                  size="13"
-                                                 rows="3"
+                                                 rows="5"
                                                  maxlength="100"
                                                  value="#{CitaBean.historia.hisMotivo}"
                                                  required="true"
-                                                 requiredMessage="Motivo consulta"/>
-                                </b:column>
-                            </b:row>
-                            <b:row>
-                                <b:column span="12">
-                                    <b:inputTextarea 
-                                                value="#{CitaBean.historia.hisEnfermedad}"
+                                                 requiredMessage="Describa el motivo de consulta"/>
+                                </b:column>     
+                                <b:column span="7">
+                                    <b:inputTextarea label="Enfermedad actual"
+                                                placeholder="Describa la enfermedad"
+                                                id="nomEnfermedadActual"
+                                                size="13"
+                                                rows="5"
                                                 maxlength="3000"
-                                                rows="10"
-                                                 label="Enfermedad actual"
-                                                 placeholder="Describa la enfermedad"
-                                                 id="nomEnfermedadActual">
-                            </b:inputTextarea>
+                                                value="#{CitaBean.historia.hisEnfermedad}"
+                                                required="true"
+                                                requiredMessage="Describa la enfermedad actual"/>
                                 </b:column>
                             </b:row>
 
                         </b:panel>
+<!--                        <h3>
+                            <b>Antecedentes</b>
+                        </h3>
+                        <br></br>
+                        <b:panel title="Antecedente" look="info" collapsible="false">
+                            <b:row>
+                                <b:column span="6">
+                                    <b:inputTextarea label="Antecedentes Generales"
+                                                 placeholder="Antecedentes"
+                                                 id="antecedente_generales"
+                                                 size="13"
+                                                 rows="5"
+                                                 maxlength="200"
+                                                 value="#{CitaBean.historia.hisAntecedentes}"
+                                                 required="true"
+                                                 requiredMessage="Describa los antecedentes generales"/>
+                                </b:column>
+                                <b:column span="6">
+                                    <b:inputTextarea label="Antecedentes Gine-Obstétricos"
+                                                 placeholder="Antecedentes"
+                                                 id="antecedente_gine_obstetricos"
+                                                 size="13"
+                                                 rows="5"
+                                                 maxlength="200"
+                                                 value="#{CitaBean.historia.hisAntecedentes}"
+                                                 rendered="#{CitaBean.historia.personasByPacientePerId.perSexo eq 'M'}"/>
+                                </b:column>
+                            </b:row>
+                        </b:panel>
+                        -->
                         <h3>
                             <b>Signos del paciente</b>
                         </h3>
@@ -979,7 +1004,33 @@
                             </b:row>
                             </b:column>
                         </b:panel>
-                        <h:panelGroup id="diagnostisco" rendered="#{LoginBean.renderizarDiagnosticos()}">
+                        <!--<h:panelGroup id="diagnostisco" rendered="#{LoginBean.renderizarDiagnosticos()}">-->
+<!--                        <h3>
+                            <b>Examenes</b>
+                        </h3>
+                        <br></br>
+                        <b:panel title="Examenes Físico" look="info" collapsible="false">
+                            <b:row>
+                                <b:column span="6">
+                                    <b:inputTextarea label="Examen General"
+                                                 placeholder="Examenes generales"
+                                                 id="examenes_general"
+                                                 size="13"
+                                                 rows="5"
+                                                 maxlength="200"
+                                                 value="#{CitaBean.historia.hisAntecedentes}"/>
+                                </b:column>
+                                <b:column span="6">
+                                    <b:inputTextarea label="Examen Neurologico"
+                                                 placeholder="Examenes neurologicos"
+                                                 id="examenes_neurologicos"
+                                                 size="13"
+                                                 rows="5"
+                                                 maxlength="200"
+                                                 value="#{CitaBean.historia.hisAntecedentes}"/>
+                                </b:column>
+                            </b:row>
+                        </b:panel>-->
                         <h3>
                             <b>Diagnóstico Y Tratamiento</b>
                         </h3>
@@ -995,7 +1046,7 @@
                                                      typeahead-values="#{CitaBean.recuperarNombresDiagnosticos()}">
                                             <f:ajax event="change"
                                                     listener="#{CitaBean.recuperarDiagnosticosListener()}"
-                                                     />
+                                                    render="dia_descripcion :growl"/>
                                         </b:inputText>
 
                                     </b:column>
@@ -1013,7 +1064,7 @@
                                 </b:row>
                                 <b:row>
                                     <b:column span="6" >
-                                        <b:inputText value="#{CitaBean.nombre_diagnostico}"
+                                        <b:inputText value="#{CitaBean.nombre_tratamiento}"
                                                      label="Tratamiento"
                                                      placeholder="Escoja un tratamiento"
                                                      rendered="false"
@@ -1062,7 +1113,7 @@
                                     </b:column>
                                 </b:row>
                             </b:panel>
-                            </h:panelGroup>
+                            <!--</h:panelGroup>-->
                         <b:row contentDisabled="false">
                         <b:column span="4" offset="4">
                             <b:commandButton large-screen="full-width" id="submit"

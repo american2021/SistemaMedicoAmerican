@@ -1,5 +1,5 @@
 package datos;
-// Generated 20/10/2023 10:44:57 by Hibernate Tools 4.3.1
+// Generated 23/10/2023 16:51:36 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -22,6 +22,7 @@ public class Historias  implements java.io.Serializable {
      private Signos signos;
      private Tratamientos tratamientos;
      private String hisMotivo;
+     private String hisAntecedentes;
      private String hisEnfermedad;
      private String hisIndicaciones;
      private Date hisFechaCreacion;
@@ -33,13 +34,14 @@ public class Historias  implements java.io.Serializable {
     }
 
 	
-    public Historias(Personas personasByPacientePerId, String hisMotivo, String hisEnfermedad, Date hisFechaCreacion) {
+    public Historias(Personas personasByPacientePerId, String hisMotivo, String hisAntecedentes, String hisEnfermedad, Date hisFechaCreacion) {
         this.personasByPacientePerId = personasByPacientePerId;
         this.hisMotivo = hisMotivo;
+        this.hisAntecedentes = hisAntecedentes;
         this.hisEnfermedad = hisEnfermedad;
         this.hisFechaCreacion = hisFechaCreacion;
     }
-    public Historias(Diagnosticos diagnosticos, Enfermedades enfermedades, Personas personasByMedicoPerId, Personas personasByPacientePerId, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, Tratamientos tratamientos, String hisMotivo, String hisEnfermedad, String hisIndicaciones, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Set enfermedadeses) {
+    public Historias(Diagnosticos diagnosticos, Enfermedades enfermedades, Personas personasByMedicoPerId, Personas personasByPacientePerId, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, Tratamientos tratamientos, String hisMotivo, String hisAntecedentes, String hisEnfermedad, String hisIndicaciones, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Set enfermedadeses) {
        this.diagnosticos = diagnosticos;
        this.enfermedades = enfermedades;
        this.personasByMedicoPerId = personasByMedicoPerId;
@@ -49,6 +51,7 @@ public class Historias  implements java.io.Serializable {
        this.signos = signos;
        this.tratamientos = tratamientos;
        this.hisMotivo = hisMotivo;
+       this.hisAntecedentes = hisAntecedentes;
        this.hisEnfermedad = hisEnfermedad;
        this.hisIndicaciones = hisIndicaciones;
        this.hisFechaCreacion = hisFechaCreacion;
@@ -126,6 +129,13 @@ public class Historias  implements java.io.Serializable {
     
     public void setHisMotivo(String hisMotivo) {
         this.hisMotivo = hisMotivo;
+    }
+    public String getHisAntecedentes() {
+        return this.hisAntecedentes;
+    }
+    
+    public void setHisAntecedentes(String hisAntecedentes) {
+        this.hisAntecedentes = hisAntecedentes;
     }
     public String getHisEnfermedad() {
         return this.hisEnfermedad;
