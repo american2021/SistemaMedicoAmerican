@@ -303,6 +303,9 @@ public final class PersonaBean implements Serializable {
     }
 
     public void guardarPacienteConSignos() {
+        if(sig_imc == null){
+            calcularIMC();
+        }
         signos.setSigPresionSistolica(sig_presion_sistolica);
         signos.setSigPresionDiastolica(sig_presion_diastolica);
         signos.setSigPresionArterialMedia(sig_presion_arterial_media);
@@ -312,7 +315,6 @@ public final class PersonaBean implements Serializable {
         signos.setSigSaturacion(sig_saturacion);
         signos.setSigPeso(sig_peso);
         signos.setSigEstatura(sig_estatura);
-        signos.setSigImc(sig_imc);
         signos.setSigPerimetroAbdominal(sig_perimetro_abdominal);
         signos.setSigPerimetroBrazo(sig_perimetro_brazo);
         signos.setSigGlucosaCapilar(sig_glucosa_capilar);
