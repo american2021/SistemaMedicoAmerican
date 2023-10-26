@@ -116,7 +116,7 @@
                         <b:inputText label="Descripción del Antecedente"
                                      placeholder="Descripción del antecedente"
                                      id="ant_grupo"
-                                     maxlength="10"
+                                     maxlength="45"
                                      value="#{CitaBean.nuevo_antecedente.antGrupo}"
                                      required="true"
                                      requiredMessage="Ingrese el nuevo antecedente"/>
@@ -134,7 +134,6 @@
         </b:form>
         <b:form id="formAddPersonaAntecedente">
             <b:panel title="Ingrese la información para crear el antecedente del paciente" look="info" collapsible="false" id="panelPersonalAntecedente">
-
                 <b:row>
                     <b:column span="6" >
                         <b:inputText value="#{CitaBean.nombre_antecedente}"
@@ -151,7 +150,7 @@
                     </b:column>
                 </b:row>
                 <b:row>
-                    <b:column span="6">
+                    <b:column span="12">
                         <b:inputTextarea value="#{CitaBean.descripcion_antecedente}"
                                      label="Antecedentes Generales"
                                      placeholder="Antecedentes"
