@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 26/10/2023 15:47:27 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="datos.Antecedente" table="antecedente" catalog="smed" optimistic-lock="version">
+        <id name="antId" type="java.lang.Integer">
+            <column name="ant_id" />
+            <generator class="identity" />
+        </id>
+        <property name="antTipo" type="char">
+            <column name="ant_tipo" length="1" not-null="true" />
+        </property>
+        <property name="antGrupo" type="string">
+            <column name="ant_grupo" length="45" not-null="true" />
+        </property>
+        <property name="antFechaUlt" type="timestamp">
+            <column name="ant_fecha_ult" length="19" />
+        </property>
+        <property name="antUsuario" type="string">
+            <column name="ant_usuario" length="300" />
+        </property>
+        <set name="personaAntecedentes" table="persona_antecedente" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ant_id" not-null="true" />
+            </key>
+            <one-to-many class="datos.PersonaAntecedente" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -7,7 +7,10 @@ package dao;
 
 import conexion.HibernateUtil;
 import datos.Diagnosticos;
+import datos.Antecedente;
 import datos.Historias;
+import datos.PersonaAntecedente;
+import datos.Personas;
 import datos.RevisionSistemas;
 import datos.Tratamientos;
 import java.util.List;
@@ -99,7 +102,6 @@ public class CitaDAO {
 
             }
         });
-        //System.out.println(historias.get(0).getPersonas().getPerApellidos());
         session.getTransaction().commit();
         session.close();
         return historias;
@@ -174,7 +176,7 @@ public class CitaDAO {
             historia = (Historias) query.uniqueResult();
             historia.getSignos().getHistoriases().size();
             historia.getRevisionSistemas().getRevSisId();
-            historia.getPersonasByPacientePerId().getPerNombres();
+            historia.getPersonasByPacientePerId().getPerNombres();            
             try {
                 historia.getDiagnosticos().getDiaObservacionCie();
             } catch (Exception e) {
@@ -216,6 +218,38 @@ public class CitaDAO {
         session.close();
         return diagnosticos;
     }
+    
+    /**
+     * Método para recuperar los nombres de los antecedente
+     *
+     * @return
+     */
+    public static List<String> recuperarNombresAntecedentes() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery(
+                "SELECT concat(antGrupo, ' - ', CASE antTipo WHEN 1 THEN 'Personal' WHEN 2 THEN 'Familiar' ELSE '' END) AS Antecedente_Completo FROM Antecedente");
+        List<String> antecedente = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return antecedente;
+    }
+    
+    /**
+     * Método para recuperar los nombres de los antecedentes por su tipo
+     *
+     * @param tipo
+     * @return
+     */
+    public static List<Antecedente> recuperarNombresPorTipoAntecedentes(String tipo) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Antecedente where antTipo= '" + tipo + "'");
+        List<Antecedente> antecedente= query.list();
+        session.getTransaction().commit();
+        session.close();
+        return antecedente;
+    }
 
     /**
      * Método para recuperar los nombres de los tratamientos con su codigo cie
@@ -254,6 +288,31 @@ public class CitaDAO {
         session.close();
         return diagnostico;
     }
+    /**
+     * Método para recuperar un diagnóstico según su código
+     *
+     * @param nombre
+     * @param tipo
+     * @return
+     */
+    public static Antecedente recuperarAntecedenteNombre(String nombre, String tipo) {
+        if (tipo.equals("Personal")) {
+            tipo = tipo.replace("Personal", "1");
+          } else if (tipo.equals("Familiar")) {
+            tipo = tipo.replace("Familiar", "2");
+          }
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Antecedente where antGrupo = '" + nombre + "' AND antTipo = '" + tipo + "'");
+        Antecedente antecedente = null;
+        if (!query.list().isEmpty()) {
+            antecedente = (Antecedente) query.uniqueResult();
+        }
+        session.getTransaction().commit();
+        session.close();
+        return antecedente;
+    }
+    
     /**
      * Método para recuperar un diagnóstico según su código
      *

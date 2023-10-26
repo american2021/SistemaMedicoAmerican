@@ -38,14 +38,14 @@
         $.blockUI.defaults.overlayCSS.opacity = 0.5;
         $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
     </script>
-
+    
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
 
     <b:growl id="growl" escape="true" />
 
     <h:body>
         <b:modal id="modalConfirmacion"
-                 title="¿Está seguro de que desea elimiar a #{PersonaBean.per_nombre_completo}?"
+                 title="¿Está seguro de que desea eliminar a #{PersonaBean.per_nombre_completo}?"
                  closable="true"
                  close-on-escape="true" backdrop="true" size="modal-lg">
             <b:form id="formEliminacion" >
@@ -56,8 +56,8 @@
                                          value="Sí"
                                          update=":modalConfirmacion:formEliminacion :growl"
                                          action="#{PersonaBean.eliminarPaciente()}"
-                                         oncomplete="$('#modalConfirmacion').modal('show')"
-                                         tooltip="Elimiar" look="info">
+                                         oncomplete="$('#modalConfirmacion').modal('hide')"
+                                         tooltip="Eliminar" look="info">
                         </b:commandButton>
                         <b:commandButton span="2"
                                          ajax="true"
@@ -156,7 +156,7 @@
                             <b:column offset="5" span="2">
                                 <b:commandButton ajax="true"
                                                  value="Eliminar paciente"
-                                                 disabled="#{PersonaBean.habilitarElimiacion()}"
+                                                 
                                                  update=":modalConfirmacion:formEliminacion :growl"
                                                  oncomplete="$('#modalConfirmacion').modal('show')"
                                                  tooltip="Elimiar paciente" look="danger">

@@ -27,6 +27,7 @@ import datos.Personas;
 import datos.RevisionSistemas;
 import datos.Signos;
 import datos.Usuarios;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -301,6 +302,18 @@ public final class PersonaBean implements Serializable {
         FacesMessages.info(":growlInfo", "Colaborador creado con éxito", "This is a specific message!");
         return "/privado/home?faces-redirect=true";
     }
+    
+    public String eliminarPaciente() throws InterruptedException, IOException {
+        eliminarHistorialPersona();
+        context = FacesContext.getCurrentInstance();
+        context.getExternalContext().getFlash().setKeepMessages(true);
+        FacesMessages.info(":growlInfo", "Paciente eliminado con éxito", "This is a specific message!");
+        return "/privado/home?faces-redirect=true";
+    }
+    
+    public void eliminarHistorialPersona(){
+        PersonaDAO.eliminarPersona(persona);
+    }
 
     public void guardarPacienteConSignos() {
         if(sig_imc == null){
@@ -350,7 +363,6 @@ public final class PersonaBean implements Serializable {
         historia.setHisFechaCreacion(new Date());
         historia.setHisUsuario(session.getAttribute("usuario").toString());
         historia.setHisMotivo("Por definir");
-//        historia.setHisAntecedentes("Por definir");
         historia.setHisEnfermedad("Por definir");
         historia.setSignos(signos);
         historia.setRevisionSistemas(revision);
@@ -406,7 +418,6 @@ public final class PersonaBean implements Serializable {
         historia.setHisFechaCreacion(new Date());
         historia.setHisUsuario(session.getAttribute("usuario").toString());
         historia.setHisMotivo("Por definir");
-//        historia.setHisAntecedentes("Por definir");
         historia.setHisEnfermedad("Por definir");
         historia.setSignos(signos);
         historia.setRevisionSistemas(revision);

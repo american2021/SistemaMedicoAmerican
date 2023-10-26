@@ -50,8 +50,8 @@ Contributor(s):
     <property name="hibernate.connection.requireSSL">false</property>
     <mapping resource="datos/Medicamentos.hbm.xml"/>
     <mapping resource="datos/Parentescos.hbm.xml"/>
-    <mapping resource="datos/Historias.hbm.xml"/>
     <mapping resource="datos/Ocupaciones.hbm.xml"/>
+    <mapping resource="datos/Historias.hbm.xml"/>
     <mapping resource="datos/Signos.hbm.xml"/>
     <mapping resource="datos/Tratamientos.hbm.xml"/>
     <mapping resource="datos/RevisionSistemas.hbm.xml"/>
@@ -60,9 +60,11 @@ Contributor(s):
     <mapping resource="datos/Usuarios.hbm.xml"/>
     <mapping resource="datos/Estadocivil.hbm.xml"/>
     <mapping resource="datos/Roles.hbm.xml"/>
-    <mapping resource="datos/Antecedentes.hbm.xml"/>
     <mapping resource="datos/Ciudades.hbm.xml"/>
+    <mapping resource="datos/Antecedentes.hbm.xml"/>
     <mapping resource="datos/Diagnosticos.hbm.xml"/>
+    <mapping resource="datos/PersonaAntecedente.hbm.xml"/>
+    <mapping resource="datos/Antecedente.hbm.xml"/>
     <mapping resource="datos/Personas.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

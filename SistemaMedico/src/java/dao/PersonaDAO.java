@@ -6,7 +6,10 @@
 package dao;
 
 import conexion.HibernateUtil;
+import datos.Historias;
 import datos.Personas;
+import datos.RevisionSistemas;
+import datos.Signos;
 import datos.Usuarios;
 import java.util.List;
 import org.hibernate.Query;
@@ -27,6 +30,38 @@ public class PersonaDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         session.saveOrUpdate(persona);
+        session.getTransaction().commit();
+        session.close();
+    }
+    
+    /**
+     * Método para eliminar persona.
+     *
+     * @param persona
+     */
+    public static void eliminarPersona(Personas persona) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Historias where personasByPacientePerId = '" + persona.getPerId() + "'");
+        List<Historias> historias = query.list();
+        
+        historias.forEach((historia)->{
+            Signos signos = null;
+            Query querySignos = session.createQuery("from Signos where sigId = '" + historia.getSignos().getSigId()+ "'");
+            if (!querySignos.list().isEmpty()) {
+                signos = (Signos) querySignos.uniqueResult();
+                session.delete(signos);
+            }
+            RevisionSistemas revisionSistemas = null;
+            Query queryRevisionSistemas = session.createQuery("from RevisionSistemas where revSisId = '" + historia.getRevisionSistemas().getRevSisId()+ "'");
+            if (!queryRevisionSistemas.list().isEmpty()) {
+                revisionSistemas = (RevisionSistemas) queryRevisionSistemas.uniqueResult();
+                session.delete(revisionSistemas);
+            }
+            session.delete(historia);
+        });
+        
+        session.delete(persona);
         session.getTransaction().commit();
         session.close();
     }
