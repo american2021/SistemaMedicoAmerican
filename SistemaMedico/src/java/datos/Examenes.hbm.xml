@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 30/10/2023 8:25:51 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="datos.Examenes" table="examenes" catalog="smed" optimistic-lock="version">
+        <id name="exaId" type="java.lang.Integer">
+            <column name="exa_id" />
+            <generator class="identity" />
+        </id>
+        <property name="exaTipo" type="char">
+            <column name="exa_tipo" length="1" not-null="true" />
+        </property>
+        <property name="exaGrupo" type="string">
+            <column name="exa_grupo" length="45" not-null="true" />
+        </property>
+        <property name="exaFechaUlt" type="timestamp">
+            <column name="exa_fecha_ult" length="19" />
+        </property>
+        <property name="exaUsuario" type="string">
+            <column name="exa_usuario" length="300" />
+        </property>
+        <set name="personaExamens" table="persona_examen" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="exa_id" not-null="true" />
+            </key>
+            <one-to-many class="datos.PersonaExamen" />
+        </set>
+    </class>
+</hibernate-mapping>

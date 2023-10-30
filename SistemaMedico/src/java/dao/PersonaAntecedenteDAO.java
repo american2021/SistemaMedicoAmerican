@@ -6,7 +6,6 @@
 package dao;
 
 import conexion.HibernateUtil;
-import datos.Antecedente;
 import datos.PersonaAntecedente;
 import java.util.List;
 import org.hibernate.Query;
@@ -52,7 +51,6 @@ public class PersonaAntecedenteDAO {
         session.close();
         return personaAntecedente;
     }
-    
     
     /**
      * Método para recuperar los nombres de los diagnostico personal

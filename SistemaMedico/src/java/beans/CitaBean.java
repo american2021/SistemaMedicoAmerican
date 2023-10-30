@@ -10,10 +10,12 @@ import dao.CiudadesDAO;
 import dao.EstadoCivilDAO;
 import dao.CitaDAO;
 import dao.DiagnosticoDAO;
+import dao.ExamenesDAO;
 import dao.OcupacionDAO;
 import dao.ParentescoDAO;
 import dao.PersonaAntecedenteDAO;
 import dao.PersonaDAO;
+import dao.PersonaExamenDAO;
 import dao.RevisionSistemasDAO;
 import dao.SignosDAO;
 import dao.TratamientoDAO;
@@ -22,10 +24,12 @@ import datos.Antecedente;
 import datos.Ciudades;
 import datos.Diagnosticos;
 import datos.Estadocivil;
+import datos.Examenes;
 import datos.Historias;
 import datos.Ocupaciones;
 import datos.Parentescos;
 import datos.PersonaAntecedente;
+import datos.PersonaExamen;
 import datos.Personas;
 import datos.RevisionSistemas;
 import java.io.Serializable;
@@ -81,12 +85,17 @@ public final class CitaBean implements Serializable{
     private String nombre_enfermedad;
     private Diagnosticos diagnostico;
     private Antecedente antecedente;
+    private Examenes examenes;
     private List<Antecedente> lista_antecedentes;
     private List<PersonaAntecedente> lista_persona_antecedente;
+    private List<Examenes> lista_examenes;
+    private List<PersonaExamen> lista_persona_examen;
     private Tratamientos tratamiento;
     private Diagnosticos nuevo_diagnostico;
     private Antecedente nuevo_antecedente;
+    private Examenes nuevo_examenes;
     private PersonaAntecedente nuevo_persona_antecedente;
+    private PersonaExamen nuevo_persona_examen;
     private Tratamientos nuevo_tratamiento;
     private Signos signos;
     private int historia_actual_id;
@@ -101,9 +110,13 @@ public final class CitaBean implements Serializable{
     private String parentesco_abierto;
     private String nombre_diagnostico;
     private String nombre_antecedente;
+    private String nombre_examen;
     private String descripcion_antecedente;
     private String descripcion_antecedente_gine_obstetricos;
+    private String descripcion_examen;
     private String nombre_tratamiento;
+    private String examen_general;
+    private String examen_neurologico;
     
     private List<Ciudades> lista_ciudades;
     private List<Estadocivil> lista_estados_civiles;
@@ -134,6 +147,9 @@ public final class CitaBean implements Serializable{
         lista_persona_antecedente = new ArrayList<>();
         diagnostico = new Diagnosticos();
         antecedente = new Antecedente();
+        examenes = new Examenes();
+        lista_examenes = new ArrayList<>();
+        lista_persona_examen = new ArrayList<>();
         nombre_enfermedad = "";
         renderizar_profesion_abierta = "false";
         renderizar_parentesco_abierto = "false";
@@ -142,7 +158,7 @@ public final class CitaBean implements Serializable{
         inicializarProfesionesYParentescos();
         inicializarCiudades();
         inicializarEstadosCiviles();
-        recuperarNombresPorTipoAntecedente("1");
+//        recuperarNombresPorTipoAntecedente("1");
     }
     
     /**
@@ -202,6 +218,14 @@ public final class CitaBean implements Serializable{
     }
     
     /**
+     * Método para recuperar los antecedente registrados en la base
+     * @return 
+     */
+    public List<String> recuperarNombresExamen() {
+        return ExamenesDAO.recuperarNombresExamenes();
+    }
+    
+    /**
      * Método para recuperar los antecedente registrados en la base por el tipo
      * @param tipo
      * @return 
@@ -218,6 +242,25 @@ public final class CitaBean implements Serializable{
     public List<PersonaAntecedente> recuperarPersonaAntecedente() {
         lista_persona_antecedente = PersonaAntecedenteDAO.recuperarPersonaAntecedente(historia.getPersonasByPacientePerId().getPerId().toString());
         return lista_persona_antecedente;
+    }
+    
+    /**
+     * Método para recuperar los examenes registrados en la base por el tipo
+     * @param tipo
+     * @return 
+     */
+    public List<Examenes> recuperarNombresPorTipoExamenes(String tipo) {
+        lista_examenes = ExamenesDAO.recuperarNombresPorTipoExamenes(tipo);
+        return lista_examenes;
+    }
+    
+    /**
+     * Método para recuperar los examenes registrados en la base de una persona
+     * @return 
+     */
+    public List<PersonaExamen> recuperarPersonaExamenes() {
+        lista_persona_examen= PersonaExamenDAO.recuperarPersonaExamenes(historia.getPersonasByPacientePerId().getPerId().toString());
+        return lista_persona_examen;
     }
     
     /**
@@ -251,7 +294,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método que realiza una acción cuando un diagnóstico es seleccionado
+     * Método que realiza una acción cuando un antecedente es seleccionado
      */
     public void recuperarAntecedentesListener(){
         String antecedenteArray[] = getNombre_antecedente().split(" - ");
@@ -259,6 +302,18 @@ public final class CitaBean implements Serializable{
         if (antecedente == null) {
             FacesMessages.info(":growlInfo", "No se ha encontrado el antecedente", "This is a specific message!");
             nombre_antecedente = "";
+        }
+    }
+    
+    /**
+     * Método que realiza una acción cuando un examen es seleccionado
+     */
+    public void recuperarExamenListener(){
+        String examenArray[] = getNombre_examen().split(" - ");
+        examenes = ExamenesDAO.recuperarExamenNombre(examenArray[0], examenArray[1]);
+        if (examenes == null) {
+            FacesMessages.info(":growlInfo", "No se ha encontrado el examen", "This is a specific message!");
+            nombre_examen = "";
         }
     }
     
@@ -373,13 +428,11 @@ public final class CitaBean implements Serializable{
             AntecedenteDAO.crearActualizarAntecedente(nuevo_antecedente);
             recuperarNombresAntecedente();
             nuevo_antecedente.setAntGrupo("");
+            nuevo_antecedente.setAntTipo(' ');
             FacesMessages.info(":growlInfo", "Antecedente Creado", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Erroral crear antecedente creado"+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al crear antecedente creado"+e, "This is a specific message!");
         }
-        
-        
-        
     }
     
     /**
@@ -401,13 +454,56 @@ public final class CitaBean implements Serializable{
             setNombre_antecedente("");
             setDescripcion_antecedente_gine_obstetricos("");
             recuperarPersonaAntecedente();
-            
             FacesMessages.info(":growlInfo", "Antecedente Personal Creado", "This is a specific message!");
         } catch (Exception e) {
             FacesMessages.info(":growlInfo", "Error al crear el antecedente personal"+e, "This is a specific message!");
-
         }
-        
+    }
+    
+    /**
+     * Método para crear un nuevo examen
+     */
+    public void crearExamen(){
+        nuevo_examenes.setExaFechaUlt(new Date());
+        nuevo_examenes.setExaUsuario(session.getAttribute("usuario").toString());
+        try {
+            ExamenesDAO.crearActualizarExamanes(nuevo_examenes);
+            recuperarNombresExamen();
+            nuevo_examenes.setExaGrupo("");
+            nuevo_examenes.setExaTipo(' ');
+            FacesMessages.info(":growlInfo", "Examen Creado", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.info(":growlInfo", "Error al crear antecedente creado"+e, "This is a specific message!");
+        }
+    }
+    
+    /**
+     * Método para crear un nuevo persona Examen
+     */
+    public void crearPersonaExamen(){
+        Usuarios u = UsuarioDAO.obtenerUsuario(session.getAttribute("usuario").toString());
+        Personas p = PersonaDAO.recuperarPersonaID(u.getPersonas().getPerId());
+        System.out.println("nuevo_persona_examen: "+historia.getPersonasByPacientePerId().toString());
+        System.out.println("nuevo_persona_examen: "+p.getPerApellidos());
+        System.out.println("nuevo_persona_examen: "+examenes.getExaId());
+        System.out.println("nuevo_persona_examen: "+getDescripcion_examen());
+        System.out.println("nuevo_persona_examen: "+new Date());
+        System.out.println("nuevo_persona_examen: "+session.getAttribute("usuario").toString());
+        nuevo_persona_examen.setPersonasByPerId(historia.getPersonasByPacientePerId());
+        nuevo_persona_examen.setPersonasByMedPerId(p);
+        nuevo_persona_examen.setExamenes(examenes);
+        nuevo_persona_examen.setPerExaDescripcion(getDescripcion_examen());
+        nuevo_persona_examen.setPerExaFechaUlt(new Date());
+        nuevo_persona_examen.setPerExaUsuario(session.getAttribute("usuario").toString());
+        try {
+            PersonaExamenDAO.crearActualizarPersonaExamen(nuevo_persona_examen);
+            setDescripcion_examen("");
+            setNombre_examen("");
+            recuperarPersonaExamenes();
+            FacesMessages.info(":growlInfo", "Examen Personal Creado", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.info(":growlInfo", "Error al crear el examen personal "+e, "This is a specific message!");
+        }
     }
     
     /**
@@ -470,11 +566,14 @@ public final class CitaBean implements Serializable{
         
         nuevo_diagnostico = new Diagnosticos();
         nuevo_antecedente = new Antecedente();
+        nuevo_examenes = new Examenes();
         nuevo_persona_antecedente = new PersonaAntecedente();
+        nuevo_persona_examen = new PersonaExamen();
         nuevo_tratamiento = new Tratamientos();
         this.historia_actual_id = hisId;
         historia = CitaDAO.recuperarHistoriaID(hisId);
         recuperarPersonaAntecedente();
+        recuperarPersonaExamenes();
         signos = SignosDAO.recuperarSignosId(historia.getSignos().getSigId());
         revision = RevisionSistemasDAO.recuperarRevision(historia.getRevisionSistemas().getRevSisId());
         if(historia.getDiagnosticos() != null){
@@ -876,6 +975,14 @@ public final class CitaBean implements Serializable{
         this.nombre_antecedente = nombre_antecedente;
     }
 
+    public String getNombre_examen() {
+        return nombre_examen;
+    }
+
+    public void setNombre_examen(String nombre_examen) {
+        this.nombre_examen = nombre_examen;
+    }
+
     public String getDescripcion_antecedente() {
         return descripcion_antecedente;
     }
@@ -891,7 +998,15 @@ public final class CitaBean implements Serializable{
     public void setDescripcion_antecedente_gine_obstetricos(String descripcion_antecedente_gine_obstetricos) {
         this.descripcion_antecedente_gine_obstetricos = descripcion_antecedente_gine_obstetricos;
     }
-    
+
+    public String getDescripcion_examen() {
+        return descripcion_examen;
+    }
+
+    public void setDescripcion_examen(String descripcion_examen) {
+        this.descripcion_examen = descripcion_examen;
+    }
+        
     public Diagnosticos getNuevo_diagnostico() {
         return nuevo_diagnostico;
     }
@@ -908,12 +1023,28 @@ public final class CitaBean implements Serializable{
         this.nuevo_antecedente = nuevo_antecedente;
     }
 
+    public Examenes getNuevo_examenes() {
+        return nuevo_examenes;
+    }
+
+    public void setNuevo_examenes(Examenes nuevo_examenes) {
+        this.nuevo_examenes = nuevo_examenes;
+    }
+
     public PersonaAntecedente getNuevo_persona_antecedente() {
         return nuevo_persona_antecedente;
     }
 
     public void setNuevo_persona_antecedente(PersonaAntecedente nuevo_persona_antecedente) {
         this.nuevo_persona_antecedente = nuevo_persona_antecedente;
+    }
+
+    public PersonaExamen getNuevo_persona_examen() {
+        return nuevo_persona_examen;
+    }
+
+    public void setNuevo_persona_examen(PersonaExamen nuevo_persona_examen) {
+        this.nuevo_persona_examen = nuevo_persona_examen;
     }
     
     public List<Antecedente> getLista_antecedentes() {
@@ -923,7 +1054,15 @@ public final class CitaBean implements Serializable{
     public List<PersonaAntecedente> getLista_persona_antecedente() {
         return lista_persona_antecedente;
     }
-    
+
+    public List<Examenes> getLista_examenes() {
+        return lista_examenes;
+    }
+
+    public List<PersonaExamen> getLista_persona_examen() {
+        return lista_persona_examen;
+    }
+ 
     public Tratamientos getNuevo_tratamiento() {
         return nuevo_tratamiento;
     }
@@ -939,9 +1078,21 @@ public final class CitaBean implements Serializable{
     public void setNombre_tratamiento(String nombre_tratamiento) {
         this.nombre_tratamiento = nombre_tratamiento;
     }
-    
-    
-    
-    
-    
+
+    public String getExamen_general() {
+        return examen_general;
+    }
+
+    public void setExamen_general(String examen_general) {
+        this.examen_general = examen_general;
+    }
+
+    public String getExamen_neurologico() {
+        return examen_neurologico;
+    }
+
+    public void setExamen_neurologico(String examen_neurologico) {
+        this.examen_neurologico = examen_neurologico;
+    }
+
 }

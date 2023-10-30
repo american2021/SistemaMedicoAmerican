@@ -288,6 +288,7 @@ public class CitaDAO {
         session.close();
         return diagnostico;
     }
+    
     /**
      * Método para recuperar un diagnóstico según su código
      *
