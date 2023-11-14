@@ -1,5 +1,5 @@
 package datos;
-// Generated 30/10/2023 8:25:50 by Hibernate Tools 4.3.1
+// Generated 14/11/2023 9:49:10 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -15,27 +15,21 @@ public class Diagnosticos  implements java.io.Serializable {
      private Integer diaId;
      private String diaCodigoCie;
      private String diaDescripcionCie;
-     private String diaObservacionCie;
      private String diaEdicionCie;
      private Date diaFechaUlt;
      private String diaUsuario;
-     private Set historiases = new HashSet(0);
+     private Set historiaDiagnosticos = new HashSet(0);
 
     public Diagnosticos() {
     }
 
-	
-    public Diagnosticos(String diaObservacionCie) {
-        this.diaObservacionCie = diaObservacionCie;
-    }
-    public Diagnosticos(String diaCodigoCie, String diaDescripcionCie, String diaObservacionCie, String diaEdicionCie, Date diaFechaUlt, String diaUsuario, Set historiases) {
+    public Diagnosticos(String diaCodigoCie, String diaDescripcionCie, String diaEdicionCie, Date diaFechaUlt, String diaUsuario, Set historiaDiagnosticos) {
        this.diaCodigoCie = diaCodigoCie;
        this.diaDescripcionCie = diaDescripcionCie;
-       this.diaObservacionCie = diaObservacionCie;
        this.diaEdicionCie = diaEdicionCie;
        this.diaFechaUlt = diaFechaUlt;
        this.diaUsuario = diaUsuario;
-       this.historiases = historiases;
+       this.historiaDiagnosticos = historiaDiagnosticos;
     }
    
     public Integer getDiaId() {
@@ -59,13 +53,6 @@ public class Diagnosticos  implements java.io.Serializable {
     public void setDiaDescripcionCie(String diaDescripcionCie) {
         this.diaDescripcionCie = diaDescripcionCie;
     }
-    public String getDiaObservacionCie() {
-        return this.diaObservacionCie;
-    }
-    
-    public void setDiaObservacionCie(String diaObservacionCie) {
-        this.diaObservacionCie = diaObservacionCie;
-    }
     public String getDiaEdicionCie() {
         return this.diaEdicionCie;
     }
@@ -87,12 +74,12 @@ public class Diagnosticos  implements java.io.Serializable {
     public void setDiaUsuario(String diaUsuario) {
         this.diaUsuario = diaUsuario;
     }
-    public Set getHistoriases() {
-        return this.historiases;
+    public Set getHistoriaDiagnosticos() {
+        return this.historiaDiagnosticos;
     }
     
-    public void setHistoriases(Set historiases) {
-        this.historiases = historiases;
+    public void setHistoriaDiagnosticos(Set historiaDiagnosticos) {
+        this.historiaDiagnosticos = historiaDiagnosticos;
     }
 
 

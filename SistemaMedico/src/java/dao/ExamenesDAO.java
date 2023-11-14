@@ -61,7 +61,7 @@ public class ExamenesDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
-                "SELECT concat(exaGrupo, ' - ', CASE exaTipo WHEN 1 THEN 'Personal' WHEN 2 THEN 'Familiar' ELSE '' END) AS Examen_Completo FROM Examenes");
+                "SELECT concat(exaGrupo, ' - ', CASE exaTipo WHEN 1 THEN 'Laboratorio' WHEN 2 THEN 'Imagenologia' ELSE 'Histopatología' END) AS Examen_Completo FROM Examenes");
         List<String> examen = query.list();
         session.getTransaction().commit();
         session.close();
@@ -92,10 +92,12 @@ public class ExamenesDAO {
      * @return
      */
     public static Examenes recuperarExamenNombre(String nombre, String tipo) {
-        if (tipo.equals("Personal")) {
-            tipo = tipo.replace("Personal", "1");
-          } else if (tipo.equals("Familiar")) {
-            tipo = tipo.replace("Familiar", "2");
+        if (tipo.equals("Laboratorio")) {
+            tipo = tipo.replace("Laboratorio", "1");
+          } else if (tipo.equals("Imagenologia")) {
+              tipo = tipo.replace("Imagenologia", "2");
+          } else {
+              tipo = tipo.replace("Histopatología", "3");
           }
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();

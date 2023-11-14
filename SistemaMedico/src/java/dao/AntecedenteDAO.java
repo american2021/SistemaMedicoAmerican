@@ -7,6 +7,7 @@ package dao;
 
 import conexion.HibernateUtil;
 import datos.Antecedente;
+import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -46,6 +47,21 @@ public class AntecedenteDAO {
             antecedente = (Antecedente) query.uniqueResult();
 
         }
+        session.getTransaction().commit();
+        session.close();
+        return antecedente;
+    }
+    
+    /**
+     * Método para recuperar la categoria de los antecedentes
+     *
+     * @return
+     */
+    public static List<String> recuperarCategoriaAntecedentes() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT DISTINCT antCategoria FROM Antecedente ORDER BY antCategoria");
+        List<String> antecedente = query.list();
         session.getTransaction().commit();
         session.close();
         return antecedente;

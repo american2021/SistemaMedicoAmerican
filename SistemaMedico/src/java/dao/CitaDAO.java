@@ -9,10 +9,10 @@ import conexion.HibernateUtil;
 import datos.Diagnosticos;
 import datos.Antecedente;
 import datos.Historias;
-import datos.PersonaAntecedente;
-import datos.Personas;
-import datos.RevisionSistemas;
 import datos.Tratamientos;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -34,7 +34,6 @@ public class CitaDAO {
         session.saveOrUpdate(historia.getPersonasByPacientePerId());
         session.saveOrUpdate(historia.getRevisionSistemas());
         session.saveOrUpdate(historia.getSignos());
-        session.saveOrUpdate(historia.getDiagnosticos());
         session.saveOrUpdate(historia);
         session.getTransaction().commit();
         session.close();
@@ -61,13 +60,12 @@ public class CitaDAO {
     public static List<Historias> recuperarHistorias() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Historias order by his_id asc");
+        Query query = session.createQuery("from Historias order by his_id desc");
         List<Historias> historias = query.list();
         historias.forEach((historia) -> {
             //Necesario para cargar los datos de la persona en modo eager
             historia.getPersonasByPacientePerId().getPerNombres();
             // Actuaizar Edad
-            //historia.getEnfermedades().getEnfNombre();
             historia.getSignos().getSigEstatura();
             try {
                 historia.getPersonasByMedicoPerId().getPerNombres();
@@ -116,7 +114,7 @@ public class CitaDAO {
     public static List<Historias> recuperarHistoriasDia(String dia) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Historias where his_fecha_creacion like '%" + dia + "%' order by his_id asc");
+        Query query = session.createQuery("from Historias where his_fecha_creacion like '%" + dia + "%' order by his_fecha_ult desc");
         List<Historias> historias = query.list();
         historias.forEach((historia) -> {
             //Necesario para cargar los datos de la persona en modo eager
@@ -176,12 +174,7 @@ public class CitaDAO {
             historia = (Historias) query.uniqueResult();
             historia.getSignos().getHistoriases().size();
             historia.getRevisionSistemas().getRevSisId();
-            historia.getPersonasByPacientePerId().getPerNombres();            
-            try {
-                historia.getDiagnosticos().getDiaObservacionCie();
-            } catch (Exception e) {
-
-            }
+            historia.getPersonasByPacientePerId().getPerNombres(); 
         }
         session.close();
         return historia;
@@ -228,7 +221,7 @@ public class CitaDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
-                "SELECT concat(antGrupo, ' - ', CASE antTipo WHEN 1 THEN 'Personal' WHEN 2 THEN 'Familiar' ELSE '' END) AS Antecedente_Completo FROM Antecedente");
+                "SELECT concat(CASE antTipo WHEN 1 THEN 'Personal' WHEN 2 THEN 'Familiar' WHEN 3 THEN 'Andrológico' WHEN 4 THEN 'Vacunación' ELSE '' END, ' - ', antCategoria, ' - ',antGrupo ) AS Antecedente_Completo FROM Antecedente");
         List<String> antecedente = query.list();
         session.getTransaction().commit();
         session.close();
@@ -292,19 +285,24 @@ public class CitaDAO {
     /**
      * Método para recuperar un diagnóstico según su código
      *
-     * @param nombre
+     * @param grupo
+     * @param categoria
      * @param tipo
      * @return
      */
-    public static Antecedente recuperarAntecedenteNombre(String nombre, String tipo) {
+    public static Antecedente recuperarAntecedenteNombre(String tipo, String categoria, String grupo) {
         if (tipo.equals("Personal")) {
             tipo = tipo.replace("Personal", "1");
-          } else if (tipo.equals("Familiar")) {
-            tipo = tipo.replace("Familiar", "2");
-          }
+        } else if (tipo.equals("Familiar")) {
+          tipo = tipo.replace("Familiar", "2");
+        } else if (tipo.equals("Andrológico")) {
+          tipo = tipo.replace("Andrológico", "3");
+        } else if (tipo.equals("Vacunación")){
+          tipo = tipo.replace("Vacunación", "4");
+        }
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Antecedente where antGrupo = '" + nombre + "' AND antTipo = '" + tipo + "'");
+        Query query = session.createQuery("from Antecedente where antGrupo = '" + grupo + "' AND antTipo = '" + tipo + "'"+ " AND antCategoria = '" + categoria + "'");
         Antecedente antecedente = null;
         if (!query.list().isEmpty()) {
             antecedente = (Antecedente) query.uniqueResult();
@@ -334,5 +332,29 @@ public class CitaDAO {
         session.getTransaction().commit();
         session.close();
         return tratamiento;
+    }
+    
+    
+    /**
+     * Método para verificarHistorias
+     *
+     * @return
+     */
+    public static void verificarHistoria() {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        // Calcula la fecha actual menos una hora
+        LocalDateTime localDateTime = LocalDateTime.now();
+        LocalDateTime unaHoraMenos = localDateTime.minusHours(1);
+
+        // Convierte LocalDateTime a Date
+        Date horaHaceUnaHora = Date.from(unaHoraMenos.atZone(ZoneId.systemDefault()).toInstant());
+        
+        Query query = session.createQuery("DELETE FROM Historias WHERE hisCompletado = 0 AND hisFechaUlt < :horaLimite");
+        query.setParameter("horaLimite", horaHaceUnaHora);
+        query.executeUpdate();
+        session.getTransaction().commit();
+        session.close();
     }
 }

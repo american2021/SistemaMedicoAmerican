@@ -78,9 +78,9 @@
                                      page-length="25" multi-column-search="true"
                                      multi-column-search-position="top" >
                             <b:dataTableColumn label="Código"
-                                               value="#{paciente.perId}" style="width: 10%" />
+                                               value="#{paciente.perId}" style="width: 5%" />
                             <b:dataTableColumn label="Cédula"
-                                               value="#{paciente.perCedula}" style="width: 10%" />
+                                               value="#{paciente.perCedula}" style="width: 8%" />
                             <b:dataTableColumn label="Nombres"
                                                value="#{paciente.perNombres}"
                                                style="width: 15%"/>
@@ -88,7 +88,7 @@
                                                value="#{paciente.perApellidos}"
                                                style="width: 15%"/>
                             <b:dataTableColumn label="Sexo"
-                                               value="#{paciente.perSexo}"
+                                               value="#{PersonaBean.recuperarSexoPorTipo(paciente.perSexo)}"
                                                style="width: 5%" order="asc"/>
                             <b:dataTableColumn label="Edad"
                                                value="#{paciente.perEdad}"

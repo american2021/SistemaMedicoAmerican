@@ -18,7 +18,7 @@ import org.hibernate.Session;
 public class PersonaExamenDAO {
     
     /**
-     * Método para crear o actualizar una toma de personaExamen.
+     * Método para crear personaExamen.
      *
      * @param personaExamen
      */
@@ -67,6 +67,26 @@ public class PersonaExamenDAO {
             personaExame.setExamenes(ExamenesDAO.recuperarExamenesId(personaExame.getExamenes().getExaId()));
             personaExame.setPersonasByMedPerId(PersonaDAO.recuperarPersonaID(personaExame.getPersonasByMedPerId().getPerId()));
         });
+        session.getTransaction().commit();
+        session.close();
+        return personaExamen;
+    }
+    
+    /**
+     * Método para recuperar personaExamen según su id.
+     *
+     * @param personaId
+     * @return
+     */
+    public static PersonaExamen recuperarPersonaExamenGeneralNeurologico(String personaId, String hist) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from PersonaExamen where personasByPerId = " + personaId);
+        PersonaExamen personaExamen = null;
+        if (!query.list().isEmpty()) {
+            personaExamen = (PersonaExamen) query.uniqueResult();
+        }
         session.getTransaction().commit();
         session.close();
         return personaExamen;

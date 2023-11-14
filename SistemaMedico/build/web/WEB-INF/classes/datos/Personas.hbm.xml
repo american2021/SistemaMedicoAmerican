@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 30/10/2023 8:25:51 by Hibernate Tools 4.3.1 -->
+<!-- Generated 14/11/2023 9:49:11 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Personas" table="personas" catalog="smed" optimistic-lock="version">
         <id name="perId" type="java.lang.Integer">
@@ -88,12 +88,6 @@
                 <column name="med_per_id" not-null="true" />
             </key>
             <one-to-many class="datos.PersonaAntecedente" />
-        </set>
-        <set name="antecedenteses" table="antecedentes" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="personas_per_id" not-null="true" />
-            </key>
-            <one-to-many class="datos.Antecedentes" />
         </set>
         <set name="personaExamensForPerId" table="persona_examen" inverse="true" lazy="true" fetch="select">
             <key>

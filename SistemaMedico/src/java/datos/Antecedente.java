@@ -1,5 +1,5 @@
 package datos;
-// Generated 30/10/2023 8:25:50 by Hibernate Tools 4.3.1
+// Generated 14/11/2023 9:49:10 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,6 +14,7 @@ public class Antecedente  implements java.io.Serializable {
 
      private Integer antId;
      private char antTipo;
+     private String antCategoria;
      private String antGrupo;
      private Date antFechaUlt;
      private String antUsuario;
@@ -23,12 +24,14 @@ public class Antecedente  implements java.io.Serializable {
     }
 
 	
-    public Antecedente(char antTipo, String antGrupo) {
+    public Antecedente(char antTipo, String antCategoria, String antGrupo) {
         this.antTipo = antTipo;
+        this.antCategoria = antCategoria;
         this.antGrupo = antGrupo;
     }
-    public Antecedente(char antTipo, String antGrupo, Date antFechaUlt, String antUsuario, Set personaAntecedentes) {
+    public Antecedente(char antTipo, String antCategoria, String antGrupo, Date antFechaUlt, String antUsuario, Set personaAntecedentes) {
        this.antTipo = antTipo;
+       this.antCategoria = antCategoria;
        this.antGrupo = antGrupo;
        this.antFechaUlt = antFechaUlt;
        this.antUsuario = antUsuario;
@@ -48,6 +51,13 @@ public class Antecedente  implements java.io.Serializable {
     
     public void setAntTipo(char antTipo) {
         this.antTipo = antTipo;
+    }
+    public String getAntCategoria() {
+        return this.antCategoria;
+    }
+    
+    public void setAntCategoria(String antCategoria) {
+        this.antCategoria = antCategoria;
     }
     public String getAntGrupo() {
         return this.antGrupo;

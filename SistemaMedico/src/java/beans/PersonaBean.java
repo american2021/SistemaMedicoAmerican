@@ -28,8 +28,6 @@ import datos.RevisionSistemas;
 import datos.Signos;
 import datos.Usuarios;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import javax.faces.context.FacesContext;
@@ -37,10 +35,8 @@ import net.bootsfaces.utils.FacesMessages;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import java.time.Period;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
@@ -82,21 +78,7 @@ public final class PersonaBean implements Serializable {
     private RevisionSistemas revision;
 
     //Atributos de la tabla signos vitales
-    private Integer sig_presion_sistolica;
-    private Integer sig_presion_diastolica;
-    private Integer sig_frecuencia_respiratoria;
-    private Integer sig_frecuencia_cardiaca;
-    private Integer sig_presion_arterial_media;
-    private Integer sig_saturacion;
-    private Float sig_temperatura;
-    private Float sig_peso;
-    private Float sig_estatura;
-    private Integer sig_imc;
-    private Float sig_perimetro_abdominal;
-    private Float sig_perimetro_brazo;
-    private Float sig_glucosa_capilar;
-    private Float sig_valor_hemoglobina;
-    private Float sig_valor_hemoglobina_corr;
+    private Signos nuevo_signos;
     private Date sig_fecha_ult;
     private String sig_usuario;
     private List<Ocupaciones> lista_ocupaciones;
@@ -160,38 +142,23 @@ public final class PersonaBean implements Serializable {
     public void inicializarSignos() {
         // Inicialización datos signos
         signos = new Signos();
-        sig_presion_sistolica = null;
-        sig_presion_diastolica = null;
-        sig_frecuencia_respiratoria = null;
-        sig_frecuencia_cardiaca = null;
-        sig_presion_arterial_media = null;
-        sig_saturacion = null;
-        sig_temperatura = null;
-        sig_peso = null;
-        sig_estatura = null;
-        sig_imc = null;
-        sig_perimetro_abdominal = null;
-        sig_perimetro_brazo = null;
-        sig_glucosa_capilar = null;
-        sig_valor_hemoglobina = null;
-        sig_valor_hemoglobina_corr = null;
+        nuevo_signos = new Signos();
         sig_usuario = "";
     }
 
     public void calcularPresionArterialMedia() {
-        if (sig_presion_diastolica != null && sig_presion_sistolica != null) {
-            sig_presion_arterial_media = (sig_presion_sistolica
-                    + (2 * sig_presion_diastolica)) / 3;
+        if (nuevo_signos.getSigPresionDiastolica() != 0 && nuevo_signos.getSigPresionSistolica() != 0) {
+            nuevo_signos.setSigPresionArterialMedia(nuevo_signos.getSigPresionSistolica() + (2 * nuevo_signos.getSigPresionDiastolica()) / 3); 
         }
     }
 
     public void calcularHemoglobinaCorregido() {
-        sig_valor_hemoglobina_corr = sig_valor_hemoglobina - 1.3f;
+        nuevo_signos.setSigValorHemoglobinaCorr(nuevo_signos.getSigValorHemoglobina() - 1.3f);
     }
 
     public void calcularIMC() {
-        if (sig_peso != null && sig_estatura != null) {
-            sig_imc = Math.round(sig_peso / (float) (Math.pow(sig_estatura/100, 2)));
+        if (nuevo_signos.getSigPeso() != null && nuevo_signos.getSigEstatura() != null) {
+            nuevo_signos.setSigImc(Math.round(nuevo_signos.getSigPeso() / (float) (Math.pow(nuevo_signos.getSigEstatura()/100, 2))));
         }
     }
 
@@ -268,6 +235,16 @@ public final class PersonaBean implements Serializable {
         }
         return "F";
     }
+    
+    public String recuperarSexoPorTipo(String tipo){
+        String sexo = "";
+        if (tipo.equals("H")){
+            sexo = "Hombre";
+        } else if(tipo.equals("M")){
+            sexo = "Mujer";
+        }
+        return sexo;
+    }
 
     public String recuperarEstadoCivilPorCodigo(String codigo) {
         return EstadoCivilDAO.recuperarEstadoCivilPorCodigo(codigo);
@@ -316,59 +293,20 @@ public final class PersonaBean implements Serializable {
     }
 
     public void guardarPacienteConSignos() {
-        if(sig_imc == null){
-            calcularIMC();
-        }
-        signos.setSigPresionSistolica(sig_presion_sistolica);
-        signos.setSigPresionDiastolica(sig_presion_diastolica);
-        signos.setSigPresionArterialMedia(sig_presion_arterial_media);
-        signos.setSigTemperatura(sig_temperatura);
-        signos.setSigFrecuenciaRespiratoria(sig_frecuencia_respiratoria);
-        signos.setSigFrecuenciaCardiaca(sig_frecuencia_cardiaca);
-        signos.setSigSaturacion(sig_saturacion);
-        signos.setSigPeso(sig_peso);
-        signos.setSigEstatura(sig_estatura);
-        signos.setSigPerimetroAbdominal(sig_perimetro_abdominal);
-        signos.setSigPerimetroBrazo(sig_perimetro_brazo);
-        signos.setSigGlucosaCapilar(sig_glucosa_capilar);
-        signos.setSigValorHemoglobina(sig_valor_hemoglobina);
-        signos.setSigValorHemoglobinaCorr(sig_valor_hemoglobina_corr);
-        signos.setSigFechaUlt(new Date());
-        signos.setSigUsuario(session.getAttribute("usuario").toString());
+        nuevo_signos.setSigFechaUlt(new Date());
+        nuevo_signos.setSigUsuario(session.getAttribute("usuario").toString());
+        signos = nuevo_signos;
         SignosDAO.crearActualizarSignos(signos);
 
         //Definiendo los items de la revision
-        revision.setRevSisPatologia("false");
-        revision.setRevSisSentidos("");
-        revision.setRevSisRespiratorio("");
-        revision.setRevSisCardiovascular("");
-        revision.setRevSisDigestivo("");
-        revision.setRevSisGenital("");
-        revision.setRevSisUrinario("");
-        revision.setRevSisEsqueletico("");
-        revision.setRevSisMuscular("");
-        revision.setRevSisNervioso("");
-        revision.setRevSisEndocrino("");
-        revision.setRevSisHemolinfatico("");
-        revision.setRevSisTegumentario("");
-        revision.setRevSisFisicoPatologia("false");
-        revision.setRevSisFisicoObservacion("N/A");
-        revision.setRevSisFechaUlt(new Date());
-        revision.setRevSisUsuario("defecto");
+        revisionDefault();
         RevisionSistemasDAO.crearActualizarRevision(revision);
 
         //Proceso para guardar historia
-        historia.setPersonasByPacientePerId(persona);
-        historia.setHisFechaUlt(new Date());
-        historia.setHisFechaCreacion(new Date());
-        historia.setHisUsuario(session.getAttribute("usuario").toString());
-        historia.setHisMotivo("Por definir");
-        historia.setHisEnfermedad("Por definir");
-        historia.setSignos(signos);
-        historia.setRevisionSistemas(revision);
-
         PersonaDAO.crearActualizarPersona(persona);
-        historia.setPersonasByPacientePerId(persona);
+        //Definiendo los items de la historia
+        historiaDefaut();
+        
         //Llamada a beans para guardar datos
         CitaDAO.crearActualizarHistoria(historia);
     }
@@ -394,6 +332,17 @@ public final class PersonaBean implements Serializable {
         SignosDAO.crearActualizarSignos(signos);
 
         //Definiendo los items de la revision
+        revisionDefault();
+        RevisionSistemasDAO.crearActualizarRevision(revision);
+
+        //Proceso para guardar historia
+        historiaDefaut();
+
+        //Llamada a beans para guardar datos        
+        CitaDAO.crearActualizarHistoria(historia);
+    }
+    
+    public void revisionDefault(){
         revision.setRevSisPatologia("false");
         revision.setRevSisSentidos("");
         revision.setRevSisRespiratorio("");
@@ -411,9 +360,9 @@ public final class PersonaBean implements Serializable {
         revision.setRevSisFisicoObservacion("N/A");
         revision.setRevSisFechaUlt(new Date());
         revision.setRevSisUsuario("defecto");
-        RevisionSistemasDAO.crearActualizarRevision(revision);
-
-        //Proceso para guardar historia
+    }
+    
+    private void historiaDefaut(){
         historia.setHisFechaUlt(new Date());
         historia.setHisFechaCreacion(new Date());
         historia.setHisUsuario(session.getAttribute("usuario").toString());
@@ -422,9 +371,8 @@ public final class PersonaBean implements Serializable {
         historia.setSignos(signos);
         historia.setRevisionSistemas(revision);
         historia.setPersonasByPacientePerId(persona);
-
-        //Llamada a beans para guardar datos        
-        CitaDAO.crearActualizarHistoria(historia);
+        historia.setHisCompletado(Byte.valueOf("0"));
+        historia.setPersonasByMedicoPerId(PersonaDAO.recuperarPersonaUsuario(session.getAttribute("usuario").toString()));
     }
 
     public String redireccionarPacienteGuardado() throws InterruptedException {
@@ -686,7 +634,7 @@ public final class PersonaBean implements Serializable {
 
     public void recuperarPacientesListener() {
         String nombres[] = getPer_nombre_completo().split(" - ");
-        if (nombres.length == 2) {
+        if (nombres.length == 3) {
             persona = PersonaDAO.recuperarPersonaNombre(nombres[0], nombres[1]);
             calcularEdad();
 
@@ -739,118 +687,6 @@ public final class PersonaBean implements Serializable {
     public String getFechaActual(){
         //return new SimpleDateFormat("dd/MM/yyyy").format(new Date());
         return "09/08/2023";
-    }
-
-    public Integer getSig_presion_sistolica() {
-        return sig_presion_sistolica;
-    }
-
-    public void setSig_presion_sistolica(Integer sig_presion_sistolica) {
-        this.sig_presion_sistolica = sig_presion_sistolica;
-    }
-
-    public Integer getSig_presion_diastolica() {
-        return sig_presion_diastolica;
-    }
-
-    public void setSig_presion_diastolica(Integer sig_presion_diastolica) {
-        this.sig_presion_diastolica = sig_presion_diastolica;
-    }
-
-    public Integer getSig_frecuencia_respiratoria() {
-        return sig_frecuencia_respiratoria;
-    }
-
-    public void setSig_frecuencia_respiratoria(Integer sig_frecuencia_respiratoria) {
-        this.sig_frecuencia_respiratoria = sig_frecuencia_respiratoria;
-    }
-
-    public Integer getSig_frecuencia_cardiaca() {
-        return sig_frecuencia_cardiaca;
-    }
-
-    public void setSig_frecuencia_cardiaca(Integer sig_frecuencia_cardiaca) {
-        this.sig_frecuencia_cardiaca = sig_frecuencia_cardiaca;
-    }
-
-    public Integer getSig_presion_arterial_media() {
-        return sig_presion_arterial_media;
-    }
-
-    public void setSig_presion_arterial_media(Integer sig_presion_arterial_media) {
-        this.sig_presion_arterial_media = sig_presion_arterial_media;
-    }
-
-    public Integer getSig_saturacion() {
-        return sig_saturacion;
-    }
-
-    public void setSig_saturacion(Integer sig_saturacion) {
-        this.sig_saturacion = sig_saturacion;
-    }
-
-    public Float getSig_temperatura() {
-        return sig_temperatura;
-    }
-
-    public void setSig_temperatura(Float sig_temperatura) {
-        this.sig_temperatura = sig_temperatura;
-    }
-
-    public Float getSig_peso() {
-        return sig_peso;
-    }
-
-    public void setSig_peso(Float sig_peso) {
-        this.sig_peso = sig_peso;
-    }
-
-    public Float getSig_estatura() {
-        return sig_estatura;
-    }
-
-    public void setSig_estatura(Float sig_estatura) {
-        this.sig_estatura = sig_estatura;
-    }
-
-    public Integer getSig_imc() {
-        return sig_imc;
-    }
-
-    public void setSig_imc(Integer sig_imc) {
-        this.sig_imc = sig_imc;
-    }
-
-    public Float getSig_perimetro_abdominal() {
-        return sig_perimetro_abdominal;
-    }
-
-    public void setSig_perimetro_abdominal(Float sig_perimetro_abdominal) {
-        this.sig_perimetro_abdominal = sig_perimetro_abdominal;
-    }
-
-    public Float getSig_glucosa_capilar() {
-        return sig_glucosa_capilar;
-    }
-
-    public void setSig_glucosa_capilar(Float sig_glucosa_capilar) {
-        this.sig_glucosa_capilar = sig_glucosa_capilar;
-    }
-
-    public Float getSig_valor_hemoglobina() {
-        return sig_valor_hemoglobina;
-    }
-
-    public void setSig_valor_hemoglobina(Float sig_valor_hemoglobina) {
-        this.sig_valor_hemoglobina = sig_valor_hemoglobina;
-    }
-
-    public Float getSig_valor_hemoglobina_corr() {
-        return sig_valor_hemoglobina_corr;
-    }
-
-    public void setSig_valor_hemoglobina_corr(Float sig_valor_hemoglobina_corr) {
-        this.sig_valor_hemoglobina_corr = sig_valor_hemoglobina_corr;
     }
 
     public Date getSig_fecha_ult() {
@@ -1030,14 +866,6 @@ public final class PersonaBean implements Serializable {
         this.lista_parentescos = lista_parentescos;
     }
 
-    public Float getSig_perimetro_brazo() {
-        return sig_perimetro_brazo;
-    }
-
-    public void setSig_perimetro_brazo(Float sig_perimetro_brazo) {
-        this.sig_perimetro_brazo = sig_perimetro_brazo;
-    }
-
     public List<Personas> getColaboradores() {
         return colaboradores;
     }
@@ -1045,6 +873,13 @@ public final class PersonaBean implements Serializable {
     public void setColaboradores(List<Personas> colaboradores) {
         this.colaboradores = colaboradores;
     }
-    
-    
+
+    public Signos getNuevo_signos() {
+        return nuevo_signos;
+    }
+
+    public void setNuevo_signos(Signos nuevo_signos) {
+        this.nuevo_signos = nuevo_signos;
+    }
+
 }

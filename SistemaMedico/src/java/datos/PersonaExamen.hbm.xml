@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 30/10/2023 8:25:51 by Hibernate Tools 4.3.1 -->
+<!-- Generated 14/11/2023 9:49:11 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.PersonaExamen" table="persona_examen" catalog="smed" optimistic-lock="version">
         <id name="perExaId" type="java.lang.Integer">
@@ -18,7 +18,10 @@
             <column name="med_per_id" not-null="true" />
         </many-to-one>
         <property name="perExaDescripcion" type="string">
-            <column name="per_exa_descripcion" length="200" not-null="true" />
+            <column name="per_exa_descripcion" length="2000" not-null="true" />
+        </property>
+        <property name="perExaFecha" type="timestamp">
+            <column name="per_exa_fecha" length="19" not-null="true" />
         </property>
         <property name="perExaFechaUlt" type="timestamp">
             <column name="per_exa_fecha_ult" length="19" not-null="true" />

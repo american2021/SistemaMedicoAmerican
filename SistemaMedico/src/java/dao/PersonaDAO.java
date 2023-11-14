@@ -147,7 +147,7 @@ public class PersonaDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
-                "SELECT concat(per_nombres,' - ',per_apellidos) FROM Personas WHERE per_es_paciente = 'S'");
+                "SELECT concat(per_nombres,' - ',per_apellidos, ' - ', per_cedula) FROM Personas WHERE per_es_paciente = 'S'");
         List<String> pacientes = query.list();
         session.getTransaction().commit();
         session.close();
@@ -186,6 +186,27 @@ public class PersonaDAO {
 
             persona = (Personas) query.list().get(0);
 
+        }
+        session.getTransaction().commit();
+        session.close();
+        return persona;
+    }
+    
+    /**
+     * Método para recuperar una persona según su usuario.
+     *
+     * @param usuario
+     * @return
+     */
+    public static Personas recuperarPersonaUsuario(String usuario) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery(
+                "SELECT p FROM datos.Personas p, datos.Usuarios u WHERE  p.perId = u.usuId AND u.rolesRolId IN (1, 2) AND u.usuNombre = '"+ usuario + "'");
+        Personas persona = null;
+        if (!query.list().isEmpty()) {
+            persona = (Personas) query.list().get(0);
         }
         session.getTransaction().commit();
         session.close();

@@ -1,5 +1,5 @@
 package datos;
-// Generated 30/10/2023 8:25:50 by Hibernate Tools 4.3.1
+// Generated 14/11/2023 9:49:10 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -15,17 +15,19 @@ public class PersonaExamen  implements java.io.Serializable {
      private Personas personasByPerId;
      private Personas personasByMedPerId;
      private String perExaDescripcion;
+     private Date perExaFecha;
      private Date perExaFechaUlt;
      private String perExaUsuario;
 
     public PersonaExamen() {
     }
 
-    public PersonaExamen(Examenes examenes, Personas personasByPerId, Personas personasByMedPerId, String perExaDescripcion, Date perExaFechaUlt, String perExaUsuario) {
+    public PersonaExamen(Examenes examenes, Personas personasByPerId, Personas personasByMedPerId, String perExaDescripcion, Date perExaFecha, Date perExaFechaUlt, String perExaUsuario) {
        this.examenes = examenes;
        this.personasByPerId = personasByPerId;
        this.personasByMedPerId = personasByMedPerId;
        this.perExaDescripcion = perExaDescripcion;
+       this.perExaFecha = perExaFecha;
        this.perExaFechaUlt = perExaFechaUlt;
        this.perExaUsuario = perExaUsuario;
     }
@@ -64,6 +66,13 @@ public class PersonaExamen  implements java.io.Serializable {
     
     public void setPerExaDescripcion(String perExaDescripcion) {
         this.perExaDescripcion = perExaDescripcion;
+    }
+    public Date getPerExaFecha() {
+        return this.perExaFecha;
+    }
+    
+    public void setPerExaFecha(Date perExaFecha) {
+        this.perExaFecha = perExaFecha;
     }
     public Date getPerExaFechaUlt() {
         return this.perExaFechaUlt;

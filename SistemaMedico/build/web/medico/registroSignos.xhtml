@@ -68,7 +68,7 @@
                 <b:row>
                     <br/>
                 </b:row>
-                <b:form class="pageForm" id="commentform">
+                <b:form class="pageForm" id="registroSignoForm">
                     <b:panel title="Signos vitales" look="info" collapsible="false">
                         <b:row>
                             <b:column span="3">
@@ -76,7 +76,7 @@
                                              placeholder="P.S."
                                              id="sig_pre_sistolica"
                                              size="13"
-                                             value="#{PersonaBean.sig_presion_sistolica}"
+                                             value="#{PersonaBean.nuevo_signos.sigPresionSistolica}"
                                              required="true"
                                              maxlength="3"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
@@ -94,7 +94,7 @@
                                              id="sig_pre_diastolica"
                                              size="13"
                                              maxlength="3"
-                                             value="#{PersonaBean.sig_presion_diastolica}"
+                                             value="#{PersonaBean.nuevo_signos.sigPresionDiastolica}"
                                              required="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
                                              requiredMessage="Campo vacío">
@@ -111,7 +111,7 @@
                                              id="sig_presion_arterial_media"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PersonaBean.sig_presion_arterial_media}"
+                                             value="#{PersonaBean.nuevo_signos.sigPresionArterialMedia}"
                                              required="true"
                                              disabled="true"
                                              requiredMessage="Ingrese la presión arterial media"/>
@@ -122,13 +122,13 @@
                                              id="sig_temperatura"
                                              size="13"
                                              maxlength="5"
-                                             value="#{PersonaBean.sig_temperatura}"
+                                             value="#{PersonaBean.nuevo_signos.sigTemperatura}"
                                              required="true"
-                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                             onkeypress="if (event.key === '.' &amp;&amp; this.value.includes('.')) return false; return (event.key === '.' || (event.key >= '0' &amp;&amp; event.key &lt;= '9'))"
                                              requiredMessage="Campo vacío">
                                 <f:validateLongRange minimum="20" maximum="60"/>
                                 <f:ajax event="change"
-                                        render=""/>
+                                        render=""/> 
                                 </b:inputText>
                                 <b:message for="sig_temperatura"/>
                             </b:column>
@@ -140,7 +140,7 @@
                                              id="sig_frecuencia_respiratoria"
                                              size="13"
                                              maxlength="3"
-                                             value="#{PersonaBean.sig_frecuencia_respiratoria}"
+                                             value="#{PersonaBean.nuevo_signos.sigFrecuenciaRespiratoria}"
                                              required="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
                                              requiredMessage="Campo vacío">
@@ -156,7 +156,7 @@
                                              id="sig_frecuencia_cardiaca"
                                              size="13"
                                              maxlength="3"
-                                             value="#{PersonaBean.sig_frecuencia_cardiaca}"
+                                             value="#{PersonaBean.nuevo_signos.sigFrecuenciaCardiaca}"
                                              required="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
                                              requiredMessage="Campo Vacío">
@@ -171,8 +171,8 @@
                                              placeholder="Saturación (%)"
                                              id="sig_saturacion"
                                              size="13"
-                                             maxlength="2"
-                                             value="#{PersonaBean.sig_saturacion}"
+                                             maxlength="3"
+                                             value="#{PersonaBean.nuevo_signos.sigSaturacion}"
                                              required="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
                                              requiredMessage="Campo vacío">
@@ -183,7 +183,6 @@
                                 <b:message for="sig_saturacion"/>
                             </b:column>
                         </b:row>
-
                     </b:panel>
                     <b:panel title="Datos Antropométricos" look="info" collapsible="false">
                         <b:row>
@@ -193,7 +192,7 @@
                                              id="sig_peso"
                                              size="13"
                                              maxlength="6"
-                                             value="#{PersonaBean.sig_peso}"
+                                             value="#{PersonaBean.nuevo_signos.sigPeso}"
                                              required="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              validator-message="Revise que el peso esté en el rango (10-500)"
@@ -209,8 +208,8 @@
                                 <b:inputText label="Estatura (cm)"
                                              placeholder="Estatura"
                                              id="sig_estatura"
-                                             maxlength="5"
-                                             value="#{PersonaBean.sig_estatura}"
+                                             maxlength="3"
+                                             value="#{PersonaBean.nuevo_signos.sigEstatura}"
                                              required="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              validator-message="Revise que la estatura esté en el rango (50-400 cm)"
@@ -228,7 +227,7 @@
                                              id="sig_imc"
                                              size="13"
                                              maxlength="100"
-                                             value="#{PersonaBean.sig_imc}"
+                                             value="#{PersonaBean.nuevo_signos.sigImc}"
                                              required="true"
                                              disabled="true"
                                              requiredMessage="Ingrese la indice de masa corporal"/>
@@ -239,7 +238,7 @@
                                              id="sig_perimetro_abdominal"
                                              size="13"
                                              maxlength="5"
-                                             value="#{PersonaBean.sig_perimetro_abdominal}"
+                                             value="#{PersonaBean.nuevo_signos.sigPerimetroAbdominal}"
                                              required="false"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el perímetro abdominal">
@@ -254,7 +253,7 @@
                                              id="sig_perimetro_brazo"
                                              size="13"
                                              maxlength="5"
-                                             value="#{PersonaBean.sig_perimetro_brazo}"
+                                             value="#{PersonaBean.nuevo_signos.sigPerimetroBrazo}"
                                              required="false"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el perímetro del brazo">
@@ -273,7 +272,7 @@
                                              id="sig_glucosa_capilar"
                                              size="13"
                                              maxlength="5"
-                                             value="#{PersonaBean.sig_glucosa_capilar}"
+                                             value="#{PersonaBean.nuevo_signos.sigGlucosaCapilar}"
                                              required="false"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese la glucosa capilar">
@@ -288,7 +287,7 @@
                                              id="sig_valor_hemoglobina"
                                              size="13"
                                              maxlength="4"
-                                             value="#{PersonaBean.sig_valor_hemoglobina}"
+                                             value="#{PersonaBean.nuevo_signos.sigValorHemoglobina}"
                                              required="false"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
                                              requiredMessage="Ingrese el valor de la hemoglobina">
@@ -304,7 +303,7 @@
                                              id="sig_valor_hemoglobina_corregido"
                                              size="13"
                                              maxlength="5"
-                                             value="#{PersonaBean.sig_valor_hemoglobina_corr}"
+                                             value="#{PersonaBean.nuevo_signos.sigValorHemoglobinaCorr}"
                                              required="false"
                                              disabled="true"
                                              onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
@@ -315,20 +314,23 @@
                         </b:row>
                         <br/>
                         <b:row style="text-align: center;" contentDisabled="false">
-                            <b:column offset="3" span="2">
+                            <b:column offset="1" span="3">
                                 <b:button large-screen="full-width"
                                           id="salir"
                                           value="Regresar"
+                                          look="danger"
                                           href="./home-medico"/>
                             </b:column>
-                            <b:column span="2">
+                            <b:column span="3">
                                 <b:commandButton
                                     large-screen="full-width"
                                     id="guardar_datos"
                                     value="Guardar"
                                     type="submit"
                                     action="#{PersonaBean.redireccionarPacienteGuardado()}"
-                                    look="info"/>
+                                    look="info">
+                                    <f:ajax execute="registroSignoForm" render="registroSignoForm" />
+                                </b:commandButton>
                             </b:column>
                             <b:column span="3">
                                 <b:commandButton
@@ -337,7 +339,9 @@
                                     value="Guardar e Iniciar Cita"
                                     type="submit"
                                     action="#{PersonaBean.redireccionarIniciarCita()}"
-                                    look="info"/>
+                                    look="info">
+                                    <f:ajax execute="registroSignoForm" render="registroSignoForm" />
+                                </b:commandButton>
                             </b:column>
                         </b:row>
                     </b:panel>

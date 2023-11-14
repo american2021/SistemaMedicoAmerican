@@ -34,7 +34,6 @@
         $.blockUI.defaults.overlayCSS.opacity = 0.5;
         $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
     </script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
 
@@ -50,9 +49,9 @@
             <my:menuLateralMedico id="menuLateralMedico"/>
             <my:menuLateralEstudiante id="menuLateralEstudiante"/>
             <my:menuLateralContador id="menuLateralContador"/>
-            <p:idleMonitor timeout="600000">
+<!--            <p:idleMonitor timeout="600000">
                 <p:ajax event="idle" listener="#{LoginBean.sesionInactiva()}" />
-            </p:idleMonitor>
+            </p:idleMonitor>-->
             
         <b:container fluid="true">
             #{PersonaBean.inicializarPersona()}
@@ -67,12 +66,12 @@
                     </b:column>
                 </b:row>
                 <b:row>
-                    <br/>
+                <br/>
                 </b:row>
                 <b:form class="pageForm" id="commentform" onkeypress="if (event.keyCode == 13) { return false; }">
                     <b:panel title="Datos Generales" look="info" collapsible="false">
                         <b:row>
-                            <b:column span="4">
+                            <b:column span="2">
                                 <b:inputText label="Cédula"
                                              placeholder="Ingrese la cédula"
                                              id="per_cedula"
@@ -109,9 +108,6 @@
                                              requiredMessage="Ingrese sus nombres"/>
                                 <b:message for="per_nombres" />
                             </b:column>
-                        </b:row>
-                        <br/>
-                        <b:row>
                             <b:column span="2">
                                 <b:inputText label="Teléfono"
                                              placeholder="Digite su número"
@@ -124,6 +120,9 @@
                                              requiredMessage="Vacío"/>
                                 <b:message for="per_telefono" />
                             </b:column>
+                        </b:row>
+                        <br/>
+                        <b:row>
                             <b:column span="2">
                                 <b:dateTimePicker
                                     id="per_nac"
@@ -132,8 +131,7 @@
                                     value="#{PersonaBean.persona.perNac}"
                                     label="Fecha de Nacimiento"
                                     required="true"
-                                    requiredMessage="Ingrese la fecha de nacimiento"
-                                    ondtchange="#{PersonaBean.calcularEdad()}">
+                                    requiredMessage="Ingrese la fecha de nacimiento">
                                     <!--max-date="09/08/2022"-->
                                     <f:ajax event="blur"
                                             listener="#{PersonaBean.calcularEdad()}"
@@ -141,7 +139,6 @@
                                 </b:dateTimePicker>
                                 <b:message for="per_edad" />
                             </b:column>
-                            
                             <b:column span="2">
                                 <b:inputText label="Edad"
                                              id="per_edad"
@@ -154,7 +151,6 @@
                                 <f:validateLongRange minimum="5" maximum="50"/>
                                 </b:inputText>
                             </b:column>
-                            
                             <b:column span="2">
                                 <b:selectOneMenu label="Estado Civil" id="per_estado_civil"
                                                  value="#{PersonaBean.persona.perEstadoCivil}"
@@ -180,10 +176,6 @@
                                 </b:selectOneMenu>
                                 <b:message for="per_sexo" />
                             </b:column>
-                            
-                        </b:row>
-                        <br/>
-                        <b:row>
                             <b:column span="2" > 
                                 <b:selectOneMenu label="Orientacion Sexual"
                                                  id="per_orientacion_sexual"
@@ -216,6 +208,9 @@
                                 </b:selectOneMenu>
                                 <b:message for="per_identidad_genero" />
                             </b:column>
+                        </b:row>
+                        <br/>
+                        <b:row>
                             <b:column span="2">
                                 <b:selectOneMenu label="Grupo sanguíneo" id="per_grupo_sanguineo"
                                                  value="#{PersonaBean.persona.perGrupoSanguineo}"
@@ -251,7 +246,7 @@
                                 </b:selectOneMenu>
                                 <b:message for="per_profesion" />
                             </b:column>
-                            <b:column span="4">
+                            <b:column span="3">
                                 <h:panelGroup id="ocupacion_especifica">
                                     <b:inputText label="Especifique"
                                              placeholder="Profesión"
@@ -266,9 +261,8 @@
                                     </h:panelGroup>
                                 </b:column>
                         </b:row>
-                        <br/>
-                        </b:panel>
-                        <b:panel title="Datos de contacto de emergencia" look="info" collapsible="false">
+                    </b:panel>
+                    <b:panel title="Datos de contacto de emergencia" look="info" collapsible="false">
                         <b:row>
                             
                             <b:column span="4">
@@ -316,9 +310,8 @@
                                     </h:panelGroup>
                                 </b:column>
                         </b:row>
-                        <br/>
-                        </b:panel>
-                        <b:panel title="Datos de origen" look="info" collapsible="false">
+                    </b:panel>
+                    <b:panel title="Datos de origen" look="info" collapsible="false">
                         <b:row>
                             <b:column span="4">
                                 <b:inputText label="Dirección"
@@ -351,20 +344,23 @@
                         <br/>
                         <b:row style="text-align: center;" contentDisabled="false">
 
-                            <b:column offset="2" span="2">
+                            <b:column offset="1" span="3">
                                 <b:button large-screen="full-width"
                                           id="salir"
                                           value="Regresar"
+                                          look="danger"
                                           href="home"/>
                             </b:column>
                             <b:column span="3">
-                                <b:commandButton
+                                <b:commandButton 
                                     large-screen="full-width"
                                     id="guardar_persona"
                                     value="Guardar y regresar"
                                     type="submit"
                                     action="#{PersonaBean.guardarPaciente()}"
-                                    look="info" />
+                                    look="info">
+                                    <f:ajax execute="commentform" render="commentform" />
+                                </b:commandButton>
                             </b:column>
                             <b:column span="3">
                                 <b:commandButton
@@ -373,12 +369,11 @@
                                     value="Registrar Signos"
                                     type="submit"
                                     action="#{PersonaBean.guardarPacienteYSignos()}"
-                                    look="info" />
+                                    look="info">
+                                    <f:ajax execute="commentform" render="commentform" />
+                                </b:commandButton>
                             </b:column>
                         </b:row>
-
-                        <br/><br/><br/>
-
                     </b:panel>
                 </b:form>
             </b:panel>
