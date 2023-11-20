@@ -60,7 +60,7 @@ public class CitaDAO {
     public static List<Historias> recuperarHistorias() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Historias order by his_id desc");
+        Query query = session.createQuery("from Historias order by his_id desc, his_fecha_ult desc");
         List<Historias> historias = query.list();
         historias.forEach((historia) -> {
             //Necesario para cargar los datos de la persona en modo eager
@@ -346,7 +346,7 @@ public class CitaDAO {
         session.beginTransaction();
         // Calcula la fecha actual menos una hora
         LocalDateTime localDateTime = LocalDateTime.now();
-        LocalDateTime unaHoraMenos = localDateTime.minusHours(1);
+        LocalDateTime unaHoraMenos = localDateTime.minusHours(2);
 
         // Convierte LocalDateTime a Date
         Date horaHaceUnaHora = Date.from(unaHoraMenos.atZone(ZoneId.systemDefault()).toInstant());

@@ -79,7 +79,7 @@
                             <b:dataTableColumn label="Código Paciente" value="#{historia.personasByPacientePerId.perId}" style="width: 10%" />
                             <b:dataTableColumn label="Médico Tratante" value="#{CitaBean.getNombreCompletoMedico(historia)}" style="width: 30%"/>
                             <b:dataTableColumn label="Paciente" value="#{CitaBean.getNombreCompleto(historia)}" style="width: 30%"/>
-                            <b:dataTableColumn label="Fecha" value="#{CitaBean.getFormatoFecha(historia.hisFechaCreacion)}" style="width: 5%" />
+                            <b:dataTableColumn label="Fecha" value="#{CitaBean.getFormatoFecha(historia.hisFechaUlt)}" style="width: 5%" />
                             <b:dataTableColumn label="Cita" style="width: 5%;padding-left: 1%;padding-right: 1%"
                                                orderable="false"
                                                searchable="false">

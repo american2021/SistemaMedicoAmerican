@@ -83,6 +83,22 @@ public class ExamenesDAO {
         session.close();
         return examanes;
     }
+    /**
+     * Método para recuperar los nombres de los examenes por su tipo
+     *
+     * @param tipo
+     * @return
+     */
+    public static List<Examenes> recuperarExamenes() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Examenes");
+        List<Examenes> examanes= query.list();
+        session.getTransaction().commit();
+        session.close();
+        return examanes;
+    }
+    
     
     /**
      * Método para recuperar un diagnóstico según su código

@@ -86,6 +86,16 @@
         <view-id value="/faces/medico/registroPatologia.xhtml" />
     </url-mapping>
     
+    <url-mapping id="registro-examen">
+        <pattern value="/registro-examen"/>
+        <view-id value="/faces/administrador/registroExamen.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="actualizacion-examen">
+        <pattern value="/actualizacion-examen" />
+        <view-id value="/faces/administrador/actualizacionExamen.xhtml"/>
+    </url-mapping>
+    
     <url-mapping id="actualizacion-enfermedad">
         <pattern value="/actualizacion-enfermedad" />
         <view-id value="/faces/medico/actualizacionEnfermedad.xhtml"/>

@@ -107,6 +107,7 @@ public final class CitaBean implements Serializable{
     private List<Ocupaciones> lista_ocupaciones;
     private List<Parentescos> lista_parentescos;
     private RevisionSistemas revision;
+    private PersonaExamen eliminarPersonaExamen;
     
     private String renderizar_profesion_abierta;
     private String renderizar_parentesco_abierto;
@@ -135,7 +136,7 @@ public final class CitaBean implements Serializable{
     public CitaBean(){
         session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         inicializarHistorias();
-        inicializarSignos();
+        inicializarSignos();    
     }
     
     /**
@@ -164,6 +165,13 @@ public final class CitaBean implements Serializable{
         antecedente_abierta = "";
         parentesco_abierto = "";
         nombre_tratamiento ="";
+        nuevo_persona_antecedente = new PersonaAntecedente();
+        nuevo_antecedente = new Antecedente();
+        nuevo_historia_diagnostico = new HistoriaDiagnostico();
+        nuevo_diagnostico = new Diagnosticos();
+        nuevo_persona_examen = new PersonaExamen();
+        nuevo_examenes = new Examenes();
+        nuevo_tratamiento = new Tratamientos();
         inicializarProfesionesYParentescos();
         inicializarCiudades();
         inicializarEstadosCiviles();
@@ -669,6 +677,23 @@ public final class CitaBean implements Serializable{
         return "/medico/citaMedica.xhtml?faces-redirect=true";
     }
     
+    
+    
+    public void prepararEliminacionPersonaExamen(PersonaExamen personaExamenEliminar){
+        System.out.println("Persona examen: "+ personaExamenEliminar.getPerExaDescripcion());
+        eliminarPersonaExamen = personaExamenEliminar;
+    }
+    public void eliminarExamen(){
+        try {
+            PersonaExamenDAO.eliminarPersonaExamen(eliminarPersonaExamen);
+            eliminarPersonaExamen = new PersonaExamen();
+            recuperarPersonaExamenes();
+            FacesMessages.info(":growlInfo", "Exámen persona eliminado", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.info(":growlInfo", "Error al eliminar el examen personal "+e, "This is a specific message!");
+        }
+    }
+    
     public String fechaFormatoYMDS(Date fecha) {
         SimpleDateFormat formatt = new SimpleDateFormat("yyyy/MM/dd");
         return formatt.format(fecha);
@@ -1161,6 +1186,16 @@ public final class CitaBean implements Serializable{
     public void setNuevo_tratamiento(Tratamientos nuevo_tratamiento) {
         this.nuevo_tratamiento = nuevo_tratamiento;
     }
+
+    public PersonaExamen getEliminarPersonaExamen() {
+        return eliminarPersonaExamen;
+    }
+
+    public void setEliminarPersonaExamen(PersonaExamen eliminarPersonaExamen) {
+        this.eliminarPersonaExamen = eliminarPersonaExamen;
+    }
+    
+    
 
     public String getNombre_tratamiento() {
         return nombre_tratamiento;

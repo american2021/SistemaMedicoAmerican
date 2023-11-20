@@ -29,6 +29,19 @@ public class PersonaExamenDAO {
         session.getTransaction().commit();
         session.close();
     }
+    
+    /**
+     * Método para eliminar personaExamen.
+     *
+     * @param personaExamen
+     */
+    public static void eliminarPersonaExamen(PersonaExamen personaExamen) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(personaExamen);
+        session.getTransaction().commit();
+        session.close();
+    }
 
     /**
      * Método para recuperar personaExamen según su id.

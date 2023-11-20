@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/recursos"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <f:event listener="#{LoginBean.comprobarLogin}" type="preRenderView" />
+
+    <h:head>
+        <title>Departamento Médico</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
+    </h:head>
+
+    <my:cabecera id="cabecera"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
+
+
+    <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
+
+    <b:growl id="growl" escape="true" />
+
+    <h:body>
+        <b:column>
+            <my:menuLateralMedico id="menuLateralMedico"/>
+            <my:menuLateralAdministrador id="menuLateralAdministrador"/>
+
+            <b:container fluid="true">
+                #{ExamenesBean.inicializarExamenes()}
+                
+                <b:panel span="10" offset="0">
+                    <b:form class="pageForm" id="commentform">
+                        <p:idleMonitor timeout="600000">
+                            <p:ajax event="idle" listener="#{LoginBean.sesionInactiva()}" />
+                        </p:idleMonitor>
+                        <b:row>
+                            <b:column span="12" style="text-align: center;">
+                                <h2><b>Registro Exámen</b></h2>
+                            </b:column>
+                            <b:column span="12" style="text-align: center;">
+                                <h6>Todos los campos marcados con * son obligatorios</h6>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <br/>
+                        </b:row>
+                        <b:panel title="Datos Generales" look="info" collapsible="false">
+                            <b:row>
+                                <b:column span="6">
+                                    <b:selectOneMenu label="Tipo de exámen"
+                                                     id="ext_tipo"
+                                                     value="#{ExamenesBean.nuevo_examenes.exaTipo}"
+                                                     required="false"
+                                                     requiredMessage="Seleccione el tipo de antecedente">
+                                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true" itemValue="#{null}" />
+                                        <f:selectItem itemLabel="Laboratorio" itemValue="1" />
+                                        <f:selectItem itemLabel="Imagenologia" itemValue="2" />
+                                        <f:selectItem itemLabel="Histopatología" itemValue="3" />
+                                    </b:selectOneMenu>
+                                    <b:message for="tipoPersona" />
+                                </b:column>
+                                <b:column span="6"> 
+                                    <b:inputText label="Descripción del Examen"
+                                                 placeholder="Descripción del examen"
+                                                 id="ext_grupo"
+                                                 maxlength="45"
+                                                 value="#{ExamenesBean.nuevo_examenes.exaGrupo}"
+                                                 requiredMessage="Ingrese el nuevo examen"/>
+
+                                </b:column>
+                            </b:row>
+
+                            <b:row style="text-align: center;" contentDisabled="false">
+
+                                <b:column offset="3" span="2">
+                                    <b:button large-screen="full-width"
+                                              id="salir"
+                                              value="Regresar"
+                                              href="home"/>
+                                </b:column>
+                                <b:column offset="2" span="2">
+                                    <b:commandButton
+                                        large-screen="full-width"
+                                        id="submit"
+                                        value="Guardar"
+                                        type="submit"
+                                        action="#{ExamenesBean.crearExamen()}"
+                                        look="primary"
+                                        update=":formExamenTable :commentform "/>
+                                </b:column>
+                            </b:row>
+
+                        </b:panel>
+                    </b:form>
+                </b:panel>
+                <b:panel span="10" offset="0">
+                    <h:form id="formExamenTable">
+                        <b:tabView style-class="width: 100%">
+                            <!-- Primer tab -->
+                            <b:tab title="Laboratorio">
+                                <b:panelGrid columns="1">
+                                    <b:dataTable style="width: 100%;" id="examenesTablaLab" value="#{ExamenesBean.listaExamenesLab}" var="item"
+                                                 responsive="true" content-disabled="false" searching="true"
+                                                 page-length="10" multi-column-search="true" multi-column-search-position="top">
+                                        <b:dataTableColumn label="Descripción" value="#{item.exaGrupo}" />
+                                        <b:dataTableColumn label="Acciones" style="width: 20%" >
+                                            <b:row>
+                                                <b:column span="2" offset="0">
+                                                    <b:commandButton ajax="true" 
+                                                                     action="#{ExamenesBean.cargarExamen(item)}" tooltip="Editar" look="warning">
+                                                        <b:iconAwesome name="pencil"></b:iconAwesome>
+                                                    </b:commandButton>
+                                                </b:column>
+                                            </b:row>
+                                        </b:dataTableColumn>
+                                    </b:dataTable>
+                                    
+                                </b:panelGrid>
+                            </b:tab>
+
+                            <!-- Segundo tab -->
+                            <b:tab title="Imagenología">
+                                <b:panelGrid columns="1">
+                                    <b:dataTable style="width: 100%;" id="examenesImagenologiaTabla" value="#{ExamenesBean.listaExamenesImg}" var="item"
+                                                 responsive="true"  info="true" searching="true"
+                                                 page-length="10" multi-column-search="true" multi-column-search-position="top">
+                                        <b:dataTableColumn label="Descripción" value="#{item.exaGrupo}" />
+                                    </b:dataTable>
+                                </b:panelGrid>
+                            </b:tab>
+
+                            <!-- Tercer tab -->
+                            <b:tab title="Histopatología">
+                                    <b:dataTable style="width: 100%;" id="examenesHistopatologiaTabla" value="#{ExamenesBean.listaExamenesHist}" var="item"
+                                                 responsive="true"  info="true" content-disabled="false" searching="true"
+                                                 page-length="10" multi-column-search="true" multi-column-search-position="top">
+                                        <b:dataTableColumn label="Descripción" value="#{item.exaGrupo}" />
+                                    </b:dataTable>
+                                
+                            </b:tab>
+                        </b:tabView>
+                    </h:form>
+                </b:panel>
+            </b:container>
+            <br/><br/>
+        </b:column>
+    </h:body>
+    <my:piePagina id="piePagina"/>
+</html>
