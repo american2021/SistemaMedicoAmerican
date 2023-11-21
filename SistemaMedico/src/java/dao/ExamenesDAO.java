@@ -31,6 +31,19 @@ public class ExamenesDAO {
     }
     
     /**
+     * Método para eliminar un examen.
+     *
+     * @param examenes
+     */
+    public static void eliminarExamanes(Examenes examenes) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(examenes);
+        session.getTransaction().commit();
+        session.close();
+    }
+    
+    /**
      * Método para recuperar examenes según su id.
      *
      * @param id
@@ -86,7 +99,6 @@ public class ExamenesDAO {
     /**
      * Método para recuperar los nombres de los examenes por su tipo
      *
-     * @param tipo
      * @return
      */
     public static List<Examenes> recuperarExamenes() {

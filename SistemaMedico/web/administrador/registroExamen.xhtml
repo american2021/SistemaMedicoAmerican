@@ -23,6 +23,36 @@
 
 
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
+    
+    <b:modal id="modalConfirmacion"
+             title="¿Está seguro de que desea eliminar el examen #{ExamenesBean.examenes.exaGrupo}, de tipo #{ExamenesBean.formatoTipoExamen(ExamenesBean.examenes.exaTipo)}?"
+             closable="true"
+             close-on-escape="true" backdrop="true" size="modal-lg">
+        <b:form id="formEliminacion" >
+            <b:row>
+                <b:column offset="4">
+                    <b:commandButton span="2"
+                                     ajax="true"
+                                     value="Sí"
+                                     update=":modalConfirmacion:formEliminacion :growl"
+                                     action="#{ExamenesBean.eliminarExamen()}"
+                                     oncomplete="$('#modalConfirmacion').modal('hide')"
+                                     tooltip="Eliminar" look="info">
+                        <f:ajax event="change"
+                                        listener="#{ExamenesBean.eliminarExamen()}"
+                                        render=":formExamenTable :commentform  growl"/>
+                    </b:commandButton>
+                    <b:commandButton span="2"
+                                     ajax="true"
+                                     value="No"
+                                     update=":modalConfirmacion:formEliminacion :growl"
+                                     oncomplete="$('#modalAsignacionMedico').modal('hide')"
+                                     tooltip="Cancelar" look="danger">
+                    </b:commandButton>
+                </b:column>
+            </b:row>
+        </b:form>
+    </b:modal>
 
     <b:growl id="growl" escape="true" />
 
@@ -75,7 +105,6 @@
 
                                 </b:column>
                             </b:row>
-
                             <b:row style="text-align: center;" contentDisabled="false">
 
                                 <b:column offset="3" span="2">
@@ -95,7 +124,6 @@
                                         update=":formExamenTable :commentform "/>
                                 </b:column>
                             </b:row>
-
                         </b:panel>
                     </b:form>
                 </b:panel>
@@ -109,18 +137,30 @@
                                                  responsive="true" content-disabled="false" searching="true"
                                                  page-length="10" multi-column-search="true" multi-column-search-position="top">
                                         <b:dataTableColumn label="Descripción" value="#{item.exaGrupo}" />
-                                        <b:dataTableColumn label="Acciones" style="width: 20%" >
+                                        <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%"
+                                                            orderable="false"
+                                                            searchable="false">
                                             <b:row>
-                                                <b:column span="2" offset="0">
-                                                    <b:commandButton ajax="true" 
-                                                                     action="#{ExamenesBean.cargarExamen(item)}" tooltip="Editar" look="warning">
+                                                <b:column span="1" offset="0">
+                                                    <b:commandButton ajax="true"
+                                                                     action="#{ExamenesBean.cargarExamen(item,'1')}"
+                                                                     tooltip="Editar exámen" look="warning">
                                                         <b:iconAwesome name="pencil"></b:iconAwesome>
+                                                    </b:commandButton>
+                                                </b:column>
+                                                <b:column offset="1" span="2">
+                                                    <b:commandButton ajax="true"
+                                                                     value=""
+                                                                     actionListener="#{ExamenesBean.prepararExamen(item)}"
+                                                                     update=":modalConfirmacion :formEliminacion :growl"
+                                                                     oncomplete="$('#modalConfirmacion').modal('show')"
+                                                                     tooltip="Elimiar exámen del paciente" look="danger">
+                                                        <b:iconAwesome name="trash"></b:iconAwesome>
                                                     </b:commandButton>
                                                 </b:column>
                                             </b:row>
                                         </b:dataTableColumn>
                                     </b:dataTable>
-                                    
                                 </b:panelGrid>
                             </b:tab>
 
@@ -131,18 +171,63 @@
                                                  responsive="true"  info="true" searching="true"
                                                  page-length="10" multi-column-search="true" multi-column-search-position="top">
                                         <b:dataTableColumn label="Descripción" value="#{item.exaGrupo}" />
+                                        <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%"
+                                                            orderable="false"
+                                                            searchable="false">
+                                            <b:row>
+                                                <b:column span="1" offset="0">
+                                                    <b:commandButton ajax="true"
+                                                                     action="#{ExamenesBean.cargarExamen(item,'1')}"
+                                                                     tooltip="Editar exámen" look="warning">
+                                                        <b:iconAwesome name="pencil"></b:iconAwesome>
+                                                    </b:commandButton>
+                                                </b:column>
+                                                <b:column offset="1" span="2">
+                                                    <b:commandButton ajax="true"
+                                                                     value=""
+                                                                     actionListener="#{ExamenesBean.prepararExamen(item)}"
+                                                                     update=":modalConfirmacion :formEliminacion :growl"
+                                                                     oncomplete="$('#modalConfirmacion').modal('show')"
+                                                                     tooltip="Elimiar exámen del paciente" look="danger">
+                                                        <b:iconAwesome name="trash"></b:iconAwesome>
+                                                    </b:commandButton>
+                                                </b:column>
+                                            </b:row>
+                                        </b:dataTableColumn>
                                     </b:dataTable>
                                 </b:panelGrid>
                             </b:tab>
 
                             <!-- Tercer tab -->
                             <b:tab title="Histopatología">
-                                    <b:dataTable style="width: 100%;" id="examenesHistopatologiaTabla" value="#{ExamenesBean.listaExamenesHist}" var="item"
-                                                 responsive="true"  info="true" content-disabled="false" searching="true"
-                                                 page-length="10" multi-column-search="true" multi-column-search-position="top">
-                                        <b:dataTableColumn label="Descripción" value="#{item.exaGrupo}" />
-                                    </b:dataTable>
-                                
+                                <b:dataTable style="width: 100%;" id="examenesHistopatologiaTabla" value="#{ExamenesBean.listaExamenesHist}" var="item"
+                                             responsive="true"  info="true" content-disabled="false" searching="true"
+                                             page-length="10" multi-column-search="true" multi-column-search-position="top">
+                                    <b:dataTableColumn label="Descripción" value="#{item.exaGrupo}" />
+                                    <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%"
+                                                        orderable="false"
+                                                        searchable="false">
+                                        <b:row>
+                                            <b:column span="1" offset="0">
+                                                <b:commandButton ajax="true"
+                                                                 action="#{ExamenesBean.cargarExamen(item,'1')}"
+                                                                 tooltip="Editar exámen" look="warning">
+                                                    <b:iconAwesome name="pencil"></b:iconAwesome>
+                                                </b:commandButton>
+                                            </b:column>
+                                            <b:column offset="1" span="2">
+                                                <b:commandButton ajax="true"
+                                                                 value=""
+                                                                 actionListener="#{ExamenesBean.prepararExamen(item)}"
+                                                                 update=":modalConfirmacion :formEliminacion :growl"
+                                                                 oncomplete="$('#modalConfirmacion').modal('show')"
+                                                                 tooltip="Elimiar exámen del paciente" look="danger">
+                                                    <b:iconAwesome name="trash"></b:iconAwesome>
+                                                </b:commandButton>
+                                            </b:column>
+                                        </b:row>
+                                    </b:dataTableColumn>
+                                </b:dataTable>
                             </b:tab>
                         </b:tabView>
                     </h:form>

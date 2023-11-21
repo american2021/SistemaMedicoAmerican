@@ -31,6 +31,7 @@ public final class ExamenesBean implements Serializable{
     private Examenes nuevo_examenes;
     private List<Examenes> lista_examenes;
     private String nombre_examen;
+    private String actualizar = "0";
     
     FacesContext context;
     HttpSession session;
@@ -41,22 +42,20 @@ public final class ExamenesBean implements Serializable{
     
     public void inicializarExamenes(){
         session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        examenes = new Examenes();
+        if (this.actualizar.equals("0")) {
+            examenes = new Examenes();
+        }
         nuevo_examenes = new Examenes();
         nombre_examen = null;
         lista_examenes = new ArrayList<>();
         recuperarExamenes();
-        cargarExamen(examenes);
     }
     
     
-    public void cargarExamen(Examenes e){
-        if (e == null) {
-            System.out.println("No llega nada ");
-        } else {
-            System.out.println("Llega datos");
-        }
-        examenes = e;
+    public String cargarExamen(Examenes e, String actualizar){
+        this.actualizar = actualizar;
+        this.examenes = e;
+        return "/administrador/actualizacionExamen.xhtml?faces-redirect=true";
     }
     
     /**
@@ -101,23 +100,66 @@ public final class ExamenesBean implements Serializable{
             recuperarExamenes();
             FacesMessages.info(":growlInfo", "Exámen Creado", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al crear antecedente creado"+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al crear exámen"+e, "This is a specific message!");
         }
     }
     
     /**
      * Método para aztualizar un examen
+     * @return 
      */
-    public void actualizarExamen(){
+    public String actualizarExamen(){
         try {
             ExamenesDAO.crearActualizarExamanes(examenes);
             examenes = new Examenes();
             nombre_examen = null;
             recuperarNombresExamen();
             FacesMessages.info(":growlInfo", "Exámen actualizado", "This is a specific message!");
+            if (this.actualizar.equals("1")) {
+                return "/administrador/registroExamen.xhtml?faces-redirect=true";
+            }
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al aztualizar exámen "+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al actualizar exámen "+e, "This is a specific message!");
+            return null;
         }
+        return null;
+    }
+    
+    /**
+     * Método para crear un nuevo examen
+     */
+    public void eliminarExamen(){
+        try {
+            ExamenesDAO.eliminarExamanes(examenes);
+            recuperarNombresExamen();
+            recuperarExamenes();
+            FacesMessages.info(":growlInfo", "Exámen eliminado", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.info(":growlInfo", "Error al eliminar examen"+e, "This is a specific message!");
+        }
+    }
+    
+    /**
+     * Método para preparar examen
+     * @param examenes
+     */
+    public void prepararExamen(Examenes examenes){
+        this.examenes = examenes;
+    }
+    
+    /**
+     * Método para retornar el tipo de examen
+     * @param tipo
+     */
+    public String formatoTipoExamen(String tipo) {
+        if (tipo.equals("1")){
+            tipo = "Laboratorio";
+        } else if (tipo.equals("2")){
+            tipo = "Imagenologia";
+        } else {
+            tipo = "Histopatología";
+        }      
+        return tipo;
     }
 
     public Examenes getExamenes() {
@@ -165,5 +207,14 @@ public final class ExamenesBean implements Serializable{
                 .filter(examen -> String.valueOf(examen.getExaTipo()).equals(tipo))
                 .collect(Collectors.toList());
     }
+
+    public String getActualizar() {
+        return actualizar;
+    }
+
+    public void setActualizar(String actualizar) {
+        this.actualizar = actualizar;
+    }
+    
 
 }

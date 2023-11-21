@@ -680,7 +680,6 @@ public final class CitaBean implements Serializable{
     
     
     public void prepararEliminacionPersonaExamen(PersonaExamen personaExamenEliminar){
-        System.out.println("Persona examen: "+ personaExamenEliminar.getPerExaDescripcion());
         eliminarPersonaExamen = personaExamenEliminar;
     }
     public void eliminarExamen(){
