@@ -106,6 +106,16 @@
         <view-id value="/faces/administrador/actualizacionAntecedente.xhtml"/>
     </url-mapping>
     
+    <url-mapping id="registro-diagnostico">
+        <pattern value="/registro-diagnostico"/>
+        <view-id value="/faces/administrador/registroDiagnostico.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="actualizacion-diagnostico">
+        <pattern value="/actualizacion-diagnostico" />
+        <view-id value="/faces/administrador/actualizacionDiagnostico.xhtml"/>
+    </url-mapping>
+    
     <url-mapping id="actualizacion-enfermedad">
         <pattern value="/actualizacion-enfermedad" />
         <view-id value="/faces/medico/actualizacionEnfermedad.xhtml"/>

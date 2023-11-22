@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/recursos"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <f:event listener="#{LoginBean.comprobarLogin}" type="preRenderView" />
+
+    <h:head>
+        <title>Departamento Médico</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
+    </h:head>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
+    
+    <script>
+        $.blockUI.defaults.css = {
+            padding: 0,
+            margin: 0,
+            width: '30%',
+            top: '40%',
+            left: '35%',
+            textAlign: 'center',
+            color: '#000',
+            border: '0px solid #aaa',
+            backgroundColor: 'transparent',
+            cursor: 'wait'
+        };
+        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
+        $.blockUI.defaults.overlayCSS.opacity = 0.5;
+        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
+    </script>
+
+    <my:cabecera id="cabecera"/>
+
+    <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
+
+    <b:growl id="growl" escape="true" />
+
+    <h:body>
+        <b:column>
+            <my:menuLateralMedico id="menuLateralMedico"/>
+            <my:menuLateralAdministrador id="menuLateralAdministrador"/>
+            <p:idleMonitor timeout="600000">
+                <p:ajax event="idle" listener="#{LoginBean.sesionInactiva()}" />
+            </p:idleMonitor>
+            
+        <b:container fluid="true">
+            #{DiagnosticoBean.inicializarDiagnostico()}
+
+            <b:panel span="10" offset="0">
+                <b:row>
+                    <b:column span="12" style="text-align: center;">
+                        <h2><b>Actualización de diagnóstico</b></h2>
+                    </b:column>
+                    <b:column span="12" style="text-align: center;">
+                        <h6>Todos los campos marcados con * son obligatorios</h6>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <br/>
+                </b:row>
+                <b:form class="pageForm" id="commentform">
+                    <b:row>
+                            <b:column span="6" offset="3">
+                                <b:inputText value="#{DiagnosticoBean.nombre_diagnostico}"
+                                                 label="Diagnóstico"
+                                                 placeholder="Digite el nombre de diagnóstico"
+                                                 typeahead="true"
+                                                 id="enf_nombres"
+                                                 typeahead-limit="20"
+                                                 typeahead-values="#{DiagnosticoBean.recuperarNombresDiagnosticos()}">
+                                    <f:ajax event="change" listener="#{DiagnosticoBean.recuperarDiagnosticosListener()}" render="" />
+                                    <f:ajax render="commentform :growl" />
+                                    </b:inputText>
+                            </b:column>
+                        </b:row>
+                    <br/>
+                    <b:panel title="Datos Generales" look="info" collapsible="false">
+                            <b:row>
+                                <b:column span="6">
+                                    <b:inputText label="Código CIE-10"
+                                                 placeholder="Código CIE-10"
+                                                 id="dia_codigo_cie"
+                                                 maxlength="10"
+                                                 value="#{DiagnosticoBean.diagnosticos.diaCodigoCie}"
+                                                 required="true"
+                                                 requiredMessage="Ingrese el código del diagnóstico"/>
+                                    <b:message for="dia_codigo_cie"/>
+                                </b:column>
+                                <b:column span="6">
+                                    <b:inputTextarea label="Descripción del Diagnóstico"
+                                                     placeholder="Descripción del diagnóstico"
+                                                     id="dia_descripcion_cie"
+                                                     maxlength="500"
+                                                     value="#{DiagnosticoBean.diagnosticos.diaDescripcionCie}"
+                                                     required="true"
+                                                     requiredMessage="Ingrese la descripción del diagnóstico"/>
+                                    <b:message for="dia_descripcion_cie"/>
+                                </b:column>
+                            </b:row>
+
+                            <b:row style="text-align: center;" contentDisabled="false">
+
+                                <b:column offset="3" span="2">
+                                    <b:button large-screen="full-width"
+                                              id="salir"
+                                              value="Regresar"
+                                              href="home-medico"/>
+                                </b:column>
+                                <b:column offset="2" span="2">
+                                    <b:commandButton
+                                        large-screen="full-width"
+                                        id="submit"
+                                        value="Actualizar"
+                                        type="submit"
+                                        action="#{DiagnosticoBean.actualizarDiagnostico()}"
+                                        look="primary" />
+                                </b:column>
+                            </b:row>
+
+                            <br/><br/><br/>
+
+                        </b:panel>
+                </b:form>
+            </b:panel>
+        </b:container>
+        <br/><br/><br/><br/>
+        </b:column>
+    </h:body>
+    <my:piePagina id="piePagina"/>
+</html>

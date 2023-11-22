@@ -307,8 +307,13 @@ public final class PersonaBean implements Serializable {
         //Definiendo los items de la historia
         historiaDefaut();
         
-        //Llamada a beans para guardar datos
-        CitaDAO.crearActualizarHistoria(historia);
+        try {
+            //Llamada a beans para guardar datos        
+            CitaDAO.crearActualizarHistoria(historia);
+            FacesMessages.info(":growlInfo", "Historia creada con éxito!", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.info(":growlInfo", "Error crear una historia: "+e, "This is a specific message!");
+        }
     }
 
     public void guardarDatosHistoriaInicial() {
@@ -338,8 +343,14 @@ public final class PersonaBean implements Serializable {
         //Proceso para guardar historia
         historiaDefaut();
 
-        //Llamada a beans para guardar datos        
-        CitaDAO.crearActualizarHistoria(historia);
+        
+        try {
+            //Llamada a beans para guardar datos        
+            CitaDAO.crearActualizarHistoria(historia);
+            FacesMessages.info(":growlInfo", "Historia creada con éxito!", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.info(":growlInfo", "Error crear una historia: "+e, "This is a specific message!");
+        }
     }
     
     public void revisionDefault(){
@@ -608,11 +619,17 @@ public final class PersonaBean implements Serializable {
                 = PersonaDAO.recuperarPersonaNombre(nombre_medico.split(" - ")[0],
                         nombre_medico.split(" - ")[1]);
         historia.setPersonasByMedicoPerId(medico);
-        CitaDAO.crearActualizarHistoria(historia);
-        context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        FacesMessages.info(":growlInfo", "Médico asignado con éxito!", "This is a specific message!");
-        return "/medico/asignacionMedico.xhtml?faces-redirect=true";
+        try {
+            CitaDAO.crearActualizarHistoria(historia);
+            context = FacesContext.getCurrentInstance();
+            context.getExternalContext().getFlash().setKeepMessages(true);
+            FacesMessages.info(":growlInfo", "Médico asignado con éxito!", "This is a specific message!");
+            return "/medico/asignacionMedico.xhtml?faces-redirect=true";
+        } catch (Exception e) {
+            FacesMessages.info(":growlInfo", "Error al asignar cita: "+e, "This is a specific message!");
+            return null;
+        }
+        
     }
 
     public void inicializarProfesionesYParentescos() {

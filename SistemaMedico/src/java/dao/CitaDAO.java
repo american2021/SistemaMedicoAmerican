@@ -197,22 +197,6 @@ public class CitaDAO {
     }
 
     /**
-     * Método para recuperar los nombres de los diagnósticos con su codigo cie
-     *
-     * @return
-     */
-    public static List<String> recuperarNombresDiagnosticos() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery(
-                "SELECT concat(dia_codigo_cie,' - ',dia_descripcion_cie) FROM Diagnosticos");
-        List<String> diagnosticos = query.list();
-        session.getTransaction().commit();
-        session.close();
-        return diagnosticos;
-    }
-
-    /**
      * Método para recuperar los nombres de los tratamientos con su codigo cie
      *
      * @return
@@ -226,28 +210,6 @@ public class CitaDAO {
         session.getTransaction().commit();
         session.close();
         return tratamientos;
-    }
-
-    /**
-     * Método para recuperar un diagnóstico según su código
-     *
-     * @param codigo_cie
-     * @return
-     */
-    public static Diagnosticos recuperarDiagnosticoCodigoCie(String codigo_cie) {
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("from Diagnosticos where dia_codigo_cie = '" + codigo_cie + "'");
-        Diagnosticos diagnostico = null;
-        if (!query.list().isEmpty()) {
-
-            diagnostico = (Diagnosticos) query.uniqueResult();
-
-        }
-        session.getTransaction().commit();
-        session.close();
-        return diagnostico;
     }
     
     /**
@@ -276,7 +238,6 @@ public class CitaDAO {
     /**
      * Método para verificarHistorias
      *
-     * @return
      */
     public static void verificarHistoria() {
 

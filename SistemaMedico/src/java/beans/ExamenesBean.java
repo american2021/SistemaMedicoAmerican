@@ -9,7 +9,6 @@ import dao.ExamenesDAO;
 import datos.Examenes;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -217,5 +216,4 @@ public final class ExamenesBean implements Serializable{
         this.actualizar = actualizar;
     }
     
-
 }

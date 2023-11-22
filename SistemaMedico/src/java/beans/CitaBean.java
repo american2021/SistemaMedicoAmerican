@@ -93,7 +93,6 @@ public final class CitaBean implements Serializable{
     private List<PersonaExamen> lista_persona_examen;
     private List<HistoriaDiagnostico> lista_historia_diagnosticon;
     private Tratamientos tratamiento;
-    private Diagnosticos nuevo_diagnostico;
     private PersonaAntecedente nuevo_persona_antecedente;
     private PersonaExamen nuevo_persona_examen;
     private HistoriaDiagnostico nuevo_historia_diagnostico;
@@ -161,7 +160,6 @@ public final class CitaBean implements Serializable{
         nombre_tratamiento ="";
         nuevo_persona_antecedente = new PersonaAntecedente();
         nuevo_historia_diagnostico = new HistoriaDiagnostico();
-        nuevo_diagnostico = new Diagnosticos();
         nuevo_persona_examen = new PersonaExamen();
         nuevo_tratamiento = new Tratamientos();
         inicializarProfesionesYParentescos();
@@ -215,7 +213,7 @@ public final class CitaBean implements Serializable{
      * @return 
      */
     public List<String> recuperarNombresDiagnosticos() {
-        return CitaDAO.recuperarNombresDiagnosticos();
+        return DiagnosticoDAO.recuperarNombresDiagnosticos();
     }
     
     /**
@@ -294,7 +292,7 @@ public final class CitaBean implements Serializable{
     public void recuperarDiagnosticosListener(){
         String diagnostico_codigo[] = getNombre_diagnostico().split(" - ");
         if (diagnostico_codigo.length == 2) {
-            diagnostico = CitaDAO.recuperarDiagnosticoCodigoCie(diagnostico_codigo[0]);
+            diagnostico = DiagnosticoDAO.recuperarDiagnosticoCodigoCie(diagnostico_codigo[0]);
         }
         else {
             FacesMessages.info(":growlInfo", "Nombre no válido", "This is a specific message!");
@@ -430,19 +428,7 @@ public final class CitaBean implements Serializable{
         
         return "/estudiante/listadoCitas.xhtml?faces-redirect=true";
     }
-    
-    /**
-     * Método para crear un nuevo diagnóstico CIE 10ma edición
-     */
-    public void crearDiagnosticoCIE10(){
-        nuevo_diagnostico.setDiaEdicionCie("10");
-        nuevo_diagnostico.setDiaFechaUlt(new Date());
-        nuevo_diagnostico.setDiaUsuario(session.getAttribute("usuario").toString());
-        DiagnosticoDAO.crearActualizarDiagnostico(nuevo_diagnostico);
-        nuevo_diagnostico = new Diagnosticos();
-        recuperarNombresDiagnosticos();
-        FacesMessages.info(":growlInfo", "Diagnóstico Creado", "This is a specific message!");
-    }
+
     /**
      * Método para crear un nuevo antecedente
      */
@@ -563,7 +549,6 @@ public final class CitaBean implements Serializable{
     }
     
     public String VerCitaMedica(int hisId) {
-        nuevo_diagnostico = new Diagnosticos();
         nuevo_persona_antecedente = new PersonaAntecedente();
         nuevo_persona_examen = new PersonaExamen();
         nuevo_historia_diagnostico = new HistoriaDiagnostico();
@@ -1027,14 +1012,6 @@ public final class CitaBean implements Serializable{
 
     public void setNombre_examen(String nombre_examen) {
         this.nombre_examen = nombre_examen;
-    }
-        
-    public Diagnosticos getNuevo_diagnostico() {
-        return nuevo_diagnostico;
-    }
-
-    public void setNuevo_diagnostico(Diagnosticos nuevo_diagnostico) {
-        this.nuevo_diagnostico = nuevo_diagnostico;
     }
 
     public PersonaAntecedente getNuevo_persona_antecedente() {
