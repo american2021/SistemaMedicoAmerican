@@ -1,0 +1,337 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/recursos"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <f:event listener="#{LoginBean.comprobarLogin}" type="preRenderView" />
+
+    <h:head>
+        <title>Departamento Médico</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/img/favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/main.css" />
+    </h:head>
+
+    <my:cabecera id="cabecera"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
+    
+    <script>
+        $.blockUI.defaults.css = {
+            padding: 0,
+            margin: 0,
+            width: '30%',
+            top: '40%',
+            left: '35%',
+            textAlign: 'center',
+            color: '#000',
+            border: '0px solid #aaa',
+            backgroundColor: 'transparent',
+            cursor: 'wait'
+        };
+        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
+        $.blockUI.defaults.overlayCSS.opacity = 0.5;
+        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
+    </script>
+
+
+    <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
+    
+    <b:modal id="modalConfirmacion"
+             title="¿Está seguro de que desea eliminar el siguiente antecedente con la descripción #{AntecedenteBean.antecedente.antGrupo} y la categoria #{AntecedenteBean.antecedente.antCategoria}  , de tipo #{AntecedenteBean.antecedenteFormato(AntecedenteBean.antecedente.antTipo)}?"
+             closable="true"
+             close-on-escape="true" backdrop="true" size="modal-lg">
+        <b:form id="formEliminacion" >
+            <b:row>
+                <b:column offset="4">
+                    <b:commandButton span="2"
+                                     ajax="true"
+                                     value="Sí"
+                                     update=":modalConfirmacion:formEliminacion :growl"
+                                     action="#{AntecedenteBean.eliminarAntecedente()}"
+                                     oncomplete="$('#modalConfirmacion').modal('hide')"
+                                     tooltip="Eliminar" look="info">
+                        <f:ajax event="change"
+                                        listener="#{AntecedenteBean.eliminarAntecedente()}"
+                                        render=":formAntecedenteTable :commentform  growl"/>
+                    </b:commandButton>
+                    <b:commandButton span="2"
+                                     ajax="true"
+                                     value="No"
+                                     update=":modalConfirmacion:formEliminacion :growl"
+                                     oncomplete="$('#modalAsignacionMedico').modal('hide')"
+                                     tooltip="Cancelar" look="danger">
+                    </b:commandButton>
+                </b:column>
+            </b:row>
+        </b:form>
+    </b:modal>
+
+    <b:growl id="growl" escape="true" />
+
+    <h:body>
+        <b:column>
+            <my:menuLateralMedico id="menuLateralMedico"/>
+            <my:menuLateralAdministrador id="menuLateralAdministrador"/>
+
+            <b:container fluid="true">
+                #{AntecedenteBean.inicializarAntecedente()}
+                
+                <b:panel span="10" offset="0">
+                    <b:form class="pageForm" id="commentform">
+                        <p:idleMonitor timeout="600000">
+                            <p:ajax event="idle" listener="#{LoginBean.sesionInactiva()}" />
+                        </p:idleMonitor>
+                        <b:row>
+                            <b:column span="12" style="text-align: center;">
+                                <h2><b>Registro Antecedentes</b></h2>
+                            </b:column>
+                            <b:column span="12" style="text-align: center;">
+                                <h6>Todos los campos marcados con * son obligatorios</h6>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <br/>
+                        </b:row>
+                        <b:panel title="Datos Generales" look="info" collapsible="false">
+                            <b:row>
+                                <b:column span="3">
+                                    <b:selectOneMenu label="Tipo de antecedente"
+                                                     id="ant_tipo"
+                                                     value="#{AntecedenteBean.nuevo_antecedente.antTipo}"
+                                                     required="false"
+                                                     requiredMessage="Seleccione el tipo de antecedente">
+                                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true" itemValue="#{null}" />
+                                        <f:selectItem itemLabel="Personal" itemValue="1" />
+                                        <f:selectItem itemLabel="Familiar" itemValue="2" />
+                                        <f:selectItem itemLabel="Andrológico" itemValue="3" />
+                                        <f:selectItem itemLabel="Vacunación" itemValue="4" />
+                                    </b:selectOneMenu>
+                                    <b:message for="tipoPersona" />
+                                </b:column>
+                                <b:column span="3">
+                                    <b:selectOneMenu label="Categoría" id="per_profesion"
+                                                     value="#{AntecedenteBean.nuevo_antecedente.antCategoria}"
+                                                     required="true"
+                                                     requiredMessage="Seleccione la categoría">
+                                        <f:selectItem itemLabel="Seleccione"
+                                                      itemValue="" noSelectionOption="true" />
+                                        <f:selectItems value="#{AntecedenteBean.lista_categoria_antecedentes}"
+                                                       var="o" itemLabel="#{o}"
+                                                       itemValue="#{o}" />
+                                        <f:ajax event="change"
+                                                render="categoria_especifica"
+                                                listener="#{AntecedenteBean.especificar_antecedente()}"/>
+                                    </b:selectOneMenu>
+                                    <b:message for="per_profesion" />
+                                </b:column>
+                                <b:column span="3">
+                                    <h:panelGroup id="categoria_especifica">
+                                        <b:inputText label="Especifique categoría"
+                                                 placeholder="Describa la categoría"
+                                                 size="13"
+                                                 maxlength="100"
+                                                 required="true"
+                                                 value="#{AntecedenteBean.antecedente_abierta}"
+                                                 rendered="#{AntecedenteBean.renderizar_antecedente}"
+                                                 onblur="this.value=this.value.toUpperCase()"
+                                                 requiredMessage="Ingrese antecedente">
+                                            <f:validateLength minimum="3"/>
+                                        </b:inputText>
+                                    </h:panelGroup>
+                                </b:column>
+                                <b:column span="3"> 
+                                    <b:inputText label="Grupo"
+                                                 placeholder="Grupo del antecedente"
+                                                 id="ant_grupo"
+                                                 maxlength="45"
+                                                 value="#{AntecedenteBean.nuevo_antecedente.antGrupo}"
+                                                 required="true"
+                                                 requiredMessage="Ingrese el nuevo antecedente"/>
+
+                                </b:column>
+                            </b:row>
+                            <b:row style="text-align: center;" contentDisabled="false">
+
+                                <b:column offset="3" span="2">
+                                    <b:button large-screen="full-width"
+                                              id="salir"
+                                              value="Regresar"
+                                              href="home"/>
+                                </b:column>
+                                <b:column offset="2" span="2">
+                                    <b:commandButton
+                                        large-screen="full-width"
+                                        id="submit"
+                                        value="Guardar"
+                                        type="submit"
+                                        action="#{AntecedenteBean.crearAntecedente()}"
+                                        look="primary"
+                                        update=":formAntecedenteTable :commentform growl"/>
+                                </b:column>
+                            </b:row>
+                        </b:panel>
+                    </b:form>
+                </b:panel>
+                <b:panel span="10" offset="0">
+                    <h:form id="formAntecedenteTable">
+                        <b:tabView style-class="width: 100%">
+                            <!-- Primer tab -->
+                            <b:tab title="Personal">
+                                <b:panelGrid columns="1">
+                                    <br/>
+                                    <b:dataTable style="width: 95%; margin: 0 auto;" id="examenesTablaLab" value="#{AntecedenteBean.listaExamenesPer}" var="item"
+                                                 responsive="true" content-disabled="false" searching="true"
+                                                 page-length="10" multi-column-search="true" multi-column-search-position="top">
+                                        <b:dataTableColumn label="Categoria" value="#{item.antCategoria}" />
+                                        <b:dataTableColumn label="Descripción" value="#{item.antGrupo}" />
+                                        <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%"
+                                                            orderable="false"
+                                                            searchable="false">
+                                            <b:row>
+                                                <b:column span="1" offset="0">
+                                                    <b:commandButton ajax="true"
+                                                                     action="#{AntecedenteBean.cargarAntecedente(item,'1')}"
+                                                                     tooltip="Editar exámen" look="warning">
+                                                        <b:iconAwesome name="pencil"></b:iconAwesome>
+                                                    </b:commandButton>
+                                                </b:column>
+                                                <b:column offset="1" span="2">
+                                                    <b:commandButton ajax="true"
+                                                                     value=""
+                                                                     actionListener="#{AntecedenteBean.prepararAntecedente(item)}"
+                                                                     update=":modalConfirmacion :formEliminacion :growl"
+                                                                     oncomplete="$('#modalConfirmacion').modal('show')"
+                                                                     tooltip="Elimiar exámen del paciente" look="danger">
+                                                        <b:iconAwesome name="trash"></b:iconAwesome>
+                                                    </b:commandButton>
+                                                </b:column>
+                                            </b:row>
+                                        </b:dataTableColumn>
+                                    </b:dataTable>
+                                </b:panelGrid>
+                            </b:tab>
+
+                            <!-- Segundo tab -->
+                            <b:tab title="Familiar">
+                                <b:panelGrid columns="1">
+                                    <br/>
+                                    <b:dataTable style="width: 95%; margin: 0 auto;" id="examenesTablaLab" value="#{AntecedenteBean.listaExamenesFan}" var="item"
+                                                 responsive="true" content-disabled="false" searching="true"
+                                                 page-length="10" multi-column-search="true" multi-column-search-position="top">
+                                        <b:dataTableColumn label="Categoria" value="#{item.antCategoria}" />
+                                        <b:dataTableColumn label="Descripción" value="#{item.antGrupo}" />
+                                        <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%"
+                                                            orderable="false"
+                                                            searchable="false">
+                                            <b:row>
+                                                <b:column span="1" offset="0">
+                                                    <b:commandButton ajax="true"
+                                                                     action="#{AntecedenteBean.cargarAntecedente(item,'1')}"
+                                                                     tooltip="Editar exámen" look="warning">
+                                                        <b:iconAwesome name="pencil"></b:iconAwesome>
+                                                    </b:commandButton>
+                                                </b:column>
+                                                <b:column offset="1" span="2">
+                                                    <b:commandButton ajax="true"
+                                                                     value=""
+                                                                     actionListener="#{AntecedenteBean.prepararAntecedente(item)}"
+                                                                     update=":modalConfirmacion :formEliminacion :growl"
+                                                                     oncomplete="$('#modalConfirmacion').modal('show')"
+                                                                     tooltip="Elimiar exámen del paciente" look="danger">
+                                                        <b:iconAwesome name="trash"></b:iconAwesome>
+                                                    </b:commandButton>
+                                                </b:column>
+                                            </b:row>
+                                        </b:dataTableColumn>
+                                    </b:dataTable>
+                                </b:panelGrid>
+                            </b:tab>
+
+                            <!-- Tercer tab -->
+                            <b:tab title="Andrológicos">
+                                <br/>
+                                <b:panelGrid columns="1">
+                                    <br/>
+                                    <b:dataTable style="width: 95%; margin: 0 auto;" id="examenesTablaLab" value="#{AntecedenteBean.listaExamenesAnd}" var="item"
+                                                 responsive="true" content-disabled="false" searching="true"
+                                                 page-length="10" multi-column-search="true" multi-column-search-position="top">
+                                        <b:dataTableColumn label="Categoria" value="#{item.antCategoria}" />
+                                        <b:dataTableColumn label="Descripción" value="#{item.antGrupo}" />
+                                        <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%"
+                                                            orderable="false"
+                                                            searchable="false">
+                                            <b:row>
+                                                <b:column span="1" offset="0">
+                                                    <b:commandButton ajax="true"
+                                                                     action="#{AntecedenteBean.cargarAntecedente(item,'1')}"
+                                                                     tooltip="Editar exámen" look="warning">
+                                                        <b:iconAwesome name="pencil"></b:iconAwesome>
+                                                    </b:commandButton>
+                                                </b:column>
+                                                <b:column offset="1" span="2">
+                                                    <b:commandButton ajax="true"
+                                                                     value=""
+                                                                     actionListener="#{AntecedenteBean.prepararAntecedente(item)}"
+                                                                     update=":modalConfirmacion :formEliminacion :growl"
+                                                                     oncomplete="$('#modalConfirmacion').modal('show')"
+                                                                     tooltip="Elimiar exámen del paciente" look="danger">
+                                                        <b:iconAwesome name="trash"></b:iconAwesome>
+                                                    </b:commandButton>
+                                                </b:column>
+                                            </b:row>
+                                        </b:dataTableColumn>
+                                    </b:dataTable>
+                                </b:panelGrid>
+                            </b:tab>
+                            
+                            <!-- Cuarto tab -->
+                            <b:tab title="Vacunación">
+                                <br/>
+                                <b:panelGrid columns="1">
+                                    <br/>
+                                    <b:dataTable style="width: 95%; margin: 0 auto;" id="examenesTablaLab" value="#{AntecedenteBean.listaExamenesVac}" var="item"
+                                                 responsive="true" content-disabled="false" searching="true"
+                                                 page-length="10" multi-column-search="true" multi-column-search-position="top">
+                                        <b:dataTableColumn label="Categoria" value="#{item.antCategoria}" />
+                                        <b:dataTableColumn label="Descripción" value="#{item.antGrupo}" />
+                                        <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%"
+                                                            orderable="false"
+                                                            searchable="false">
+                                            <b:row>
+                                                <b:column span="1" offset="0">
+                                                    <b:commandButton ajax="true"
+                                                                     action="#{AntecedenteBean.cargarAntecedente(item,'1')}"
+                                                                     tooltip="Editar exámen" look="warning">
+                                                        <b:iconAwesome name="pencil"></b:iconAwesome>
+                                                    </b:commandButton>
+                                                </b:column>
+                                                <b:column offset="1" span="2">
+                                                    <b:commandButton ajax="true"
+                                                                     value=""
+                                                                     actionListener="#{AntecedenteBean.prepararAntecedente(item)}"
+                                                                     update=":modalConfirmacion :formEliminacion :growl"
+                                                                     oncomplete="$('#modalConfirmacion').modal('show')"
+                                                                     tooltip="Elimiar exámen del paciente" look="danger">
+                                                        <b:iconAwesome name="trash"></b:iconAwesome>
+                                                    </b:commandButton>
+                                                </b:column>
+                                            </b:row>
+                                        </b:dataTableColumn>
+                                    </b:dataTable>
+                                </b:panelGrid>
+                            </b:tab>
+                        </b:tabView>
+                    </h:form>
+                </b:panel>
+            </b:container>
+            <br/><br/>
+        </b:column>
+    </h:body>
+    <my:piePagina id="piePagina"/>
+</html>

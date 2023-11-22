@@ -20,6 +20,24 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
+    
+    <script>
+        $.blockUI.defaults.css = {
+            padding: 0,
+            margin: 0,
+            width: '30%',
+            top: '40%',
+            left: '35%',
+            textAlign: 'center',
+            color: '#000',
+            border: '0px solid #aaa',
+            backgroundColor: 'transparent',
+            cursor: 'wait'
+        };
+        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
+        $.blockUI.defaults.overlayCSS.opacity = 0.5;
+        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
+    </script>
 
 
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
@@ -133,7 +151,8 @@
                             <!-- Primer tab -->
                             <b:tab title="Laboratorio">
                                 <b:panelGrid columns="1">
-                                    <b:dataTable style="width: 100%;" id="examenesTablaLab" value="#{ExamenesBean.listaExamenesLab}" var="item"
+                                    <br/>
+                                    <b:dataTable style="width: 95%; margin: 0 auto;" id="examenesTablaLab" value="#{ExamenesBean.listaExamenesLab}" var="item"
                                                  responsive="true" content-disabled="false" searching="true"
                                                  page-length="10" multi-column-search="true" multi-column-search-position="top">
                                         <b:dataTableColumn label="Descripción" value="#{item.exaGrupo}" />
@@ -167,7 +186,8 @@
                             <!-- Segundo tab -->
                             <b:tab title="Imagenología">
                                 <b:panelGrid columns="1">
-                                    <b:dataTable style="width: 100%;" id="examenesImagenologiaTabla" value="#{ExamenesBean.listaExamenesImg}" var="item"
+                                    <br/>
+                                    <b:dataTable style="width: 95%; margin: 0 auto;" id="examenesImagenologiaTabla" value="#{ExamenesBean.listaExamenesImg}" var="item"
                                                  responsive="true"  info="true" searching="true"
                                                  page-length="10" multi-column-search="true" multi-column-search-position="top">
                                         <b:dataTableColumn label="Descripción" value="#{item.exaGrupo}" />
@@ -200,7 +220,8 @@
 
                             <!-- Tercer tab -->
                             <b:tab title="Histopatología">
-                                <b:dataTable style="width: 100%;" id="examenesHistopatologiaTabla" value="#{ExamenesBean.listaExamenesHist}" var="item"
+                                <br/>
+                                <b:dataTable style="width: 95%; margin: 0 auto;" id="examenesHistopatologiaTabla" value="#{ExamenesBean.listaExamenesHist}" var="item"
                                              responsive="true"  info="true" content-disabled="false" searching="true"
                                              page-length="10" multi-column-search="true" multi-column-search-position="top">
                                     <b:dataTableColumn label="Descripción" value="#{item.exaGrupo}" />

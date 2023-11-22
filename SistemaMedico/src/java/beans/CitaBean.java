@@ -89,15 +89,11 @@ public final class CitaBean implements Serializable{
     private Antecedente antecedente;
     private Examenes examenes;
     private List<Diagnosticos> lista_diagnosticos;
-    private List<Antecedente> lista_antecedentes;
     private List<PersonaAntecedente> lista_persona_antecedente;
-    private List<Examenes> lista_examenes;
     private List<PersonaExamen> lista_persona_examen;
     private List<HistoriaDiagnostico> lista_historia_diagnosticon;
     private Tratamientos tratamiento;
     private Diagnosticos nuevo_diagnostico;
-    private Antecedente nuevo_antecedente;
-    private Examenes nuevo_examenes;
     private PersonaAntecedente nuevo_persona_antecedente;
     private PersonaExamen nuevo_persona_examen;
     private HistoriaDiagnostico nuevo_historia_diagnostico;
@@ -148,13 +144,11 @@ public final class CitaBean implements Serializable{
         historiasdia = new ArrayList<>();
         revision_checks = new ArrayList<>();
         lista_diagnosticos = new ArrayList<>();
-        lista_antecedentes = new ArrayList<>();
         lista_categoria_antecedentes = new ArrayList<>();
         lista_persona_antecedente = new ArrayList<>();
         diagnostico = new Diagnosticos();
         antecedente = new Antecedente();
         examenes = new Examenes();
-        lista_examenes = new ArrayList<>();
         lista_persona_examen = new ArrayList<>();
         lista_historia_diagnosticon = new ArrayList<>();
         nombre_enfermedad = "";
@@ -166,11 +160,9 @@ public final class CitaBean implements Serializable{
         parentesco_abierto = "";
         nombre_tratamiento ="";
         nuevo_persona_antecedente = new PersonaAntecedente();
-        nuevo_antecedente = new Antecedente();
         nuevo_historia_diagnostico = new HistoriaDiagnostico();
         nuevo_diagnostico = new Diagnosticos();
         nuevo_persona_examen = new PersonaExamen();
-        nuevo_examenes = new Examenes();
         nuevo_tratamiento = new Tratamientos();
         inicializarProfesionesYParentescos();
         inicializarCiudades();
@@ -231,7 +223,7 @@ public final class CitaBean implements Serializable{
      * @return 
      */
     public List<String> recuperarNombresAntecedente() {
-        return CitaDAO.recuperarNombresAntecedentes();
+        return AntecedenteDAO.recuperarNombresAntecedentes();
     }
     
     /**
@@ -240,16 +232,6 @@ public final class CitaBean implements Serializable{
      */
     public List<String> recuperarNombresExamen() {
         return ExamenesDAO.recuperarNombresExamenes();
-    }
-    
-    /**
-     * Método para recuperar los antecedente registrados en la base por el tipo
-     * @param tipo
-     * @return 
-     */
-    public List<Antecedente> recuperarNombresPorTipoAntecedente(String tipo) {
-        lista_antecedentes = CitaDAO.recuperarNombresPorTipoAntecedentes(tipo);
-        return lista_antecedentes;
     }
     
     /**
@@ -278,16 +260,6 @@ public final class CitaBean implements Serializable{
     public List<PersonaAntecedente> recuperarPersonaAntecedente() {
         lista_persona_antecedente = PersonaAntecedenteDAO.recuperarPersonaAntecedente(historia.getPersonasByPacientePerId().getPerId().toString());
         return lista_persona_antecedente;
-    }
-    
-    /**
-     * Método para recuperar los examenes registrados en la base por el tipo
-     * @param tipo
-     * @return 
-     */
-    public List<Examenes> recuperarNombresPorTipoExamenes(String tipo) {
-        lista_examenes = ExamenesDAO.recuperarNombresPorTipoExamenes(tipo);
-        return lista_examenes;
     }
     
     /**
@@ -335,7 +307,7 @@ public final class CitaBean implements Serializable{
      */
     public void recuperarAntecedentesListener(){
         String antecedenteArray[] = getNombre_antecedente().split(" - ");
-        antecedente = CitaDAO.recuperarAntecedenteNombre(antecedenteArray[0], antecedenteArray[1], antecedenteArray[2]);
+        antecedente = AntecedenteDAO.recuperarAntecedenteNombre(antecedenteArray[0], antecedenteArray[1], antecedenteArray[2]);
         if (antecedente == null) {
             FacesMessages.info(":growlInfo", "No se ha encontrado el antecedente", "This is a specific message!");
             nombre_antecedente = "";
@@ -471,29 +443,6 @@ public final class CitaBean implements Serializable{
         recuperarNombresDiagnosticos();
         FacesMessages.info(":growlInfo", "Diagnóstico Creado", "This is a specific message!");
     }
-    
-    /**
-     * Método para crear un nuevo antecedente
-     */
-    public void crearAntecedente(){
-        nuevo_antecedente.setAntFechaUlt(new Date());
-        nuevo_antecedente.setAntUsuario(session.getAttribute("usuario").toString());
-        try {
-            if(!getAntecedente_abierta().isEmpty()){
-                nuevo_antecedente.setAntCategoria(getAntecedente_abierta());
-            }
-            AntecedenteDAO.crearActualizarAntecedente(nuevo_antecedente);
-            nuevo_antecedente = new Antecedente();
-            setAntecedente_abierta("");
-            renderizar_antecedente = "false";
-            recuperarNombresAntecedente();
-            recuperarCategoriaAntecedente();
-            FacesMessages.info(":growlInfo", "Antecedente Creado", "This is a specific message!");
-        } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al crear antecedente creado"+e, "This is a specific message!");
-        }
-    }
-    
     /**
      * Método para crear un nuevo antecedente
      */
@@ -512,22 +461,6 @@ public final class CitaBean implements Serializable{
             FacesMessages.info(":growlInfo", "Antecedente Personal Creado", "This is a specific message!");
         } catch (Exception e) {
             FacesMessages.info(":growlInfo", "Error al crear el antecedente personal"+e, "This is a specific message!");
-        }
-    }
-    
-    /**
-     * Método para crear un nuevo examen
-     */
-    public void crearExamen(){
-        nuevo_examenes.setExaFechaUlt(new Date());
-        nuevo_examenes.setExaUsuario(session.getAttribute("usuario").toString());
-        try {
-            ExamenesDAO.crearActualizarExamanes(nuevo_examenes);
-            nuevo_examenes = new Examenes();
-            recuperarNombresExamen();
-            FacesMessages.info(":growlInfo", "Examen Creado", "This is a specific message!");
-        } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al crear antecedente creado"+e, "This is a specific message!");
         }
     }
     
@@ -631,8 +564,6 @@ public final class CitaBean implements Serializable{
     
     public String VerCitaMedica(int hisId) {
         nuevo_diagnostico = new Diagnosticos();
-        nuevo_antecedente = new Antecedente();
-        nuevo_examenes = new Examenes();
         nuevo_persona_antecedente = new PersonaAntecedente();
         nuevo_persona_examen = new PersonaExamen();
         nuevo_historia_diagnostico = new HistoriaDiagnostico();
@@ -703,7 +634,11 @@ public final class CitaBean implements Serializable{
             tipo = "Personal";
         } else if (tipo.equals("2")){
             tipo = "Familiar";
-        }      
+        } else if (tipo.equals("3")){
+            tipo = "Andrológicos";
+        } else if (tipo.equals("4")){
+            tipo = "Vacunación";
+        }
         return tipo;
     }
     
@@ -718,14 +653,6 @@ public final class CitaBean implements Serializable{
         return tipo;
     }
     
-    public void especificar_antecedente() {
-        if (nuevo_antecedente.getAntCategoria().equals("OTRO")) {
-            renderizar_antecedente = "true";
-        } else {
-            antecedente_abierta = "";
-            renderizar_antecedente = "false";
-        }
-    }
     
     public void cambiarCheck(int id_check){
         switch(id_check){
@@ -1110,22 +1037,6 @@ public final class CitaBean implements Serializable{
         this.nuevo_diagnostico = nuevo_diagnostico;
     }
 
-    public Antecedente getNuevo_antecedente() {
-        return nuevo_antecedente;
-    }
-
-    public void setNuevo_antecedente(Antecedente nuevo_antecedente) {
-        this.nuevo_antecedente = nuevo_antecedente;
-    }
-
-    public Examenes getNuevo_examenes() {
-        return nuevo_examenes;
-    }
-
-    public void setNuevo_examenes(Examenes nuevo_examenes) {
-        this.nuevo_examenes = nuevo_examenes;
-    }
-
     public PersonaAntecedente getNuevo_persona_antecedente() {
         return nuevo_persona_antecedente;
     }
@@ -1150,9 +1061,6 @@ public final class CitaBean implements Serializable{
         this.nuevo_historia_diagnostico = nuevo_historia_diagnostico;
     }
         
-    public List<Antecedente> getLista_antecedentes() {
-        return lista_antecedentes;
-    }
 
     public List<Diagnosticos> getLista_diagnosticos() {
         return lista_diagnosticos;
@@ -1164,10 +1072,6 @@ public final class CitaBean implements Serializable{
     
     public List<PersonaAntecedente> getLista_persona_antecedente() {
         return lista_persona_antecedente;
-    }
-
-    public List<Examenes> getLista_examenes() {
-        return lista_examenes;
     }
 
     public List<PersonaExamen> getLista_persona_examen() {

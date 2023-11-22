@@ -52,12 +52,12 @@
             </p:idleMonitor>
             
         <b:container fluid="true">
-            #{ExamenesBean.inicializarExamenes()}
+            #{AntecedenteBean.inicializarAntecedente()}
 
             <b:panel span="10" offset="0">
                 <b:row>
                     <b:column span="12" style="text-align: center;">
-                        <h2><b>Actualización del exámen</b></h2>
+                        <h2><b>Actualización de antecedente</b></h2>
                     </b:column>
                     <b:column span="12" style="text-align: center;">
                         <h6>Todos los campos marcados con * son obligatorios</h6>
@@ -69,14 +69,14 @@
                 <b:form class="pageForm" id="commentform">
                     <b:row>
                             <b:column span="6" offset="3">
-                                <b:inputText value="#{ExamenesBean.nombre_examen}"
-                                                 label="Exámen"
-                                                 placeholder="Digite el nombre de un exámen"
+                                <b:inputText value="#{AntecedenteBean.nombre_antecedente}"
+                                                 label="Antecedente"
+                                                 placeholder="Digite el nombre de un antecedente"
                                                  typeahead="true"
                                                  id="enf_nombres"
                                                  typeahead-limit="20"
-                                                 typeahead-values="#{ExamenesBean.recuperarNombresExamen()}">
-                                    <f:ajax event="change" listener="#{ExamenesBean.recuperarExamenListener()}" render="" />
+                                                 typeahead-values="#{AntecedenteBean.recuperarNombresAntecedente()}">
+                                    <f:ajax event="change" listener="#{AntecedenteBean.recuperarAntecedentesListener()}" render="" />
                                     <f:ajax render="commentform :growl" />
                                     </b:inputText>
                             </b:column>
@@ -84,32 +84,45 @@
                     <br/>
                     <b:panel title="Datos Generales" look="info" collapsible="false">
                             <b:row>
-                                <b:column span="6">
-                                    <b:selectOneMenu label="Tipo de examen"
-                                                     id="ext_tipo"
-                                                     value="#{ExamenesBean.examenes.exaTipo}"
+                                <b:column span="4">
+                                    <b:selectOneMenu label="Tipo de antecedente"
+                                                     id="ant_tipo"
+                                                     value="#{AntecedenteBean.antecedente.antTipo}"
                                                      required="true"
                                                      requiredMessage="Seleccione el tipo de exámen">
                                         <f:selectItem itemLabel="Seleccione" noSelectionOption="true" itemValue="#{null}" />
-                                        <f:selectItem itemLabel="Laboratorio" itemValue="1" />
-                                        <f:selectItem itemLabel="Imagenologia" itemValue="2" />
-                                        <f:selectItem itemLabel="Histopatología" itemValue="3" />
+                                        <f:selectItem itemLabel="Personal" itemValue="1" />
+                                        <f:selectItem itemLabel="Familiar" itemValue="2" />
+                                        <f:selectItem itemLabel="Andrológico" itemValue="3" />
+                                        <f:selectItem itemLabel="Vacunación" itemValue="4" />
                                     </b:selectOneMenu>
                                 </b:column>
                                 
-                                <b:column span="6">
-                                    <b:inputText label="Descripción"
-                                                 placeholder="Descripción del Exámen"
-                                                 id="enf_codigo"
+                                <b:column span="4">
+                                    <b:inputText label="Categoría"
+                                                 placeholder="Descripción de la categoría"
+                                                 id="ant_categoria"
                                                  size="13"
                                                  maxlength="100"
-                                                 value="#{ExamenesBean.examenes.exaGrupo}"
+                                                 value="#{AntecedenteBean.antecedente.antCategoria}"
                                                  required="true"
-                                                 requiredMessage="Ingrese la descripción del exámen"/>
+                                                 requiredMessage="Ingrese la categoría del antecedente"/>
+                                    <b:message for="enf_codigo"/>
+                                </b:column>
+                                
+                                <b:column span="4">
+                                    <b:inputText label="Grupo"
+                                                 placeholder="Descripción del grupo"
+                                                 id="ant_grupo"
+                                                 size="13"
+                                                 maxlength="100"
+                                                 value="#{AntecedenteBean.antecedente.antGrupo}"
+                                                 required="true"
+                                                 requiredMessage="Ingrese el grupo del antecedente"/>
                                     <b:message for="enf_codigo"/>
                                 </b:column>
                             </b:row>
-
+                            <br/><br/>
                             <b:row style="text-align: center;" contentDisabled="false">
 
                                 <b:column offset="3" span="2">
@@ -124,13 +137,11 @@
                                         id="submit"
                                         value="Actualizar"
                                         type="submit"
-                                        action="#{ExamenesBean.actualizarExamen()}"
+                                        action="#{AntecedenteBean.actualizarAntecedente()}"
                                         look="primary" />
                                 </b:column>
                             </b:row>
-
-                            <br/><br/><br/>
-
+                            <br/>
                         </b:panel>
                 </b:form>
             </b:panel>

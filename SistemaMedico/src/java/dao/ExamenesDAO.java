@@ -84,21 +84,6 @@ public class ExamenesDAO {
     /**
      * Método para recuperar los nombres de los examenes por su tipo
      *
-     * @param tipo
-     * @return
-     */
-    public static List<Examenes> recuperarNombresPorTipoExamenes(String tipo) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("FROM Examenes where exaTipo= '" + tipo + "'");
-        List<Examenes> examanes= query.list();
-        session.getTransaction().commit();
-        session.close();
-        return examanes;
-    }
-    /**
-     * Método para recuperar los nombres de los examenes por su tipo
-     *
      * @return
      */
     public static List<Examenes> recuperarExamenes() {

@@ -192,84 +192,6 @@
     
     <b:modal id="modalCreacionPersonaAntecedente" title="Creación de antecedente" closable="true"
                  close-on-escape="true" backdrop="true" size="modal-lg">
-        <b:form id="formAddAntecedente1" >
-            <b:panel title="Ingrese la información para crear el nuevo antecedente " look="info" collapsible="false" id="panelAntecedente">
-                <b:row>
-                    <b:column span="3">
-                        <b:selectOneMenu label="Tipo de antecedente"
-                                         id="ant_tipo"
-                                         value="#{CitaBean.nuevo_antecedente.antTipo}"
-                                         required="false"
-                                         requiredMessage="Seleccione el tipo de antecedente">
-                            <f:selectItem itemLabel="Seleccione" noSelectionOption="true" itemValue="#{null}" />
-                            <f:selectItem itemLabel="Personal" itemValue="1" />
-                            <f:selectItem itemLabel="Familiar" itemValue="2" />
-                            <f:selectItem itemLabel="Andrológico" itemValue="3" />
-                            <f:selectItem itemLabel="Vacunación" itemValue="4" />
-                        </b:selectOneMenu>
-                        <b:message for="tipoPersona" />
-                    </b:column>
-<!--                    <b:column span="3"> 
-                        <b:inputText label="Categoría"
-                                     placeholder="Categoría del antecedente"
-                                     id="ant_categoria"
-                                     maxlength="45"
-                                     value="#{CitaBean.nuevo_antecedente.antGrupo}"
-                                     required="true"
-                                     requiredMessage="Ingrese el nuevo antecedente"/>
-
-                    </b:column>-->
-                    <b:column span="3">
-                        <b:selectOneMenu label="Categoría" id="per_profesion"
-                                         value="#{CitaBean.nuevo_antecedente.antCategoria}"
-                                         required="true"
-                                         requiredMessage="Seleccione la categoría">
-                            <f:selectItem itemLabel="Seleccione"
-                                          itemValue="" noSelectionOption="true" />
-                            <f:selectItems value="#{CitaBean.lista_categoria_antecedentes}"
-                                           var="o" itemLabel="#{o}"
-                                           itemValue="#{o}" />
-                            <f:ajax event="change"
-                                    render="categoria_especifica"
-                                    listener="#{CitaBean.especificar_antecedente()}"/>
-                        </b:selectOneMenu>
-                        <b:message for="per_profesion" />
-                    </b:column>
-                    <b:column span="3">
-                        <h:panelGroup id="categoria_especifica">
-                            <b:inputText label="Especifique categoría"
-                                     placeholder="Describa la categoría"
-                                     size="13"
-                                     maxlength="100"
-                                     required="true"
-                                     value="#{CitaBean.antecedente_abierta}"
-                                     rendered="#{CitaBean.renderizar_antecedente}"
-                                     onblur="this.value=this.value.toUpperCase()"
-                                     requiredMessage="Ingrese antecedente">
-                                <f:validateLength minimum="3"/>
-                            </b:inputText>
-                        </h:panelGroup>
-                    </b:column>
-                    <b:column span="3"> 
-                        <b:inputText label="Grupo"
-                                     placeholder="Grupo del antecedente"
-                                     id="ant_grupo"
-                                     maxlength="45"
-                                     value="#{CitaBean.nuevo_antecedente.antGrupo}"
-                                     required="true"
-                                     requiredMessage="Ingrese el nuevo antecedente"/>
-
-                    </b:column>
-                    <b:column span="3">
-                        <b:commandButton large-screen="full-width" id="submitt"
-                                         value="Crear Antecedente"
-                                         action="#{CitaBean.crearAntecedente()}"
-                                         look="primary" ajax="true" 
-                                         update="formAddPersonaAntecedente formAddAntecedente1 panelAntecedente :growl"/>
-                    </b:column>
-                </b:row>
-            </b:panel>
-        </b:form>
         <b:form id="formAddPersonaAntecedente">
             <b:panel title="Ingrese la información para crear el antecedente del paciente" look="info" collapsible="false" id="panelPersonalAntecedente">
                 <b:row>
@@ -304,7 +226,7 @@
                     <b:column offset="2" span="4" >
                         <b:commandButton ajax="true"
                                          value="Cancelar Antecedente"
-                                         update=":modalCreacionPersonaAntecedente:formAddAntecedente1 :growl "
+                                         update=":modalCreacionPersonaAntecedente :growl "
                                          oncomplete="handleCancel()"
                                          tooltip="Cancelar Antecedente" 
                                          look="danger">
@@ -333,42 +255,6 @@
     
     <b:modal id="modalCreacionPersonaExamen" title="Creación de Examen" closable="true"
                  close-on-escape="true" backdrop="true" size="modal-lg">
-        <b:form id="formAddExamen" >
-            <b:panel title="Ingrese la información para crear el nuevo examen " look="info" collapsible="false" id="panelExamen">
-                <b:row>
-                    <b:column span="4">
-                        <b:selectOneMenu label="Tipo de examen"
-                                         id="ext_tipo"
-                                         value="#{CitaBean.nuevo_examenes.exaTipo}"
-                                         required="false"
-                                         requiredMessage="Seleccione el tipo de antecedente">
-                            <f:selectItem itemLabel="Seleccione" noSelectionOption="true" itemValue="#{null}" />
-                            <f:selectItem itemLabel="Laboratorio" itemValue="1" />
-                            <f:selectItem itemLabel="Imagenologia" itemValue="2" />
-                            <f:selectItem itemLabel="Histopatología" itemValue="3" />
-                        </b:selectOneMenu>
-                        <b:message for="tipoPersona" />
-                    </b:column>
-                    <b:column span="4"> 
-                        <b:inputText label="Descripción del Examen"
-                                     placeholder="Descripción del examen"
-                                     id="ext_grupo"
-                                     maxlength="45"
-                                     value="#{CitaBean.nuevo_examenes.exaGrupo}"
-                                     required="true"
-                                     requiredMessage="Ingrese el nuevo examen"/>
-
-                    </b:column>
-                    <b:column span="4" class="d-flex justify-content-center" >
-                        <b:commandButton large-screen="full-width" id="submit"
-                                         value="Crear Exámen"
-                                         action="#{CitaBean.crearExamen()}"
-                                         look="primary" ajax="true" 
-                                         update="formAddPersonaExamen formAddExamen panelExamen :growl"/>
-                    </b:column>
-                </b:row>
-            </b:panel>
-        </b:form>
         <b:form id="formAddPersonaExamen">
             <b:panel title="Ingrese la información para crear el exámen del paciente" look="info" collapsible="false" id="panelPersonalExamen">
                 <b:row>
@@ -414,7 +300,7 @@
                     <b:column offset="2" span="4" >
                         <b:commandButton ajax="true"
                                          value="Cancelar Exámen"
-                                         update=":modalCreacionPersonaExamen:formAddExamen :growl "
+                                         update=":modalCreacionPersonaExamen :growl "
                                          oncomplete="closeExamenModal()"
                                          tooltip="Cancelar Exámen" look="danger">
                             <b:iconAwesome name="fa-trash"></b:iconAwesome>

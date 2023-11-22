@@ -96,6 +96,16 @@
         <view-id value="/faces/administrador/actualizacionExamen.xhtml"/>
     </url-mapping>
     
+    <url-mapping id="registro-antecedente">
+        <pattern value="/registro-antecedente"/>
+        <view-id value="/faces/administrador/registroAntecedente.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="actualizacion-antecedente">
+        <pattern value="/actualizacion-antecedente" />
+        <view-id value="/faces/administrador/actualizacionAntecedente.xhtml"/>
+    </url-mapping>
+    
     <url-mapping id="actualizacion-enfermedad">
         <pattern value="/actualizacion-enfermedad" />
         <view-id value="/faces/medico/actualizacionEnfermedad.xhtml"/>

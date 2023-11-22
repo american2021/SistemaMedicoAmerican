@@ -18,7 +18,7 @@ import org.hibernate.Session;
 public class AntecedenteDAO {
     
     /**
-     * Método para crear o actualizar una toma de antecedente.
+     * Método para crear o actualizar un antecedente.
      *
      * @param antecedente
      */
@@ -26,6 +26,19 @@ public class AntecedenteDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         session.saveOrUpdate(antecedente);
+        session.getTransaction().commit();
+        session.close();
+    }
+    
+    /**
+     * Método para eliminar un antecedente.
+     *
+     * @param antecedente
+     */
+    public static void eliminarAntecedente(Antecedente antecedente) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(antecedente);
         session.getTransaction().commit();
         session.close();
     }
@@ -62,6 +75,67 @@ public class AntecedenteDAO {
         session.beginTransaction();
         Query query = session.createQuery("SELECT DISTINCT antCategoria FROM Antecedente ORDER BY antCategoria");
         List<String> antecedente = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return antecedente;
+    }
+    
+    /**
+     * Método para recuperar los nombres de los antecedente
+     *
+     * @return
+     */
+    public static List<String> recuperarNombresAntecedentes() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery(
+                "SELECT concat(CASE antTipo WHEN 1 THEN 'Personal' WHEN 2 THEN 'Familiar' WHEN 3 THEN 'Andrológico' WHEN 4 THEN 'Vacunación' ELSE '' END, ' - ', antCategoria, ' - ',antGrupo ) AS Antecedente_Completo FROM Antecedente WHERE  antTipo NOT IN(0)");
+        List<String> antecedente = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return antecedente;
+    }
+    
+    /**
+     * Método para recuperar un antecedente según su código
+     *
+     * @param grupo
+     * @param categoria
+     * @param tipo
+     * @return
+     */
+    public static Antecedente recuperarAntecedenteNombre(String tipo, String categoria, String grupo) {
+        if (tipo.equals("Personal")) {
+            tipo = tipo.replace("Personal", "1");
+        } else if (tipo.equals("Familiar")) {
+          tipo = tipo.replace("Familiar", "2");
+        } else if (tipo.equals("Andrológico")) {
+          tipo = tipo.replace("Andrológico", "3");
+        } else if (tipo.equals("Vacunación")){
+          tipo = tipo.replace("Vacunación", "4");
+        }
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Antecedente where antGrupo = '" + grupo + "' AND antTipo = '" + tipo + "'"+ " AND antCategoria = '" + categoria + "'");
+        Antecedente antecedente = null;
+        if (!query.list().isEmpty()) {
+            antecedente = (Antecedente) query.uniqueResult();
+        }
+        session.getTransaction().commit();
+        session.close();
+        return antecedente;
+    }
+    
+    /**
+     * Método para recuperar los nombres de los antecedentes por su tipo
+     *
+     * @return
+     */
+    public static List<Antecedente> recuperarAntecedentes() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Antecedente");
+        List<Antecedente> antecedente= query.list();
         session.getTransaction().commit();
         session.close();
         return antecedente;

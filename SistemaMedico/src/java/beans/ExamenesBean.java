@@ -105,7 +105,7 @@ public final class ExamenesBean implements Serializable{
     }
     
     /**
-     * Método para aztualizar un examen
+     * Método para actualizar un examen
      * @return 
      */
     public String actualizarExamen(){
@@ -126,7 +126,7 @@ public final class ExamenesBean implements Serializable{
     }
     
     /**
-     * Método para crear un nuevo examen
+     * Método para eliminar un examen
      */
     public void eliminarExamen(){
         try {
@@ -150,6 +150,7 @@ public final class ExamenesBean implements Serializable{
     /**
      * Método para retornar el tipo de examen
      * @param tipo
+     * @return 
      */
     public String formatoTipoExamen(String tipo) {
         if (tipo.equals("1")){
