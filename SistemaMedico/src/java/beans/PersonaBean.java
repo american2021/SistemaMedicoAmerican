@@ -251,12 +251,18 @@ public final class PersonaBean implements Serializable {
     }
 
     public String registrarCitaNueva() {
-        guardarDatosHistoriaInicial();
-
+        CitaDAO.verificarHistoria();
+        
+        String e  = guardarDatosHistoriaInicial();
+        if (e.equals("Correcto")) {
+            FacesMessages.info(":growlInfo", "Cita nueva creada con éxito", "This is a specific message!");
+        } else {
+            FacesMessages.error(":growlInfo", "Error al crear un historia: "+e, "This is a specific message!");
+        }
+        
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         //Inicializando signos y revision
-        FacesMessages.info(":growlInfo", "Cita nueva creada con éxito", "This is a specific message!");
         return "/privado/home?faces-redirect=true";
     }
 
@@ -316,7 +322,7 @@ public final class PersonaBean implements Serializable {
         }
     }
 
-    public void guardarDatosHistoriaInicial() {
+    public String guardarDatosHistoriaInicial() {
         signos.setSigPresionSistolica(0);
         signos.setSigPresionDiastolica(0);
         signos.setSigPresionArterialMedia(0);
@@ -347,9 +353,9 @@ public final class PersonaBean implements Serializable {
         try {
             //Llamada a beans para guardar datos        
             CitaDAO.crearActualizarHistoria(historia);
-            FacesMessages.info(":growlInfo", "Historia creada con éxito!", "This is a specific message!");
+            return "Correcto";
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error crear una historia: "+e, "This is a specific message!");
+            return e.getCause().getMessage();
         }
     }
     
