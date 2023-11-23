@@ -62,11 +62,11 @@ Contributor(s):
     <mapping resource="datos/Usuarios.hbm.xml"/>
     <mapping resource="datos/Estadocivil.hbm.xml"/>
     <mapping resource="datos/Roles.hbm.xml"/>
+    <mapping resource="datos/HistoriaExamen.hbm.xml"/>
     <mapping resource="datos/Ciudades.hbm.xml"/>
     <mapping resource="datos/Diagnosticos.hbm.xml"/>
-    <mapping resource="datos/PersonaAntecedente.hbm.xml"/>
+    <mapping resource="datos/HistoriaAntecedente.hbm.xml"/>
     <mapping resource="datos/Antecedente.hbm.xml"/>
     <mapping resource="datos/Personas.hbm.xml"/>
-    <mapping resource="datos/PersonaExamen.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

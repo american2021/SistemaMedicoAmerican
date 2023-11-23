@@ -1,5 +1,5 @@
 package datos;
-// Generated 14/11/2023 9:49:10 by Hibernate Tools 4.3.1
+// Generated 23/11/2023 16:28:38 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -17,7 +17,7 @@ public class Examenes  implements java.io.Serializable {
      private String exaGrupo;
      private Date exaFechaUlt;
      private String exaUsuario;
-     private Set personaExamens = new HashSet(0);
+     private Set historiaExamens = new HashSet(0);
 
     public Examenes() {
     }
@@ -27,12 +27,12 @@ public class Examenes  implements java.io.Serializable {
         this.exaTipo = exaTipo;
         this.exaGrupo = exaGrupo;
     }
-    public Examenes(char exaTipo, String exaGrupo, Date exaFechaUlt, String exaUsuario, Set personaExamens) {
+    public Examenes(char exaTipo, String exaGrupo, Date exaFechaUlt, String exaUsuario, Set historiaExamens) {
        this.exaTipo = exaTipo;
        this.exaGrupo = exaGrupo;
        this.exaFechaUlt = exaFechaUlt;
        this.exaUsuario = exaUsuario;
-       this.personaExamens = personaExamens;
+       this.historiaExamens = historiaExamens;
     }
    
     public Integer getExaId() {
@@ -70,12 +70,12 @@ public class Examenes  implements java.io.Serializable {
     public void setExaUsuario(String exaUsuario) {
         this.exaUsuario = exaUsuario;
     }
-    public Set getPersonaExamens() {
-        return this.personaExamens;
+    public Set getHistoriaExamens() {
+        return this.historiaExamens;
     }
     
-    public void setPersonaExamens(Set personaExamens) {
-        this.personaExamens = personaExamens;
+    public void setHistoriaExamens(Set historiaExamens) {
+        this.historiaExamens = historiaExamens;
     }
 
 

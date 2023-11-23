@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 14/11/2023 9:49:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated 23/11/2023 16:28:38 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Personas" table="personas" catalog="smed" optimistic-lock="version">
         <id name="perId" type="java.lang.Integer">
@@ -82,30 +82,6 @@
                 <column name="paciente_per_id" not-null="true" />
             </key>
             <one-to-many class="datos.Historias" />
-        </set>
-        <set name="personaAntecedentesForMedPerId" table="persona_antecedente" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="med_per_id" not-null="true" />
-            </key>
-            <one-to-many class="datos.PersonaAntecedente" />
-        </set>
-        <set name="personaExamensForPerId" table="persona_examen" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="per_id" not-null="true" />
-            </key>
-            <one-to-many class="datos.PersonaExamen" />
-        </set>
-        <set name="personaAntecedentesForPerId" table="persona_antecedente" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="per_id" not-null="true" />
-            </key>
-            <one-to-many class="datos.PersonaAntecedente" />
-        </set>
-        <set name="personaExamensForMedPerId" table="persona_examen" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="med_per_id" not-null="true" />
-            </key>
-            <one-to-many class="datos.PersonaExamen" />
         </set>
     </class>
 </hibernate-mapping>

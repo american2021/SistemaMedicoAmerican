@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 14/11/2023 9:49:11 by Hibernate Tools 4.3.1 -->
+<!-- Generated 23/11/2023 16:28:38 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="datos.PersonaAntecedente" table="persona_antecedente" catalog="smed" optimistic-lock="version">
+    <class name="datos.HistoriaAntecedente" table="historia_antecedente" catalog="smed" optimistic-lock="version">
         <id name="perAntId" type="java.lang.Integer">
             <column name="per_ant_id" />
             <generator class="identity" />
@@ -11,11 +11,8 @@
         <many-to-one name="antecedente" class="datos.Antecedente" fetch="select">
             <column name="ant_id" not-null="true" />
         </many-to-one>
-        <many-to-one name="personasByMedPerId" class="datos.Personas" fetch="select">
-            <column name="med_per_id" not-null="true" />
-        </many-to-one>
-        <many-to-one name="personasByPerId" class="datos.Personas" fetch="select">
-            <column name="per_id" not-null="true" />
+        <many-to-one name="historias" class="datos.Historias" fetch="select">
+            <column name="his_id" not-null="true" />
         </many-to-one>
         <property name="perAntDescripcion" type="string">
             <column name="per_ant_descripcion" length="2000" not-null="true" />

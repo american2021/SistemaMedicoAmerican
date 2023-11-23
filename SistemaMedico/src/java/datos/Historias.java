@@ -1,5 +1,5 @@
 package datos;
-// Generated 14/11/2023 9:49:10 by Hibernate Tools 4.3.1
+// Generated 23/11/2023 16:28:38 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -31,6 +31,8 @@ public class Historias  implements java.io.Serializable {
      private Byte hisCompletado;
      private Set enfermedadeses = new HashSet(0);
      private Set historiaDiagnosticos = new HashSet(0);
+     private Set historiaAntecedentes = new HashSet(0);
+     private Set historiaExamens = new HashSet(0);
 
     public Historias() {
     }
@@ -42,7 +44,7 @@ public class Historias  implements java.io.Serializable {
         this.hisEnfermedad = hisEnfermedad;
         this.hisFechaCreacion = hisFechaCreacion;
     }
-    public Historias(Enfermedades enfermedades, Personas personasByMedicoPerId, Personas personasByPacientePerId, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, Tratamientos tratamientos, String hisMotivo, String hisEnfermedad, String hisExamenGeneral, String hisExamenNeurologico, String hisIndicaciones, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Byte hisCompletado, Set enfermedadeses, Set historiaDiagnosticos) {
+    public Historias(Enfermedades enfermedades, Personas personasByMedicoPerId, Personas personasByPacientePerId, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, Tratamientos tratamientos, String hisMotivo, String hisEnfermedad, String hisExamenGeneral, String hisExamenNeurologico, String hisIndicaciones, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Byte hisCompletado, Set enfermedadeses, Set historiaDiagnosticos, Set historiaAntecedentes, Set historiaExamens) {
        this.enfermedades = enfermedades;
        this.personasByMedicoPerId = personasByMedicoPerId;
        this.personasByPacientePerId = personasByPacientePerId;
@@ -61,6 +63,8 @@ public class Historias  implements java.io.Serializable {
        this.hisCompletado = hisCompletado;
        this.enfermedadeses = enfermedadeses;
        this.historiaDiagnosticos = historiaDiagnosticos;
+       this.historiaAntecedentes = historiaAntecedentes;
+       this.historiaExamens = historiaExamens;
     }
    
     public Integer getHisId() {
@@ -195,6 +199,20 @@ public class Historias  implements java.io.Serializable {
     
     public void setHistoriaDiagnosticos(Set historiaDiagnosticos) {
         this.historiaDiagnosticos = historiaDiagnosticos;
+    }
+    public Set getHistoriaAntecedentes() {
+        return this.historiaAntecedentes;
+    }
+    
+    public void setHistoriaAntecedentes(Set historiaAntecedentes) {
+        this.historiaAntecedentes = historiaAntecedentes;
+    }
+    public Set getHistoriaExamens() {
+        return this.historiaExamens;
+    }
+    
+    public void setHistoriaExamens(Set historiaExamens) {
+        this.historiaExamens = historiaExamens;
     }
 
 

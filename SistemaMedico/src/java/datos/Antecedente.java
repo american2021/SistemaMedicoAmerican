@@ -1,5 +1,5 @@
 package datos;
-// Generated 14/11/2023 9:49:10 by Hibernate Tools 4.3.1
+// Generated 23/11/2023 16:28:38 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -18,7 +18,7 @@ public class Antecedente  implements java.io.Serializable {
      private String antGrupo;
      private Date antFechaUlt;
      private String antUsuario;
-     private Set personaAntecedentes = new HashSet(0);
+     private Set historiaAntecedentes = new HashSet(0);
 
     public Antecedente() {
     }
@@ -29,13 +29,13 @@ public class Antecedente  implements java.io.Serializable {
         this.antCategoria = antCategoria;
         this.antGrupo = antGrupo;
     }
-    public Antecedente(char antTipo, String antCategoria, String antGrupo, Date antFechaUlt, String antUsuario, Set personaAntecedentes) {
+    public Antecedente(char antTipo, String antCategoria, String antGrupo, Date antFechaUlt, String antUsuario, Set historiaAntecedentes) {
        this.antTipo = antTipo;
        this.antCategoria = antCategoria;
        this.antGrupo = antGrupo;
        this.antFechaUlt = antFechaUlt;
        this.antUsuario = antUsuario;
-       this.personaAntecedentes = personaAntecedentes;
+       this.historiaAntecedentes = historiaAntecedentes;
     }
    
     public Integer getAntId() {
@@ -80,12 +80,12 @@ public class Antecedente  implements java.io.Serializable {
     public void setAntUsuario(String antUsuario) {
         this.antUsuario = antUsuario;
     }
-    public Set getPersonaAntecedentes() {
-        return this.personaAntecedentes;
+    public Set getHistoriaAntecedentes() {
+        return this.historiaAntecedentes;
     }
     
-    public void setPersonaAntecedentes(Set personaAntecedentes) {
-        this.personaAntecedentes = personaAntecedentes;
+    public void setHistoriaAntecedentes(Set historiaAntecedentes) {
+        this.historiaAntecedentes = historiaAntecedentes;
     }
 
 
