@@ -257,7 +257,7 @@ public final class PersonaBean implements Serializable {
         if (e.equals("Correcto")) {
             FacesMessages.info(":growlInfo", "Cita nueva creada con éxito", "This is a specific message!");
         } else {
-            FacesMessages.error(":growlInfo", "Error al crear un historia: "+e, "This is a specific message!");
+            FacesMessages.error(":growlInfo", "Error al crear un cita: "+e, "This is a specific message!");
         }
         
         context = FacesContext.getCurrentInstance();
@@ -318,7 +318,7 @@ public final class PersonaBean implements Serializable {
             CitaDAO.crearActualizarHistoria(historia);
             FacesMessages.info(":growlInfo", "Historia creada con éxito!", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error crear una historia: "+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error crear una historia: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
 
@@ -632,7 +632,7 @@ public final class PersonaBean implements Serializable {
             FacesMessages.info(":growlInfo", "Médico asignado con éxito!", "This is a specific message!");
             return "/medico/asignacionMedico.xhtml?faces-redirect=true";
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al asignar cita: "+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al asignar cita: "+e.getCause().getMessage(), "This is a specific message!");
             return null;
         }
         

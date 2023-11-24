@@ -485,7 +485,6 @@ public final class CitaBean implements Serializable{
             nuevo_historia_diagnostico = new HistoriaDiagnostico();
             setNombre_diagnostico("");
             recuperarHistoriaDiagnostico();
-            FacesMessages.info(":growlInfo", "Diagnóstico Personal Creado", "This is a specific message!");
         } catch (Exception e) {
             FacesMessages.info(":growlInfo", "Error al crear el diagnóstico personal "+e, "This is a specific message!");
         }

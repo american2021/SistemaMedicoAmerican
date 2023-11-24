@@ -121,7 +121,7 @@ public final class AntecedenteBean implements Serializable{
             recuperarCategoriaAntecedente();
             FacesMessages.info(":growlInfo", "Antecedente Creado", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al crear antecedente creado"+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al crear antecedente creado: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
     
@@ -140,7 +140,7 @@ public final class AntecedenteBean implements Serializable{
                 return "/administrador/registroAntecedente.xhtml?faces-redirect=true";
             }
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al actualizar antecedente "+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al actualizar antecedente: "+e.getCause().getMessage(), "This is a specific message!");
             return null;
         }
         return null;
@@ -156,7 +156,7 @@ public final class AntecedenteBean implements Serializable{
             recuperarAntecedente();
             FacesMessages.info(":growlInfo", "Antecedente eliminado", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al eliminar antecedente"+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al eliminar antecedente: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
     
@@ -269,7 +269,7 @@ public final class AntecedenteBean implements Serializable{
 
     private List<Antecedente> filtrarPorTipo(String tipo) {;
         return lista_antecedente.stream()
-                .filter(antecedente -> String.valueOf(antecedente.getAntTipo()).equals(tipo))
+                .filter(antecedent -> String.valueOf(antecedent.getAntTipo()).equals(tipo))
                 .collect(Collectors.toList());
     }
     

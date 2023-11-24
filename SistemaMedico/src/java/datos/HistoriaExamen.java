@@ -1,5 +1,5 @@
 package datos;
-// Generated 23/11/2023 16:28:38 by Hibernate Tools 4.3.1
+// Generated 24/11/2023 11:56:23 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -17,17 +17,28 @@ public class HistoriaExamen  implements java.io.Serializable {
      private Date perExaFecha;
      private Date perExaFechaUlt;
      private String perExaUsuario;
+     private Byte perExaCompletado;
 
     public HistoriaExamen() {
     }
 
+	
     public HistoriaExamen(Examenes examenes, Historias historias, String perExaDescripcion, Date perExaFecha, Date perExaFechaUlt, String perExaUsuario) {
+        this.examenes = examenes;
+        this.historias = historias;
+        this.perExaDescripcion = perExaDescripcion;
+        this.perExaFecha = perExaFecha;
+        this.perExaFechaUlt = perExaFechaUlt;
+        this.perExaUsuario = perExaUsuario;
+    }
+    public HistoriaExamen(Examenes examenes, Historias historias, String perExaDescripcion, Date perExaFecha, Date perExaFechaUlt, String perExaUsuario, Byte perExaCompletado) {
        this.examenes = examenes;
        this.historias = historias;
        this.perExaDescripcion = perExaDescripcion;
        this.perExaFecha = perExaFecha;
        this.perExaFechaUlt = perExaFechaUlt;
        this.perExaUsuario = perExaUsuario;
+       this.perExaCompletado = perExaCompletado;
     }
    
     public Integer getPerExaId() {
@@ -79,6 +90,16 @@ public class HistoriaExamen  implements java.io.Serializable {
     public void setPerExaUsuario(String perExaUsuario) {
         this.perExaUsuario = perExaUsuario;
     }
+    public Byte getPerExaCompletado() {
+        return this.perExaCompletado;
+    }
+    
+    public void setPerExaCompletado(Byte perExaCompletado) {
+        this.perExaCompletado = perExaCompletado;
+    }
+
+
+
 
 }
 

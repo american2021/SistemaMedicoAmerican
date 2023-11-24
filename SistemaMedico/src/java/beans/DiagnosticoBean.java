@@ -100,7 +100,7 @@ public final class DiagnosticoBean implements Serializable{
             recuperarDiagnosticos();
             FacesMessages.info(":growlInfo", "Diagnóstico Creado", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al crear diagnóstico"+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al crear diagnóstico: "+e.getCause().getMessage(), "This is a specific message!");
         }
         
     }
@@ -116,12 +116,12 @@ public final class DiagnosticoBean implements Serializable{
             nombre_diagnostico = null;
             recuperarNombresDiagnosticos();
             recuperarDiagnosticos();
-            FacesMessages.info(":growlInfo", "Diag actualizado", "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Diagnóstico actualizado", "This is a specific message!");
             if (this.update_diagnostico.equals("1")) {
                 return "/administrador/registroDiagnostico.xhtml?faces-redirect=true";
             }
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al actualizar exámen "+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al actualizar diagnóstico: "+e.getCause().getMessage(), "This is a specific message!");
             return null;
         }
         return null;
@@ -135,9 +135,9 @@ public final class DiagnosticoBean implements Serializable{
             DiagnosticoDAO.eliminarDiagnostico(diagnosticos);
             recuperarNombresDiagnosticos();
             recuperarDiagnosticos();
-            FacesMessages.info(":growlInfo", "Exámen eliminado", "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Diagnóstico eliminado", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al eliminar examen"+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al eliminar diagnóstico:"+e.getCause().getMessage(), "This is a specific message!");
         }
     }
     

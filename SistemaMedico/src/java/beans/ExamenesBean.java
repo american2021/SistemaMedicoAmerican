@@ -99,7 +99,7 @@ public final class ExamenesBean implements Serializable{
             recuperarExamenes();
             FacesMessages.info(":growlInfo", "Exámen Creado", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al crear exámen"+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al crear exámen: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
     
@@ -118,7 +118,7 @@ public final class ExamenesBean implements Serializable{
                 return "/administrador/registroExamen.xhtml?faces-redirect=true";
             }
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al actualizar exámen "+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al actualizar exámen: "+e.getCause().getMessage(), "This is a specific message!");
             return null;
         }
         return null;
@@ -134,7 +134,7 @@ public final class ExamenesBean implements Serializable{
             recuperarExamenes();
             FacesMessages.info(":growlInfo", "Exámen eliminado", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al eliminar examen"+e, "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al eliminar examen: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
     
