@@ -18,7 +18,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
-       
+
     <script>
         $.blockUI.defaults.css = {
             padding: 0,
@@ -51,15 +51,15 @@
             }
 
             // Si la validación es exitosa, cerramos el modal
-            $('#modalCreacionPersonaAntecedente').modal('hide');
+            $('#modalCreacionHistoriaAntecedente').modal('hide');
             return true; // Indica a BootsFaces que continúe con el cierre del modal
         }
         function closeModal() {
             
-            $('#modalCreacionPersonaAntecedente').modal('hide');
+            $('#modalCreacionHistoriaAntecedente').modal('hide');
         }
         function closeExamenModal() {
-            $('#modalCreacionPersonaExamen').modal('hide');
+            $('#modalCreacionHistoriaExamen').modal('hide');
         }
         function closeDiagnosticoModal() {
             $('#modalCreacionDiagnostico').modal('hide');
@@ -70,7 +70,7 @@
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
     
     <b:modal id="modalConfirmacion"
-             title="¿Está seguro de que desea eliminar el examen #{CitaBean.eliminarPersonaExamen.examenes.exaGrupo}, con resultado #{CitaBean.eliminarPersonaExamen.perExaDescripcion}?"
+             title="¿Está seguro de que desea eliminar el examen #{CitaBean.eliminarHistoriaExamen.examenes.exaGrupo}, con resultado #{CitaBean.eliminarHistoriaExamen.perExaDescripcion}?"
              closable="true"
              close-on-escape="true" backdrop="true" size="modal-lg">
         <b:form id="formEliminacion" >
@@ -141,7 +141,7 @@
 
                     </b:column>
                     <b:column span="4" >
-                        <b:commandButton large-screen="full-width" id="submit" value="Crear Diagnóstico Personal"
+                        <b:commandButton large-screen="full-width" id="submit" value="Crear Diagnóstico"
                                          action="#{CitaBean.crearHistoriaDiagnostico()}"
                                          look="primary" ajax="true"
                                          update="@form"
@@ -157,10 +157,35 @@
         </b:form>
     </b:modal>
     
-    <b:modal id="modalCreacionPersonaAntecedente" title="Creación de antecedente" closable="true"
-                 close-on-escape="true" backdrop="true" size="modal-lg">
-        <b:form id="formAddPersonaAntecedente">
-            <b:panel title="Ingrese la información para crear el antecedente del paciente" look="info" collapsible="false" id="panelPersonalAntecedente">
+    <b:modal id="modalCreacionHistoriaAntecedente" title="Creación de antecedente"  closable="true"
+                 close-on-escape="true" backdrop="true" size="modal-lg" >
+        <b:form id="formAddHistoriaAntecedente">
+            <b:panel title="Ingrese la información para crear el antecedente del paciente" look="info" collapsible="false" id="panelHistoriaAntecedente">
+<!--                <b:row>
+                    <b:tabView>
+                        <b:tab title="Personal">
+                            <b:panelGrid columns="1">
+                                <b:dataTable style="width: 95%; margin: 0 auto;" id="examenesTablaLab" value="#{CitaBean.listaExamenesPer}" var="item"
+                                             responsive="true" content-disabled="false" searching="true"
+                                             page-length="10" multi-column-search="true" multi-column-search-position="top">
+                                    <b:dataTableColumn label="Categoria" value="#{item.antCategoria}" />
+                                    <b:dataTableColumn label="Descripción" value="#{item.antGrupo}" />
+                                </b:dataTable>
+                            </b:panelGrid>
+                        </b:tab>
+                        <b:tab title="Familiar">
+                            <b:panelGrid columns="1">
+                                <b:dataTable style="width: 95%; margin: 0 auto;" id="examenesTablaLab" value="#{CitaBean.listaExamenesFan}" var="item"
+                                             responsive="true" content-disabled="false" searching="true"
+                                             page-length="10" multi-column-search="true" multi-column-search-position="top">
+                                    <b:dataTableColumn label="Categoria" value="#{item.antCategoria}" />
+                                    <b:dataTableColumn label="Descripción" value="#{item.antGrupo}" />
+                                </b:dataTable>
+                            </b:panelGrid>
+                        </b:tab>
+                    </b:tabView>
+                </b:row>-->
+                
                 <b:row>
                     <b:column span="6" >
                         <b:inputText value="#{CitaBean.nombre_antecedente}"
@@ -178,9 +203,9 @@
                 </b:row>
                 <b:row>
                     <b:column span="12">
-                        <b:inputTextarea value="#{CitaBean.nuevo_persona_antecedente.perAntDescripcion}"
-                                     label="Antecedentes Generales"
-                                     placeholder="Antecedentes"
+                        <b:inputTextarea value="#{CitaBean.nuevo_historia_antecedente.perAntDescripcion}"
+                                     label="Descripción"
+                                     placeholder="Ingrese la descripción del antecedente"
                                      id="descripcion_antecedente"
                                      size="13"
                                      rows="5"
@@ -193,7 +218,7 @@
                     <b:column offset="2" span="4" >
                         <b:commandButton ajax="true"
                                          value="Cancelar Antecedente"
-                                         update=":modalCreacionPersonaAntecedente :growl "
+                                         update=":modalCreacionHistoriaAntecedente :growl "
                                          oncomplete="handleCancel()"
                                          tooltip="Cancelar Antecedente" 
                                          look="danger">
@@ -204,14 +229,14 @@
                     <b:column span="4" >
                         <b:commandButton large-screen="full-width" 
                                          id="submit" 
-                                         value="Crear Personal Antecedente"
-                                         action="#{CitaBean.crearAntecedentePersonal()}"
+                                         value="Crear Antecedente"
+                                         action="#{CitaBean.crearHistoriaAntecedente()}"
                                          look="primary" 
                                          ajax="true"
                                          onsuccess="handleSuccess()">
                             <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
                             <f:ajax event="change"
-                                        listener="#{CitaBean.crearAntecedentePersonal()}"
+                                    listener="#{CitaBean.crearHistoriaAntecedente()}"
                                         render="commentform:tablaForm growl"/>
                         </b:commandButton>
                     </b:column>                                    
@@ -220,12 +245,12 @@
         </b:form>
     </b:modal>
     
-    <b:modal id="modalCreacionPersonaExamen" title="Creación de Examen" closable="true"
+    <b:modal id="modalCreacionHistoriaExamen" title="Creación de Examen" closable="true"
                  close-on-escape="true" backdrop="true" size="modal-lg">
-        <b:form id="formAddPersonaExamen">
-            <b:panel title="Ingrese la información para crear el exámen del paciente" look="info" collapsible="false" id="panelPersonalExamen">
+        <b:form id="formAddHistoriaExamen">
+            <b:panel title="Ingrese la información para crear el exámen del paciente" look="info" collapsible="false" id="panelHistoriaExamen">
                 <b:row>
-                    <b:column span="6" >
+                    <b:column span="5" >
                         <b:inputText value="#{CitaBean.nombre_examen}"
                                      label="Exámen"
                                      placeholder="Escoja un examen"
@@ -243,23 +268,33 @@
                             id="exa_fecha"
                             format="DD/MM/YYYY"
                             locale="en"
-                            value="#{CitaBean.nuevo_persona_examen.perExaFecha}"
+                            value="#{CitaBean.nuevo_historia_examen.perExaFecha}"
                             label="Fecha del exámen"
                             required="true"
                             requiredMessage="Ingrese la fecha del exámen">
                         </b:dateTimePicker>
                     </b:column>
+                    <!--                        <h:selectBooleanCheckbox value="#{CitaBean.realizarExamen}" />
+                        <h:outputLabel for="checkbox" value="Enviar" />-->
+                    <b:column span="3">
+                        <h:outputText value="¿Realizar exámen?" />
+                        <b:selectBooleanCheckbox id="carnEstua" 
+                                                 value="#{CitaBean.realizarExamen}" 
+                                                 update="descripcion_examen"
+                                                 style="width: 50% !important; height: 50% !important;"/>
+                    </b:column>
                 </b:row>
                 <b:row>
                     <b:column span="12">
-                        <b:inputTextarea value="#{CitaBean.nuevo_persona_examen.perExaDescripcion}"
+                        <b:inputTextarea value="#{CitaBean.nuevo_historia_examen.perExaDescripcion}"
                                      label="Resultado de exámen"
-                                     placeholder="Describa el resultado del examen"
+                                     placeholder="Describa el resultado del exámen"
                                      id="descripcion_examen"
                                      size="13"
                                      rows="5"
                                      maxlength="2000"
-                                     required="true"
+                                     required="#{!CitaBean.realizarExamen}" 
+                                     disabled="#{CitaBean.realizarExamen}"
                                      requiredMessage="Describa los exámenes generales"/>
                     </b:column>
                 </b:row>
@@ -267,7 +302,7 @@
                     <b:column offset="2" span="4" >
                         <b:commandButton ajax="true"
                                          value="Cancelar Exámen"
-                                         update=":modalCreacionPersonaExamen :growl "
+                                         update=":modalCreacionHistoriaExamen :growl "
                                          oncomplete="closeExamenModal()"
                                          tooltip="Cancelar Exámen" look="danger">
                             <b:iconAwesome name="fa-trash"></b:iconAwesome>
@@ -275,14 +310,14 @@
 
                     </b:column>
                     <b:column span="4" >
-                        <b:commandButton large-screen="full-width" id="submitt" value="Crear Personal Exámen"
-                                         action="#{CitaBean.crearPersonaExamen()}"
+                        <b:commandButton large-screen="full-width" id="submitt" value="Crear Exámen"
+                                         action="#{CitaBean.crearHistoriaExamen()}"
                                          look="primary" ajax="true"
-                                         update="formAddPersonaExamen panelPersonalExamen :growl"
+                                         update="formAddHistoriaExamen panelHistoriaExamen :growl"
                                          oncomplete="if (!args.validationFailed) { closeExamenModal(); }" >
                             <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
                             <f:ajax event="change"
-                                        listener="#{CitaBean.crearPersonaExamen()}"                                 
+                                    listener="#{CitaBean.crearHistoriaExamen()}"                                 
                                         render="commentform:tablaExamenesForm growl"
                                         
                                         />
@@ -727,7 +762,7 @@
                                     <b:commandButton ajax="true"
                                                      value=" Crear Antecedente"
                                                      rendered="#{CitaBean.historia.hisCompletado eq '0'}"
-                                                     oncomplete="$('#modalCreacionPersonaAntecedente').modal('show')"
+                                                     oncomplete="$('#modalCreacionHistoriaAntecedente').modal('show')"
                                                      tooltip="Crear Antecedente" look="primary">
                                         <b:iconAwesome name="stethoscope"></b:iconAwesome>
                                     </b:commandButton>
@@ -738,14 +773,14 @@
                             <b:row>
                                 <b:column span="12">
                                      <h:form id="tablaForm">
-                                        <b:dataTable large-screen="full-width" id="inscritosTabla" value="#{CitaBean.lista_persona_antecedente}" var="personaAntecedente" responsive="true" style="font-size: 11px" info="true" content-disabled="false" searching="true"
+                                        <b:dataTable large-screen="full-width" id="inscritosTabla" value="#{CitaBean.lista_historia_antecedente}" var="historiaAntecedente" responsive="true" style="font-size: 11px" info="true" content-disabled="false" searching="true"
                                             page-length="7" multi-column-search="true" multi-column-search-position="top" >
-                                            <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(personaAntecedente.perAntFechaUlt)}" style="width: 5%" />
-                                            <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormato(personaAntecedente.antecedente.antTipo)}" style="width: 5%" />
-                                            <b:dataTableColumn label="Categoría" value="#{personaAntecedente.antecedente.antCategoria}" style="width: 10%" />
-                                            <b:dataTableColumn label="Antecedente" value="#{personaAntecedente.antecedente.antGrupo}" style="width: 15%" />
-                                            <b:dataTableColumn label="Descripción" value="#{personaAntecedente.perAntDescripcion}" style="width: 50%" />
-                                            <b:dataTableColumn label="Doctor" value="#{personaAntecedente.personasByMedPerId.perApellidos} #{personaAntecedente.personasByMedPerId.perNombres}" style="width: 15%" />
+                                            <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaAntecedente.perAntFechaUlt)}" style="width: 5%" />
+                                            <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormato(historiaAntecedente.antecedente.antTipo)}" style="width: 5%" />
+                                            <b:dataTableColumn label="Categoría" value="#{historiaAntecedente.antecedente.antCategoria}" style="width: 10%" />
+                                            <b:dataTableColumn label="Antecedente" value="#{historiaAntecedente.antecedente.antGrupo}" style="width: 15%" />
+                                            <b:dataTableColumn label="Descripción" value="#{historiaAntecedente.perAntDescripcion}" style="width: 50%" />
+                                            <b:dataTableColumn label="Doctor" value="#{historiaAntecedente.historias.personasByMedicoPerId.perApellidos} #{historiaAntecedente.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
                                         </b:dataTable>
                                     </h:form>
                                 </b:column>
@@ -1253,7 +1288,7 @@
                                     <b:commandButton ajax="true"
                                                      value=" Crear Exámenes"
                                                      rendered="#{CitaBean.historia.hisCompletado eq '0'}"
-                                                     oncomplete="$('#modalCreacionPersonaExamen').modal('show')"
+                                                     oncomplete="$('#modalCreacionHistoriaExamen').modal('show')"
                                                      tooltip="Crear exámenes" look="primary">
                                         <b:iconAwesome name="plus"></b:iconAwesome>
                                     </b:commandButton>
@@ -1263,21 +1298,21 @@
                             <b:row>
                                 <b:column span="12">
                                      <h:form id="tablaExamenesForm">
-                                         <b:dataTable large-screen="full-width" id="examenesTabla" value="#{CitaBean.lista_persona_examen}" var="personaExamen" responsive="true" style="font-size: 11px" info="true" content-disabled="false" searching="true"
+                                         <b:dataTable large-screen="full-width" id="examenesTabla" value="#{CitaBean.lista_historia_examen}" var="historiaExamen" responsive="true" style="font-size: 11px" info="true" content-disabled="false" searching="true"
                                             page-length="7" multi-column-search="true" multi-column-search-position="top" >
-                                            <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(personaExamen.perExaFechaUlt)}" style="width: 5%" />
-                                            <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormatoExamen(personaExamen.examenes.exaTipo)}" style="width: 10%" />
-                                            <b:dataTableColumn label="Exámen" value="#{personaExamen.examenes.exaGrupo}" style="width: 15%" />
-                                            <b:dataTableColumn label="Fecha Exámen" value="#{CitaBean.fechaFormatoYMDS(personaExamen.perExaFecha)}" style="width: 5%" />
-                                            <b:dataTableColumn label="Resultado" value="#{personaExamen.perExaDescripcion}" style="width: 40%" />
-                                            <b:dataTableColumn label="Doctor" value="#{personaExamen.personasByMedPerId.perApellidos} #{personaExamen.personasByMedPerId.perNombres}" style="width: 15%" />
+                                            <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFechaUlt)}" style="width: 5%" />
+                                            <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormatoExamen(historiaExamen.examenes.exaTipo)}" style="width: 10%" />
+                                            <b:dataTableColumn label="Exámen" value="#{historiaExamen.examenes.exaGrupo}" style="width: 15%" />
+                                            <b:dataTableColumn label="Fecha Exámen" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFecha)}" style="width: 5%" />
+                                            <b:dataTableColumn label="Resultado" value="#{historiaExamen.perExaDescripcion}" style="width: 35%" />
+                                            <b:dataTableColumn label="Doctor" value="#{historiaExamen.historias.personasByMedicoPerId.perApellidos} #{historiaExamen.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
                                             <b:dataTableColumn label="Acciones" style="width: 8%;padding-left: 1%;padding-right: 1%"
                                                                 orderable="false"
                                                                 searchable="false">
 <!--                                                 <b:row>
                                                      <b:column span="1">
                                                          <b:commandButton ajax="true"
-                                                                          action="#{CitaBean.VerCitaMedica(personaExamen.perExaId)}"
+                                                                          action="#{CitaBean.VerCitaMedica(historiaExamen.perExaId)}"
                                                                             tooltip="Eliminar exámen personal" look="success">
                                                              <b:iconAwesome name="eye"></b:iconAwesome>
                                                          </b:commandButton>
@@ -1287,7 +1322,7 @@
                                                     <b:column offset="1" span="2">
                                                         <b:commandButton ajax="true"
                                                                          value=""
-                                                                         actionListener="#{CitaBean.prepararEliminacionPersonaExamen(personaExamen)}"
+                                                                         actionListener="#{CitaBean.prepararEliminacionHistoriaExamen(historiaExamen)}"
                                                                          update=":modalConfirmacion:formEliminacion :growl"
                                                                          oncomplete="$('#modalConfirmacion').modal('show')"
                                                                          tooltip="Elimiar exámen del paciente" look="danger">
