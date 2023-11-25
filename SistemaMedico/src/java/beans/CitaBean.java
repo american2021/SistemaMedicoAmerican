@@ -117,6 +117,8 @@ public final class CitaBean implements Serializable{
     private String nombre_examen;
     private String nombre_tratamiento;
     
+    private String panelActual = "panel1";
+    
     private List<Ciudades> lista_ciudades;
     private List<Estadocivil> lista_estados_civiles;
     private List<String> lista_categoria_antecedentes;
@@ -831,6 +833,16 @@ public final class CitaBean implements Serializable{
         else{
             historia.getPersonasByPacientePerId().setPerEdad("0");
         }
+    }
+    
+    public void mostrarPanel(String panel) {
+        System.out.println("Panel: "+panel);
+        // Aquí podrías realizar lógica adicional, por ejemplo, cargar datos específicos del panel desde la base de datos.
+        panelActual = panel;
+    }
+
+    public String getPanelActual() {
+        return panelActual;
     }
     
     public void inicializarCiudades(){
