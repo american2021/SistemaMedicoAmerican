@@ -66,7 +66,7 @@
 
             
         <style>
-            .vertical-tabview .nav-tabs {
+/*            .vertical-tabview .nav-tabs {
                 display: flex;
                 flex-direction: column;
             }
@@ -75,10 +75,10 @@
                 flex: 1;
             }
 
-            /* Add any specific styling for individual tabs if needed */
+             Add any specific styling for individual tabs if needed 
             .vertical-tabview .nav-tabs li {
-                /* Add your styles for individual tabs here */
-            }
+                 Add your styles for individual tabs here 
+            }*/
             
             .custom-button{
                 margin-top: 6px;
@@ -154,12 +154,40 @@
                     <b:column span="10">
                         <!-- Your left-aligned content goes here -->
                         <b:panelGrid columns="1" id="panel1">
-                            <b:panel span="10" offset="0">
+                            <b:panel span="12" offset="0">
                                 <b:form id="commentform">
                                     <h3 id="reply-title">
                                         <b>Antecedentes</b>
                                     </h3>
-                                    <b:panel title="Antecedente" look="info" collapsible="false">
+                                    <b:panel title="Listado de antecedentes" look="info" collapsible="false" id="listadoAntecedente">
+                                        <!--<h:form>-->
+                                            <b:tabView style-class="width: 100%">
+                                                <b:tab title="Personal">
+                                                    <ui:include src="tabContent.xhtml">
+                                                        <ui:param name="lista" value="#{CitaBean.listaExamenesPer}" />
+                                                    </ui:include>
+                                                </b:tab>
+                                                <b:tab title="Familiar">
+                                                    <ui:include src="tabContent.xhtml">
+                                                        <ui:param name="lista" value="#{CitaBean.listaExamenesFan}" />
+                                                    </ui:include>
+                                                </b:tab>
+                                                <b:tab title="Gineco/Obstétrico">
+                                                    <ui:include src="tabContent.xhtml">
+                                                        <ui:param name="lista" value="#{CitaBean.listaExamenesAnd}" />
+                                                    </ui:include>
+                                                </b:tab>
+                                                <b:tab title="Vacunación">
+                                                    <ui:include src="tabContent.xhtml">
+                                                        <ui:param name="lista" value="#{CitaBean.listaExamenesVac}" />
+                                                    </ui:include>
+                                                </b:tab>
+                                                 Otras pestañas aquí 
+                                            </b:tabView>
+                                        <!--</h:form>-->
+                                    </b:panel>
+                                    
+                                    <b:panel title="Antecedentes del paciente" look="info" collapsible="false" id="modalConfirmacion">
                                         <b:row>
                                             <b:column span="12" class="text-center">
                                                 <b:commandButton ajax="true"
@@ -196,10 +224,120 @@
                         <!-- Your left-aligned content goes here -->
                         <b:panelGrid columns="1" id="panel2">
                             <b:panel span="10" offset="0">
-                                <b:form id="commentforma">
+                                <b:form id="formSignos">
                                     <h3>
-                                        <b>Antecedentes</b>
+                                        <b>Signos del paciente</b>
                                     </h3>
+                                    <b:panel title="Signos vitales" look="info" collapsible="false">
+                                        <b:row>
+                                            <b:column span="3">
+                                                <b:inputText label="Presion Arterial Sistólica"
+                                                             placeholder="P.S."
+                                                             id="sig_pre_sistolica"
+                                                             size="13"
+                                                             value="#{CitaBean.signos.sigPresionSistolica}"
+                                                             required="true"
+                                                             maxlength="3"
+                                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                                             requiredMessage="Ingrese la presión sistólica">
+                                                <f:validateLongRange minimum="50" maximum="200"/>
+                                                <f:ajax event="change"
+                                                        listener="#{CitaBean.calcularPresionArterialMedia()}"
+                                                        render="sig_presion_arterial_media growl"/>
+                                                </b:inputText>
+                                                <b:message for="sig_pre_sistolica"/>
+                                            </b:column>
+                                            <b:column span="3">
+                                                <b:inputText label="Presion Arterial Diastólica"
+                                                             placeholder="P.D."
+                                                             id="sig_pre_diastolica"
+                                                             size="13"
+                                                             maxlength="3"
+                                                             value="#{CitaBean.signos.sigPresionDiastolica}"
+                                                             required="true"
+                                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                                             requiredMessage="Ingrese la presión diastólica">
+                                                <f:validateLongRange minimum="50" maximum="200"/>
+                                                <f:ajax event="change"
+                                                        listener="#{CitaBean.calcularPresionArterialMedia()}"
+                                                        render="sig_presion_arterial_media growl"/>
+                                                </b:inputText>
+                                            </b:column>
+                                            <b:column span="3">
+                                                <b:inputText label="Presión Arterial Media"
+                                                             placeholder="P.A.M."
+                                                             id="sig_presion_arterial_media"
+                                                             size="13"
+                                                             maxlength="100"
+                                                             value="#{CitaBean.signos.sigPresionArterialMedia}"
+                                                             required="true"
+                                                             disabled="true"
+                                                             requiredMessage="Ingrese la presión arterial media"/>
+                                            </b:column>
+                                            <b:column span="2">
+                                                <b:inputText label="Temperatura °C"
+                                                             placeholder="Temperatura °C"
+                                                             id="sig_temperatura"
+                                                             size="13"
+                                                             maxlength="5"
+                                                             value="#{CitaBean.signos.sigTemperatura}"
+                                                             required="true"
+                                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
+                                                             requiredMessage="Ingrese la temperatura">
+                                                <f:validateLongRange minimum="20" maximum="60"/>
+                                                <f:ajax event="change"
+                                                        render="growl"/>
+                                                </b:inputText>
+                                            </b:column>
+                                        </b:row>
+                                        <b:row>
+                                            <b:column span="3">
+                                                <b:inputText label="Frecuencia Respiratoria (minuto)"
+                                                             placeholder="F.R."
+                                                             id="sig_frecuencia_respiratoria"
+                                                             size="13"
+                                                             maxlength="3"
+                                                             value="#{CitaBean.signos.sigFrecuenciaRespiratoria}"
+                                                             required="true"
+                                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                                             requiredMessage="Ingrese la frecuencia respiratoria">
+                                                <f:validateLongRange minimum="10" maximum="100"/>
+                                                <f:ajax event="change"
+                                                        render="growl"/>
+                                                </b:inputText>
+                                            </b:column>
+                                            <b:column span="3">
+                                                <b:inputText label="Frecuencia Cardíaca (minuto)"
+                                                             placeholder="F.C."
+                                                             id="sig_frecuencia_cardiaca"
+                                                             size="13"
+                                                             maxlength="3"
+                                                             value="#{CitaBean.signos.sigFrecuenciaCardiaca}"
+                                                             required="true"
+                                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                                             requiredMessage="Ingrese la frecuencia cardiaca">
+                                                <f:validateLongRange minimum="10" maximum="300"/>
+                                                <f:ajax event="change"
+                                                        render="growl"/>
+                                                </b:inputText>
+                                            </b:column>
+                                            <b:column span="2">
+                                                <b:inputText label="Saturacion (%)"
+                                                             placeholder="Saturación (%)"
+                                                             id="sig_saturacion"
+                                                             size="13"
+                                                             maxlength="2"
+                                                             value="#{CitaBean.signos.sigSaturacion}"
+                                                             required="true"
+                                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                                                             requiredMessage="Ingrese la saturacion">
+                                                <f:validateLongRange minimum="50" maximum="100"/>
+                                                <f:ajax event="change"
+                                                        render="growl"/>
+                                                </b:inputText>
+                                            </b:column>
+                                        </b:row>
+                                    </b:panel>
                                 </b:form>
                             </b:panel>
                             <!-- Additional left-aligned content goes here -->

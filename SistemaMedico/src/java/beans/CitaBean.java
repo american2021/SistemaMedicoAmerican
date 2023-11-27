@@ -57,7 +57,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -70,6 +72,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -103,6 +106,8 @@ public final class CitaBean implements Serializable{
     private RevisionSistemas revision;
     private HistoriaExamen eliminarHistoriaExamen;
     
+    private Map<Long, String> editedDescriptions;
+    private String descripcionAntecedenteTemp;
     private Boolean realizarExamen;
     
     private String renderizar_profesion_abierta;
@@ -170,6 +175,8 @@ public final class CitaBean implements Serializable{
         inicializarCiudades();
         inicializarEstadosCiviles();
         recuperarAntecedente();
+        editedDescriptions = new HashMap<>();
+        descripcionAntecedenteTemp = "";
     }
     
     /**
@@ -461,6 +468,44 @@ public final class CitaBean implements Serializable{
         } catch (Exception e) {
             FacesMessages.info(":growlInfo", "Error al crear el antecedente: "+e.getCause().getMessage(), "This is a specific message!");
         }
+    }
+    
+    private boolean validarAntecedente(Antecedente antecedente) {
+    return antecedente != null && antecedente.getAntId() != null && StringUtils.isNotBlank(editedDescriptions.get(antecedente.getAntId()));
+}
+    
+    /**
+     * Método para crear un nuevo Historia antecedente
+     * @param antecedent
+     */
+    public void crearHistoriaAntecedentePrueba(Antecedente antecedent){
+//        System.out.println("descripcionAntecedenteTemp;: "+descripcionAntecedenteTemp);
+    
+        if (validarAntecedente(antecedent)) {
+            // Lógica para procesar el antecedente si la validación pasa
+            nuevo_historia_antecedente.setAntecedente(antecedent);
+            nuevo_historia_antecedente.setPerAntFechaUlt(new Date());
+            nuevo_historia_antecedente.setPerAntUsuario(session.getAttribute("usuario").toString());
+            nuevo_historia_antecedente.setHistorias(historia);
+            nuevo_historia_antecedente.setPerAntDescripcion(getEditedDescriptions().get(antecedent.getAntId()) );
+            try {
+                HistoriaAntecedenteDAO.crearActualizarHistoriaAntecedente(nuevo_historia_antecedente);
+                nuevo_historia_antecedente = new HistoriaAntecedente();
+                editedDescriptions = new HashMap<>();
+                setNombre_antecedente("");
+                recuperarHistoriaAntecedente();
+                FacesMessages.info(":growlInfo", "Antecedente Creado", "This is a specific message!");
+            } catch (Exception e) {
+                FacesMessages.error(":growlInfo", "Error al crear el antecedente: "+e.getCause().getMessage(), "This is a specific message!");
+            }
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesMessages.error(":growlInfo", "Error: El campo de descripción no puede estar vacío.", "This is a specific message!");
+
+//            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El campo de descripción no puede estar vacío."));
+        }
+        
+        
     }
     
     /**
@@ -1117,24 +1162,45 @@ public final class CitaBean implements Serializable{
     }
     
     public List<Antecedente> getListaExamenesPer() {
-        return filtrarPorTipo("1");
+        return filtrarPorTipos("1");
     }
 
     public List<Antecedente> getListaExamenesFan() {
-        return filtrarPorTipo("2");
+        return filtrarPorTipos("2");
     }
 
     public List<Antecedente> getListaExamenesAnd() {
-        return filtrarPorTipo("3");
+        return filtrarPorTipos("3");
     }
     
     public List<Antecedente> getListaExamenesVac() {
-        return filtrarPorTipo("4");
+        return filtrarPorTipos("4");
     }
 
-    private List<Antecedente> filtrarPorTipo(String tipo) {;
+    private List<Antecedente> filtrarPorTipos(String tipo) {;
         return lista_antecedente.stream()
                 .filter(antecedente -> String.valueOf(antecedente.getAntTipo()).equals(tipo))
                 .collect(Collectors.toList());
     }
+
+    public Map<Long, String> getEditedDescriptions() {
+        return editedDescriptions;
+    }
+
+
+    public void setEditedDescriptions(Map<Long, String> editedDescriptions) {
+        this.editedDescriptions = editedDescriptions;
+    }
+
+    public String getDescripcionAntecedenteTemp() {
+        return descripcionAntecedenteTemp;
+    }
+    
+    public void setDescripcionAntecedenteTemp(String descripcionAntecedenteTemp) {
+        this.descripcionAntecedenteTemp = descripcionAntecedenteTemp;
+    }
+    
+    
+    
+   
 }

@@ -9,6 +9,7 @@ import dao.AntecedenteDAO;
 import datos.Antecedente;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -252,7 +253,9 @@ public final class AntecedenteBean implements Serializable{
     }
     
     public List<Antecedente> getListaExamenesPer() {
-        return filtrarPorTipo("1");
+        List<Antecedente> j = filtrarPorTipo("1");
+        System.out.println(Arrays.toString(j.toArray()));
+        return j;
     }
 
     public List<Antecedente> getListaExamenesFan() {
