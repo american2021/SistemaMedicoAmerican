@@ -139,13 +139,49 @@
                             <b:row>
                                 <b:column  style="text-align: center;">
                                     <!-- Call the JavaScript function to show the first panel when the page loads -->
-                                    <b:commandButton value="Antecedente" styleClass="btn btn-default custom-button" type="button" onclick="showPanel('panel1');" />
+                                    <b:commandButton value="Historia Clínica" styleClass="btn btn-default custom-button" type="button" onclick="showPanel('panel1');" />
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column  style="text-align: center;">
+                                    <!-- Call the JavaScript function to show the first panel when the page loads -->
+                                    <b:commandButton value="Antecedente" styleClass="btn btn-default custom-button" type="button" onclick="showPanel('panel2');" />
                                 </b:column>
                             </b:row>
                             <b:row>
                                 <b:column  style="text-align: center;">
                                     <!-- Call the JavaScript function to show the second panel when clicked -->
-                                    <b:commandButton value="Signos" styleClass="btn btn-default custom-button" type="button" onclick="showPanel('panel2');" />
+                                    <b:commandButton value="Signos" styleClass="btn btn-default custom-button" type="button" onclick="showPanel('panel3');" />
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column  style="text-align: center;">
+                                    <!-- Call the JavaScript function to show the second panel when clicked -->
+                                    <b:commandButton value="Revisión de órganos y sistemas" styleClass="btn btn-default custom-button" type="button" onclick="showPanel('panel4');" />
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column  style="text-align: center;">
+                                    <!-- Call the JavaScript function to show the second panel when clicked -->
+                                    <b:commandButton value="Exámen fisico" styleClass="btn btn-default custom-button" type="button" onclick="showPanel('panel5');" />
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column  style="text-align: center;">
+                                    <!-- Call the JavaScript function to show the second panel when clicked -->
+                                    <b:commandButton value="Exámenes" styleClass="btn btn-default custom-button" type="button" onclick="showPanel('panel6');" />
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column  style="text-align: center;">
+                                    <!-- Call the JavaScript function to show the second panel when clicked -->
+                                    <b:commandButton value="Diagnóstico " styleClass="btn btn-default custom-button" type="button" onclick="showPanel('panel7');" />
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column  style="text-align: center;">
+                                    <!-- Call the JavaScript function to show the second panel when clicked -->
+                                    <b:commandButton value="Tratamiento " styleClass="btn btn-default custom-button" type="button" onclick="showPanel('panel8');" />
                                 </b:column>
                             </b:row>
                         </b:column>
@@ -155,56 +191,75 @@
                         <!-- Your left-aligned content goes here -->
                         <b:panelGrid columns="1" id="panel1">
                             <b:panel span="12" offset="0">
+                                <h3>
+                                    <b>Historia Clínica</b>
+                                </h3>
+                                <b:panel title="Historia clínica" look="info" collapsible="false">
+                                    <b:row>
+                                        <b:column span="5">
+                                            <b:inputTextarea label="Motivo de la consulta"
+                                                         placeholder="Motivo consulta"
+                                                         id="motivo_consulta"
+                                                         size="13"
+                                                         rows="5"
+                                                         maxlength="100"
+                                                         value="#{CitaBean.historia.hisMotivo}"
+                                                         required="true"
+                                                         requiredMessage="Describa el motivo de consulta"/>
+                                        </b:column>     
+                                        <b:column span="7">
+                                            <b:inputTextarea label="Enfermedad actual"
+                                                        placeholder="Describa la enfermedad"
+                                                        id="nomEnfermedadActual"
+                                                        size="13"
+                                                        rows="5"
+                                                        maxlength="3000"
+                                                        value="#{CitaBean.historia.hisEnfermedad}"
+                                                        required="true"
+                                                        requiredMessage="Describa la enfermedad actual"/>
+                                        </b:column>
+                                    </b:row>
+
+                                </b:panel>
+                            </b:panel>
+                        </b:panelGrid>
+                        <!-- Your left-aligned content goes here -->
+                        <b:panelGrid columns="1" id="panel2">
+                            <b:panel span="12" offset="0">
                                 <b:form id="commentform">
                                     <h3 id="reply-title">
                                         <b>Antecedentes</b>
                                     </h3>
                                     <b:panel title="Listado de antecedentes" look="info" collapsible="false" id="listadoAntecedente">
-                                        <!--<h:form>-->
-                                            <b:tabView style-class="width: 100%">
-                                                <b:tab title="Personal">
-                                                    <ui:include src="tabContent.xhtml">
-                                                        <ui:param name="lista" value="#{CitaBean.listaExamenesPer}" />
-                                                    </ui:include>
-                                                </b:tab>
-                                                <b:tab title="Familiar">
-                                                    <ui:include src="tabContent.xhtml">
-                                                        <ui:param name="lista" value="#{CitaBean.listaExamenesFan}" />
-                                                    </ui:include>
-                                                </b:tab>
-                                                <b:tab title="Gineco/Obstétrico">
-                                                    <ui:include src="tabContent.xhtml">
-                                                        <ui:param name="lista" value="#{CitaBean.listaExamenesAnd}" />
-                                                    </ui:include>
-                                                </b:tab>
-                                                <b:tab title="Vacunación">
-                                                    <ui:include src="tabContent.xhtml">
-                                                        <ui:param name="lista" value="#{CitaBean.listaExamenesVac}" />
-                                                    </ui:include>
-                                                </b:tab>
-                                                 Otras pestañas aquí 
-                                            </b:tabView>
-                                        <!--</h:form>-->
+                                        <b:tabView style-class="width: 100%">
+                                            <b:tab title="Personal">
+                                                <ui:include src="tabContentAntecedente.xhtml">
+                                                    <ui:param name="lista" value="#{CitaBean.listaAntecedentePer}" />
+                                                </ui:include>
+                                            </b:tab>
+                                            <b:tab title="Familiar">
+                                                <ui:include src="tabContentAntecedente.xhtml">
+                                                    <ui:param name="lista" value="#{CitaBean.listaAntecedenteFan}" />
+                                                </ui:include>
+                                            </b:tab>
+                                            <b:tab title="Gineco/Obstétrico">
+                                                <ui:include src="tabContentAntecedente.xhtml">
+                                                    <ui:param name="lista" value="#{CitaBean.listaAntecedenteAnd}" />
+                                                </ui:include>
+                                            </b:tab>
+                                            <b:tab title="Vacunación">
+                                                <ui:include src="tabContentAntecedente.xhtml">
+                                                    <ui:param name="lista" value="#{CitaBean.listaAntecedenteVac}" />
+                                                </ui:include>
+                                            </b:tab>
+                                        </b:tabView>
                                     </b:panel>
                                     
                                     <b:panel title="Antecedentes del paciente" look="info" collapsible="false" id="modalConfirmacion">
                                         <b:row>
-                                            <b:column span="12" class="text-center">
-                                                <b:commandButton ajax="true"
-                                                                 value=" Crear Antecedente"
-                                                                 rendered="#{CitaBean.historia.hisCompletado eq '0'}"
-                                                                 oncomplete="$('#modalCreacionHistoriaAntecedente').modal('show')"
-                                                                 tooltip="Crear Antecedente" look="primary">
-                                                    <b:iconAwesome name="stethoscope"></b:iconAwesome>
-                                                </b:commandButton>
-                                            </b:column>
-
-                                        </b:row>
-                                        <br/>
-                                        <b:row>
                                             <b:column span="12">
                                                  <h:form id="tablaForm">
-                                                    <b:dataTable large-screen="full-width" id="inscritosTabla" value="#{CitaBean.lista_historia_antecedente}" var="historiaAntecedente" responsive="true" style="font-size: 11px" info="true" content-disabled="false" searching="true"
+                                                    <b:dataTable large-screen="full-width" id="inscritosTabla" value="#{CitaBean.lista_historia_antecedente}" var="historiaAntecedente" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
                                                         page-length="7" multi-column-search="true" multi-column-search-position="top" >
                                                         <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaAntecedente.perAntFechaUlt)}" style="width: 5%" />
                                                         <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormato(historiaAntecedente.antecedente.antTipo)}" style="width: 5%" />
@@ -222,125 +277,120 @@
                             <!-- Additional left-aligned content goes here -->
                         </b:panelGrid>
                         <!-- Your left-aligned content goes here -->
-                        <b:panelGrid columns="1" id="panel2">
-                            <b:panel span="10" offset="0">
-                                <b:form id="formSignos">
-                                    <h3>
-                                        <b>Signos del paciente</b>
+                        <b:panelGrid columns="1" id="panel3">
+                            <b:panel span="12" offset="0">
+                                <ui:include src="panelSignoPaciente.xhtml">
+                                </ui:include>
+                            </b:panel>
+                            <!-- Additional left-aligned content goes here -->
+                        </b:panelGrid>
+                        <b:panelGrid columns="1" id="panel4">
+                            <b:panel span="12" offset="0">  
+                                <ui:include src="panelRevision.xhtml">
+                                </ui:include>
+                            </b:panel>
+                        </b:panelGrid>
+                        <b:panelGrid columns="1" id="panel5">
+                            <b:panel span="12" offset="0">
+                                <h3>
+                                    <b>Exámen Físico</b>
+                                </h3>
+                                <b:panel title="Exámen" look="info" collapsible="false">
+                                    <b:row>
+                                        <b:column span="6">
+                                            <b:inputTextarea label="Exámen General"
+                                                         placeholder="Examenes generales"
+                                                         id="examenes_general"
+                                                         size="13"
+                                                         rows="5"
+                                                         maxlength="2000"
+                                                         value="#{CitaBean.historia.hisExamenGeneral}"/>
+                                        </b:column>
+                                        <b:column span="6">
+                                            <b:inputTextarea label="Exámen Neurologico"
+                                                         placeholder="Examenes neurologicos"
+                                                         id="examenes_neurologicos"
+                                                         size="13"
+                                                         rows="5"
+                                                         maxlength="2000"
+                                                         value="#{CitaBean.historia.hisExamenNeurologico}"/>
+                                        </b:column>
+                                    </b:row>
+                                </b:panel>
+                            </b:panel>
+                        </b:panelGrid>
+                        <b:panelGrid columns="1" id="panel6">
+                            <b:panel span="12" offset="0">
+                                <h:form id="formExamenLabIma">
+                                    <h3 id="reply-title">
+                                        <b>Exámenes</b>
                                     </h3>
-                                    <b:panel title="Signos vitales" look="info" collapsible="false">
+                                    <b:panel title="Listado de exámenes" look="info" collapsible="false" id="listadoExamenes">
+                                        <b:tabView style-class="width: 100%">
+                                            <b:tab title="Laboratorio">
+                                                <ui:include src="tabContentExamen.xhtml">
+                                                    <ui:param name="lista" value="#{CitaBean.listaExamenesLab}" />
+                                                </ui:include>
+                                            </b:tab>
+                                            <b:tab title="Imagenología">
+                                                <ui:include src="tabContentExamen.xhtml">
+                                                    <ui:param name="lista" value="#{CitaBean.listaExamenesImg}" />
+                                                </ui:include>
+                                            </b:tab>
+                                            <b:tab title="Histopatología">
+                                                <ui:include src="tabContentExamen.xhtml">
+                                                    <ui:param name="lista" value="#{CitaBean.listaExamenesHist}" />
+                                                </ui:include>
+                                            </b:tab>
+                                        </b:tabView>
+                                    </b:panel>
+                                    <b:panel title="Exámenes de laboratorio e imagen" look="info" collapsible="false">
                                         <b:row>
-                                            <b:column span="3">
-                                                <b:inputText label="Presion Arterial Sistólica"
-                                                             placeholder="P.S."
-                                                             id="sig_pre_sistolica"
-                                                             size="13"
-                                                             value="#{CitaBean.signos.sigPresionSistolica}"
-                                                             required="true"
-                                                             maxlength="3"
-                                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
-                                                             requiredMessage="Ingrese la presión sistólica">
-                                                <f:validateLongRange minimum="50" maximum="200"/>
-                                                <f:ajax event="change"
-                                                        listener="#{CitaBean.calcularPresionArterialMedia()}"
-                                                        render="sig_presion_arterial_media growl"/>
-                                                </b:inputText>
-                                                <b:message for="sig_pre_sistolica"/>
-                                            </b:column>
-                                            <b:column span="3">
-                                                <b:inputText label="Presion Arterial Diastólica"
-                                                             placeholder="P.D."
-                                                             id="sig_pre_diastolica"
-                                                             size="13"
-                                                             maxlength="3"
-                                                             value="#{CitaBean.signos.sigPresionDiastolica}"
-                                                             required="true"
-                                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
-                                                             requiredMessage="Ingrese la presión diastólica">
-                                                <f:validateLongRange minimum="50" maximum="200"/>
-                                                <f:ajax event="change"
-                                                        listener="#{CitaBean.calcularPresionArterialMedia()}"
-                                                        render="sig_presion_arterial_media growl"/>
-                                                </b:inputText>
-                                            </b:column>
-                                            <b:column span="3">
-                                                <b:inputText label="Presión Arterial Media"
-                                                             placeholder="P.A.M."
-                                                             id="sig_presion_arterial_media"
-                                                             size="13"
-                                                             maxlength="100"
-                                                             value="#{CitaBean.signos.sigPresionArterialMedia}"
-                                                             required="true"
-                                                             disabled="true"
-                                                             requiredMessage="Ingrese la presión arterial media"/>
-                                            </b:column>
-                                            <b:column span="2">
-                                                <b:inputText label="Temperatura °C"
-                                                             placeholder="Temperatura °C"
-                                                             id="sig_temperatura"
-                                                             size="13"
-                                                             maxlength="5"
-                                                             value="#{CitaBean.signos.sigTemperatura}"
-                                                             required="true"
-                                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which &eq; 46) return false;"
-                                                             requiredMessage="Ingrese la temperatura">
-                                                <f:validateLongRange minimum="20" maximum="60"/>
-                                                <f:ajax event="change"
-                                                        render="growl"/>
-                                                </b:inputText>
+                                            <b:column span="12" class="text-center">
+                                                <b:commandButton ajax="true"
+                                                                 value=" Crear Exámenes"
+                                                                 rendered="#{CitaBean.historia.hisCompletado eq '0'}"
+                                                                 oncomplete="$('#modalCreacionHistoriaExamen').modal('show')"
+                                                                 tooltip="Crear exámenes" look="primary">
+                                                    <b:iconAwesome name="plus"></b:iconAwesome>
+                                                </b:commandButton>
                                             </b:column>
                                         </b:row>
+                                        <br/>
                                         <b:row>
-                                            <b:column span="3">
-                                                <b:inputText label="Frecuencia Respiratoria (minuto)"
-                                                             placeholder="F.R."
-                                                             id="sig_frecuencia_respiratoria"
-                                                             size="13"
-                                                             maxlength="3"
-                                                             value="#{CitaBean.signos.sigFrecuenciaRespiratoria}"
-                                                             required="true"
-                                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
-                                                             requiredMessage="Ingrese la frecuencia respiratoria">
-                                                <f:validateLongRange minimum="10" maximum="100"/>
-                                                <f:ajax event="change"
-                                                        render="growl"/>
-                                                </b:inputText>
-                                            </b:column>
-                                            <b:column span="3">
-                                                <b:inputText label="Frecuencia Cardíaca (minuto)"
-                                                             placeholder="F.C."
-                                                             id="sig_frecuencia_cardiaca"
-                                                             size="13"
-                                                             maxlength="3"
-                                                             value="#{CitaBean.signos.sigFrecuenciaCardiaca}"
-                                                             required="true"
-                                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
-                                                             requiredMessage="Ingrese la frecuencia cardiaca">
-                                                <f:validateLongRange minimum="10" maximum="300"/>
-                                                <f:ajax event="change"
-                                                        render="growl"/>
-                                                </b:inputText>
-                                            </b:column>
-                                            <b:column span="2">
-                                                <b:inputText label="Saturacion (%)"
-                                                             placeholder="Saturación (%)"
-                                                             id="sig_saturacion"
-                                                             size="13"
-                                                             maxlength="2"
-                                                             value="#{CitaBean.signos.sigSaturacion}"
-                                                             required="true"
-                                                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
-                                                             requiredMessage="Ingrese la saturacion">
-                                                <f:validateLongRange minimum="50" maximum="100"/>
-                                                <f:ajax event="change"
-                                                        render="growl"/>
-                                                </b:inputText>
+                                            <b:column span="12">
+                                                 <h:form id="tablaExamenesForm">
+                                                     <b:dataTable large-screen="full-width" id="examenesTabla" value="#{CitaBean.lista_historia_examen}" var="historiaExamen" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                                                        page-length="7" multi-column-search="true" multi-column-search-position="top" >
+                                                        <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFechaUlt)}" style="width: 5%" />
+                                                        <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormatoExamen(historiaExamen.examenes.exaTipo)}" style="width: 10%" />
+                                                        <b:dataTableColumn label="Exámen" value="#{historiaExamen.examenes.exaGrupo}" style="width: 15%" />
+                                                        <b:dataTableColumn label="Fecha Exámen" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFecha)}" style="width: 5%" />
+                                                        <b:dataTableColumn label="Resultado" value="#{historiaExamen.perExaDescripcion}" style="width: 35%" />
+                                                        <b:dataTableColumn label="Doctor" value="#{historiaExamen.historias.personasByMedicoPerId.perApellidos} #{historiaExamen.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
+                                                        <b:dataTableColumn label="Acciones" style="width: 8%;padding-left: 1%;padding-right: 1%"
+                                                                            orderable="false"
+                                                                            searchable="false">
+                                                            <b:row>
+                                                                <b:column offset="1" span="2">
+                                                                    <b:commandButton ajax="true"
+                                                                                     value=""
+                                                                                     actionListener="#{CitaBean.prepararEliminacionHistoriaExamen(historiaExamen)}"
+                                                                                     update=":modalConfirmacion:formEliminacion :growl"
+                                                                                     oncomplete="$('#modalConfirmacion').modal('show')"
+                                                                                     tooltip="Elimiar exámen del paciente" look="danger">
+                                                                        <b:iconAwesome name="trash"></b:iconAwesome>
+                                                                    </b:commandButton>
+                                                                </b:column>
+                                                            </b:row>
+                                                         </b:dataTableColumn>
+                                                    </b:dataTable>
+                                                </h:form>
                                             </b:column>
                                         </b:row>
                                     </b:panel>
-                                </b:form>
+                                </h:form>
                             </b:panel>
-                            <!-- Additional left-aligned content goes here -->
                         </b:panelGrid>
                     </b:column>
                 </b:row>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/recursos"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
+    <script>
+        $.blockUI.defaults.css = {
+            padding: 0,
+            margin: 0,
+            width: '30%',
+            top: '40%',
+            left: '35%',
+            textAlign: 'center',
+            color: '#000',
+            border: '0px solid #aaa',
+            backgroundColor: 'transparent',
+            cursor: 'wait'
+        };
+        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
+        $.blockUI.defaults.overlayCSS.opacity = 0.5;
+        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
+    </script>
+
+<b:panelGrid columns="1">
+    <b:form id="formSignos">
+    <h3>
+        <b>Signos del paciente</b>
+    </h3>
+    <b:panel title="Signos vitales" look="info" collapsible="false">
+        <b:row>
+            <b:column span="3">
+                <b:inputText label="Presion Arterial Sistólica"
+                             placeholder="P.S."
+                             id="sig_pre_sistolica"
+                             size="13"
+                             value="#{CitaBean.signos.sigPresionSistolica}"
+                             required="true"
+                             maxlength="3"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                             requiredMessage="Ingrese la presión sistólica">
+                <f:validateLongRange minimum="50" maximum="200"/>
+                <f:ajax event="change"
+                        listener="#{CitaBean.calcularPresionArterialMedia()}"
+                        render="sig_presion_arterial_media growl"/>
+                </b:inputText>
+                <b:message for="sig_pre_sistolica"/>
+            </b:column>
+            <b:column span="3">
+                <b:inputText label="Presion Arterial Diastólica"
+                             placeholder="P.D."
+                             id="sig_pre_diastolica"
+                             size="13"
+                             maxlength="3"
+                             value="#{CitaBean.signos.sigPresionDiastolica}"
+                             required="true"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                             requiredMessage="Ingrese la presión diastólica">
+                <f:validateLongRange minimum="50" maximum="200"/>
+                <f:ajax event="change"
+                        listener="#{CitaBean.calcularPresionArterialMedia()}"
+                        render="sig_presion_arterial_media growl"/>
+                </b:inputText>
+            </b:column>
+            <b:column span="3">
+                <b:inputText label="Presión Arterial Media"
+                             placeholder="P.A.M."
+                             id="sig_presion_arterial_media"
+                             size="13"
+                             maxlength="100"
+                             value="#{CitaBean.signos.sigPresionArterialMedia}"
+                             required="true"
+                             disabled="true"
+                             requiredMessage="Ingrese la presión arterial media"/>
+            </b:column>
+            <b:column span="2">
+                <b:inputText label="Temperatura °C"
+                             placeholder="Temperatura °C"
+                             id="sig_temperatura"
+                             size="13"
+                             maxlength="5"
+                             value="#{CitaBean.signos.sigTemperatura}"
+                             required="true"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which = 46) return false;"
+                             requiredMessage="Ingrese la temperatura">
+                <f:validateLongRange minimum="20" maximum="60"/>
+                <f:ajax event="change"
+                        render="growl"/>
+                </b:inputText>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="3">
+                <b:inputText label="Frecuencia Respiratoria (minuto)"
+                             placeholder="F.R."
+                             id="sig_frecuencia_respiratoria"
+                             size="13"
+                             maxlength="3"
+                             value="#{CitaBean.signos.sigFrecuenciaRespiratoria}"
+                             required="true"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                             requiredMessage="Ingrese la frecuencia respiratoria">
+                <f:validateLongRange minimum="10" maximum="100"/>
+                <f:ajax event="change"
+                        render="growl"/>
+                </b:inputText>
+            </b:column>
+            <b:column span="3">
+                <b:inputText label="Frecuencia Cardíaca (minuto)"
+                             placeholder="F.C."
+                             id="sig_frecuencia_cardiaca"
+                             size="13"
+                             maxlength="3"
+                             value="#{CitaBean.signos.sigFrecuenciaCardiaca}"
+                             required="true"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                             requiredMessage="Ingrese la frecuencia cardiaca">
+                <f:validateLongRange minimum="10" maximum="300"/>
+                <f:ajax event="change"
+                        render="growl"/>
+                </b:inputText>
+            </b:column>
+            <b:column span="2">
+                <b:inputText label="Saturacion (%)"
+                             placeholder="Saturación (%)"
+                             id="sig_saturacion"
+                             size="13"
+                             maxlength="2"
+                             value="#{CitaBean.signos.sigSaturacion}"
+                             required="true"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"
+                             requiredMessage="Ingrese la saturacion">
+                <f:validateLongRange minimum="50" maximum="100"/>
+                <f:ajax event="change"
+                        render="growl"/>
+                </b:inputText>
+            </b:column>
+        </b:row>
+    </b:panel>
+    <b:panel title="Datos Antropométricos" look="info" collapsible="false">
+        <b:row>
+            <b:column span="2">
+                <b:inputText label="Peso (kg)"
+                             placeholder="Peso"
+                             id="sig_peso"
+                             size="13"
+                             maxlength="6"
+                             value="#{CitaBean.signos.sigPeso}"
+                             required="false"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which = 46) return false;"
+                             requiredMessage="Ingrese el peso">
+                    <f:ajax event="change"
+                        listener="#{CitaBean.calcularIMC()}"
+                        render="sig_imc growl"/>
+                    <f:validateLongRange minimum="10" maximum="500"/>
+                </b:inputText>
+            </b:column>
+            <b:column span="2">
+                <b:inputText label="Estatura (cm)"
+                             placeholder="Estatura"
+                             id="sig_pestatura"
+                             size="3"
+                             maxlength="5"
+                             value="#{CitaBean.signos.sigEstatura}"
+                             required="false"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which = 46) return false;"
+                             requiredMessage="Ingrese la estatura"
+                             validator-message="Revise que la estatura esté en el rango (50-400 cm)">
+                    <f:ajax event="change"
+                        listener="#{CitaBean.calcularIMC()}"
+                        render="sig_imc growl"/>
+                    <f:validateLongRange minimum="50" maximum="400"/>
+                    <f:ajax event="change"
+                        render="growl"/>
+                </b:inputText>
+            </b:column>
+            <b:column span="2">
+                <b:inputText label="Indice masa corporal"
+                             placeholder="I.M.C."
+                             id="sig_imc"
+                             size="13"
+                             maxlength="100"
+                             value="#{CitaBean.signos.sigImc}"
+                             required="false"
+                             disabled="true"
+                             requiredMessage="Ingrese la indice de masa corporal"/>
+            </b:column>
+            <b:column span="3">
+                <b:inputText label="Perímetro abdominal (cm)"
+                             placeholder="Perímetro Abdominal"
+                             id="sig_perimetro_abdominal"
+                             size="13"
+                             maxlength="3"
+                             value="#{CitaBean.signos.sigPerimetroAbdominal}"
+                             required="false"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which = 46) return false;">
+                    <f:ajax event="change"
+                        render="growl"/>
+                </b:inputText>
+            </b:column>
+            <b:column span="3">
+                <b:inputText label="Perímetro brazo (cm)"
+                             placeholder="Perímetro Brazo"
+                             id="sig_perimetro_brazo"
+                             size="13"
+                             maxlength="3"
+                             value="#{CitaBean.signos.sigPerimetroBrazo}"
+                             required="false"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which = 46) return false;">
+                    <f:ajax event="change"
+                        render="growl"/>
+                </b:inputText>
+            </b:column>
+        </b:row>
+    </b:panel>
+    <b:panel title="Mediciones Capilares" look="info" collapsible="false">
+        <b:row>
+            <b:column span="3">
+                <b:inputText label="Glucosa Capilar (mg/dL)"
+                             placeholder="Glucosa Capilar"
+                             id="sig_glucosa_capilar"
+                             size="13"
+                             maxlength="5"
+                             value="#{CitaBean.signos.sigGlucosaCapilar}"
+                             required="false"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which = 46) return false;">
+                    <f:ajax event="change"
+                        render="growl"/>
+                </b:inputText>
+            </b:column>
+            <b:column span="3">
+                <b:inputText label="Valor Hemoglobina (g/dl)"
+                             placeholder="Valor Hemoglobina"
+                             id="sig_valor_hemoglobina"
+                             size="13"
+                             maxlength="4"
+                             value="#{CitaBean.signos.sigValorHemoglobina}"
+                             required="false"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which = 46) return false;">
+                    <f:ajax event="change"
+                            listener="#{CitaBean.calcularHemoglobinaCorregido()}"
+                            render="sig_valor_hemoglobina_corregido growl"/>
+                </b:inputText>
+            </b:column>
+            <b:column span="3">
+                <b:inputText label="Valor Hemoglobina Corregido"
+                             placeholder="Valor Hemoglobina Corregido"
+                             id="sig_valor_hemoglobina_corregido"
+                             size="13"
+                             maxlength="5"
+                             value="#{CitaBean.signos.sigValorHemoglobinaCorr}"
+                             required="false"
+                             disabled="true"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57 || event.which = 46) return false;"
+                             requiredMessage="Ingrese el valor de la hemoglobina corregido">
+                    <f:validateLongRange minimum="0" maximum="30"/>
+                </b:inputText>
+            </b:column>
+        </b:row>
+    </b:panel>
+    </b:form>
+</b:panelGrid>
+</html>

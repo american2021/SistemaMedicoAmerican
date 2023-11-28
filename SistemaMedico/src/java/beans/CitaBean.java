@@ -105,8 +105,13 @@ public final class CitaBean implements Serializable{
     private List<Parentescos> lista_parentescos;
     private RevisionSistemas revision;
     private HistoriaExamen eliminarHistoriaExamen;
+    private List<Examenes> lista_examenes;
     
     private Map<Long, String> editedDescriptions;
+    private Map<Long, String> editedDescriptionsExamen;
+    private Map<Long, Date> editedDateExamen;
+    private Map<Long, Boolean> editedCheckExamen;
+    
     private String descripcionAntecedenteTemp;
     private Boolean realizarExamen;
     
@@ -159,6 +164,7 @@ public final class CitaBean implements Serializable{
         examenes = new Examenes();
         lista_historia_examen = new ArrayList<>();
         lista_historia_diagnosticon = new ArrayList<>();
+        lista_examenes = new ArrayList<>();
         nombre_enfermedad = "";
         renderizar_profesion_abierta = "false";
         renderizar_parentesco_abierto = "false";
@@ -175,7 +181,11 @@ public final class CitaBean implements Serializable{
         inicializarCiudades();
         inicializarEstadosCiviles();
         recuperarAntecedente();
+        recuperarExamenes();
         editedDescriptions = new HashMap<>();
+        editedDescriptionsExamen = new HashMap<>();
+        editedDateExamen = new HashMap<>();
+        editedCheckExamen = new HashMap<>();
         descripcionAntecedenteTemp = "";
     }
     
@@ -389,6 +399,15 @@ public final class CitaBean implements Serializable{
     }
     
     /**
+     * Método para recuperar los examenes registrados en la base por el tipo
+     * @return 
+     */
+    public List<Examenes> recuperarExamenes() {
+        lista_examenes = ExamenesDAO.recuperarExamenes();
+        return lista_examenes;
+    }
+    
+    /**
      * Método para verificar las hisrtorias que no estan completas
      * pasado una hora se va eliminar las historias
      */
@@ -479,7 +498,6 @@ public final class CitaBean implements Serializable{
      * @param antecedent
      */
     public void crearHistoriaAntecedentePrueba(Antecedente antecedent){
-//        System.out.println("descripcionAntecedenteTemp;: "+descripcionAntecedenteTemp);
     
         if (validarAntecedente(antecedent)) {
             // Lógica para procesar el antecedente si la validación pasa
@@ -501,11 +519,7 @@ public final class CitaBean implements Serializable{
         } else {
             FacesContext context = FacesContext.getCurrentInstance();
             FacesMessages.error(":growlInfo", "Error: El campo de descripción no puede estar vacío.", "This is a specific message!");
-
-//            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El campo de descripción no puede estar vacío."));
         }
-        
-        
     }
     
     /**
@@ -532,6 +546,38 @@ public final class CitaBean implements Serializable{
             FacesMessages.info(":growlInfo", "Error al crear el exámen: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
+    /**
+     * Método para crear un nuevo Historia Examen
+     * @param examens
+     */
+    public void crearHistoriaExamenPrueba(Examenes examens){
+        System.out.println("Examen: "+examens.getExaId());
+        System.out.println("Examen: "+examens.getExaGrupo());
+//        System.out.println("DATE: "+getEditedDateExamen());
+//        System.out.println("DATE: "+getEditedDateExamen().get(examens.getExaId()));
+        System.out.println("DATE: "+getEditedDateExamen().get(examens.getExaId()));
+        System.out.println("CHECK: "+getEditedCheckExamen().get(examens.getExaId()));
+        System.out.println("Descripcion: "+getEditedDescriptionsExamen().get(examens.getExaId()));
+        nuevo_historia_examen.setExamenes(examens);
+        nuevo_historia_examen.setHistorias(historia);
+        nuevo_historia_examen.setPerExaFechaUlt(new Date());
+        nuevo_historia_examen.setPerExaUsuario(session.getAttribute("usuario").toString());
+        nuevo_historia_examen.setPerExaCompletado(getEditedCheckExamen().get(examens.getExaId()) ? Byte.parseByte("1") : Byte.parseByte("0"));
+        nuevo_historia_examen.setPerExaDescripcion(getEditedCheckExamen().get(examens.getExaId()) ? "Sin resultado"  : getEditedDescriptionsExamen().get(examens.getExaId()));
+        nuevo_historia_examen.setPerExaFecha(getEditedDateExamen().get(examens.getExaId()));
+        try {
+            HistoriaExamenDAO.crearActualizarHistoriaExamen(nuevo_historia_examen);
+            nuevo_historia_examen = new HistoriaExamen();
+            realizarExamen = false;
+            examenes = new Examenes();
+            setNombre_examen("");
+            recuperarHistoriaExamenes();
+            FacesMessages.info(":growlInfo", "Exámen Creado", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.info(":growlInfo", "Error al crear el exámen: "+e.getCause().getMessage(), "This is a specific message!");
+        }
+    }
+    
     /**
      * Método para crear un nuevo Examen
      */
@@ -1161,19 +1207,19 @@ public final class CitaBean implements Serializable{
         this.realizarExamen = realizarExamen;
     }
     
-    public List<Antecedente> getListaExamenesPer() {
+    public List<Antecedente> getListaAntecedentePer() {
         return filtrarPorTipos("1");
     }
 
-    public List<Antecedente> getListaExamenesFan() {
+    public List<Antecedente> getListaAntecedenteFan() {
         return filtrarPorTipos("2");
     }
 
-    public List<Antecedente> getListaExamenesAnd() {
+    public List<Antecedente> getListaAntecedenteAnd() {
         return filtrarPorTipos("3");
     }
     
-    public List<Antecedente> getListaExamenesVac() {
+    public List<Antecedente> getListaAntecedenteVac() {
         return filtrarPorTipos("4");
     }
 
@@ -1192,6 +1238,30 @@ public final class CitaBean implements Serializable{
         this.editedDescriptions = editedDescriptions;
     }
 
+    public Map<Long, String> getEditedDescriptionsExamen() {
+        return editedDescriptionsExamen;
+    }
+
+    public void setEditedDescriptionsExamen(Map<Long, String> editedDescriptionsExamen) {
+        this.editedDescriptionsExamen = editedDescriptionsExamen;
+    }
+
+    public Map<Long, Date> getEditedDateExamen() {
+        return editedDateExamen;
+    }
+
+    public void setEditedDateExamen(Map<Long, Date> editedDateExamen) {
+        this.editedDateExamen = editedDateExamen;
+    }
+
+    public Map<Long, Boolean> getEditedCheckExamen() {
+        return editedCheckExamen;
+    }
+
+    public void setEditedCheckExamen(Map<Long, Boolean> editedCheckExamen) {
+        this.editedCheckExamen = editedCheckExamen;
+    }
+    
     public String getDescripcionAntecedenteTemp() {
         return descripcionAntecedenteTemp;
     }
@@ -1199,8 +1269,27 @@ public final class CitaBean implements Serializable{
     public void setDescripcionAntecedenteTemp(String descripcionAntecedenteTemp) {
         this.descripcionAntecedenteTemp = descripcionAntecedenteTemp;
     }
-    
-    
-    
+
+    public List<Examenes> getLista_examenes() {
+        return lista_examenes;
+    }
    
+    public List<Examenes> getListaExamenesLab() {
+        return filtrarPorTipoExamen("1");
+    }
+
+    public List<Examenes> getListaExamenesImg() {
+        return filtrarPorTipoExamen("2");
+    }
+
+    public List<Examenes> getListaExamenesHist() {
+        return filtrarPorTipoExamen("3");
+    }
+
+    private List<Examenes> filtrarPorTipoExamen(String tipo) {;
+        return lista_examenes.stream()
+                .filter(examen -> String.valueOf(examen.getExaTipo()).equals(tipo))
+                .collect(Collectors.toList());
+    }
+    
 }
