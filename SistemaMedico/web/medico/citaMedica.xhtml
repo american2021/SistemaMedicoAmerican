@@ -38,10 +38,6 @@
     </script>
     
     <script>
-        $.blockUI.defaults.css = {
-            // ... (your existing JavaScript code remains unchanged) ...
-        };
-
         // Function to show the specified panel and hide others
         function showPanel(panelId) {
             console.log(panelId);
@@ -50,9 +46,23 @@
             // Show the selected panel
             $('#' + panelId).show();
         }
-        // Show panel1 by default
-    </script>
         
+        function toggleHistorialPanel() {
+            var examenesPanel = document.getElementById('formExamenLabIma:listadoExamenPaciente');
+            var historialPanel = document.getElementById('formExamenLabIma:historialPanel');
+            
+
+            // Verifica si el panel de historial está visible
+            var historialVisible = historialPanel.style.display === 'block';
+
+            // Oculta o muestra el panel de historial
+            historialPanel.style.display = historialVisible ? 'none' : 'block';
+
+            // Oculta o muestra el panel de exámenes dependiendo del estado del panel de historial
+            examenesPanel.style.display = historialVisible ? 'block' : 'none';
+        }
+    </script>
+
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
     
     <my:cabecera id="cabecera"/>
@@ -62,24 +72,86 @@
     <my:menuHorizontalAdministrador id="menuHorizontalAdministrador"/>
     <!--<my:menuLateralContador id="menuLateralContador"/>-->
  
-    <h:body>
+    <h:body onload="toggleHistorialPanel()">
+        <b:modal id="modalActualizarHistoriaExamen" title="Creación de Examen" closable="true"
+                 close-on-escape="true" backdrop="true" size="modal-lg">
+            <b:form id="formUpdateHistoriaExamen">
+                <b:panel title="Ingrese la información para crear el exámen del paciente" look="info" collapsible="false" id="panelHistoriaExamen">
+                    <b:row>
+                        <b:column span="4" >
+                            <b:row style="margin-left: 1%; margin-right: 1%">
+                                <h:outputLabel value="Tipo:" for="nombre_examen" />
+                            </b:row>
+                            <b:row style="margin-left: 1%; margin-right: 1%">
+                                <h:outputText value="#{CitaBean.antecedenteFormatoExamen(CitaBean.actualizarHistoriaExamen.examenes.exaTipo)}"
+                                          id="tipo_examen" styleClass="form-control">
+                                </h:outputText>
+                            </b:row>
+                        </b:column>
+                        <b:column span="4">
+                            <b:row style="margin-left: 1%; margin-right: 1%">
+                                <h:outputLabel value="Exámen:" for="nombre_examen" />
+                            </b:row>
+                            <b:row style="margin-left: 1%; margin-right: 1%">
+                                <h:outputText value="#{CitaBean.actualizarHistoriaExamen.examenes.exaGrupo}"
+                                          id="nombre_examen" styleClass="form-control">
+                                </h:outputText>
+                            </b:row>
+                        </b:column>
+                        <b:column span="4">
+                            <b:dateTimePicker
+                                id="exa_fecha"
+                                format="DD/MM/YYYY"
+                                locale="en"
+                                value="#{CitaBean.actualizarHistoriaExamen.perExaFecha}"
+                                label="Fecha del exámen"
+                                required="true"
+                                ajax="true"
+                                requiredMessage="Ingrese la fecha del exámen">
+                            </b:dateTimePicker>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="12">
+                            <b:inputTextarea value="#{CitaBean.actualizarHistoriaExamen.perExaDescripcion}"
+                                         label="Resultado de exámen"
+                                         placeholder="Describa el resultado del exámen"
+                                         id="descripcion_examen"
+                                         size="13"
+                                         rows="5"
+                                         maxlength="2000"
+                                         ajax="true"
+                                         requiredMessage="Describa los exámenes generales"/>
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column offset="2" span="4" >
+                            <b:commandButton ajax="true"
+                                             value="Cancelar Exámen"
+                                             update="formUpdateHistoriaExamen :growl "
+                                             oncomplete="$('#modalActualizarHistoriaExamen').modal('hide');"
+                                             tooltip="Cancelar Exámen" look="danger">
+                                <b:iconAwesome name="fa-trash"></b:iconAwesome>
+                            </b:commandButton>
+                        </b:column>
+                        <b:column span="4" >
+                            <b:commandButton id="submit" value="Actualizar Exámen"
+                                            action="#{CitaBean.actualizarExamen()}"
+                                            look="primary" ajax="true"
+                                            update="formUpdateHistoriaExamen panelHistoriaExamen :growl"
+                                            oncomplete="$('#modalActualizarHistoriaExamen').modal('hide');" >
+                                <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
+                                <f:ajax event="change" listener="#{CitaBean.actualizarExamen()}"
+                                        render=":formExamenLabIma:listadoExamenPaciente growl"/>
+                            </b:commandButton>
+                        </b:column>
+                    </b:row>
+                </b:panel>
+            </b:form>
+        </b:modal>
 
             
         <style>
-/*            .vertical-tabview .nav-tabs {
-                display: flex;
-                flex-direction: column;
-            }
-
-            .vertical-tabview .tab-content {
-                flex: 1;
-            }
-
-             Add any specific styling for individual tabs if needed 
-            .vertical-tabview .nav-tabs li {
-                 Add your styles for individual tabs here 
-            }*/
-            
             .custom-button{
                 margin-top: 6px;
                 color: #333333;
@@ -124,10 +196,14 @@
         <b:growl id="growl" escape="true" />
         
         <script>
+            
             window.onload = function() {
                 // Ocultar paneles aquí
                 showPanel('panel1');
+                document.getElementById('formExamenLabIma:historialPanel').style.display = 'none';
+                document.getElementById('formExamenLabIma:listadoExamenPaciente').style.display = 'block';
             };
+
         </script>
 
         <b:container fluid="true">
@@ -189,7 +265,7 @@
 
                     <b:column span="10">
                         <!-- Your left-aligned content goes here -->
-                        <b:panelGrid columns="1" id="panel1">
+                        <b:panelGrid columns="1" id="panel6">
                             <b:panel span="12" offset="0">
                                 <h3>
                                     <b>Historia Clínica</b>
@@ -319,78 +395,76 @@
                                 </b:panel>
                             </b:panel>
                         </b:panelGrid>
-                        <b:panelGrid columns="1" id="panel6">
-                            <b:panel span="12" offset="0">
-                                <h:form id="formExamenLabIma">
-                                    <h3 id="reply-title">
-                                        <b>Exámenes</b>
-                                    </h3>
-                                    <b:panel title="Listado de exámenes" look="info" collapsible="false" id="listadoExamenes">
-                                        <b:tabView style-class="width: 100%">
-                                            <b:tab title="Laboratorio">
-                                                <ui:include src="tabContentExamen.xhtml">
-                                                    <ui:param name="lista" value="#{CitaBean.listaExamenesLab}" />
-                                                </ui:include>
-                                            </b:tab>
-                                            <b:tab title="Imagenología">
-                                                <ui:include src="tabContentExamen.xhtml">
-                                                    <ui:param name="lista" value="#{CitaBean.listaExamenesImg}" />
-                                                </ui:include>
-                                            </b:tab>
-                                            <b:tab title="Histopatología">
-                                                <ui:include src="tabContentExamen.xhtml">
-                                                    <ui:param name="lista" value="#{CitaBean.listaExamenesHist}" />
-                                                </ui:include>
-                                            </b:tab>
-                                        </b:tabView>
-                                    </b:panel>
-                                    <b:panel title="Exámenes de laboratorio e imagen" look="info" collapsible="false">
-                                        <b:row>
-                                            <b:column span="12" class="text-center">
-                                                <b:commandButton ajax="true"
-                                                                 value=" Crear Exámenes"
-                                                                 rendered="#{CitaBean.historia.hisCompletado eq '0'}"
-                                                                 oncomplete="$('#modalCreacionHistoriaExamen').modal('show')"
-                                                                 tooltip="Crear exámenes" look="primary">
-                                                    <b:iconAwesome name="plus"></b:iconAwesome>
-                                                </b:commandButton>
-                                            </b:column>
-                                        </b:row>
-                                        <br/>
-                                        <b:row>
-                                            <b:column span="12">
-                                                 <h:form id="tablaExamenesForm">
-                                                     <b:dataTable large-screen="full-width" id="examenesTabla" value="#{CitaBean.lista_historia_examen}" var="historiaExamen" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
-                                                        page-length="7" multi-column-search="true" multi-column-search-position="top" >
-                                                        <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFechaUlt)}" style="width: 5%" />
-                                                        <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormatoExamen(historiaExamen.examenes.exaTipo)}" style="width: 10%" />
-                                                        <b:dataTableColumn label="Exámen" value="#{historiaExamen.examenes.exaGrupo}" style="width: 15%" />
-                                                        <b:dataTableColumn label="Fecha Exámen" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFecha)}" style="width: 5%" />
-                                                        <b:dataTableColumn label="Resultado" value="#{historiaExamen.perExaDescripcion}" style="width: 35%" />
-                                                        <b:dataTableColumn label="Doctor" value="#{historiaExamen.historias.personasByMedicoPerId.perApellidos} #{historiaExamen.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
-                                                        <b:dataTableColumn label="Acciones" style="width: 8%;padding-left: 1%;padding-right: 1%"
-                                                                            orderable="false"
-                                                                            searchable="false">
-                                                            <b:row>
-                                                                <b:column offset="1" span="2">
-                                                                    <b:commandButton ajax="true"
-                                                                                     value=""
-                                                                                     actionListener="#{CitaBean.prepararEliminacionHistoriaExamen(historiaExamen)}"
-                                                                                     update=":modalConfirmacion:formEliminacion :growl"
-                                                                                     oncomplete="$('#modalConfirmacion').modal('show')"
-                                                                                     tooltip="Elimiar exámen del paciente" look="danger">
-                                                                        <b:iconAwesome name="trash"></b:iconAwesome>
-                                                                    </b:commandButton>
-                                                                </b:column>
-                                                            </b:row>
-                                                         </b:dataTableColumn>
-                                                    </b:dataTable>
-                                                </h:form>
-                                            </b:column>
-                                        </b:row>
-                                    </b:panel>
-                                </h:form>
-                            </b:panel>
+                        <b:panelGrid columns="1" id="panel1" span="12" offset="0">
+                            <h:form id="formExamenLabIma">
+                                <h3 id="reply-title">
+                                    <b>Exámenes</b>
+                                </h3>
+                                <b:panel title="Listado de exámenes" look="info" collapsible="false" id="listadoExamenes">
+                                    <b:tabView style-class="width: 100%">
+                                        <b:tab title="Laboratorio">
+                                            <ui:include src="tabContentExamen.xhtml">
+                                                <ui:param name="lista" value="#{CitaBean.listaExamenesLab}" />
+                                            </ui:include>
+                                        </b:tab>
+                                        <b:tab title="Imagenología">
+                                            <ui:include src="tabContentExamen.xhtml">
+                                                <ui:param name="lista" value="#{CitaBean.listaExamenesImg}" />
+                                            </ui:include>
+                                        </b:tab>
+                                        <b:tab title="Histopatología">
+                                            <ui:include src="tabContentExamen.xhtml">
+                                                <ui:param name="lista" value="#{CitaBean.listaExamenesHist}" />
+                                            </ui:include>
+                                        </b:tab>
+                                    </b:tabView>
+                                </b:panel>
+                                <b:row>
+                                    <b:column span="12" class="text-center">
+                                        <b:button icon-awesome="history"
+                                                  value="  &nbsp;Mostrar Historial "
+                                                  onclick="toggleHistorialPanel()"
+                                                  tooltip="Mostrar Historial" look="info">
+                                        </b:button>
+                                    </b:column>
+                                </b:row>
+                                <br/>
+                                <b:panel title="Exámenes de laboratorio e imagen" look="info" collapsible="false" id="listadoExamenPaciente" span="12">
+                                    <b:dataTable large-screen="full-width" id="examenesTabla" value="#{CitaBean.lista_historia_examen}" var="historiaExamen" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                                       page-length="7" multi-column-search="true" multi-column-search-position="top" >
+                                       <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFechaUlt)}" style="width: 5%" />
+                                       <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormatoExamen(historiaExamen.examenes.exaTipo)}" style="width: 10%" />
+                                       <b:dataTableColumn label="Exámen" value="#{historiaExamen.examenes.exaGrupo}" style="width: 15%" />
+                                       <b:dataTableColumn label="Fecha Exámen" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFecha)}" style="width: 5%" />
+                                       <b:dataTableColumn label="Resultado" value="#{historiaExamen.perExaDescripcion}" style="width: 35%" />
+                                       <b:dataTableColumn label="Doctor" orderable="false" searchable="false" value="#{historiaExamen.historias.personasByMedicoPerId.perApellidos} #{historiaExamen.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
+                                       <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%"
+                                                          orderable="false"
+                                                          searchable="false">
+                                               <b:column offset="1" span="0" rendered="#{historiaExamen.perExaCompletado eq '1' }">
+                                                   <b:commandButton ajax="true" 
+                                                                    update=":modalActualizarHistoriaExamen :growl"
+                                                                    action="#{CitaBean.prepararActualizacionHistoriaExamen(historiaExamen)}"
+                                                                    oncomplete="$('#modalActualizarHistoriaExamen').modal('show')" 
+                                                                    tooltip="Editar resultado del exámen" look="warning">
+                                                      <b:iconAwesome name="pencil"></b:iconAwesome>
+                                                  </b:commandButton>
+                                               </b:column>
+                                       </b:dataTableColumn>
+                                    </b:dataTable>
+                                </b:panel>
+                                <b:panel title="Historial" look="info" collapsible="false" id="historialPanel" span="12" >
+                                    <b:dataTable large-screen="full-width" id="examenesHistoriaTabla" value="#{CitaBean.lista_historia_examen}" var="historiaExamen" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                                       page-length="7" multi-column-search="true" multi-column-search-position="top" >
+                                       <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFechaUlt)}" style="width: 5%" />
+                                       <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormatoExamen(historiaExamen.examenes.exaTipo)}" style="width: 10%" />
+                                       <b:dataTableColumn label="Exámen" value="#{historiaExamen.examenes.exaGrupo}" style="width: 15%" />
+                                       <b:dataTableColumn label="Fecha Exámen" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFecha)}" style="width: 5%" />
+                                       <b:dataTableColumn label="Resultado" value="#{historiaExamen.perExaDescripcion}" style="width: 35%" />
+                                       <b:dataTableColumn label="Doctor" orderable="false" searchable="false" value="#{historiaExamen.historias.personasByMedicoPerId.perApellidos} #{historiaExamen.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
+                                    </b:dataTable>
+                                </b:panel>
+                            </h:form>
                         </b:panelGrid>
                     </b:column>
                 </b:row>

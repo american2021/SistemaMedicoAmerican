@@ -95,5 +95,32 @@ public class HistoriaExamenDAO {
         session.close();
         return historiaExamen;
     }
+    /**
+     * Método para recuperar los nombres de los diagnostico personal
+     *
+     * @param id_historia
+     * @return
+     */
+    public static List<HistoriaExamen> recuperarHistorialHistoriaExamenes(int id_historia) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+//        Examenes exa = new Examenes();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM HistoriaExamen where his_id= '" + id_historia + "'");         
+        List<HistoriaExamen> historiaExamen= query.list();
+        historiaExamen.forEach((historiaExame) -> {
+            historiaExame.setExamenes(ExamenesDAO.recuperarExamenesId(historiaExame.getExamenes().getExaId()));
+            Historias aux_histori = historiaExame.getHistorias();
+            // Recuperar persona
+            Personas aux_per = historiaExame.getHistorias().getPersonasByMedicoPerId();
+            // Setear la persona para el campo medico dentro de la entidad historia
+            aux_per.getPerApellidos();
+            aux_histori.setPersonasByMedicoPerId(aux_per);
+            // Setear la historia
+            historiaExame.setHistorias(aux_histori);
+        });
+        session.getTransaction().commit();
+        session.close();
+        return historiaExamen;
+    }
     
 }
