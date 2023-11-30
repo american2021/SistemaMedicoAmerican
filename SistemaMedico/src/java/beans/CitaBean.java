@@ -57,9 +57,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -72,7 +69,6 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -96,7 +92,9 @@ public final class CitaBean implements Serializable{
     private List<HistoriaAntecedente> lista_historia_antecedente;
     private List<HistoriaExamen> lista_historia_examen;
     private List<HistoriaExamen> lista_Historial_historia_examen;
-    private List<HistoriaDiagnostico> lista_historia_diagnosticon;
+    private List<HistoriaDiagnostico> lista_historia_diagnostico;
+    private List<HistoriaDiagnostico> lista_historial_historia_diagnostico;
+    private List<HistoriaDiagnostico> lista_seleccion_historia_diagnostico;
     private Tratamientos tratamiento;
     private HistoriaAntecedente nuevo_historia_antecedente;
     private HistoriaExamen nuevo_historia_examen;
@@ -171,7 +169,9 @@ public final class CitaBean implements Serializable{
         examenes = new Examenes();
         lista_historia_examen = new ArrayList<>();
         lista_Historial_historia_examen = new ArrayList<>();
-        lista_historia_diagnosticon = new ArrayList<>();
+        lista_historia_diagnostico = new ArrayList<>();
+        lista_historial_historia_diagnostico = new ArrayList<>();
+        lista_seleccion_historia_diagnostico = new ArrayList<>();
         lista_examenes = new ArrayList<>();
         nombre_enfermedad = "";
         renderizar_profesion_abierta = "false";
@@ -276,7 +276,6 @@ public final class CitaBean implements Serializable{
     
     /**
      * Método para recuperar los diagnosticos registrados en la base por el tipo
-     * @param codigo_cie
      * @return 
      */
     public List<Diagnosticos> recuperarDiagnosticos() {
@@ -316,7 +315,7 @@ public final class CitaBean implements Serializable{
      * @return 
      */
     public List<HistoriaExamen> recuperarHistorialHistoriaExamenes() {
-        lista_Historial_historia_examen= HistoriaExamenDAO.recuperarHistorialHistoriaExamenes(historia.getHisId());
+        lista_Historial_historia_examen= HistoriaExamenDAO.recuperarHistorialHistoriaExamenes(historia.getHisId(), historia.getPersonasByPacientePerId().getPerId());
         return lista_Historial_historia_examen;
     }
     
@@ -325,8 +324,17 @@ public final class CitaBean implements Serializable{
      * @return 
      */
     public List<HistoriaDiagnostico> recuperarHistoriaDiagnostico() {
-        lista_historia_diagnosticon= HistoriaDiagnosticoDAO.recuperarHistoriaDiagnostico(historia.getHisId().toString());
-        return lista_historia_diagnosticon;
+        lista_historia_diagnostico= HistoriaDiagnosticoDAO.recuperarHistoriaDiagnostico(historia.getHisId().toString());
+        return lista_historia_diagnostico;
+    }
+    
+    /**
+     * Método para recuperar los examenes registrados en la base de una persona
+     * @return 
+     */
+    public List<HistoriaDiagnostico> recuperarHistorialHistoriaDiagnostico() {
+        lista_historial_historia_diagnostico= HistoriaDiagnosticoDAO.recuperarHistorialHistoriaDiagnostico(historia.getHisId(), historia.getPersonasByPacientePerId().getPerId());
+        return lista_historial_historia_diagnostico;
     }
     
     /**
@@ -434,6 +442,15 @@ public final class CitaBean implements Serializable{
     public List<Examenes> recuperarExamenes() {
         lista_examenes = ExamenesDAO.recuperarExamenes();
         return lista_examenes;
+    }
+    
+    /**
+     * Método para recuperar los examenes registrados en la base por el tipo
+     * @param query
+     * @return 
+     */
+    public List<HistoriaDiagnostico> completarHistoriaDiagnostico(String query) {
+        return HistoriaDiagnosticoDAO.completarHistoriaDiagnostico(query, historia_actual_id);
     }
     
     /**
@@ -645,10 +662,13 @@ public final class CitaBean implements Serializable{
         
     /**
      * Método para crear un nuevo Examen
+     * @param diagnosticos
      */
     public void crearHistoriaDiagnosticoPrueba(Diagnosticos diagnosticos){
+        System.out.println("diagnosticos: "+diagnosticos.getDiaId());
+        System.out.println("descripcion: "+getEditedDescriptionsDiagnostico());
         
-        nuevo_historia_diagnostico.setDiagnosticos(diagnostico);
+        nuevo_historia_diagnostico.setDiagnosticos(diagnosticos);
         nuevo_historia_diagnostico.setHistorias(historia);
         nuevo_historia_diagnostico.setHisDiaFechaUlt(new Date());
         nuevo_historia_diagnostico.setHisDiaUsuario(session.getAttribute("usuario").toString());
@@ -733,6 +753,7 @@ public final class CitaBean implements Serializable{
         editedDescriptionsDiagnostico = new HashMap<>();
         editedCheckExamen = new HashMap<>();
         editedDateExamen = new HashMap<>();
+        lista_seleccion_historia_diagnostico = new ArrayList<>();
         this.historia_actual_id = hisId;
         historia = CitaDAO.recuperarHistoriaID(hisId);
         recuperarHistoriaAntecedente();
@@ -740,6 +761,8 @@ public final class CitaBean implements Serializable{
         recuperarHistorialHistoriaExamenes();
         recuperarCategoriaAntecedente();
         recuperarHistoriaDiagnostico();
+        recuperarHistorialHistoriaDiagnostico();
+        recuperarDiagnosticos();
         signos = SignosDAO.recuperarSignosId(historia.getSignos().getSigId());
         revision = RevisionSistemasDAO.recuperarRevision(historia.getRevisionSistemas().getRevSisId());
         if(historia.getTratamientos() != null){
@@ -1247,7 +1270,11 @@ public final class CitaBean implements Serializable{
     public List<Diagnosticos> getLista_diagnosticos() {
         return lista_diagnosticos;
     }
-    
+
+    public List<Diagnosticos> getLista_diagnosticos_all() {
+        return lista_diagnosticos_all;
+    }
+
     public List<String> getLista_categoria_antecedentes() {
         return lista_categoria_antecedentes;
     }
@@ -1264,9 +1291,22 @@ public final class CitaBean implements Serializable{
         return lista_historia_antecedente;
     }
 
-    public List<HistoriaDiagnostico> getLista_historia_diagnosticon() {
-        return lista_historia_diagnosticon;
+    public List<HistoriaDiagnostico> getLista_historia_diagnostico() {
+        return lista_historia_diagnostico;
     }
+
+    public List<HistoriaDiagnostico> getLista_historial_historia_diagnostico() {
+        return lista_historial_historia_diagnostico;
+    }
+
+    public List<HistoriaDiagnostico> getLista_seleccion_historia_diagnostico() {
+        return lista_seleccion_historia_diagnostico;
+    }
+
+    public void setLista_seleccion_historia_diagnostico(List<HistoriaDiagnostico> lista_seleccion_historia_diagnostico) {
+        this.lista_seleccion_historia_diagnostico = lista_seleccion_historia_diagnostico;
+    }
+    
     
     public Tratamientos getNuevo_tratamiento() {
         return nuevo_tratamiento;

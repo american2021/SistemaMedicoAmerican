@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/recursos"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
+    <script>
+        $.blockUI.defaults.css = {
+            padding: 0,
+            margin: 0,
+            width: '30%',
+            top: '40%',
+            left: '35%',
+            textAlign: 'center',
+            color: '#000',
+            border: '0px solid #aaa',
+            backgroundColor: 'transparent',
+            cursor: 'wait'
+        };
+        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
+        $.blockUI.defaults.overlayCSS.opacity = 0.5;
+        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
+    </script>
+
+<b:panelGrid columns="1">
+    <b:form id="formPrescripcion">
+        <h3>    
+            <b>Tratamiento</b>
+        </h3>
+        <b:panel title="Ingrese la información para crear el nuevo tratamiento " look="info" collapsible="false" id="panelSignos">
+            <b:row>
+                <p:autoComplete
+                    id="diagnosticosComplete" multiple="true"
+                    value="#{CitaBean.lista_seleccion_historia_diagnostico}" unique="true"
+                    title="Diagnósticos" placeholder="Seleccione el diagnóstico"
+                    completeMethod="#{CitaBean.completarHistoriaDiagnostico}" var="listado"
+                    itemLabel="#{listado.diagnosticos.diaDescripcionCie} - #{listado.hisDiaObservacion}"
+                    itemValue="#{listado.diagnosticos.hisDiaId}" forceSelection="true"
+                    selectLimit="5" scrollHeight="200"
+                    >
+                    
+                </p:autoComplete>
+            </b:row>
+            <b:row>
+                <b:inputText label="Código CIE-10"
+                                         placeholder="Código CIE-10"
+                                         id="tra_codigo_cie"
+                                         span="3"
+                                         maxlength="10"
+                                         value="#{CitaBean.nuevo_tratamiento.traCodigoCie}"
+                                         required="true"
+                                         requiredMessage="Ingrese el código del tratamiento"/>
+            </b:row>
+            <b:row>
+                <b:inputTextarea label="Descripción del Tratamiento"
+                                         placeholder="Descripción del tratamiento"
+                                         id="tra_descripcion_cie"
+                                         span="6"
+                                         maxlength="500"
+                                         value="#{CitaBean.nuevo_tratamiento.traDescripcionCie}"
+                                         required="true"
+                                         requiredMessage="Ingrese la descripción del tratamiento"/>
+                <b:inputTextarea label="Observación del Tratamiento"
+                                         placeholder="Observación del tratamiento"
+                                         id="tra_observación_cie"
+                                         span="6"
+                                         maxlength="500"
+                                         value="#{CitaBean.nuevo_tratamiento.traObservacionCie}"
+                                         required="true"
+                                         requiredMessage="Ingrese la observación del tratamiento"/>
+                <b:inputText label="Medicamento"
+                                         placeholder="Medicamento"
+                                         id="tra_medicamento"
+                                         span="4"
+                                         maxlength="500"
+                                         value="#{CitaBean.nuevo_tratamiento.traMedicamento}"
+                                         required="true"
+                                         requiredMessage="Ingrese el medicamento"/>
+                <b:inputText label="Vía de administración"
+                                         placeholder="Vía de administración"
+                                         id="tra_via_administracion"
+                                         span="4"
+                                         maxlength="500"
+                                         value="#{CitaBean.nuevo_tratamiento.traViaAdministracion}"
+                                         required="true"
+                                         requiredMessage="Ingrese la vía de administración"/>
+                <b:inputText label="Dósis unitaria"
+                                         placeholder="Dósis unitaria"
+                                         id="tra_dosis_unitaria"
+                                         span="4"
+                                         maxlength="500"
+                                         value="#{CitaBean.nuevo_tratamiento.traDosisUnitaria}"
+                                         required="true"
+                                         requiredMessage="Ingrese la dósis"/>
+            </b:row>
+            <b:row>
+                <b:inputText label="Unidad de administración"
+                                         placeholder="Unidad de administración"
+                                         id="tra_unidad_administracion"
+                                         span="3"
+                                         maxlength="500"
+                                         value="#{CitaBean.nuevo_tratamiento.traUnidadAdministracion}"
+                                         required="true"
+                                         requiredMessage="Ingrese la unidad de administración"/>
+                <b:inputText label="Duración (Días)"
+                                         placeholder="Duración (Días)"
+                                         id="tra_duracion"
+                                         span="2"
+                                         maxlength="3"
+                                         value="#{CitaBean.nuevo_tratamiento.traDuracion}"
+                                         required="true"
+                                         requiredMessage="Ingrese duración del tratamiento"/>
+                <b:inputTextarea label="Indicaciones"
+                                         placeholder="Indicaciones"
+                                         id="tra_indicaciones"
+                                         span="3"
+                                         maxlength="300"
+                                         value="#{CitaBean.nuevo_tratamiento.traIndicaciones}"
+                                         required="true"
+                                         requiredMessage="Ingrese las indicaciones del tratamiento"/>
+                <b:inputTextarea label="Advertencias"
+                                         placeholder="Advertencias"
+                                         id="tra_advertencias"
+                                         span="3"
+                                         maxlength="300"
+                                         value="#{CitaBean.nuevo_tratamiento.traAdvertencias}"
+                                         requiredMessage="Ingrese las advertencias del tratamiento"/>
+            </b:row>
+            <b:row>
+                <b:column span="4" offset="4">
+                    <b:commandButton large-screen="full-width" id="submit" value="Crear Tratamiento"
+                                    action="#{CitaBean.crearTratamientoCIE10()}"
+                                    look="primary" ajax="true"
+                                    update="@form"
+                                    oncomplete="$('#modalCreacionTratamiento').modal('hide')">
+                       <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
+                       <f:ajax event="change"
+                                   listener="#{CitaBean.crearTratamientoCIE10()}"
+                                   render=" :growl"/>
+                   </b:commandButton>
+                </b:column>
+            </b:row>
+
+        </b:panel>
+    </b:form>
+</b:panelGrid>
+</html>

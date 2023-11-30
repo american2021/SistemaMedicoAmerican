@@ -99,12 +99,15 @@ public class HistoriaExamenDAO {
      * Método para recuperar los nombres de los diagnostico personal
      *
      * @param id_historia
+     * @param id_paciente
      * @return
      */
-    public static List<HistoriaExamen> recuperarHistorialHistoriaExamenes(int id_historia) {
+    public static List<HistoriaExamen> recuperarHistorialHistoriaExamenes(int id_historia, int id_paciente) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM HistoriaExamen where his_id != '" + id_historia + "' AND per_exa_completado = '1'");         
+//        Query query = session.createQuery("FROM HistoriaExamen where his_id != '" + id_historia + "' AND per_exa_completado = '1'");         
+        Query query = session.createQuery("SELECT d FROM HistoriaExamen d, Historias h  WHERE h.hisId = d.historias.hisId AND h.personasByPacientePerId ='" + id_paciente + "' AND h.hisId != '"+ id_historia + "' AND per_exa_completado = '1'");         
+
         List<HistoriaExamen> historiaExamen= query.list();
         historiaExamen.forEach((historiaExame) -> {
             historiaExame.setExamenes(ExamenesDAO.recuperarExamenesId(historiaExame.getExamenes().getExaId()));

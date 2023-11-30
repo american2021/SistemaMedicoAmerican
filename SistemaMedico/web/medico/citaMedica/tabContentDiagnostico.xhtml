@@ -10,27 +10,25 @@
         <b:dataTable style="width: 100%; margin: 0 auto;" id="diagnosticoTabla" value="#{lista}" var="item"
                      responsive="true" content-disabled="false" searching="true"
                      page-length="5" multi-column-search="true" multi-column-search-position="top">
-            <b:dataTableColumn label="Código" value="#{item.diaCodigoCie}" style="width: 15%" />
-            <b:dataTableColumn label="Descripción" value="#{item.diaDescripcionCie}" style="width: 15%" />
-            <b:dataTableColumn label="Observación " style="width: 38%; display: inline-block;" >
+            <b:dataTableColumn label="Código" value="#{item.diaCodigoCie}" style="width: 10%" />
+            <b:dataTableColumn label="Descripción" value="#{item.diaDescripcionCie}" style="width: 25%" />
+            <b:dataTableColumn label="Observación" style="width: 53%; display: inline-block;" orderable="false" searchable="false" >
                 <b:inputTextarea
-                    value="#{CitaBean.editedDescriptionsExamen[item.diaId]}" 
+                    value="#{CitaBean.editedDescriptionsDiagnostico[item.diaId]}" 
                     rows="1" maxlength="2000"
                     placeholder="Ingrese la observación del diagnóstico"
-                    style="width: 600px"/>
+                    style="width: 700px"/>
             </b:dataTableColumn>
 
-            <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%"
-                                orderable="false"
-                                searchable="false">
+            <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%" orderable="false" searchable="false">
                 <b:row>
                     <b:column offset="1" span="2">
                         <b:commandButton id="valoresButton_#{item.antId}"
                             ajax="true" 
                             value=" Agregar"
-                            actionListener="#{CitaBean.crearHistoriaExamenPrueba(item)}"
+                            actionListener="#{CitaBean.crearHistoriaDiagnosticoPrueba(item)}"
                             tooltip="Guardar cambios" look="success"
-                            update="formExamenLabIma:listadoExamenes formExamenLabIma:listadoExamenPaciente :growl"
+                            update="formDiagnostico:listadoDiagnostico formDiagnostico:listadoDiagnosticoPaciente :growl"
                             >
                             <b:iconAwesome name="save"></b:iconAwesome>
                         </b:commandButton>

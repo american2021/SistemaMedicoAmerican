@@ -48,21 +48,30 @@
         }
         
         function toggleHistorialPanel() {
-            var examenesPanel = document.getElementById('formExamenLabIma:listadoExamenPaciente');
+            var diagnosticoPanel = document.getElementById('formExamenLabIma:listadoExamenPaciente');
             var historialPanel = document.getElementById('formExamenLabIma:historialPanel');
             var historyExamen = document.getElementById('formExamenLabIma:historyExamen');
-
             // Verifica si el panel de historial está visible
             var historialVisible = historialPanel.style.display === 'block';
-
             // Oculta o muestra el panel de historial
             historialPanel.style.display = historialVisible ? 'none' : 'block';
-
             // Oculta o muestra el panel de exámenes dependiendo del estado del panel de historial
-            examenesPanel.style.display = historialVisible ? 'block' : 'none';
-            
+            diagnosticoPanel.style.display = historialVisible ? 'block' : 'none';
             // Cambiar nombre al boton
             historyExamen.innerHTML = historialVisible ? '&nbsp;Mostrar Historial' : '&nbsp;Mostrar Exámenes';
+        }
+        function toggleHistorialDiagnosticoPanel() {
+            var examenesPanel = document.getElementById('formDiagnostico:listadoDiagnosticoPaciente');
+            var historialPanel = document.getElementById('formDiagnostico:historialDiagnosticoPanel');
+            var historyExamen = document.getElementById('formDiagnostico:historyDiagnostico');
+            // Verifica si el panel de historial está visible
+            var historialVisible = historialPanel.style.display === 'block';
+            // Oculta o muestra el panel de historial
+            historialPanel.style.display = historialVisible ? 'none' : 'block';
+            // Oculta o muestra el panel de exámenes dependiendo del estado del panel de historial
+            examenesPanel.style.display = historialVisible ? 'block' : 'none';
+            // Cambiar nombre al boton
+            historyExamen.innerHTML = historialVisible ? '&nbsp;Mostrar Historial' : '&nbsp;Mostrar Diagnóstico';
         }
     </script>
 
@@ -205,6 +214,8 @@
                 showPanel('panel1');
                 document.getElementById('formExamenLabIma:historialPanel').style.display = 'none';
                 document.getElementById('formExamenLabIma:listadoExamenPaciente').style.display = 'block';
+                document.getElementById('formDiagnostico:listadoDiagnosticoPaciente').style.display = 'block';;
+                document.getElementById('formDiagnostico:historialDiagnosticoPanel').style.display = 'none';;
             };
 
         </script>
@@ -268,7 +279,7 @@
 
                     <b:column span="10">
                         <!-- Your left-aligned content goes here -->
-                        <b:panelGrid columns="1" id="panel7">
+                        <b:panelGrid columns="1" id="panel8">
                             <b:panel span="12" offset="0">
                                 <h3>
                                     <b>Historia Clínica</b>
@@ -312,22 +323,22 @@
                                     <b:panel title="Listado de antecedentes" look="info" collapsible="false" id="listadoAntecedente">
                                         <b:tabView style-class="width: 100%">
                                             <b:tab title="Personal">
-                                                <ui:include src="tabContentAntecedente.xhtml">
+                                                <ui:include src="citaMedica/tabContentAntecedente.xhtml">
                                                     <ui:param name="lista" value="#{CitaBean.listaAntecedentePer}" />
                                                 </ui:include>
                                             </b:tab>
                                             <b:tab title="Familiar">
-                                                <ui:include src="tabContentAntecedente.xhtml">
+                                                <ui:include src="citaMedica/tabContentAntecedente.xhtml">
                                                     <ui:param name="lista" value="#{CitaBean.listaAntecedenteFan}" />
                                                 </ui:include>
                                             </b:tab>
                                             <b:tab title="Gineco/Obstétrico">
-                                                <ui:include src="tabContentAntecedente.xhtml">
+                                                <ui:include src="citaMedica/tabContentAntecedente.xhtml">
                                                     <ui:param name="lista" value="#{CitaBean.listaAntecedenteAnd}" />
                                                 </ui:include>
                                             </b:tab>
                                             <b:tab title="Vacunación">
-                                                <ui:include src="tabContentAntecedente.xhtml">
+                                                <ui:include src="citaMedica/tabContentAntecedente.xhtml">
                                                     <ui:param name="lista" value="#{CitaBean.listaAntecedenteVac}" />
                                                 </ui:include>
                                             </b:tab>
@@ -358,14 +369,14 @@
                         <!-- Your left-aligned content goes here -->
                         <b:panelGrid columns="1" id="panel3">
                             <b:panel span="12" offset="0">
-                                <ui:include src="panelSignoPaciente.xhtml">
+                                <ui:include src="citaMedica/panelSignoPaciente.xhtml">
                                 </ui:include>
                             </b:panel>
                             <!-- Additional left-aligned content goes here -->
                         </b:panelGrid>
                         <b:panelGrid columns="1" id="panel4">
                             <b:panel span="12" offset="0">  
-                                <ui:include src="panelRevision.xhtml">
+                                <ui:include src="citaMedica/panelRevision.xhtml">
                                 </ui:include>
                             </b:panel>
                         </b:panelGrid>
@@ -406,17 +417,17 @@
                                 <b:panel title="Listado de exámenes" look="info" collapsible="false" id="listadoExamenes">
                                     <b:tabView style-class="width: 100%">
                                         <b:tab title="Laboratorio">
-                                            <ui:include src="tabContentExamen.xhtml">
+                                            <ui:include src="citaMedica/tabContentExamen.xhtml">
                                                 <ui:param name="lista" value="#{CitaBean.listaExamenesLab}" />
                                             </ui:include>
                                         </b:tab>
                                         <b:tab title="Imagenología">
-                                            <ui:include src="tabContentExamen.xhtml">
+                                            <ui:include src="citaMedica/tabContentExamen.xhtml">
                                                 <ui:param name="lista" value="#{CitaBean.listaExamenesImg}" />
                                             </ui:include>
                                         </b:tab>
                                         <b:tab title="Histopatología">
-                                            <ui:include src="tabContentExamen.xhtml">
+                                            <ui:include src="citaMedica/tabContentExamen.xhtml">
                                                 <ui:param name="lista" value="#{CitaBean.listaExamenesHist}" />
                                             </ui:include>
                                         </b:tab>
@@ -469,66 +480,53 @@
                                 </b:panel>
                             </h:form>
                         </b:panelGrid>
-                        <b:panelGrid columns="1" id="panel1" span="12" offset="0">
-                            <h:form id="formExamenLabIma">
+                        <b:panelGrid columns="1" id="panel7" span="12" offset="0">
+                            <h:form id="formDiagnostico">
                                 <h3 id="reply-title">
-                                    <b>Diagnóstico Y Tratamiento</b>
+                                    <b>Diagnóstico</b>
                                 </h3>
-                                <b:panel title="Listado de diagnóstico" look="info" collapsible="false" id="listadoDiagnóstico">
-                                    <b:tabView style-class="width: 100%">
-                                        <b:tab title="Laboratorio">
-                                            <ui:include src="tabContentExamen.xhtml">
-                                                <ui:param name="lista" value="#{CitaBean.listaExamenesLab}" />
-                                            </ui:include>
-                                        </b:tab>
-                                    </b:tabView>
+                                <b:panel title="Listado de diagnóstico" look="info" collapsible="false" id="listadoDiagnostico">
+                                    <ui:include src="citaMedica/tabContentDiagnostico.xhtml">
+                                        <ui:param name="lista" value="#{CitaBean.lista_diagnosticos_all}" />
+                                    </ui:include>
                                 </b:panel>
                                 <b:row>
                                     <b:column span="12" class="text-center">
-                                        <b:button id="historyExamen"
+                                        <b:button id="historyDiagnostico"
                                                   value="&nbsp;Mostrar Historial "
-                                                  onclick="toggleHistorialPanel()"
+                                                  onclick="toggleHistorialDiagnosticoPanel()"
                                                   tooltip="Mostrar Historial" look="info">
                                         </b:button>
                                     </b:column>
                                 </b:row>
                                 <br/>
-                                <b:panel title="Exámenes de laboratorio e imagen" look="info" collapsible="false" id="listadoExamenPaciente" span="12">
-                                    <b:dataTable large-screen="full-width" id="examenesTabla" value="#{CitaBean.lista_historia_examen}" var="historiaExamen" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
-                                       page-length="7" multi-column-search="true" multi-column-search-position="top" >
-                                       <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFechaUlt)}" style="width: 5%" />
-                                       <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormatoExamen(historiaExamen.examenes.exaTipo)}" style="width: 10%" />
-                                       <b:dataTableColumn label="Exámen" value="#{historiaExamen.examenes.exaGrupo}" style="width: 15%" />
-                                       <b:dataTableColumn label="Fecha Exámen" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFecha)}" style="width: 5%" />
-                                       <b:dataTableColumn label="Resultado" value="#{historiaExamen.perExaDescripcion}" style="width: 35%; height: 10%;" />
-                                       <b:dataTableColumn label="Doctor" orderable="false" searchable="false" value="#{historiaExamen.historias.personasByMedicoPerId.perApellidos} #{historiaExamen.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
-                                       <b:dataTableColumn label="Acciones" style="width: 10%; padding-left: 1%;padding-right: 1% "
-                                                          orderable="false"
-                                                          searchable="false">
-                                               <b:column offset="1" span="0" rendered="#{historiaExamen.perExaCompletado eq '0' }">
-                                                   <b:commandButton ajax="true" 
-                                                                    update=":modalActualizarHistoriaExamen :growl"
-                                                                    action="#{CitaBean.prepararActualizacionHistoriaExamen(historiaExamen)}"
-                                                                    oncomplete="$('#modalActualizarHistoriaExamen').modal('show')" 
-                                                                    tooltip="Editar resultado del exámen" look="warning">
-                                                      <b:iconAwesome name="pencil"></b:iconAwesome>
-                                                  </b:commandButton>
-                                               </b:column>
-                                       </b:dataTableColumn>
+                                <b:panel title="Diagnóstico" look="info" collapsible="false" id="listadoDiagnosticoPaciente" span="12">
+                                    <b:dataTable large-screen="full-width" id="historiaDiagnosticoTabla" value="#{CitaBean.lista_historia_diagnostico}" var="historiaDiagnostico" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                                        page-length="7" multi-column-search="true" multi-column-search-position="top" >
+                                        <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaDiagnostico.hisDiaFechaUlt)}" style="width: 5%" />
+                                        <b:dataTableColumn label="Código" value="#{CitaBean.antecedenteFormatoExamen(historiaDiagnostico.diagnosticos.diaCodigoCie)}" style="width: 15%" />
+                                        <b:dataTableColumn label="Descripción" value="#{historiaDiagnostico.diagnosticos.diaDescripcionCie}" style="width: 20%" />
+                                        <b:dataTableColumn label="Observación" value="#{historiaDiagnostico.hisDiaObservacion}" style="width: 45%" />
+                                        <b:dataTableColumn label="Doctor" orderable="false" searchable="false" value="#{historiaDiagnostico.historias.personasByMedicoPerId.perApellidos} #{historiaDiagnostico.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
                                     </b:dataTable>
                                 </b:panel>
-                                <b:panel title="Historial" look="info" collapsible="false" id="historialPanel" span="12" >
-                                    <b:dataTable large-screen="full-width" id="examenesHistoriaTabla" value="#{CitaBean.lista_Historial_historia_examen}" var="historiaExamen" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                                <b:panel title="Historial" look="info" collapsible="false" id="historialDiagnosticoPanel" span="12" >
+                                    <b:dataTable large-screen="full-width" id="diagnosticoHistoriaTabla" value="#{CitaBean.lista_historial_historia_diagnostico}" var="historiaDiagnostico" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
                                        page-length="7" multi-column-search="true" multi-column-search-position="top" >
-                                       <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFechaUlt)}" style="width: 5%" />
-                                       <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormatoExamen(historiaExamen.examenes.exaTipo)}" style="width: 10%" />
-                                       <b:dataTableColumn label="Exámen" value="#{historiaExamen.examenes.exaGrupo}" style="width: 15%" />
-                                       <b:dataTableColumn label="Fecha Exámen" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.perExaFecha)}" style="width: 5%" />
-                                       <b:dataTableColumn label="Resultado" value="#{historiaExamen.perExaDescripcion}" style="width: 35%" />
-                                       <b:dataTableColumn label="Doctor" orderable="false" searchable="false" value="#{historiaExamen.historias.personasByMedicoPerId.perApellidos} #{historiaExamen.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
+                                        <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaDiagnostico.hisDiaFechaUlt)}" style="width: 5%" />
+                                        <b:dataTableColumn label="Código" value="#{CitaBean.antecedenteFormatoExamen(historiaDiagnostico.diagnosticos.diaCodigoCie)}" style="width: 15%" />
+                                        <b:dataTableColumn label="Descripción" value="#{historiaDiagnostico.diagnosticos.diaDescripcionCie}" style="width: 20%" />
+                                        <b:dataTableColumn label="Observación" value="#{historiaDiagnostico.hisDiaObservacion}" style="width: 45%" />
+                                        <b:dataTableColumn label="Doctor" orderable="false" searchable="false" value="#{historiaDiagnostico.historias.personasByMedicoPerId.perApellidos} #{historiaDiagnostico.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
                                     </b:dataTable>
                                 </b:panel>
                             </h:form>
+                        </b:panelGrid>
+                        <b:panelGrid columns="1" id="panel1">
+                            <b:panel span="12" offset="0">  
+                                <ui:include src="citaMedica/panelPrescripcion.xhtml">
+                                </ui:include>
+                            </b:panel>
                         </b:panelGrid>
                     </b:column>
                 </b:row>

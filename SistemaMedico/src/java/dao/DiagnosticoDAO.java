@@ -82,7 +82,6 @@ public class DiagnosticoDAO {
     /**
      * Método para recuperar los nombres de los diagnostico por su tipo
      *
-     * @param codigo_cie
      * @return
      */
     public static List<Diagnosticos> recuperarDiagnosticoAll() {
