@@ -92,6 +92,7 @@ public final class CitaBean implements Serializable{
     private Examenes examenes;
     private List<Antecedente> lista_antecedente;
     private List<Diagnosticos> lista_diagnosticos;
+    private List<Diagnosticos> lista_diagnosticos_all;
     private List<HistoriaAntecedente> lista_historia_antecedente;
     private List<HistoriaExamen> lista_historia_examen;
     private List<HistoriaExamen> lista_Historial_historia_examen;
@@ -113,6 +114,7 @@ public final class CitaBean implements Serializable{
     
     private Map<Long, String> editedDescriptions;
     private Map<Long, String> editedDescriptionsExamen;
+    private Map<Long, String> editedDescriptionsDiagnostico;
     private Map<Long, Date> editedDateExamen;
     private Map<Long, Boolean> editedCheckExamen;
     
@@ -161,6 +163,7 @@ public final class CitaBean implements Serializable{
         historiasdia = new ArrayList<>();
         revision_checks = new ArrayList<>();
         lista_diagnosticos = new ArrayList<>();
+        lista_diagnosticos_all = new ArrayList<>();
         lista_categoria_antecedentes = new ArrayList<>();
         lista_historia_antecedente = new ArrayList<>();
         diagnostico = new Diagnosticos();
@@ -189,6 +192,7 @@ public final class CitaBean implements Serializable{
         recuperarExamenes();
         editedDescriptions = new HashMap<>();
         editedDescriptionsExamen = new HashMap<>();
+        editedDescriptionsDiagnostico = new HashMap<>();
         editedDateExamen = new HashMap<>();
         editedCheckExamen = new HashMap<>();
         descripcionAntecedenteTemp = "";
@@ -271,6 +275,16 @@ public final class CitaBean implements Serializable{
     }
     
     /**
+     * Método para recuperar los diagnosticos registrados en la base por el tipo
+     * @param codigo_cie
+     * @return 
+     */
+    public List<Diagnosticos> recuperarDiagnosticos() {
+        lista_diagnosticos_all = DiagnosticoDAO.recuperarDiagnosticoAll();
+        return lista_diagnosticos_all;
+    }
+    
+    /**
      * Método para recuperar las categorias de los antecedente registrados en la base
      * @return 
      */
@@ -302,7 +316,7 @@ public final class CitaBean implements Serializable{
      * @return 
      */
     public List<HistoriaExamen> recuperarHistorialHistoriaExamenes() {
-        lista_Historial_historia_examen= HistoriaExamenDAO.recuperarHistoriaExamenes(historia.getHisId());
+        lista_Historial_historia_examen= HistoriaExamenDAO.recuperarHistorialHistoriaExamenes(historia.getHisId());
         return lista_Historial_historia_examen;
     }
     
@@ -565,7 +579,7 @@ public final class CitaBean implements Serializable{
     private boolean validarExamen(Examenes examenes) {
         return examenes != null && examenes.getExaId() != null && getEditedCheckExamen().get(examenes.getExaId()) ? StringUtils.isBlank(editedDescriptionsExamen.get(examenes.getExaId())) :StringUtils.isNotBlank(editedDescriptionsExamen.get(examenes.getExaId()));
     }
-        
+
     /**
      * Método para crear un nuevo Historia Examen
      * @param examens
@@ -579,7 +593,7 @@ public final class CitaBean implements Serializable{
                 nuevo_historia_examen.setHistorias(historia);
                 nuevo_historia_examen.setPerExaFechaUlt(new Date());
                 nuevo_historia_examen.setPerExaUsuario(session.getAttribute("usuario").toString());
-                nuevo_historia_examen.setPerExaCompletado(getEditedCheckExamen().get(examens.getExaId()) ? Byte.parseByte("1") : Byte.parseByte("0"));
+                nuevo_historia_examen.setPerExaCompletado(getEditedCheckExamen().get(examens.getExaId()) ? Byte.parseByte("0") : Byte.parseByte("1"));
                 nuevo_historia_examen.setPerExaDescripcion(getEditedCheckExamen().get(examens.getExaId()) ? "Sin resultado"  : getEditedDescriptionsExamen().get(examens.getExaId()));
                 nuevo_historia_examen.setPerExaFecha(getEditedDateExamen().get(examens.getExaId()));
                 try {
@@ -624,6 +638,33 @@ public final class CitaBean implements Serializable{
             FacesMessages.info(":growlInfo", "Error al crear el diagnóstico: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
+    
+    private boolean validarDiagnostic(Diagnosticos diagnosticos) {
+        return diagnosticos != null && diagnosticos.getDiaId() != null  && StringUtils.isNotBlank(editedDescriptionsDiagnostico.get(diagnosticos.getDiaId()));
+    }
+        
+    /**
+     * Método para crear un nuevo Examen
+     */
+    public void crearHistoriaDiagnosticoPrueba(Diagnosticos diagnosticos){
+        
+        nuevo_historia_diagnostico.setDiagnosticos(diagnostico);
+        nuevo_historia_diagnostico.setHistorias(historia);
+        nuevo_historia_diagnostico.setHisDiaFechaUlt(new Date());
+        nuevo_historia_diagnostico.setHisDiaUsuario(session.getAttribute("usuario").toString());
+        nuevo_historia_diagnostico.setHisDiaObservacion(getEditedDescriptionsDiagnostico().get(diagnosticos.getDiaId()));
+        try {
+            HistoriaDiagnosticoDAO.crearActualizarHistoriaDiagnostico(nuevo_historia_diagnostico);
+            nuevo_historia_diagnostico = new HistoriaDiagnostico();
+            editedDescriptionsDiagnostico = new HashMap<>();
+            setNombre_diagnostico("");
+            recuperarHistoriaDiagnostico();
+            FacesMessages.info(":growlInfo", "Diagnóstico Creado", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.info(":growlInfo", "Error al crear el diagnóstico: "+e.getCause().getMessage(), "This is a specific message!");
+        }
+    }
+    
     
     /**
      * Método para crear un nuevo tratamiento CIE 10ma edición
@@ -687,6 +728,11 @@ public final class CitaBean implements Serializable{
         nuevo_historia_examen = new HistoriaExamen();
         nuevo_historia_diagnostico = new HistoriaDiagnostico();
         nuevo_tratamiento = new Tratamientos();
+        editedDescriptions = new HashMap<>(); 
+        editedDescriptionsExamen = new HashMap<>();
+        editedDescriptionsDiagnostico = new HashMap<>();
+        editedCheckExamen = new HashMap<>();
+        editedDateExamen = new HashMap<>();
         this.historia_actual_id = hisId;
         historia = CitaDAO.recuperarHistoriaID(hisId);
         recuperarHistoriaAntecedente();
@@ -696,9 +742,6 @@ public final class CitaBean implements Serializable{
         recuperarHistoriaDiagnostico();
         signos = SignosDAO.recuperarSignosId(historia.getSignos().getSigId());
         revision = RevisionSistemasDAO.recuperarRevision(historia.getRevisionSistemas().getRevSisId());
-//        if(historia.getDiagnosticos() != null){
-//            diagnostico = historia.getDiagnosticos();
-//        }
         if(historia.getTratamientos() != null){
             tratamiento = TratamientoDAO.recuperarTratamiento(historia.getTratamientos().getTraId());
         }
@@ -727,8 +770,7 @@ public final class CitaBean implements Serializable{
         
         return "/medico/citaMedica.xhtml?faces-redirect=true";
     }
-    
-    
+   
     
     public void prepararEliminacionHistoriaExamen(HistoriaExamen historiaExamenEliminar){
         System.out.println("aaa");
@@ -752,6 +794,7 @@ public final class CitaBean implements Serializable{
 
     public void actualizarExamen(){
         try {
+            actualizarHistoriaExamen.setPerExaCompletado(Byte.parseByte("1"));
             HistoriaExamenDAO.crearActualizarHistoriaExamen(actualizarHistoriaExamen);
             actualizarHistoriaExamen = new HistoriaExamen();
             recuperarHistoriaExamenes();
@@ -1304,6 +1347,14 @@ public final class CitaBean implements Serializable{
         this.editedDescriptionsExamen = editedDescriptionsExamen;
     }
 
+    public Map<Long, String> getEditedDescriptionsDiagnostico() {
+        return editedDescriptionsDiagnostico;
+    }
+
+    public void setEditedDescriptionsDiagnostico(Map<Long, String> editedDescriptionsDiagnostico) {
+        this.editedDescriptionsDiagnostico = editedDescriptionsDiagnostico;
+    }
+    
     public Map<Long, Date> getEditedDateExamen() {
         return editedDateExamen;
     }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<b:panelGrid columns="1">
+    <br/>
+        <b:dataTable style="width: 100%; margin: 0 auto;" id="diagnosticoTabla" value="#{lista}" var="item"
+                     responsive="true" content-disabled="false" searching="true"
+                     page-length="5" multi-column-search="true" multi-column-search-position="top">
+            <b:dataTableColumn label="Código" value="#{item.diaCodigoCie}" style="width: 15%" />
+            <b:dataTableColumn label="Descripción" value="#{item.diaDescripcionCie}" style="width: 15%" />
+            <b:dataTableColumn label="Observación " style="width: 38%; display: inline-block;" >
+                <b:inputTextarea
+                    value="#{CitaBean.editedDescriptionsExamen[item.diaId]}" 
+                    rows="1" maxlength="2000"
+                    placeholder="Ingrese la observación del diagnóstico"
+                    style="width: 600px"/>
+            </b:dataTableColumn>
+
+            <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%"
+                                orderable="false"
+                                searchable="false">
+                <b:row>
+                    <b:column offset="1" span="2">
+                        <b:commandButton id="valoresButton_#{item.antId}"
+                            ajax="true" 
+                            value=" Agregar"
+                            actionListener="#{CitaBean.crearHistoriaExamenPrueba(item)}"
+                            tooltip="Guardar cambios" look="success"
+                            update="formExamenLabIma:listadoExamenes formExamenLabIma:listadoExamenPaciente :growl"
+                            >
+                            <b:iconAwesome name="save"></b:iconAwesome>
+                        </b:commandButton>
+                    </b:column>
+                </b:row>
+            </b:dataTableColumn>
+        </b:dataTable>
+</b:panelGrid>
+</html>

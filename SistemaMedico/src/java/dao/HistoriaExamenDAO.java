@@ -78,7 +78,7 @@ public class HistoriaExamenDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
 //        Examenes exa = new Examenes();
         session.beginTransaction();
-        Query query = session.createQuery("FROM HistoriaExamen where his_id= '" + id_historia + "'");         
+        Query query = session.createQuery("FROM HistoriaExamen where his_id= '" + id_historia + "' OR his_id != '" + id_historia + "'  AND per_exa_completado = 0");         
         List<HistoriaExamen> historiaExamen= query.list();
         historiaExamen.forEach((historiaExame) -> {
             historiaExame.setExamenes(ExamenesDAO.recuperarExamenesId(historiaExame.getExamenes().getExaId()));
@@ -103,9 +103,8 @@ public class HistoriaExamenDAO {
      */
     public static List<HistoriaExamen> recuperarHistorialHistoriaExamenes(int id_historia) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-//        Examenes exa = new Examenes();
         session.beginTransaction();
-        Query query = session.createQuery("FROM HistoriaExamen where his_id= '" + id_historia + "'");         
+        Query query = session.createQuery("FROM HistoriaExamen where his_id != '" + id_historia + "' AND per_exa_completado = '1'");         
         List<HistoriaExamen> historiaExamen= query.list();
         historiaExamen.forEach((historiaExame) -> {
             historiaExame.setExamenes(ExamenesDAO.recuperarExamenesId(historiaExame.getExamenes().getExaId()));
