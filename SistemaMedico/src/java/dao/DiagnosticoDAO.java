@@ -82,6 +82,22 @@ public class DiagnosticoDAO {
     /**
      * Método para recuperar los nombres de los diagnostico por su tipo
      *
+     * @param codigo_cie
+     * @return
+     */
+    public static List<Diagnosticos> recuperarDiagnosticoAll() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("FROM Diagnosticos");
+        List<Diagnosticos> diagnosticos= query.list();
+        session.getTransaction().commit();
+        session.close();
+        return diagnosticos;
+    }
+    
+    /**
+     * Método para recuperar los nombres de los diagnostico por su tipo
+     *
      * @return
      */
     public static List<Diagnosticos> recuperarDiagnostico() {
