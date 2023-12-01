@@ -82,4 +82,34 @@ public class HistoriaAntecedenteDAO {
         session.close();
         return historiaAntecedente;
     }
+    /**
+     * Método para recuperar los nombres de los diagnostico personal
+     *
+     * @param id_persona
+     * @return
+     */
+    public static List<HistoriaAntecedente> recuperarAlergiasHistoriaAntecedente(int id_persona) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        System.out.println("SELECT DISTINCT h FROM HistoriaAntecedente h, Antecedente a, Historias b  where b.personasByPacientePerId.perId= '" + id_persona + "' AND h.historias.hisId = b.hisId AND a.antCategoria like '%ALERGIA%' group by h.perAntDescripcion");         
+        Query query = session.createQuery("SELECT DISTINCT h FROM HistoriaAntecedente h, Antecedente a, Historias b  where b.personasByPacientePerId.perId= '" + id_persona + "' AND h.historias.hisId = b.hisId AND a.antCategoria like '%ALERGIA%' group by h.perAntDescripcion");         
+        List<HistoriaAntecedente> historiaAntecedente= query.list();
+        System.out.println("historiaAntecedente: "+historiaAntecedente);
+        historiaAntecedente.forEach((historiaAntecedent) -> {
+            historiaAntecedent.getAntecedente().getAntTipo();
+            historiaAntecedent.setAntecedente(historiaAntecedent.getAntecedente());
+            // Recuperar historia
+            Historias aux_histori = historiaAntecedent.getHistorias();
+            // Recuperar persona
+            Personas aux_per = historiaAntecedent.getHistorias().getPersonasByMedicoPerId();
+            // Setear la persona para el campo medico dentro de la entidad historia
+            aux_per.getPerApellidos();
+            aux_histori.setPersonasByMedicoPerId(aux_per);
+            // Setear la historia
+            historiaAntecedent.setHistorias(aux_histori);
+        });
+        session.getTransaction().commit();
+        session.close();
+        return historiaAntecedente;
+    }
 }

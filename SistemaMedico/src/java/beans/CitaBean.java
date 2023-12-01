@@ -90,6 +90,7 @@ public final class CitaBean implements Serializable{
     private List<Diagnosticos> lista_diagnosticos;
     private List<Diagnosticos> lista_diagnosticos_all;
     private List<HistoriaAntecedente> lista_historia_antecedente;
+    private List<HistoriaAntecedente> lista_alergias_historia_antecedente;
     private List<HistoriaExamen> lista_historia_examen;
     private List<HistoriaExamen> lista_Historial_historia_examen;
     private List<HistoriaDiagnostico> lista_historia_diagnostico;
@@ -164,6 +165,7 @@ public final class CitaBean implements Serializable{
         lista_diagnosticos_all = new ArrayList<>();
         lista_categoria_antecedentes = new ArrayList<>();
         lista_historia_antecedente = new ArrayList<>();
+        lista_alergias_historia_antecedente = new ArrayList<>();
         diagnostico = new Diagnosticos();
         antecedente = new Antecedente();
         examenes = new Examenes();
@@ -299,6 +301,15 @@ public final class CitaBean implements Serializable{
     public List<HistoriaAntecedente> recuperarHistoriaAntecedente() {
         lista_historia_antecedente = HistoriaAntecedenteDAO.recuperarHistoriaAntecedente(historia.getHisId());
         return lista_historia_antecedente;
+    }
+    
+    /**
+     * Método para recuperar los antecedente de alergias registrados en la base de una persona
+     * @return 
+     */
+    public List<HistoriaAntecedente> recuperarAlergiasHistoriaAntecedente() {
+        lista_alergias_historia_antecedente = HistoriaAntecedenteDAO.recuperarAlergiasHistoriaAntecedente(historia.getPersonasByPacientePerId().getPerId());
+        return lista_alergias_historia_antecedente;
     }
     
     /**
@@ -529,6 +540,7 @@ public final class CitaBean implements Serializable{
             nuevo_historia_antecedente = new HistoriaAntecedente();
             setNombre_antecedente("");
             recuperarHistoriaAntecedente();
+            recuperarAlergiasHistoriaAntecedente();
             FacesMessages.info(":growlInfo", "Antecedente Creado", "This is a specific message!");
         } catch (Exception e) {
             FacesMessages.info(":growlInfo", "Error al crear el antecedente: "+e.getCause().getMessage(), "This is a specific message!");
@@ -558,6 +570,7 @@ public final class CitaBean implements Serializable{
                 editedDescriptions = new HashMap<>();
                 setNombre_antecedente("");
                 recuperarHistoriaAntecedente();
+                recuperarAlergiasHistoriaAntecedente();
                 FacesMessages.info(":growlInfo", "Antecedente Creado", "This is a specific message!");
             } catch (Exception e) {
                 FacesMessages.error(":growlInfo", "Error al crear el antecedente: "+e.getCause().getMessage(), "This is a specific message!");
@@ -757,6 +770,7 @@ public final class CitaBean implements Serializable{
         this.historia_actual_id = hisId;
         historia = CitaDAO.recuperarHistoriaID(hisId);
         recuperarHistoriaAntecedente();
+        recuperarAlergiasHistoriaAntecedente();
         recuperarHistoriaExamenes();
         recuperarHistorialHistoriaExamenes();
         recuperarCategoriaAntecedente();
@@ -1291,6 +1305,10 @@ public final class CitaBean implements Serializable{
         return lista_historia_antecedente;
     }
 
+    public List<HistoriaAntecedente> getLista_alergias_historia_antecedente() {
+        return lista_alergias_historia_antecedente;
+    }
+    
     public List<HistoriaDiagnostico> getLista_historia_diagnostico() {
         return lista_historia_diagnostico;
     }

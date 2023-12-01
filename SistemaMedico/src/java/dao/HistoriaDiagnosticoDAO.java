@@ -118,8 +118,10 @@ public class HistoriaDiagnosticoDAO {
     public static List<HistoriaDiagnostico> completarHistoriaDiagnostico(String consulta, int id_historia) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM HistoriaDiagnostico WHERE  hisDiaObservacion like ='" + consulta.toUpperCase() + "' AND historias.hisId = '"+ id_historia + "'");         
-        List<HistoriaDiagnostico> historiaDiagnostico= query.list();
+        System.out.println("FROM HistoriaDiagnostico WHERE  hisDiaObservacion like '%" + consulta.toUpperCase() + "%' AND historias.hisId = '"+ id_historia + "'");
+        Query query = session.createQuery("FROM HistoriaDiagnostico WHERE  hisDiaObservacion like '%" + consulta.toUpperCase() + "%' AND historias.hisId = '"+ id_historia + "'");         
+        List<HistoriaDiagnostico> historiaDiagnostico = query.list();
+        System.out.println("historiaDiagnostico; "+historiaDiagnostico);
         historiaDiagnostico.forEach((historiaDiagnostic) -> {
             historiaDiagnostic.setDiagnosticos(DiagnosticoDAO.recuperarDiagnosticosId(historiaDiagnostic.getDiagnosticos().getDiaId()));
             Historias aux_histori = historiaDiagnostic.getHistorias();
