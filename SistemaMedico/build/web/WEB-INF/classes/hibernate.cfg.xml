@@ -58,6 +58,7 @@ Contributor(s):
     <mapping resource="datos/RevisionSistemas.hbm.xml"/>
     <mapping resource="datos/Resultados.hbm.xml"/>
     <mapping resource="datos/Enfermedades.hbm.xml"/>
+    <mapping resource="datos/HistoriaTratamiento.hbm.xml"/>
     <mapping resource="datos/Examenes.hbm.xml"/>
     <mapping resource="datos/Usuarios.hbm.xml"/>
     <mapping resource="datos/Estadocivil.hbm.xml"/>

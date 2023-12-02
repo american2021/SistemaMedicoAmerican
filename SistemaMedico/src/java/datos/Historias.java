@@ -1,5 +1,5 @@
 package datos;
-// Generated 24/11/2023 11:56:23 by Hibernate Tools 4.3.1
+// Generated 02/12/2023 11:28:58 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -19,7 +19,6 @@ public class Historias  implements java.io.Serializable {
      private Resultados resultados;
      private RevisionSistemas revisionSistemas;
      private Signos signos;
-     private Tratamientos tratamientos;
      private String hisMotivo;
      private String hisEnfermedad;
      private String hisExamenGeneral;
@@ -29,6 +28,7 @@ public class Historias  implements java.io.Serializable {
      private Date hisFechaUlt;
      private String hisUsuario;
      private Byte hisCompletado;
+     private Set historiaTratamientos = new HashSet(0);
      private Set enfermedadeses = new HashSet(0);
      private Set historiaDiagnosticos = new HashSet(0);
      private Set historiaAntecedentes = new HashSet(0);
@@ -44,14 +44,13 @@ public class Historias  implements java.io.Serializable {
         this.hisEnfermedad = hisEnfermedad;
         this.hisFechaCreacion = hisFechaCreacion;
     }
-    public Historias(Enfermedades enfermedades, Personas personasByMedicoPerId, Personas personasByPacientePerId, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, Tratamientos tratamientos, String hisMotivo, String hisEnfermedad, String hisExamenGeneral, String hisExamenNeurologico, String hisIndicaciones, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Byte hisCompletado, Set enfermedadeses, Set historiaDiagnosticos, Set historiaAntecedentes, Set historiaExamens) {
+    public Historias(Enfermedades enfermedades, Personas personasByMedicoPerId, Personas personasByPacientePerId, Resultados resultados, RevisionSistemas revisionSistemas, Signos signos, String hisMotivo, String hisEnfermedad, String hisExamenGeneral, String hisExamenNeurologico, String hisIndicaciones, Date hisFechaCreacion, Date hisFechaUlt, String hisUsuario, Byte hisCompletado, Set historiaTratamientos, Set enfermedadeses, Set historiaDiagnosticos, Set historiaAntecedentes, Set historiaExamens) {
        this.enfermedades = enfermedades;
        this.personasByMedicoPerId = personasByMedicoPerId;
        this.personasByPacientePerId = personasByPacientePerId;
        this.resultados = resultados;
        this.revisionSistemas = revisionSistemas;
        this.signos = signos;
-       this.tratamientos = tratamientos;
        this.hisMotivo = hisMotivo;
        this.hisEnfermedad = hisEnfermedad;
        this.hisExamenGeneral = hisExamenGeneral;
@@ -61,6 +60,7 @@ public class Historias  implements java.io.Serializable {
        this.hisFechaUlt = hisFechaUlt;
        this.hisUsuario = hisUsuario;
        this.hisCompletado = hisCompletado;
+       this.historiaTratamientos = historiaTratamientos;
        this.enfermedadeses = enfermedadeses;
        this.historiaDiagnosticos = historiaDiagnosticos;
        this.historiaAntecedentes = historiaAntecedentes;
@@ -115,13 +115,6 @@ public class Historias  implements java.io.Serializable {
     
     public void setSignos(Signos signos) {
         this.signos = signos;
-    }
-    public Tratamientos getTratamientos() {
-        return this.tratamientos;
-    }
-    
-    public void setTratamientos(Tratamientos tratamientos) {
-        this.tratamientos = tratamientos;
     }
     public String getHisMotivo() {
         return this.hisMotivo;
@@ -185,6 +178,13 @@ public class Historias  implements java.io.Serializable {
     
     public void setHisCompletado(Byte hisCompletado) {
         this.hisCompletado = hisCompletado;
+    }
+    public Set getHistoriaTratamientos() {
+        return this.historiaTratamientos;
+    }
+    
+    public void setHistoriaTratamientos(Set historiaTratamientos) {
+        this.historiaTratamientos = historiaTratamientos;
     }
     public Set getEnfermedadeses() {
         return this.enfermedadeses;

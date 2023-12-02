@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/11/2023 11:56:24 by Hibernate Tools 4.3.1 -->
+<!-- Generated 02/12/2023 11:28:58 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Historias" table="historias" catalog="smed" optimistic-lock="version">
         <id name="hisId" type="java.lang.Integer">
@@ -25,9 +25,6 @@
         </many-to-one>
         <many-to-one name="signos" class="datos.Signos" fetch="select">
             <column name="signos_sig_id" />
-        </many-to-one>
-        <many-to-one name="tratamientos" class="datos.Tratamientos" fetch="select">
-            <column name="tratamientos_tra_id" />
         </many-to-one>
         <property name="hisMotivo" type="string">
             <column name="his_motivo" length="2000" not-null="true" />
@@ -56,6 +53,12 @@
         <property name="hisCompletado" type="java.lang.Byte">
             <column name="his_completado" />
         </property>
+        <set name="historiaTratamientos" table="historia_tratamiento" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="his_id" not-null="true" />
+            </key>
+            <one-to-many class="datos.HistoriaTratamiento" />
+        </set>
         <set name="enfermedadeses" table="enfermedades" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="historias_his_id" />

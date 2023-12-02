@@ -1,5 +1,5 @@
 package datos;
-// Generated 24/11/2023 11:56:23 by Hibernate Tools 4.3.1
+// Generated 02/12/2023 11:28:58 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -10,43 +10,43 @@ import java.util.Date;
 public class HistoriaExamen  implements java.io.Serializable {
 
 
-     private Integer perExaId;
+     private Integer hisExaId;
      private Examenes examenes;
      private Historias historias;
-     private String perExaDescripcion;
-     private Date perExaFecha;
-     private Date perExaFechaUlt;
-     private String perExaUsuario;
-     private Byte perExaCompletado;
+     private String hisExaDescripcion;
+     private Date hisExaFecha;
+     private Date hisExaFechaUlt;
+     private String hisExaUsuario;
+     private Byte hisExaCompletado;
 
     public HistoriaExamen() {
     }
 
 	
-    public HistoriaExamen(Examenes examenes, Historias historias, String perExaDescripcion, Date perExaFecha, Date perExaFechaUlt, String perExaUsuario) {
+    public HistoriaExamen(Examenes examenes, Historias historias, String hisExaDescripcion, Date hisExaFecha, Date hisExaFechaUlt, String hisExaUsuario) {
         this.examenes = examenes;
         this.historias = historias;
-        this.perExaDescripcion = perExaDescripcion;
-        this.perExaFecha = perExaFecha;
-        this.perExaFechaUlt = perExaFechaUlt;
-        this.perExaUsuario = perExaUsuario;
+        this.hisExaDescripcion = hisExaDescripcion;
+        this.hisExaFecha = hisExaFecha;
+        this.hisExaFechaUlt = hisExaFechaUlt;
+        this.hisExaUsuario = hisExaUsuario;
     }
-    public HistoriaExamen(Examenes examenes, Historias historias, String perExaDescripcion, Date perExaFecha, Date perExaFechaUlt, String perExaUsuario, Byte perExaCompletado) {
+    public HistoriaExamen(Examenes examenes, Historias historias, String hisExaDescripcion, Date hisExaFecha, Date hisExaFechaUlt, String hisExaUsuario, Byte hisExaCompletado) {
        this.examenes = examenes;
        this.historias = historias;
-       this.perExaDescripcion = perExaDescripcion;
-       this.perExaFecha = perExaFecha;
-       this.perExaFechaUlt = perExaFechaUlt;
-       this.perExaUsuario = perExaUsuario;
-       this.perExaCompletado = perExaCompletado;
+       this.hisExaDescripcion = hisExaDescripcion;
+       this.hisExaFecha = hisExaFecha;
+       this.hisExaFechaUlt = hisExaFechaUlt;
+       this.hisExaUsuario = hisExaUsuario;
+       this.hisExaCompletado = hisExaCompletado;
     }
    
-    public Integer getPerExaId() {
-        return this.perExaId;
+    public Integer getHisExaId() {
+        return this.hisExaId;
     }
     
-    public void setPerExaId(Integer perExaId) {
-        this.perExaId = perExaId;
+    public void setHisExaId(Integer hisExaId) {
+        this.hisExaId = hisExaId;
     }
     public Examenes getExamenes() {
         return this.examenes;
@@ -62,40 +62,40 @@ public class HistoriaExamen  implements java.io.Serializable {
     public void setHistorias(Historias historias) {
         this.historias = historias;
     }
-    public String getPerExaDescripcion() {
-        return this.perExaDescripcion;
+    public String getHisExaDescripcion() {
+        return this.hisExaDescripcion;
     }
     
-    public void setPerExaDescripcion(String perExaDescripcion) {
-        this.perExaDescripcion = perExaDescripcion;
+    public void setHisExaDescripcion(String hisExaDescripcion) {
+        this.hisExaDescripcion = hisExaDescripcion;
     }
-    public Date getPerExaFecha() {
-        return this.perExaFecha;
-    }
-    
-    public void setPerExaFecha(Date perExaFecha) {
-        this.perExaFecha = perExaFecha;
-    }
-    public Date getPerExaFechaUlt() {
-        return this.perExaFechaUlt;
+    public Date getHisExaFecha() {
+        return this.hisExaFecha;
     }
     
-    public void setPerExaFechaUlt(Date perExaFechaUlt) {
-        this.perExaFechaUlt = perExaFechaUlt;
+    public void setHisExaFecha(Date hisExaFecha) {
+        this.hisExaFecha = hisExaFecha;
     }
-    public String getPerExaUsuario() {
-        return this.perExaUsuario;
-    }
-    
-    public void setPerExaUsuario(String perExaUsuario) {
-        this.perExaUsuario = perExaUsuario;
-    }
-    public Byte getPerExaCompletado() {
-        return this.perExaCompletado;
+    public Date getHisExaFechaUlt() {
+        return this.hisExaFechaUlt;
     }
     
-    public void setPerExaCompletado(Byte perExaCompletado) {
-        this.perExaCompletado = perExaCompletado;
+    public void setHisExaFechaUlt(Date hisExaFechaUlt) {
+        this.hisExaFechaUlt = hisExaFechaUlt;
+    }
+    public String getHisExaUsuario() {
+        return this.hisExaUsuario;
+    }
+    
+    public void setHisExaUsuario(String hisExaUsuario) {
+        this.hisExaUsuario = hisExaUsuario;
+    }
+    public Byte getHisExaCompletado() {
+        return this.hisExaCompletado;
+    }
+    
+    public void setHisExaCompletado(Byte hisExaCompletado) {
+        this.hisExaCompletado = hisExaCompletado;
     }
 
 

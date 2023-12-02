@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/11/2023 11:56:24 by Hibernate Tools 4.3.1 -->
+<!-- Generated 02/12/2023 11:28:58 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.HistoriaAntecedente" table="historia_antecedente" catalog="smed" optimistic-lock="version">
-        <id name="perAntId" type="java.lang.Integer">
-            <column name="per_ant_id" />
+        <id name="hisAntId" type="java.lang.Integer">
+            <column name="his_ant_id" />
             <generator class="identity" />
         </id>
         <many-to-one name="antecedente" class="datos.Antecedente" fetch="select">
@@ -14,14 +14,14 @@
         <many-to-one name="historias" class="datos.Historias" fetch="select">
             <column name="his_id" not-null="true" />
         </many-to-one>
-        <property name="perAntDescripcion" type="string">
-            <column name="per_ant_descripcion" length="2000" not-null="true" />
+        <property name="hisAntDescripcion" type="string">
+            <column name="his_ant_descripcion" length="2000" not-null="true" />
         </property>
-        <property name="perAntFechaUlt" type="timestamp">
-            <column name="per_ant_fecha_ult" length="19" not-null="true" />
+        <property name="hisAntFechaUlt" type="timestamp">
+            <column name="his_ant_fecha_ult" length="19" not-null="true" />
         </property>
-        <property name="perAntUsuario" type="string">
-            <column name="per_ant_usuario" length="300" not-null="true" />
+        <property name="hisAntUsuario" type="string">
+            <column name="his_ant_usuario" length="300" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>

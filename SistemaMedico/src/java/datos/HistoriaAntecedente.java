@@ -1,5 +1,5 @@
 package datos;
-// Generated 24/11/2023 11:56:23 by Hibernate Tools 4.3.1
+// Generated 02/12/2023 11:28:58 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -10,30 +10,30 @@ import java.util.Date;
 public class HistoriaAntecedente  implements java.io.Serializable {
 
 
-     private Integer perAntId;
+     private Integer hisAntId;
      private Antecedente antecedente;
      private Historias historias;
-     private String perAntDescripcion;
-     private Date perAntFechaUlt;
-     private String perAntUsuario;
+     private String hisAntDescripcion;
+     private Date hisAntFechaUlt;
+     private String hisAntUsuario;
 
     public HistoriaAntecedente() {
     }
 
-    public HistoriaAntecedente(Antecedente antecedente, Historias historias, String perAntDescripcion, Date perAntFechaUlt, String perAntUsuario) {
+    public HistoriaAntecedente(Antecedente antecedente, Historias historias, String hisAntDescripcion, Date hisAntFechaUlt, String hisAntUsuario) {
        this.antecedente = antecedente;
        this.historias = historias;
-       this.perAntDescripcion = perAntDescripcion;
-       this.perAntFechaUlt = perAntFechaUlt;
-       this.perAntUsuario = perAntUsuario;
+       this.hisAntDescripcion = hisAntDescripcion;
+       this.hisAntFechaUlt = hisAntFechaUlt;
+       this.hisAntUsuario = hisAntUsuario;
     }
    
-    public Integer getPerAntId() {
-        return this.perAntId;
+    public Integer getHisAntId() {
+        return this.hisAntId;
     }
     
-    public void setPerAntId(Integer perAntId) {
-        this.perAntId = perAntId;
+    public void setHisAntId(Integer hisAntId) {
+        this.hisAntId = hisAntId;
     }
     public Antecedente getAntecedente() {
         return this.antecedente;
@@ -49,26 +49,26 @@ public class HistoriaAntecedente  implements java.io.Serializable {
     public void setHistorias(Historias historias) {
         this.historias = historias;
     }
-    public String getPerAntDescripcion() {
-        return this.perAntDescripcion;
+    public String getHisAntDescripcion() {
+        return this.hisAntDescripcion;
     }
     
-    public void setPerAntDescripcion(String perAntDescripcion) {
-        this.perAntDescripcion = perAntDescripcion;
+    public void setHisAntDescripcion(String hisAntDescripcion) {
+        this.hisAntDescripcion = hisAntDescripcion;
     }
-    public Date getPerAntFechaUlt() {
-        return this.perAntFechaUlt;
-    }
-    
-    public void setPerAntFechaUlt(Date perAntFechaUlt) {
-        this.perAntFechaUlt = perAntFechaUlt;
-    }
-    public String getPerAntUsuario() {
-        return this.perAntUsuario;
+    public Date getHisAntFechaUlt() {
+        return this.hisAntFechaUlt;
     }
     
-    public void setPerAntUsuario(String perAntUsuario) {
-        this.perAntUsuario = perAntUsuario;
+    public void setHisAntFechaUlt(Date hisAntFechaUlt) {
+        this.hisAntFechaUlt = hisAntFechaUlt;
+    }
+    public String getHisAntUsuario() {
+        return this.hisAntUsuario;
+    }
+    
+    public void setHisAntUsuario(String hisAntUsuario) {
+        this.hisAntUsuario = hisAntUsuario;
     }
 
 

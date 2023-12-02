@@ -91,10 +91,8 @@ public class HistoriaAntecedenteDAO {
     public static List<HistoriaAntecedente> recuperarAlergiasHistoriaAntecedente(int id_persona) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        System.out.println("SELECT DISTINCT h FROM HistoriaAntecedente h, Antecedente a, Historias b  where b.personasByPacientePerId.perId= '" + id_persona + "' AND h.historias.hisId = b.hisId AND a.antCategoria like '%ALERGIA%' group by h.perAntDescripcion");         
-        Query query = session.createQuery("SELECT DISTINCT h FROM HistoriaAntecedente h, Antecedente a, Historias b  where b.personasByPacientePerId.perId= '" + id_persona + "' AND h.historias.hisId = b.hisId AND a.antCategoria like '%ALERGIA%' group by h.perAntDescripcion");         
+        Query query = session.createQuery("SELECT DISTINCT h FROM HistoriaAntecedente h, Antecedente a, Historias b  where b.personasByPacientePerId.perId= '" + id_persona + "' AND h.historias.hisId = b.hisId AND a.antCategoria like '%ALERGIA%' group by h.hisAntDescripcion");         
         List<HistoriaAntecedente> historiaAntecedente= query.list();
-        System.out.println("historiaAntecedente: "+historiaAntecedente);
         historiaAntecedente.forEach((historiaAntecedent) -> {
             historiaAntecedent.getAntecedente().getAntTipo();
             historiaAntecedent.setAntecedente(historiaAntecedent.getAntecedente());

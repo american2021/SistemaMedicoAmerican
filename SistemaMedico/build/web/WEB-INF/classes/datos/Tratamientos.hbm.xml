@@ -1,45 +1,42 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/11/2023 11:56:24 by Hibernate Tools 4.3.1 -->
+<!-- Generated 02/12/2023 11:28:58 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Tratamientos" table="tratamientos" catalog="smed" optimistic-lock="version">
         <id name="traId" type="java.lang.Integer">
             <column name="tra_id" />
             <generator class="identity" />
         </id>
+        <many-to-one name="medicamentos" class="datos.Medicamentos" fetch="select">
+            <column name="med_id" not-null="true" />
+        </many-to-one>
         <property name="traCodigoCie" type="string">
             <column name="tra_codigo_cie" length="50" />
-        </property>
-        <property name="traDescripcionCie" type="string">
-            <column name="tra_descripcion_cie" length="300" />
-        </property>
-        <property name="traObservacionCie" type="string">
-            <column name="tra_observacion_cie" length="500" />
         </property>
         <property name="traEdicionCie" type="string">
             <column name="tra_edicion_cie" length="2" />
         </property>
-        <property name="traMedicamento" type="string">
-            <column name="tra_medicamento" length="100" not-null="true" />
+        <property name="traEstado" type="string">
+            <column name="tra_estado" length="10" not-null="true" />
         </property>
-        <property name="traViaAdministracion" type="char">
-            <column name="tra_via_administracion" length="1" not-null="true" />
+        <property name="traFrecuencia" type="string">
+            <column name="tra_frecuencia" length="2" not-null="true" />
         </property>
-        <property name="traDosisUnitaria" type="string">
-            <column name="tra_dosis_unitaria" length="300" not-null="true" />
+        <property name="traViaAdministracion" type="string">
+            <column name="tra_via_administracion" length="2" not-null="true" />
         </property>
-        <property name="traUnidadAdministracion" type="string">
-            <column name="tra_unidad_administracion" length="200" not-null="true" />
+        <property name="traDuracion" type="int">
+            <column name="tra_duracion" not-null="true" />
         </property>
-        <property name="traDuracion" type="java.lang.Integer">
-            <column name="tra_duracion" />
+        <property name="traCantidad" type="int">
+            <column name="tra_cantidad" not-null="true" />
         </property>
         <property name="traIndicaciones" type="string">
             <column name="tra_indicaciones" length="300" not-null="true" />
         </property>
         <property name="traAdvertencias" type="string">
-            <column name="tra_advertencias" length="300" not-null="true" />
+            <column name="tra_advertencias" length="500" not-null="true" />
         </property>
         <property name="traFechaUlt" type="timestamp">
             <column name="tra_fecha_ult" length="19" not-null="true" />
@@ -47,17 +44,11 @@
         <property name="traUsuario" type="string">
             <column name="tra_usuario" length="300" not-null="true" />
         </property>
-        <set name="historiases" table="historias" inverse="true" lazy="true" fetch="select">
+        <set name="historiaTratamientos" table="historia_tratamiento" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="tratamientos_tra_id" />
+                <column name="tra_id" not-null="true" />
             </key>
-            <one-to-many class="datos.Historias" />
-        </set>
-        <set name="medicamentoses" table="medicamentos" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="tratamientos_tra_id" not-null="true" />
-            </key>
-            <one-to-many class="datos.Medicamentos" />
+            <one-to-many class="datos.HistoriaTratamiento" />
         </set>
     </class>
 </hibernate-mapping>

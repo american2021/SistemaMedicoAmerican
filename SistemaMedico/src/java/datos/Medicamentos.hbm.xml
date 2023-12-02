@@ -1,18 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 24/11/2023 11:56:24 by Hibernate Tools 4.3.1 -->
+<!-- Generated 02/12/2023 11:28:58 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Medicamentos" table="medicamentos" catalog="smed" optimistic-lock="version">
         <id name="medId" type="java.lang.Integer">
             <column name="med_id" />
             <generator class="identity" />
         </id>
-        <many-to-one name="tratamientos" class="datos.Tratamientos" fetch="select">
-            <column name="tratamientos_tra_id" not-null="true" />
-        </many-to-one>
         <property name="medNombre" type="string">
             <column name="med_nombre" length="300" not-null="true" />
+        </property>
+        <property name="medDosisUnitaria" type="int">
+            <column name="med_dosis_unitaria" not-null="true" />
+        </property>
+        <property name="medMedida" type="string">
+            <column name="med_medida" length="2" not-null="true" />
         </property>
         <property name="medFechaUlt" type="timestamp">
             <column name="med_fecha_ult" length="19" not-null="true" />
@@ -20,5 +23,11 @@
         <property name="medUsuario" type="string">
             <column name="med_usuario" length="300" not-null="true" />
         </property>
+        <set name="tratamientoses" table="tratamientos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="med_id" not-null="true" />
+            </key>
+            <one-to-many class="datos.Tratamientos" />
+        </set>
     </class>
 </hibernate-mapping>
