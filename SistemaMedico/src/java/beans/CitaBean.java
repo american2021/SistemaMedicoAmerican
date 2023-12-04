@@ -17,6 +17,7 @@ import dao.ParentescoDAO;
 import dao.HistoriaAntecedenteDAO;
 import dao.PersonaDAO;
 import dao.HistoriaExamenDAO;
+import dao.HistoriaTratamientoDAO;
 import dao.MedicamentosDAO;
 import dao.RevisionSistemasDAO;
 import dao.SignosDAO;
@@ -33,6 +34,7 @@ import datos.Ocupaciones;
 import datos.Parentescos;
 import datos.HistoriaAntecedente;
 import datos.HistoriaExamen;
+import datos.HistoriaTratamiento;
 import datos.Medicamentos;
 import datos.Personas;
 import datos.RevisionSistemas;
@@ -109,6 +111,7 @@ public final class CitaBean implements Serializable{
     private HistoriaDiagnostico nuevo_historia_diagnostico;
     private Tratamientos nuevo_tratamiento;
     private Medicamentos nuevo_medicamento;
+    private HistoriaTratamiento nuevo_historia_tratamiento;
     private Signos signos;
     private int historia_actual_id;
     private List<Ocupaciones> lista_ocupaciones;
@@ -140,6 +143,7 @@ public final class CitaBean implements Serializable{
     private String antecedente_abierta;
     private String parentesco_abierto;
     private String nombre_diagnostico;
+    private String nombre_medicamento;
     private String nombre_antecedente;
     private String nombre_examen;
     private String nombre_tratamiento;
@@ -169,6 +173,7 @@ public final class CitaBean implements Serializable{
      */
     public void inicializarHistorias(){
         System.out.println("Inicializando citabean");
+        nombre_medicamento = null;
         realizarExamen = false;
         historias = new ArrayList<>();
         historiasdia = new ArrayList<>();
@@ -198,6 +203,7 @@ public final class CitaBean implements Serializable{
         nombre_tratamiento ="";
         nuevo_historia_antecedente = new HistoriaAntecedente();
         nuevo_historia_diagnostico = new HistoriaDiagnostico();
+        nuevo_historia_tratamiento = new HistoriaTratamiento();
         nuevo_historia_examen = new HistoriaExamen();
         nuevo_tratamiento = new Tratamientos();
         nuevo_medicamento = new Medicamentos();
@@ -262,6 +268,14 @@ public final class CitaBean implements Serializable{
      */
     public List<String> recuperarNombresDiagnosticos() {
         return DiagnosticoDAO.recuperarNombresDiagnosticos();
+    }
+    
+    /**
+     * Método para recuperar los medicamentos registrados en la base
+     * @return 
+     */
+    public List<String> recuperarNombresMedicamentos() {
+        return MedicamentosDAO.recuperarNombresMedicamentos();
     }
     
     /**
@@ -385,6 +399,21 @@ public final class CitaBean implements Serializable{
     }
     
     /**
+     * Método que realiza una acción cuando un medicamento es seleccionado
+     */
+    public void recuperarMedicamentosListener(){
+        String medicamento_codigo[] = getNombre_medicamento().split(" - ");
+        if (medicamento_codigo.length == 3) {
+            nuevo_medicamento = MedicamentosDAO.recuperarMedicamento(medicamento_codigo[0],medicamento_codigo[1], medicamento_codigo[2] );
+            nombre_medicamento = nuevo_medicamento.getMedNombre();
+        }
+        else {
+//            FacesMessages.info(":growlInfo", "Nombre no válido", "This is a specific message!");
+            nombre_medicamento = getNombre_medicamento();
+        }
+    }
+    
+    /**
      * Método que realiza una acción cuando un antecedente es seleccionado
      */
     public void recuperarAntecedentesListener(){
@@ -475,7 +504,7 @@ public final class CitaBean implements Serializable{
      * @return 
      */
     public List<HistoriaDiagnostico> completarHistoriaDiagnostico(String query) {
-        return HistoriaDiagnosticoDAO.completarHistoriaDiagnostico(query, historia_actual_id);
+        return HistoriaDiagnosticoDAO.completarHistoriaDiagnostico(query, historia.getHisId());
     }
     
     /**
@@ -725,12 +754,39 @@ public final class CitaBean implements Serializable{
      * Método para crear un nuevo tratamiento CIE 10ma edición
      */
     public void crearTratamientoCIE10(){
-        nuevo_tratamiento.setTraEdicionCie("10");
-        nuevo_tratamiento.setTraFechaUlt(new Date());
-        nuevo_tratamiento.setTraUsuario(session.getAttribute("usuario").toString());
-        TratamientoDAO.crearActualizarTratamiento(nuevo_tratamiento);
-        nuevo_tratamiento = new Tratamientos();
-        recuperarNombresTratamientos();
+        try {
+            System.out.println("aaaa: "+lista_seleccion_historia_diagnostico);
+            Object[] list = lista_seleccion_historia_diagnostico.toArray();
+            System.out.println("List: "+list);
+            for (Object object : list) {
+                System.out.println("object: "+object.getClass());
+                System.out.println("object: "+object.toString());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Manejar la excepción de alguna manera apropiada para tu aplicación.
+        }
+        completarHistoriaDiagnostico("");
+//        if (nuevo_medicamento.getMedId() == null) {
+//            nuevo_medicamento.setMedFechaUlt(new Date());
+//            nuevo_medicamento.setMedUsuario(session.getAttribute("usuario").toString());
+//            nuevo_medicamento.setMedNombre(nombre_medicamento);
+//            nuevo_medicamento =  MedicamentosDAO.crearActualizarMedicamentos(nuevo_medicamento);
+//        }
+//        nuevo_tratamiento.setMedicamentos(nuevo_medicamento);
+//        nuevo_tratamiento.setTraEdicionCie("10");
+//        nuevo_tratamiento.setTraFechaUlt(new Date());
+//        nuevo_tratamiento.setTraUsuario(session.getAttribute("usuario").toString());
+//        nuevo_tratamiento = TratamientoDAO.crearTratamiento(nuevo_tratamiento);
+//        nuevo_historia_tratamiento.setHistorias(historia);
+//        nuevo_historia_tratamiento.setTratamientos(nuevo_tratamiento);
+//        nuevo_historia_tratamiento.setHisTraFechaUlt(new Date());
+//        nuevo_historia_tratamiento.setHisTraUsuario(session.getAttribute("usuario").toString());
+//        HistoriaTratamientoDAO.crearActualizarHistoriaExamen(nuevo_historia_tratamiento);
+//        nuevo_medicamento = new Medicamentos();
+//        nuevo_tratamiento = new Tratamientos();
+//        recuperarNombresTratamientos();
         FacesMessages.info(":growlInfo", "Tratamiento Creado", "This is a specific message!");
     }
     
@@ -802,9 +858,11 @@ public final class CitaBean implements Serializable{
     }
     
     public String VerCitaMedica(int hisId) {
+        nombre_medicamento = null;
         nuevo_historia_antecedente = new HistoriaAntecedente();
         nuevo_historia_examen = new HistoriaExamen();
         nuevo_historia_diagnostico = new HistoriaDiagnostico();
+        nuevo_historia_tratamiento = new HistoriaTratamiento();
         nuevo_tratamiento = new Tratamientos();
         nuevo_medicamento = new Medicamentos();
         editedDescriptions = new HashMap<>(); 
@@ -1320,6 +1378,14 @@ public final class CitaBean implements Serializable{
         this.nombre_diagnostico = nombre_diagnostico;
     }
 
+    public String getNombre_medicamento() {
+        return nombre_medicamento;
+    }
+
+    public void setNombre_medicamento(String nombre_medicamento) {
+        this.nombre_medicamento = nombre_medicamento;
+    }
+    
     public String getNombre_antecedente() {
         return nombre_antecedente;
     }
@@ -1359,6 +1425,16 @@ public final class CitaBean implements Serializable{
     public void setNuevo_historia_diagnostico(HistoriaDiagnostico nuevo_historia_diagnostico) {
         this.nuevo_historia_diagnostico = nuevo_historia_diagnostico;
     }
+
+    public HistoriaTratamiento getNuevo_historia_tratamiento() {
+        return nuevo_historia_tratamiento;
+    }
+
+    public void setNuevo_historia_tratamiento(HistoriaTratamiento nuevo_historia_tratamiento) {
+        this.nuevo_historia_tratamiento = nuevo_historia_tratamiento;
+    }
+    
+    
         
     public List<Diagnosticos> getLista_diagnosticos() {
         return lista_diagnosticos;

@@ -35,7 +35,7 @@
         
         .ui-autocomplete-multiple-container.ui-inputfield{
             width : 100% !important;
-            height: 38px !important;
+            height: 100% !important;
             padding: 0.4%;
             border-radius: 4px;
             transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
@@ -60,18 +60,6 @@
         }
     </style>
     
-    <script>
-        function handleAutoCompleteComplete() {
-            var selectedValue = PF('formPrescripcion:medicamentoComplete').getSelectedValue();
-            if (!selectedValue) {
-                // Manejar el caso cuando no hay un medicamento seleccionado
-                console.log("No se seleccionó ningún medicamento");
-                // Aquí puedes asignar valores predeterminados a nuevo_medicamento
-                // nuevo_medicamento = ...;
-            }
-        }
-    </script>
-    
     <h3>    
         <b>Tratamiento</b>
     </h3>
@@ -82,30 +70,16 @@
         <b:row>
             <b:column span="6">
                 <b:panel title="Estado del paciente" look="info" collapsible="false" id="panelEstadoPaciente">
-                    
-                    <b:formGroup>
-                        <b:switch value="#num;{settingsBean.checkbox1}"
-                                  caption="Agudo"
-                                  dir="rtl"
-                                  offText="NO"
-                                  onText="SI" 
-                                  offColor="primary"
-                                  onColor="success"
-                                  small-screen="one-third" styleClass="right-caption"/>
-                        <b:switch value="#num;{settingsBean.checkbox2}"
-                                  caption="Crónico"
-                                  dir="rtl"
-                                  offText="NO"
-                                  onText="SI" 
-                                  offColor="primary"
-                                  onColor="success"
-                                  small-screen="two-thirds" styleClass="right-caption"/>
-                    </b:formGroup>  
+                    <b:radiobutton id="radioButton" value="#{CitaBean.nuevo_tratamiento.traEstado}" required="true" requiredMessage="Seleccione el estado del paciente">
+                        <f:selectItem itemValue="0" itemLabel="Agudo" />
+                        <f:selectItem itemValue="1" itemLabel="Crónico" />
+                    </b:radiobutton>
+                    <p:message for="radioButton" />
                 </b:panel>
             </b:column>
             <b:column span="6">
                 <b:panel title="Antecedentes alérgicos" look="info" collapsible="false" id="panelAntecedenteAlergicos">
-                    <b:dataTable value="#{CitaBean.lista_alergias_historia_antecedente}" var="historiaAntecedente" page-length="2">
+                    <b:dataTable value="#{CitaBean.lista_alergias_historia_antecedente}" var="historiaAntecedente" page-length="2" searching="false">
                         <b:dataTableColumn label="Antecedente" value="#{historiaAntecedente.antecedente.antGrupo}" style="width: 50%" />
                         <b:dataTableColumn label="Descripción" value="#{historiaAntecedente.hisAntDescripcion}" style="width: 50%" />
                     </b:dataTable>
@@ -116,47 +90,56 @@
         <b:panel title="Ingrese la información para crear el nuevo tratamiento " look="info" collapsible="false" id="panelPrescripcion">
             <b:row >
                 <b:column span="6">
-                    <h:outputLabel value="Diagnósticos:" for="diagnosticosComplete" style="display: inline-block; max-width: 100%; margin-bottom: 5px;"/>
-                    <p:autoComplete
+                    <h:outputLabel value="Diagnósticos:" for="multipleOptions" style=" max-width: 100%; max-width: 100%"/>
+<!--                    <p:autoComplete
                         id="diagnosticosComplete" multiple="true"
                         value="#{CitaBean.lista_seleccion_historia_diagnostico}" unique="true"
-                        title="Diagnósticos" placeholder="Seleccione el diagnóstico"
-                        completeMethod="#{CitaBean.completarHistoriaDiagnostico}" var="listado"
-                        itemLabel="#{listado.diagnosticos.diaDescripcionCie} - #{listado.hisDiaObservacion}"
-                        itemValue="#{listado.hisDiaId}" forceSelection="true"
-                        selectLimit="5" scrollHeight="250" styleClass="anchoCompleto">
-                        <p:column>
-                            <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{listado.diagnosticos.diaDescripcionCie}"/>
-                        </p:column>
+                        placeholder="Seleccione el diagnóstico" selectLimit="5" styleClass="anchoCompleto"
+                        completeMethod="#{CitaBean.completarHistoriaDiagnostico(query)}" var="item"
+                        itemLabel="#{item.diagnosticos.diaDescripcionCie} - #{item.hisDiaObservacion}"
+                        itemValue="#{item.hisDiaId}" forceSelection="true">
                     </p:autoComplete>
+                    
+                    <h:outputLabel value="Select Multiple Options:" for="multipleOptions" />-->
+                    <p:autoComplete value="#{CitaBean.lista_seleccion_historia_diagnostico}" 
+                        completeMethod="#{CitaBean.completarHistoriaDiagnostico}"
+                        var="item"
+                        itemLabel="#{item.diagnosticos.diaDescripcionCie}"
+                        itemValue="#{item.hisDiaId}"
+                        dropdown="true"  
+                        multiple="true"
+                        forceSelection="true" 
+                        minQueryLength="1"  
+                        id="multipleOptions"
+                        placeholder="Selecciona una opción" />
                 </b:column>
                 <b:column span="6">
-                    <h:outputLabel value="Medicamento:" for="medicamentoComplete" style="display: inline-block; max-width: 100%; margin-bottom: 5px;"/>
-                    <p:autoComplete
-                        id="medicamentoComplete" multiple="true"
-                        value="#{CitaBean.lista_seleccion_medicamento}" unique="true"
-                        title="Diagnósticos" placeholder="Seleccione el medicamento"
-                        completeMethod="#{CitaBean.completarMedicamentos}" var="listado"
-                        itemLabel="#{listado.medNombre}"
-                        itemValue="#{listado.medId}" forceSelection="true"
-                        selectLimit="1" scrollHeight="250" styleClass="anchoCompleto">
-                        <b:column>
-                            <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{listado.medNombre} #{listado.medDosisUnitaria} #{CitaBean.formatoMedicamento(listado.medMedida)} "/>
-                        </b:column>
-                        <p:ajax event="itemSelect" listener="#{CitaBean.seleccionarMedicamento}" update="tra_dosis_unitaria tra_medida" oncomplete="handleAutoCompleteComplete()"/>
-                            <p:ajax event="blur" listener="#{CitaBean.restaurarValor}"/>
-                    </p:autoComplete>
+                    <b:inputText value="#{CitaBean.nombre_medicamento}"
+                                label="Medicamento"
+                                placeholder="Escoja un medicamento"
+                                typeahead="true"
+                                id="med_nombre"
+                                typeahead-limit="50"
+                                required="true"
+                                typeahead-values="#{CitaBean.recuperarNombresMedicamentos()}">
+                        <f:ajax event="change"
+                                listener="#{CitaBean.recuperarMedicamentosListener()}"
+                                render="med_nombre tra_dosis_unitaria tra_medida"/>
+                    </b:inputText>
                 </b:column>
             </b:row>
             <b:row>
-                <b:inputText label="Dósis unitaria"
+                <b:column span="4">
+                    <b:inputText label="Dósis unitaria"
                              placeholder="Dósis unitaria"
                              id="tra_dosis_unitaria"
-                             span="4"
                              maxlength="500"
                              value="#{CitaBean.nuevo_medicamento.medDosisUnitaria}"
                              required="true"
-                             requiredMessage="Ingrese la dósis"/>
+                             requiredMessage="Ingrese la dósis del medicamento">
+                    </b:inputText>
+                    <b:message for="tra_dosis_unitaria" />
+                </b:column>
                 <b:column span="4" >
                     <b:selectOneMenu label="Medida" id="tra_medida" required="true"
                                      value="#{CitaBean.nuevo_medicamento.medMedida}"
@@ -247,25 +230,23 @@
                                  required="true"
                                  requiredMessage="Ingrese las indicaciones del tratamiento"/>
                 <b:inputTextarea label="Advertencias"
-                                         placeholder="Advertencias"
-                                         id="tra_advertencias"
-                                         span="6"
-                                         rows="3"
-                                         maxlength="300"
-                                         value="#{CitaBean.nuevo_tratamiento.traAdvertencias}"
-                                         requiredMessage="Ingrese las advertencias del tratamiento"/>
+                                 placeholder="Advertencias"
+                                 id="tra_advertencias"
+                                 span="6"
+                                 rows="3"
+                                 maxlength="300"
+                                 value="#{CitaBean.nuevo_tratamiento.traAdvertencias}"
+                                 requiredMessage="Ingrese las advertencias del tratamiento"/>
             </b:row>
             <b:row>
                 <b:column span="3" offset="4">
                     <b:commandButton large-screen="full-width" id="submit" value=" Crear Tratamiento"
                                     action="#{CitaBean.crearTratamientoCIE10()}"
-                                    look="primary" ajax="true"
-                                    update="@form"
-                                    oncomplete="$('#modalCreacionTratamiento').modal('hide')">
+                                    look="primary" ajax="true">
                        <b:iconAwesome name="save"></b:iconAwesome>
                        <f:ajax event="change"
                                    listener="#{CitaBean.crearTratamientoCIE10()}"
-                                   render=" :growl"/>
+                                   render="formPrescripcion"/>
                    </b:commandButton>
                 </b:column>
             </b:row>

@@ -29,6 +29,22 @@ public class TratamientoDAO {
         session.close();
     }
     
+    /**
+     * Método para crear o actualizar un diagnóstico.
+     *
+     * @param tratamiento
+     * @return 
+     */
+    public static Tratamientos crearTratamiento(Tratamientos tratamiento) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.saveOrUpdate(tratamiento);
+        session.getTransaction().commit();
+        session.refresh(tratamiento);
+        session.close();
+        return tratamiento;
+    }
+    
     
     public static Tratamientos recuperarTratamiento(int id) {
         Session session = HibernateUtil.getSessionFactory().openSession();

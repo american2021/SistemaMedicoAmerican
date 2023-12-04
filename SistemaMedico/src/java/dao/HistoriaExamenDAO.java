@@ -6,7 +6,6 @@
 package dao;
 
 import conexion.HibernateUtil;
-import datos.Examenes;
 import datos.HistoriaExamen;
 import datos.Historias;
 import datos.Personas;

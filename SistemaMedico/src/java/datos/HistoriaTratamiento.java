@@ -1,5 +1,5 @@
 package datos;
-// Generated 02/12/2023 11:28:58 by Hibernate Tools 4.3.1
+// Generated 04/12/2023 14:37:21 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,6 +11,7 @@ public class HistoriaTratamiento  implements java.io.Serializable {
 
 
      private Integer hisTraId;
+     private HistoriaDiagnostico historiaDiagnostico;
      private Historias historias;
      private Tratamientos tratamientos;
      private Date hisTraFechaUlt;
@@ -19,7 +20,8 @@ public class HistoriaTratamiento  implements java.io.Serializable {
     public HistoriaTratamiento() {
     }
 
-    public HistoriaTratamiento(Historias historias, Tratamientos tratamientos, Date hisTraFechaUlt, String hisTraUsuario) {
+    public HistoriaTratamiento(HistoriaDiagnostico historiaDiagnostico, Historias historias, Tratamientos tratamientos, Date hisTraFechaUlt, String hisTraUsuario) {
+       this.historiaDiagnostico = historiaDiagnostico;
        this.historias = historias;
        this.tratamientos = tratamientos;
        this.hisTraFechaUlt = hisTraFechaUlt;
@@ -32,6 +34,13 @@ public class HistoriaTratamiento  implements java.io.Serializable {
     
     public void setHisTraId(Integer hisTraId) {
         this.hisTraId = hisTraId;
+    }
+    public HistoriaDiagnostico getHistoriaDiagnostico() {
+        return this.historiaDiagnostico;
+    }
+    
+    public void setHistoriaDiagnostico(HistoriaDiagnostico historiaDiagnostico) {
+        this.historiaDiagnostico = historiaDiagnostico;
     }
     public Historias getHistorias() {
         return this.historias;
