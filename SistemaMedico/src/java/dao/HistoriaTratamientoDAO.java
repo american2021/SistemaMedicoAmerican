@@ -13,9 +13,12 @@ import datos.Historias;
 import datos.Medicamentos;
 import datos.Personas;
 import datos.Tratamientos;
+import java.util.Collections;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -29,11 +32,30 @@ public class HistoriaTratamientoDAO {
      * @param historiaTratamiento
      */
     public static void crearActualizarHistoriaExamen(HistoriaTratamiento historiaTratamiento) {
+//        Session session = HibernateUtil.getSessionFactory().openSession();
+//        session.beginTransaction();
+//        session.saveOrUpdate(historiaTratamiento);
+//        session.refresh(historiaTratamiento);
+//        session.getTransaction().commit();
+//        session.close();
+        
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.saveOrUpdate(historiaTratamiento);
-        session.getTransaction().commit();
-        session.close();
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            session.saveOrUpdate(historiaTratamiento);
+            session.flush();  // Sincronizar con la base de datos
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace();  // Manejar la excepción adecuadamente
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
     }
     
     /**
@@ -57,35 +79,35 @@ public class HistoriaTratamientoDAO {
      */
     public static List<HistoriaTratamiento> recuperarHistoriaTratamiento(int id_historia) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("FROM HistoriaTratamiento where historias.hisId = '" + id_historia + "'");         
-        List<HistoriaTratamiento> historiaTratamiento= query.list();
-        System.out.println("historiaTratamiento: "+historiaTratamiento);
-        historiaTratamiento.forEach((historiaTratamient) -> {
+        Transaction transaction = null;
 
-            historiaTratamient.setHistoriaDiagnostico( HistoriaDiagnosticoDAO.recuperarHistoriaDiagnosticoId(historiaTratamient.getHistoriaDiagnostico().getHisDiaId()));
-            Diagnosticos dia_aux = historiaTratamient.getHistoriaDiagnostico().getDiagnosticos();
-            
-            HistoriaDiagnostico his_dia_aux = historiaTratamient.getHistoriaDiagnostico();
-            his_dia_aux.setDiagnosticos(DiagnosticoDAO.recuperarDiagnosticosId(dia_aux.getDiaId()));
-            historiaTratamient.setHistoriaDiagnostico(his_dia_aux);
-            
-            
-            Historias aux_histori = historiaTratamient.getHistorias();
-            // Recuperar persona
-            Personas aux_per = historiaTratamient.getHistorias().getPersonasByMedicoPerId();
-            // Setear la persona para el campo medico dentro de la entidad historia
-            aux_per.getPerApellidos();
-            aux_histori.setPersonasByMedicoPerId(aux_per);
-            // Setear la historia
-            historiaTratamient.setHistorias(aux_histori);
-            
-            Medicamentos med_aux = historiaTratamient.getTratamientos().getMedicamentos();
-            med_aux.getMedNombre();            
-            
-        });
-        session.getTransaction().commit();
-        session.close();
-        return historiaTratamiento;
+        try {
+            transaction = session.beginTransaction();
+
+            Query query = session.createQuery("FROM HistoriaTratamiento WHERE historias.hisId = :id");
+            query.setParameter("id", id_historia);
+
+            List<HistoriaTratamiento> historiaTratamiento = query.list();
+
+            historiaTratamiento.forEach(historiaTratamient -> {
+                Hibernate.initialize(historiaTratamient.getTratamientos());
+                Hibernate.initialize(historiaTratamient.getTratamientos().getMedicamentos());
+                Hibernate.initialize(historiaTratamient.getHistoriaDiagnostico().getDiagnosticos());
+            });
+
+            transaction.commit();
+            return historiaTratamiento;
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace(); // Log or handle the exception appropriately
+            return Collections.emptyList();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
     }
+
 }

@@ -346,7 +346,7 @@ public final class CitaBean implements Serializable{
      * @return 
      */
     public List<HistoriaTratamiento> recuperarHistoriaTratamiento() {
-        lista_historia_tratamiento = HistoriaTratamientoDAO.recuperarHistoriaTratamiento(historia_actual_id);
+        lista_historia_tratamiento = HistoriaTratamientoDAO.recuperarHistoriaTratamiento(historia.getHisId());
         return lista_historia_tratamiento;
     }
     
@@ -807,12 +807,29 @@ public final class CitaBean implements Serializable{
             nuevo_tratamiento = new Tratamientos();
             nuevo_historia_diagnostico = new HistoriaDiagnostico();
             nuevo_historia_tratamiento = new HistoriaTratamiento();
-            lista_historia_tratamiento = new ArrayList<>();
             FacesMessages.info(":growlInfo", "Tratamiento Creado", "This is a specific message!");
+            recuperarHistoriaTratamiento();
             recuperarHistoriaTratamiento();
         } catch (Exception e) {
             FacesMessages.error(":growlInfo", "Error al crear el diagnóstico: "+e.getCause().getMessage(), "This is a specific message!");
+        }
+    }
+    
+    /**
+     * Método para crear un nuevo tratamiento CIE 10ma edición
+     */
+    public void generarIndicaciones(){
+//        System.out.println("Dosis: "+nuevo_medicamento.getMedDosisUnitaria());
+//        System.out.println("Medida: "+nuevo_medicamento.getMedMedida());
+//        System.out.println("Frecuencia: "+nuevo_tratamiento.getTraFrecuencia());
+//        System.out.println("Duracion: "+nuevo_tratamiento.getTraDuracion());
 
+        if (nuevo_medicamento.getMedMedida() != null || nuevo_tratamiento.getTraFrecuencia() != null || nuevo_medicamento.getMedDosisUnitaria() != 0 || nuevo_tratamiento.getTraDuracion() != 0){
+            String indicaciones = String.valueOf(nuevo_medicamento.getMedDosisUnitaria()) + " "+
+                    formatoMedidaMedicamento(nuevo_medicamento.getMedMedida()) + " "+
+                    formatoFrecuenciaTratamiento(nuevo_tratamiento.getTraFrecuencia()) + " por "+
+                    String.valueOf(nuevo_tratamiento.getTraDuracion())+ " dias";
+            nuevo_tratamiento.setTraIndicaciones(indicaciones);
         }
     }
     
