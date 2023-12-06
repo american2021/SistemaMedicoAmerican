@@ -205,7 +205,7 @@ public class CitaDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
-                "SELECT concat(tra_codigo_cie,' - ',tra_descripcion_cie) FROM Tratamientos");
+                "SELECT concat(tra_codigo_cie) FROM Tratamientos");
         List<String> tratamientos = query.list();
         session.getTransaction().commit();
         session.close();

@@ -136,4 +136,44 @@ public class HistoriaDiagnosticoDAO {
         session.close();
         return historiaDiagnostico;
     }
+    
+    /**
+     * Método para recuperar los nombres de los medicamenyos
+     *
+     * @param id_historia
+     * @return
+     */
+    public static List<String> recuperarNombresHistoriaDiagnosticos( int id_historia) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery(
+                "SELECT concat(d.diaDescripcionCie,' - ', hd.hisDiaObservacion) FROM HistoriaDiagnostico hd, Historias h,Diagnosticos d \n" +
+                "WHERE hd.historias.hisId = h.hisId AND hd.diagnosticos.diaId = d.diaId AND h.hisId = '"+ id_historia + "'");
+        List<String> diagnosticos = query.list();
+        session.getTransaction().commit();
+        session.close();
+        return diagnosticos;
+    }
+    
+    /**
+     * Método para recuperar un diagnóstico según su código
+     *
+     * @param dia_descripcion_cie
+     * @param his_dia_observacion
+     * @param id_historia
+     * @return
+     */
+    public static HistoriaDiagnostico recuperarHistoriaDiagnosticoListener(String dia_descripcion_cie, String his_dia_observacion, int id_historia) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT hd FROM HistoriaDiagnostico hd, Diagnosticos d where d.diaDescripcionCie = '" + dia_descripcion_cie + "' and hd.hisDiaObservacion like '%" + his_dia_observacion + "%' and hd.historias.hisId = '" + id_historia + "' and hd.diagnosticos.diaId = d.diaId");
+        HistoriaDiagnostico historiaDiagnostico = null;
+        if (!query.list().isEmpty()) {
+            historiaDiagnostico = (HistoriaDiagnostico) query.uniqueResult();
+        }
+        session.getTransaction().commit();
+        session.close();
+        return historiaDiagnostico;
+    }
 }

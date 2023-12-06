@@ -523,10 +523,25 @@
                             </h:form>
                         </b:panelGrid>
                         <b:panelGrid columns="1" id="panel1">
-                            <b:panel span="12" offset="0">  
-                                <ui:include src="citaMedica/panelPrescripcion.xhtml">
-                                </ui:include>
-                            </b:panel>
+                            <b:form id="formPrescripcion">
+                                <b:panel span="12" offset="0" id="panelTratamiento">  
+                                    <ui:include src="citaMedica/panelPrescripcion.xhtml">
+                                    </ui:include>
+                                </b:panel>
+                                <br/>
+                                <b:panel title="Tratamientos" look="info" collapsible="false" id="listadoTratamientoPaciente" span="12">
+                                    <b:dataTable large-screen="full-width" id="historiaDiagnosticoTabla" value="#{CitaBean.lista_historia_tratamiento}" var="historiaTratamiento" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                                        page-length="7" multi-column-search="true" multi-column-search-position="top" >
+                                        <b:dataTableColumn label="Diagnóstico" value="#{historiaTratamiento.historiaDiagnostico.diagnosticos.diaDescripcionCie}" style="width: 15%" />
+                                        <b:dataTableColumn label="Medicamento" value="#{historiaTratamiento.tratamientos.medicamentos.medNombre}" style="width: 15%" />
+                                        <b:dataTableColumn label="Vía de administración" value="#{CitaBean.formatoViaAdministracionTratamiento(historiaTratamiento.tratamientos.traViaAdministracion)}" style="width: 15%" />
+                                        <b:dataTableColumn label="Dósis unitaria" value="#{historiaTratamiento.tratamientos.medicamentos.medDosisUnitaria}" style="width: 5%" />
+                                        <b:dataTableColumn label="Medida" value="#{CitaBean.formatoMedidaMedicamento(historiaTratamiento.tratamientos.medicamentos.medMedida)}" style="width: 10%" />
+                                        <b:dataTableColumn label="Frecuencia" value="#{CitaBean.formatoFrecuenciaTratamiento(historiaTratamiento.tratamientos.traFrecuencia)}" style="width: 10%" />
+                                        <b:dataTableColumn label="Duración" value="#{historiaTratamiento.tratamientos.traDuracion}" style="width: 5%" />
+                                    </b:dataTable>
+                                </b:panel>
+                            </b:form>
                         </b:panelGrid>
                     </b:column>
                 </b:row>

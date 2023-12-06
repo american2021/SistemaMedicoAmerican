@@ -75,8 +75,6 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.apache.commons.lang.StringUtils;
-import org.primefaces.component.autocomplete.AutoComplete;
-import org.primefaces.event.AutoCompleteEvent;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -98,6 +96,7 @@ public final class CitaBean implements Serializable{
     private List<Diagnosticos> lista_diagnosticos;
     private List<Diagnosticos> lista_diagnosticos_all;
     private List<HistoriaAntecedente> lista_historia_antecedente;
+    private List<HistoriaTratamiento> lista_historia_tratamiento;
     private List<HistoriaAntecedente> lista_alergias_historia_antecedente;
     private List<HistoriaExamen> lista_historia_examen;
     private List<HistoriaExamen> lista_Historial_historia_examen;
@@ -144,6 +143,7 @@ public final class CitaBean implements Serializable{
     private String parentesco_abierto;
     private String nombre_diagnostico;
     private String nombre_medicamento;
+    private String nombre_historia_diagnostico;
     private String nombre_antecedente;
     private String nombre_examen;
     private String nombre_tratamiento;
@@ -174,6 +174,7 @@ public final class CitaBean implements Serializable{
     public void inicializarHistorias(){
         System.out.println("Inicializando citabean");
         nombre_medicamento = null;
+        nombre_historia_diagnostico = null;
         realizarExamen = false;
         historias = new ArrayList<>();
         historiasdia = new ArrayList<>();
@@ -182,6 +183,7 @@ public final class CitaBean implements Serializable{
         lista_diagnosticos_all = new ArrayList<>();
         lista_categoria_antecedentes = new ArrayList<>();
         lista_historia_antecedente = new ArrayList<>();
+        lista_historia_tratamiento = new ArrayList<>();
         lista_alergias_historia_antecedente = new ArrayList<>();
         diagnostico = new Diagnosticos();
         antecedente = new Antecedente();
@@ -279,6 +281,14 @@ public final class CitaBean implements Serializable{
     }
     
     /**
+     * Método para recuperar los medicamentos registrados en la base
+     * @return 
+     */
+    public List<String> recuperarNombresHistoriaDiagnosticos() {
+        return HistoriaDiagnosticoDAO.recuperarNombresHistoriaDiagnosticos(historia_actual_id);
+    }
+    
+    /**
      * Método para recuperar los antecedente registrados en la base
      * @return 
      */
@@ -329,6 +339,15 @@ public final class CitaBean implements Serializable{
     public List<HistoriaAntecedente> recuperarHistoriaAntecedente() {
         lista_historia_antecedente = HistoriaAntecedenteDAO.recuperarHistoriaAntecedente(historia.getHisId());
         return lista_historia_antecedente;
+    }
+    
+    /**
+     * Método para recuperar los antecedente registrados en la base de una persona
+     * @return 
+     */
+    public List<HistoriaTratamiento> recuperarHistoriaTratamiento() {
+        lista_historia_tratamiento = HistoriaTratamientoDAO.recuperarHistoriaTratamiento(historia_actual_id);
+        return lista_historia_tratamiento;
     }
     
     /**
@@ -408,8 +427,21 @@ public final class CitaBean implements Serializable{
             nombre_medicamento = nuevo_medicamento.getMedNombre();
         }
         else {
-//            FacesMessages.info(":growlInfo", "Nombre no válido", "This is a specific message!");
             nombre_medicamento = getNombre_medicamento();
+        }
+    }
+    
+    /**
+     * Método que realiza una acción cuando un medicamento es seleccionado
+     */
+    public void recuperarHistoriaDiagnosticoListener(){
+        String historio_diagnostico_codigo[] = getNombre_historia_diagnostico().split(" - ");
+        if (historio_diagnostico_codigo.length == 2) {
+            nuevo_historia_diagnostico = HistoriaDiagnosticoDAO.recuperarHistoriaDiagnosticoListener(historio_diagnostico_codigo[0],historio_diagnostico_codigo[1], historia_actual_id );
+        }
+        else {
+            FacesMessages.info(":growlInfo", "No se ha encontrado el tratamiento", "This is a specific message!");
+            nombre_historia_diagnostico = "";
         }
     }
     
@@ -666,8 +698,6 @@ public final class CitaBean implements Serializable{
      * @param examens
      */
     public void crearHistoriaExamenPrueba(Examenes examens){
-//        System.out.println("FECHA: "+getEditedDateExamen().get(examens.getExaId()));
-//        System.out.println("FECHA: "+getEditedDateExamen().get(examens.getExaId()));
         if (getEditedDateExamen().get(examens.getExaId() ) != null) {
             if (validarExamen(examens)) {
                 nuevo_historia_examen.setExamenes(examens);
@@ -729,8 +759,6 @@ public final class CitaBean implements Serializable{
      * @param diagnosticos
      */
     public void crearHistoriaDiagnosticoPrueba(Diagnosticos diagnosticos){
-        System.out.println("diagnosticos: "+diagnosticos.getDiaId());
-        System.out.println("descripcion: "+getEditedDescriptionsDiagnostico());
         
         nuevo_historia_diagnostico.setDiagnosticos(diagnosticos);
         nuevo_historia_diagnostico.setHistorias(historia);
@@ -739,6 +767,7 @@ public final class CitaBean implements Serializable{
         nuevo_historia_diagnostico.setHisDiaObservacion(getEditedDescriptionsDiagnostico().get(diagnosticos.getDiaId()));
         try {
             HistoriaDiagnosticoDAO.crearActualizarHistoriaDiagnostico(nuevo_historia_diagnostico);
+//            recuperarNombresHistoriaDiagnosticos();
             nuevo_historia_diagnostico = new HistoriaDiagnostico();
             editedDescriptionsDiagnostico = new HashMap<>();
             setNombre_diagnostico("");
@@ -755,39 +784,36 @@ public final class CitaBean implements Serializable{
      */
     public void crearTratamientoCIE10(){
         try {
-            System.out.println("aaaa: "+lista_seleccion_historia_diagnostico);
-            Object[] list = lista_seleccion_historia_diagnostico.toArray();
-            System.out.println("List: "+list);
-            for (Object object : list) {
-                System.out.println("object: "+object.getClass());
-                System.out.println("object: "+object.toString());
+            if (nuevo_medicamento.getMedId() == null) {
+                nuevo_medicamento.setMedFechaUlt(new Date());
+                nuevo_medicamento.setMedUsuario(session.getAttribute("usuario").toString());
+                nuevo_medicamento.setMedNombre(nombre_medicamento);
+                nuevo_medicamento = MedicamentosDAO.crearActualizarMedicamentos(nuevo_medicamento);
             }
-
+            nuevo_tratamiento.setMedicamentos(nuevo_medicamento);
+            nuevo_tratamiento.setTraEdicionCie("10");
+            nuevo_tratamiento.setTraFechaUlt(new Date());
+            nuevo_tratamiento.setTraUsuario(session.getAttribute("usuario").toString());
+            nuevo_tratamiento = TratamientoDAO.crearTratamiento(nuevo_tratamiento);
+            nuevo_historia_tratamiento.setHistorias(historia);
+            nuevo_historia_tratamiento.setHistoriaDiagnostico(nuevo_historia_diagnostico);
+            nuevo_historia_tratamiento.setTratamientos(nuevo_tratamiento);
+            nuevo_historia_tratamiento.setHisTraFechaUlt(new Date());
+            nuevo_historia_tratamiento.setHisTraUsuario(session.getAttribute("usuario").toString());
+            HistoriaTratamientoDAO.crearActualizarHistoriaExamen(nuevo_historia_tratamiento);
+            setNombre_historia_diagnostico("");
+            setNombre_medicamento("");
+            nuevo_medicamento = new Medicamentos();
+            nuevo_tratamiento = new Tratamientos();
+            nuevo_historia_diagnostico = new HistoriaDiagnostico();
+            nuevo_historia_tratamiento = new HistoriaTratamiento();
+            lista_historia_tratamiento = new ArrayList<>();
+            FacesMessages.info(":growlInfo", "Tratamiento Creado", "This is a specific message!");
+            recuperarHistoriaTratamiento();
         } catch (Exception e) {
-            e.printStackTrace();
-            // Manejar la excepción de alguna manera apropiada para tu aplicación.
+            FacesMessages.error(":growlInfo", "Error al crear el diagnóstico: "+e.getCause().getMessage(), "This is a specific message!");
+
         }
-        completarHistoriaDiagnostico("");
-//        if (nuevo_medicamento.getMedId() == null) {
-//            nuevo_medicamento.setMedFechaUlt(new Date());
-//            nuevo_medicamento.setMedUsuario(session.getAttribute("usuario").toString());
-//            nuevo_medicamento.setMedNombre(nombre_medicamento);
-//            nuevo_medicamento =  MedicamentosDAO.crearActualizarMedicamentos(nuevo_medicamento);
-//        }
-//        nuevo_tratamiento.setMedicamentos(nuevo_medicamento);
-//        nuevo_tratamiento.setTraEdicionCie("10");
-//        nuevo_tratamiento.setTraFechaUlt(new Date());
-//        nuevo_tratamiento.setTraUsuario(session.getAttribute("usuario").toString());
-//        nuevo_tratamiento = TratamientoDAO.crearTratamiento(nuevo_tratamiento);
-//        nuevo_historia_tratamiento.setHistorias(historia);
-//        nuevo_historia_tratamiento.setTratamientos(nuevo_tratamiento);
-//        nuevo_historia_tratamiento.setHisTraFechaUlt(new Date());
-//        nuevo_historia_tratamiento.setHisTraUsuario(session.getAttribute("usuario").toString());
-//        HistoriaTratamientoDAO.crearActualizarHistoriaExamen(nuevo_historia_tratamiento);
-//        nuevo_medicamento = new Medicamentos();
-//        nuevo_tratamiento = new Tratamientos();
-//        recuperarNombresTratamientos();
-        FacesMessages.info(":growlInfo", "Tratamiento Creado", "This is a specific message!");
     }
     
     public void imprimirDiagnostico() throws net.sf.jasperreports.engine.JRException, IOException {
@@ -835,7 +861,6 @@ public final class CitaBean implements Serializable{
     }
     
     public void seleccionarMedicamento(SelectEvent event) {
-        System.out.println("evento: "+event.getObject());
         String consulta = (String) event.getObject();
         consultaUsuario = consulta;
         ultimoValorValido = consulta;
@@ -843,22 +868,11 @@ public final class CitaBean implements Serializable{
             nuevo_medicamento = MedicamentosDAO.recuperarMedicamentosId(Integer.valueOf(lista_seleccion_medicamento.get(0)));
         }
     }
-    
-    public void restaurarValor(AjaxBehaviorEvent  event) {
-        String consulta = (String) event.toString();
-        System.out.println("consulta: "+consulta.toString());
-         AutoComplete autoComplete = (AutoComplete) event.getComponent();
-         consulta = (String) autoComplete.getValue();
-         System.out.println("consulta: "+consulta);
-        if (consultaUsuario != null && !listaSugerencias.contains(consultaUsuario)) {
-            // Si el valor ingresado no está en la lista de sugerencias, restaura el último valor válido
-            lista_seleccion_medicamento.clear();
-            lista_seleccion_medicamento.add(ultimoValorValido);
-        }
-    }
+
     
     public String VerCitaMedica(int hisId) {
         nombre_medicamento = null;
+        nombre_historia_diagnostico = null;
         nuevo_historia_antecedente = new HistoriaAntecedente();
         nuevo_historia_examen = new HistoriaExamen();
         nuevo_historia_diagnostico = new HistoriaDiagnostico();
@@ -881,6 +895,7 @@ public final class CitaBean implements Serializable{
         recuperarCategoriaAntecedente();
         recuperarHistoriaDiagnostico();
         recuperarHistorialHistoriaDiagnostico();
+        recuperarHistoriaTratamiento();
         recuperarDiagnosticos();
         signos = SignosDAO.recuperarSignosId(historia.getSignos().getSigId());
         revision = RevisionSistemasDAO.recuperarRevision(historia.getRevisionSistemas().getRevSisId());
@@ -912,7 +927,6 @@ public final class CitaBean implements Serializable{
    
     
     public void prepararEliminacionHistoriaExamen(HistoriaExamen historiaExamenEliminar){
-        System.out.println("aaa");
         eliminarHistoriaExamen = historiaExamenEliminar;
     }
     
@@ -977,7 +991,7 @@ public final class CitaBean implements Serializable{
         }
     }
     
-    public String formatoMedicamento(String tipo) {
+    public String formatoMedidaMedicamento(String tipo) {
         switch (tipo) {
             case "1":
                 return "Microgramo";
@@ -1003,6 +1017,63 @@ public final class CitaBean implements Serializable{
                 return "Unidades";
             case "12":
                 return "Miliequivalente";
+            default:
+                return tipo;
+        }
+    }
+    
+    public String formatoFrecuenciaTratamiento(String tipo) {
+        switch (tipo) {
+            case "1":
+                return "Cada 4 Horas";
+            case "2":
+                return "Cada 6 Horas";
+            case "3":
+                return "Cada 8 Horas";
+            case "4":
+                return "Cada 12 Horas";
+            case "5":
+                return "Cada 24 Horas";
+            case "6":
+                return "En este momento";
+            case "7":
+                return "Por razones necesarias";
+            case "8":
+                return "Otra";
+            default:
+                return tipo;
+        }
+    }
+    public String formatoViaAdministracionTratamiento(String tipo) {
+        switch (tipo) {
+            case "1":
+                return "ORAL";
+            case "2":
+                return "INHALATORIA";
+            case "3":
+                return "PARENTERAL";
+            case "4":
+                return "INTRATRAQUEAL";
+            case "5":
+                return "RECTAL";
+            case "6":
+                return "VAGINAL";
+            case "7":
+                return "INTRAUTERINA";
+            case "8":
+                return "INTRAVESICAL";
+            case "9":
+                return "OCULAR";
+            case "10":
+                return "PARENTERAL (INTRAVENOSA)";
+            case "11":
+                return "PARENTERAL (INTRAMUSCULAR)";
+            case "12":
+                return "PARENTERAL (INTRAVENOSO/INTRAMUSCULAR)";
+            case "13":
+                return "PARENTERAL (INTRAVENOSO/INTRAMUSCULAR/SUBCUTÁNEO)";
+            case "14":
+                return "PARENTERAL (SUBCUTANEA)";
             default:
                 return tipo;
         }
@@ -1189,8 +1260,6 @@ public final class CitaBean implements Serializable{
     }
     
     public void mostrarPanel(String panel) {
-        System.out.println("Panel: "+panel);
-        // Aquí podrías realizar lógica adicional, por ejemplo, cargar datos específicos del panel desde la base de datos.
         panelActual = panel;
     }
 
@@ -1385,6 +1454,14 @@ public final class CitaBean implements Serializable{
     public void setNombre_medicamento(String nombre_medicamento) {
         this.nombre_medicamento = nombre_medicamento;
     }
+
+    public String getNombre_historia_diagnostico() {
+        return nombre_historia_diagnostico;
+    }
+
+    public void setNombre_historia_diagnostico(String nombre_historia_diagnostico) {
+        this.nombre_historia_diagnostico = nombre_historia_diagnostico;
+    }
     
     public String getNombre_antecedente() {
         return nombre_antecedente;
@@ -1433,9 +1510,7 @@ public final class CitaBean implements Serializable{
     public void setNuevo_historia_tratamiento(HistoriaTratamiento nuevo_historia_tratamiento) {
         this.nuevo_historia_tratamiento = nuevo_historia_tratamiento;
     }
-    
-    
-        
+
     public List<Diagnosticos> getLista_diagnosticos() {
         return lista_diagnosticos;
     }
@@ -1460,6 +1535,10 @@ public final class CitaBean implements Serializable{
         return lista_historia_antecedente;
     }
 
+    public List<HistoriaTratamiento> getLista_historia_tratamiento() {
+        return lista_historia_tratamiento;
+    }
+    
     public List<HistoriaAntecedente> getLista_alergias_historia_antecedente() {
         return lista_alergias_historia_antecedente;
     }
