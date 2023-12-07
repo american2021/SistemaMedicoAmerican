@@ -118,6 +118,8 @@ public final class CitaBean implements Serializable{
     private RevisionSistemas revision;
     private HistoriaExamen eliminarHistoriaExamen;
     private HistoriaExamen actualizarHistoriaExamen;
+    private HistoriaTratamiento updateHistoriaTratamiento;
+    private HistoriaTratamiento deleteHistoriaTratamiento;
     private List<Examenes> lista_examenes;
     
     
@@ -144,6 +146,7 @@ public final class CitaBean implements Serializable{
     private String nombre_diagnostico;
     private String nombre_medicamento;
     private String nombre_historia_diagnostico;
+    private String update_name_diagnostic_history;
     private String nombre_antecedente;
     private String nombre_examen;
     private String nombre_tratamiento;
@@ -175,6 +178,7 @@ public final class CitaBean implements Serializable{
         System.out.println("Inicializando citabean");
         nombre_medicamento = null;
         nombre_historia_diagnostico = null;
+        update_name_diagnostic_history = null;
         realizarExamen = false;
         historias = new ArrayList<>();
         historiasdia = new ArrayList<>();
@@ -221,6 +225,8 @@ public final class CitaBean implements Serializable{
         editedCheckExamen = new HashMap<>();
         descripcionAntecedenteTemp = "";
         actualizarHistoriaExamen = new HistoriaExamen();
+        updateHistoriaTratamiento = new HistoriaTratamiento();
+        deleteHistoriaTratamiento = new HistoriaTratamiento();
     }
     
     /**
@@ -581,6 +587,10 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    public String getMedidaMedicamento(String medida){
+        return formatoMedidaMedicamento( medida);
+    }
+    
     public String actualizarCita(){
         if (profesion_abierta.length() > 0) {
             historia.getPersonasByPacientePerId().setPerProfesion(profesion_abierta);
@@ -819,17 +829,27 @@ public final class CitaBean implements Serializable{
      * Método para crear un nuevo tratamiento CIE 10ma edición
      */
     public void generarIndicaciones(){
-//        System.out.println("Dosis: "+nuevo_medicamento.getMedDosisUnitaria());
-//        System.out.println("Medida: "+nuevo_medicamento.getMedMedida());
-//        System.out.println("Frecuencia: "+nuevo_tratamiento.getTraFrecuencia());
-//        System.out.println("Duracion: "+nuevo_tratamiento.getTraDuracion());
-
         if (nuevo_medicamento.getMedMedida() != null || nuevo_tratamiento.getTraFrecuencia() != null || nuevo_medicamento.getMedDosisUnitaria() != 0 || nuevo_tratamiento.getTraDuracion() != 0){
+            String day = (nuevo_tratamiento.getTraDuracion() <= 1 ) ?  " día." :  " días.";
             String indicaciones = String.valueOf(nuevo_medicamento.getMedDosisUnitaria()) + " "+
                     formatoMedidaMedicamento(nuevo_medicamento.getMedMedida()) + " "+
                     formatoFrecuenciaTratamiento(nuevo_tratamiento.getTraFrecuencia()) + " por "+
-                    String.valueOf(nuevo_tratamiento.getTraDuracion())+ " dias";
+                    String.valueOf(nuevo_tratamiento.getTraDuracion()) + day;
             nuevo_tratamiento.setTraIndicaciones(indicaciones);
+        }
+    }
+    
+    /**
+     * Método para crear un nuevo tratamiento CIE 10ma edición
+     */
+    public void generarIndicacionesUpdate(){
+        if ( updateHistoriaTratamiento.getTratamientos().getTraFrecuencia() != null || updateHistoriaTratamiento.getTratamientos().getTraDuracion() != 0){
+            String day = (updateHistoriaTratamiento.getTratamientos().getTraDuracion() <= 1 ) ?  " día." :  " días.";
+            String indicaciones = String.valueOf(updateHistoriaTratamiento.getTratamientos().getMedicamentos().getMedDosisUnitaria()) + " "+
+                    formatoMedidaMedicamento(updateHistoriaTratamiento.getTratamientos().getMedicamentos().getMedMedida()) + " "+
+                    formatoFrecuenciaTratamiento(updateHistoriaTratamiento.getTratamientos().getTraFrecuencia()) + " por "+
+                    String.valueOf(updateHistoriaTratamiento.getTratamientos().getTraDuracion()) + day;
+            updateHistoriaTratamiento.getTratamientos().setTraIndicaciones(indicaciones);
         }
     }
     
@@ -890,6 +910,7 @@ public final class CitaBean implements Serializable{
     public String VerCitaMedica(int hisId) {
         nombre_medicamento = null;
         nombre_historia_diagnostico = null;
+        update_name_diagnostic_history = null;
         nuevo_historia_antecedente = new HistoriaAntecedente();
         nuevo_historia_examen = new HistoriaExamen();
         nuevo_historia_diagnostico = new HistoriaDiagnostico();
@@ -903,6 +924,8 @@ public final class CitaBean implements Serializable{
         editedDateExamen = new HashMap<>();
         lista_seleccion_historia_diagnostico = new ArrayList<>();
         lista_seleccion_medicamento = new ArrayList<>();
+        updateHistoriaTratamiento = new HistoriaTratamiento();
+        deleteHistoriaTratamiento = new HistoriaTratamiento();
         this.historia_actual_id = hisId;
         historia = CitaDAO.recuperarHistoriaID(hisId);
         recuperarHistoriaAntecedente();
@@ -959,7 +982,44 @@ public final class CitaBean implements Serializable{
     }
     
     public void prepararActualizacionHistoriaExamen(HistoriaExamen historiaExamenActualizar){
+        System.out.println("historiaExamenActualizar: "+historiaExamenActualizar);
         actualizarHistoriaExamen = historiaExamenActualizar;
+    }
+    
+    /**
+     * Método para preparar el tratamiento a actualizar
+     *
+     * @param historiaTratamiento
+     */
+    public void prepareUpdateHistoriaTratamiento(HistoriaTratamiento historiaTratamiento){
+        updateHistoriaTratamiento = historiaTratamiento;
+        update_name_diagnostic_history = updateHistoriaTratamiento.getHistoriaDiagnostico().getHisDiaObservacion();
+    }
+    
+    /**
+     * Método para preparar el tratamiento a actualizar
+     *
+     * @param historiaTratamiento
+     */
+    public void prepareDeleteHistoriaTratamiento(HistoriaTratamiento historiaTratamiento){
+        deleteHistoriaTratamiento = historiaTratamiento;
+    }
+    
+    /**
+     * Método para preparar el tratamiento a actualizar
+     *
+     */
+    public void eliminarHistoriaTratamiento(){
+        System.out.println("entra");
+        try {
+            HistoriaTratamientoDAO.eliminarHistoriaTratamiento(deleteHistoriaTratamiento);
+            TratamientoDAO.eliminarTratamiento(deleteHistoriaTratamiento.getTratamientos());
+            deleteHistoriaTratamiento = new HistoriaTratamiento();
+            recuperarHistoriaTratamiento();
+            FacesMessages.info(":growlInfo", "Tratamiento eliminado", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.info(":growlInfo", "Error al eliminar el tratamiento: "+e.getCause().getMessage(), "This is a specific message!");
+        }
     }
 
     public void actualizarExamen(){
@@ -972,6 +1032,21 @@ public final class CitaBean implements Serializable{
             FacesMessages.info(":growlInfo", "Exámen actualizado", "This is a specific message!");
         } catch (Exception e) {
             FacesMessages.error(":growlInfo", "Error al actualizar el exámen: "+e.getCause().getMessage(), "This is a specific message!");
+        }
+    }
+    
+    /**
+     * Método para preparar actualizar el tratamiento
+     *
+     */
+    public void actualizarHistoriaTratamiento(){
+        try {
+            TratamientoDAO.crearActualizarTratamiento(updateHistoriaTratamiento.getTratamientos());
+            updateHistoriaTratamiento = new HistoriaTratamiento();
+            recuperarHistoriaTratamiento();
+            FacesMessages.info(":growlInfo", "Tratamiento actualizado", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.error(":growlInfo", "Error al actualizar el tratamiento: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
     
@@ -1479,6 +1554,14 @@ public final class CitaBean implements Serializable{
     public void setNombre_historia_diagnostico(String nombre_historia_diagnostico) {
         this.nombre_historia_diagnostico = nombre_historia_diagnostico;
     }
+
+    public String getUpdate_name_diagnostic_history() {
+        return update_name_diagnostic_history;
+    }
+
+    public void setUpdate_name_diagnostic_history(String update_name_diagnostic_history) {
+        this.update_name_diagnostic_history = update_name_diagnostic_history;
+    }
     
     public String getNombre_antecedente() {
         return nombre_antecedente;
@@ -1615,6 +1698,22 @@ public final class CitaBean implements Serializable{
     public void setActualizarHistoriaExamen(HistoriaExamen actualizarHistoriaExamen) {
         this.actualizarHistoriaExamen = actualizarHistoriaExamen;
     }
+
+    public HistoriaTratamiento getUpdateHistoriaTratamiento() {
+        return updateHistoriaTratamiento;
+    }
+
+    public void setUpdateHistoriaTratamiento(HistoriaTratamiento updateHistoriaTratamiento) {
+        this.updateHistoriaTratamiento = updateHistoriaTratamiento;
+    }
+
+    public HistoriaTratamiento getDeleteHistoriaTratamiento() {
+        return deleteHistoriaTratamiento;
+    }
+
+    public void setDeleteHistoriaTratamiento(HistoriaTratamiento deleteHistoriaTratamiento) {
+        this.deleteHistoriaTratamiento = deleteHistoriaTratamiento;
+    }
     
     public String getNombre_tratamiento() {
         return nombre_tratamiento;
@@ -1740,7 +1839,5 @@ public final class CitaBean implements Serializable{
     public void setConsultaUsuario(String consultaUsuario) {
         this.consultaUsuario = consultaUsuario;
     }
-
-    
     
 }

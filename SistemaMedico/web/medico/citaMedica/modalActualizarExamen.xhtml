@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <b:form id="formUpdateHistoriaExamen">
+        <b:panel title="Ingrese la información para actualizar el exámen del paciente" look="info" collapsible="false" id="panelHistoriaExamen">
+            <b:row>
+                <b:column span="4" >
+                    <b:row style="margin-left: 1%; margin-right: 1%">
+                        <h:outputLabel value="Tipo:" for="nombre_examen" />
+                    </b:row>
+                    <b:row style="margin-left: 1%; margin-right: 1%">
+                        <h:outputText value="#{CitaBean.antecedenteFormatoExamen(CitaBean.actualizarHistoriaExamen.examenes.exaTipo)}"
+                                  id="tipo_examen" styleClass="form-control">
+                        </h:outputText>
+                    </b:row>
+                </b:column>
+                <b:column span="4">
+                    <b:row style="margin-left: 1%; margin-right: 1%">
+                        <h:outputLabel value="Exámen:" for="nombre_examen" />
+                    </b:row>
+                    <b:row style="margin-left: 1%; margin-right: 1%">
+                        <h:outputText value="#{CitaBean.actualizarHistoriaExamen.examenes.exaGrupo}"
+                                  id="nombre_examen" styleClass="form-control">
+                        </h:outputText>
+                    </b:row>
+                </b:column>
+                <b:column span="4">
+                    <b:dateTimePicker
+                        id="exa_fecha"
+                        format="DD/MM/YYYY"
+                        locale="en"
+                        value="#{CitaBean.actualizarHistoriaExamen.hisExaFecha}"
+                        label="Fecha del exámen"
+                        required="true"
+                        ajax="true"
+                        requiredMessage="Ingrese la fecha del exámen">
+                    </b:dateTimePicker>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="12">
+                    <b:inputTextarea value="#{CitaBean.actualizarHistoriaExamen.hisExaDescripcion}"
+                                 label="Resultado de exámen"
+                                 placeholder="Describa el resultado del exámen"
+                                 id="descripcion_examen"
+                                 size="13"
+                                 rows="5"
+                                 maxlength="2000"
+                                 ajax="true"
+                                 requiredMessage="Describa los exámenes generales"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column offset="2" span="4" >
+                    <b:commandButton ajax="true"
+                                     value="Cancelar Exámen"
+                                     update="formUpdateHistoriaExamen :growl "
+                                     oncomplete="$('#modalActualizarHistoriaExamen').modal('hide');"
+                                     tooltip="Cancelar Exámen" look="danger">
+                        <b:iconAwesome name="fa-trash"></b:iconAwesome>
+                    </b:commandButton>
+                </b:column>
+                <b:column span="4" >
+                    <b:commandButton id="submit" value="Actualizar Exámen"
+                                    action="#{CitaBean.actualizarExamen()}"
+                                    look="primary" ajax="true"
+                                    update="formUpdateHistoriaExamen panelHistoriaExamen :growl"
+                                    oncomplete="$('#modalActualizarHistoriaExamen').modal('hide');" >
+                        <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
+                        <f:ajax event="change" listener="#{CitaBean.actualizarExamen()}"
+                                render=":formExamenLabIma:listadoExamenPaciente growl"/>
+                    </b:commandButton>
+                </b:column>
+            </b:row>
+        </b:panel>
+    </b:form>
+</html>

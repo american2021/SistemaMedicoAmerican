@@ -84,86 +84,56 @@
     <my:menuHorizontalAdministrador id="menuHorizontalAdministrador"/>
     <!--<my:menuLateralContador id="menuLateralContador"/>-->
  
-    <h:body onload="toggleHistorialPanel()">
-        <b:modal id="modalActualizarHistoriaExamen" title="Creación de Examen" closable="true"
+    <b:modal id="modalDeleteHistoriaTratamiento" 
+                 title="¿Está seguro de que desea eliminar el tratamiento #{CitaBean.deleteHistoriaTratamiento.historiaDiagnostico.diagnosticos.diaDescripcionCie}, con el medicamento #{CitaBean.deleteHistoriaTratamiento.tratamientos.medicamentos.medNombre}, además las indicaciones #{CitaBean.deleteHistoriaTratamiento.tratamientos.traIndicaciones}?"
+                 closable="true"
                  close-on-escape="true" backdrop="true" size="modal-lg">
-            <b:form id="formUpdateHistoriaExamen">
-                <b:panel title="Ingrese la información para crear el exámen del paciente" look="info" collapsible="false" id="panelHistoriaExamen">
-                    <b:row>
-                        <b:column span="4" >
-                            <b:row style="margin-left: 1%; margin-right: 1%">
-                                <h:outputLabel value="Tipo:" for="nombre_examen" />
-                            </b:row>
-                            <b:row style="margin-left: 1%; margin-right: 1%">
-                                <h:outputText value="#{CitaBean.antecedenteFormatoExamen(CitaBean.actualizarHistoriaExamen.examenes.exaTipo)}"
-                                          id="tipo_examen" styleClass="form-control">
-                                </h:outputText>
-                            </b:row>
-                        </b:column>
-                        <b:column span="4">
-                            <b:row style="margin-left: 1%; margin-right: 1%">
-                                <h:outputLabel value="Exámen:" for="nombre_examen" />
-                            </b:row>
-                            <b:row style="margin-left: 1%; margin-right: 1%">
-                                <h:outputText value="#{CitaBean.actualizarHistoriaExamen.examenes.exaGrupo}"
-                                          id="nombre_examen" styleClass="form-control">
-                                </h:outputText>
-                            </b:row>
-                        </b:column>
-                        <b:column span="4">
-                            <b:dateTimePicker
-                                id="exa_fecha"
-                                format="DD/MM/YYYY"
-                                locale="en"
-                                value="#{CitaBean.actualizarHistoriaExamen.hisExaFecha}"
-                                label="Fecha del exámen"
-                                required="true"
-                                ajax="true"
-                                requiredMessage="Ingrese la fecha del exámen">
-                            </b:dateTimePicker>
-                        </b:column>
-                    </b:row>
-                    <b:row>
-                        <b:column span="12">
-                            <b:inputTextarea value="#{CitaBean.actualizarHistoriaExamen.hisExaDescripcion}"
-                                         label="Resultado de exámen"
-                                         placeholder="Describa el resultado del exámen"
-                                         id="descripcion_examen"
-                                         size="13"
-                                         rows="5"
-                                         maxlength="2000"
-                                         ajax="true"
-                                         requiredMessage="Describa los exámenes generales"/>
-                        </b:column>
-                    </b:row>
-                    <b:row>
-                        <b:column offset="2" span="4" >
-                            <b:commandButton ajax="true"
-                                             value="Cancelar Exámen"
-                                             update="formUpdateHistoriaExamen :growl "
-                                             oncomplete="$('#modalActualizarHistoriaExamen').modal('hide');"
-                                             tooltip="Cancelar Exámen" look="danger">
-                                <b:iconAwesome name="fa-trash"></b:iconAwesome>
-                            </b:commandButton>
-                        </b:column>
-                        <b:column span="4" >
-                            <b:commandButton id="submit" value="Actualizar Exámen"
-                                            action="#{CitaBean.actualizarExamen()}"
-                                            look="primary" ajax="true"
-                                            update="formUpdateHistoriaExamen panelHistoriaExamen :growl"
-                                            oncomplete="$('#modalActualizarHistoriaExamen').modal('hide');" >
-                                <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
-                                <f:ajax event="change" listener="#{CitaBean.actualizarExamen()}"
-                                        render=":formExamenLabIma:listadoExamenPaciente growl"/>
-                            </b:commandButton>
-                        </b:column>
-                    </b:row>
-                </b:panel>
+            <!--<ui:include src="citaMedica/modalEliminarTratamiento.xhtml" />-->
+            <b:form id="formEliminacionTratamiento" >
+                <b:row>
+                    <b:column offset="4">
+                        <b:commandButton span="2"
+                                     ajax="true"
+                                     value="Sí"
+                                     update=":modalDeleteHistoriaTratamiento:formEliminacionTratamiento :growl"
+                                     action="#{CitaBean.eliminarHistoriaTratamiento()}"
+                                     oncomplete="$('#modalDeleteHistoriaTratamiento').modal('hide')"
+                                     tooltip="Eliminar" look="info">
+                            <f:ajax event="change"
+                                    listener="#{CitaBean.eliminarHistoriaTratamiento()}"
+                                            render="formPrescripcion:listadoTratamientoPaciente growl"/>
+                        </b:commandButton>
+                        <b:commandButton span="2"
+                                         ajax="false"
+                                         value="No"
+                                         update="formEliminacionTratamiento :growl"
+                                         oncomplete="$('#modalDeleteHistoriaTratamiento').modal('hide')"
+                                         tooltip="Cancelar" look="danger">
+                        </b:commandButton>
+                    </b:column>
+                </b:row>
             </b:form>
         </b:modal>
+    
+    <h:body onload="toggleHistorialPanel()">
+        <b:modal id="modalActualizarHistoriaExamen" title="Actualizar exámen" closable="true"
+                 close-on-escape="true" backdrop="true" size="modal-lg">
+            <ui:include src="citaMedica/modalActualizarExamen.xhtml" />
+        </b:modal>
+        <b:modal id="modaUpdateHistoriaTratamiento" title="Actualizar tratamiento" closable="true"
+                 close-on-escape="true" backdrop="true" size="modal-lg">
+            <ui:include src="citaMedica/modalActualizarTratamiento.xhtml" />
+        </b:modal>
+        
 
             
         <style>
+            #modalDeleteHistoriaTratamiento .modal-header {
+                text-align: center;
+            }
+            #modalDeleteHistoriaTratamiento .modal-title {
+                margin: 0 auto;
+            }
             .custom-button{
                 margin-top: 6px;
                 color: #333333;
@@ -523,12 +493,14 @@
                             </h:form>
                         </b:panelGrid>
                         <b:panelGrid columns="1" id="panel1">
-                            <b:form id="formPrescripcion">
+                            <b:form id="formPrescripcion1">
                                 <b:panel span="12" offset="0" id="panelTratamiento">  
                                     <ui:include src="citaMedica/panelPrescripcion.xhtml">
                                     </ui:include>
                                 </b:panel>
                                 <br/>
+                            </b:form>
+                            <b:form id="formPrescripcion">
                                 <b:panel title="Tratamientos" look="info" collapsible="false" id="listadoTratamientoPaciente" span="12">
                                     <b:dataTable large-screen="full-width" id="historiaDiagnosticoTabla" value="#{CitaBean.lista_historia_tratamiento}" var="historiaTratamiento" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
                                         page-length="7" multi-column-search="true" multi-column-search-position="top" >
@@ -539,6 +511,30 @@
                                         <b:dataTableColumn label="Medida" value="#{CitaBean.formatoMedidaMedicamento(historiaTratamiento.tratamientos.medicamentos.medMedida)}" style="width: 10%" />
                                         <b:dataTableColumn label="Frecuencia" value="#{CitaBean.formatoFrecuenciaTratamiento(historiaTratamiento.tratamientos.traFrecuencia)}" style="width: 10%" />
                                         <b:dataTableColumn label="Duración" value="#{historiaTratamiento.tratamientos.traDuracion}" style="width: 5%" />
+                                        <b:dataTableColumn label="Acciones" style="width: 12%; padding-left: 1%;padding-right: 1% "
+                                                          orderable="false"
+                                                          searchable="false">
+                                            <b:column span="1" offset="0">
+                                                <b:commandButton ajax="true" 
+                                                                update="modaUpdateHistoriaTratamiento :growl"
+                                                                action="#{CitaBean.prepareUpdateHistoriaTratamiento(historiaTratamiento)}"
+                                                                oncomplete="$('#modaUpdateHistoriaTratamiento').modal('show')" 
+                                                                tooltip="Editar tratamiento" 
+                                                                look="warning">
+                                                    <b:iconAwesome name="pencil"></b:iconAwesome>
+                                                </b:commandButton>
+                                            </b:column>
+                                            <b:column offset="1" span="2">
+                                                <b:commandButton ajax="true"
+                                                                update="modalDeleteHistoriaTratamiento :growl"
+                                                                actionListener="#{CitaBean.prepareDeleteHistoriaTratamiento(historiaTratamiento)}"
+                                                                oncomplete="$('#modalDeleteHistoriaTratamiento').modal('show')" 
+                                                                tooltip="Eliminar tratamiento" 
+                                                                look="danger">
+                                                    <b:iconAwesome name="trash"></b:iconAwesome>
+                                                </b:commandButton>
+                                            </b:column>
+                                       </b:dataTableColumn>
                                     </b:dataTable>
                                 </b:panel>
                             </b:form>

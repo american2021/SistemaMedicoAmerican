@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <b:form id="formEliminacionTratamiento" >
+        <b:row>
+            <b:column offset="4">
+                <b:commandButton ajax="false"
+                                 span="2"
+                                 value="Sí"
+                                 update=":modalDeleteHistoriaTratamiento:formEliminacionTratamiento :growl"
+                                 oncomplete="$('#modalDeleteHistoriaTratamiento').modal('hide')"
+                                 tooltip="Eliminar" look="info"
+                                 action="#{CitaBean.eliminarHistoriaTratamiento()}"
+                                 >
+                </b:commandButton>
+                <b:commandButton span="2"
+                                 ajax="false"
+                                 value="No"
+                                 update="formEliminacionTratamiento :growl"
+                                 oncomplete="$('#modalDeleteHistoriaTratamiento').modal('hide')"
+                                 tooltip="Cancelar" look="danger">
+                </b:commandButton>
+            </b:column>
+        </b:row>
+    </b:form>
+</html>

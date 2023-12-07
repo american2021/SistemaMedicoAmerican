@@ -33,6 +33,19 @@ public class TratamientoDAO {
      * Método para crear o actualizar un diagnóstico.
      *
      * @param tratamiento
+     */
+    public static void eliminarTratamiento(Tratamientos tratamiento) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(tratamiento);
+        session.getTransaction().commit();
+        session.close();
+    }
+    
+    /**
+     * Método para crear o actualizar un diagnóstico.
+     *
+     * @param tratamiento
      * @return 
      */
     public static Tratamientos crearTratamiento(Tratamientos tratamiento) {

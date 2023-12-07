@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <b:form id="formUpdateHistoriaTratamiento">
+        <b:panel title="Ingrese la información para actualizar el tratamiento " look="info" collapsible="false" id="panelUpdatePrescripcion">
+            <b:row >
+                <b:column span="6">
+                    <b:inputText label="Diagnósticos"
+                             id="nombre_historia_diagnostico"
+                             disabled="true"
+                             value="#{CitaBean.updateHistoriaTratamiento.historiaDiagnostico.diagnosticos.diaDescripcionCie} - #{CitaBean.updateHistoriaTratamiento.historiaDiagnostico.hisDiaObservacion} "
+                             ajax="true">
+                    </b:inputText>
+                </b:column>
+                <b:column span="6">
+                    <b:inputText label="Medicamento"
+                             id="med_nombre"
+                             disabled="true"
+                             value="#{CitaBean.updateHistoriaTratamiento.tratamientos.medicamentos.medNombre} "
+                             ajax="true">
+                    </b:inputText>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="4">
+                    <b:inputText label="Dósis unitaria"
+                             id="tra_dosis_unitaria"
+                             disabled="true"
+                             value="#{CitaBean.updateHistoriaTratamiento.tratamientos.medicamentos.medDosisUnitaria} "
+                             ajax="true">
+                    </b:inputText>
+                </b:column>
+                <b:column span="4" >
+                    <b:row style="margin-left: 1%; margin-right: 1%">
+                        <h:outputLabel value="Medida" for="tra_medida" />
+                    </b:row>
+                    <b:row style="margin-left: 1%; margin-right: 1%">
+                        <h:outputText value="#{CitaBean.formatoMedidaMedicamento(CitaBean.updateHistoriaTratamiento.tratamientos.medicamentos.medDosisUnitaria)} "
+                                      id="tra_medida" styleClass="form-control" style="background-color: #eeeeee; opacity: 1; ">
+                        </h:outputText>
+                    </b:row>
+                </b:column>
+                <b:column span="4" > 
+                    <b:selectOneMenu label="Frecuencia" id="tra_frecuencia" required="true"
+                                     value="#{CitaBean.updateHistoriaTratamiento.tratamientos.traFrecuencia}"
+                                     requiredMessage="Seleccione la frecuencia del medicamento" ajax="true">
+                        <f:selectItem itemLabel="Seleccione la frecuencia" noSelectionOption="true" />
+                        <f:selectItem itemLabel="Cada 4 Horas" itemValue="1" />
+                        <f:selectItem itemLabel="Cada 6 Horas" itemValue="2" />
+                        <f:selectItem itemLabel="Cada 8 Horas" itemValue="3" />
+                        <f:selectItem itemLabel="Cada 12 Horas" itemValue="4" />
+                        <f:selectItem itemLabel="Cada 24 Horas" itemValue="5" />
+                        <f:selectItem itemLabel="En este momento" itemValue="6" />
+                        <f:selectItem itemLabel="Por razones necesarias" itemValue="7" />
+                        <f:selectItem itemLabel="Otra" itemValue="8" />
+                        <f:ajax event="blur" execute="@this" render="tra_indicaciones" listener="#{CitaBean.generarIndicacionesUpdate}" />
+
+                    </b:selectOneMenu>
+                    <b:message for="tra_frecuencia" />
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="4" > 
+                    <b:selectOneMenu label="Vía de administración" id="tra_via_administracion" required="true"
+                                     value="#{CitaBean.updateHistoriaTratamiento.tratamientos.traViaAdministracion}"
+                                     requiredMessage="Seleccione la vía de administración del medicamento" ajax="true">
+                        <f:selectItem itemLabel="Seleccione la vía de administración" noSelectionOption="true" />
+                        <f:selectItem itemLabel="ORAL" itemValue="1" />
+                        <f:selectItem itemLabel="INHALATORIA" itemValue="2" />
+                        <f:selectItem itemLabel="PARENTERAL" itemValue="3" />
+                        <f:selectItem itemLabel="INTRATRAQUEAL" itemValue="4" />
+                        <f:selectItem itemLabel="RECTAL" itemValue="5" />
+                        <f:selectItem itemLabel="VAGINAL" itemValue="6" />
+                        <f:selectItem itemLabel="INTRAUTERINA" itemValue="7" />
+                        <f:selectItem itemLabel="INTRAVESICAL" itemValue="8" />
+                        <f:selectItem itemLabel="OCULAR" itemValue="9" />
+                        <f:selectItem itemLabel="PARENTERAL (INTRAVENOSA)" itemValue="10" />
+                        <f:selectItem itemLabel="PARENTERAL (INTRAMUSCULAR)" itemValue="11" />
+                        <f:selectItem itemLabel="PARENTERAL (INTRAVENOSO/INTRAMUSCULAR)" itemValue="12" />
+                        <f:selectItem itemLabel="PARENTERAL (INTRAVENOSO/INTRAMUSCULAR/SUBCUTÁNEO)" itemValue="13" />
+                        <f:selectItem itemLabel="PARENTERAL (SUBCUTANEA)" itemValue="14" />
+                    </b:selectOneMenu>
+                    <b:message for="tra_via_administracion" />
+                </b:column>
+                <b:inputText label="Duración (Días)"
+                             placeholder="Duración (Días)"
+                             id="tra_duracion"
+                             span="4"
+                             maxlength="4"
+                             value="#{CitaBean.updateHistoriaTratamiento.tratamientos.traDuracion}"
+                             required="true"
+                             requiredMessage="Ingrese duración del tratamiento"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;">
+                    <f:ajax event="blur" execute="@this" render="tra_indicaciones" listener="#{CitaBean.generarIndicacionesUpdate}" />
+                </b:inputText>
+                <b:inputText label="Cantidad"
+                             placeholder="Cantidad"
+                             id="tra_cantidad"
+                             span="4"
+                             maxlength="4"
+                             value="#{CitaBean.updateHistoriaTratamiento.tratamientos.traCantidad}"
+                             required="true"
+                             requiredMessage="Ingrese la cantidad del medicamento"
+                             onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;"/>
+            </b:row>
+            <b:row>
+                <b:inputTextarea label="Indicaciones"
+                                 placeholder="Indicaciones"
+                                 id="tra_indicaciones"
+                                 span="6"
+                                 rows="3"
+                                 maxlength="300"
+                                 value="#{CitaBean.updateHistoriaTratamiento.tratamientos.traIndicaciones}"
+                                 required="true"
+                                 requiredMessage="Ingrese las indicaciones del tratamiento"/>
+                <b:inputTextarea label="Advertencias"
+                                 placeholder="Advertencias"
+                                 id="tra_advertencias"
+                                 span="6"
+                                 rows="3"
+                                 maxlength="300"
+                                 value="#{CitaBean.updateHistoriaTratamiento.tratamientos.traAdvertencias}"
+                                 requiredMessage="Ingrese las advertencias del tratamiento"/>
+            </b:row>
+            <b:row>
+                <b:column offset="2" span="4" >
+                    <b:commandButton ajax="true"
+                                     value="Cancelar Tratamiento"
+                                     update="formUpdateHistoriaTratamiento :growl "
+                                     oncomplete="$('#modaUpdateHistoriaTratamiento').modal('hide');"
+                                     tooltip="Cancelar Exámen" look="danger">
+                        <b:iconAwesome name="fa-trash"></b:iconAwesome>
+                    </b:commandButton>
+                </b:column>
+                <b:column span="4" >
+                    <b:commandButton id="submit" value="Actualizar Tratamiento"
+                                    action="#{CitaBean.actualizarHistoriaTratamiento()}"
+                                    look="primary" ajax="true"
+                                    update="formUpdateHistoriaTratamiento panelUpdatePrescripcion :growl"
+                                    oncomplete="$('#modaUpdateHistoriaTratamiento').modal('hide');" >
+                        <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
+                        <f:ajax event="change" listener="#{CitaBean.actualizarHistoriaTratamiento()}"
+                                render=":formPrescripcion:listadoTratamientoPaciente :growl"/>
+                    </b:commandButton>
+                </b:column>
+            </b:row>
+        </b:panel>
+    </b:form>
+</html>
