@@ -27,46 +27,43 @@
         $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
     </script>
 
-<b:panelGrid columns="1">
-    <style>
-        .anchoCompleto {
-            width: 100% !important; /* ¡Importante para asegurar que esta regla prevalezca! */
-        }
-        
-        .ui-autocomplete-multiple-container.ui-inputfield{
-            width : 100% !important;
-            height: 100% !important;
-            padding: 0.4%;
-            border-radius: 4px;
-            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-            border: 1px solid #e7e7e7;
-            line-height: 1.428571429;
-            box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.075);
-        }
-        .ui-autocomplete-input-token input{
-            width: 100%;
-        }
-        .ui-autocomplete-input-token{
-            width: 100%;
-        }
-        .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{
-            font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-            font-size: 14px !important;
-            line-height: 1.428571429 !important;
-            color: #555555 !important;
-        }
-        .right-caption .label {
-            text-align: right;
-        }
-    </style>
-    
-    <h3>    
-        <b>Tratamiento</b>
-    </h3>
-    
-    
-        
+    <b:panelGrid columns="1">
+        <style>
+            .anchoCompleto {
+                width: 100% !important; /* ¡Importante para asegurar que esta regla prevalezca! */
+            }
 
+            .ui-autocomplete-multiple-container.ui-inputfield{
+                width : 100% !important;
+                height: 100% !important;
+                padding: 0.4%;
+                border-radius: 4px;
+                transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+                border: 1px solid #e7e7e7;
+                line-height: 1.428571429;
+                box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.075);
+            }
+            .ui-autocomplete-input-token input{
+                width: 100%;
+            }
+            .ui-autocomplete-input-token{
+                width: 100%;
+            }
+            .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{
+                font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+                font-size: 14px !important;
+                line-height: 1.428571429 !important;
+                color: #555555 !important;
+            }
+            .right-caption .label {
+                text-align: right;
+            }
+        </style>
+    
+        <h3>    
+            <b>Tratamiento</b>
+        </h3>
+    
         <b:row>
             <b:column span="6">
                 <b:panel title="Estado del paciente" look="info" collapsible="false" id="panelEstadoPaciente">
@@ -97,11 +94,13 @@
                                 id="nombre_historia_diagnostico"
                                 typeahead-limit="50"
                                 required="true"
+                                disabled="#{ empty CitaBean.lista_historia_diagnostico}"
                                 typeahead-values="#{CitaBean.recuperarNombresHistoriaDiagnosticos()}" ajax="true">
                         <f:ajax event="change"
                                 listener="#{CitaBean.recuperarHistoriaDiagnosticoListener()}"
-                                render="nombre_historia_diagnostico"/>
+                                render="nombre_historia_diagnostico mensajeDiagnostico"/>
                     </b:inputText>
+                    <h:outputText id="mensajeDiagnostico" value="#{CitaBean.mensajeDiagnostico}" rendered="#{empty CitaBean.lista_historia_diagnostico}" styleClass="error-message"/>
                 </b:column>
                 <b:column span="6">
                     <b:inputText value="#{CitaBean.nombre_medicamento}"
@@ -247,6 +246,5 @@
                 </b:column>
             </b:row>
         </b:panel>
-        
-</b:panelGrid>
+    </b:panelGrid>
 </html>

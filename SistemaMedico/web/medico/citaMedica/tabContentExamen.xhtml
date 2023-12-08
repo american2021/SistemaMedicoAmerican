@@ -5,8 +5,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-<b:panelGrid columns="1">
-    <br/>
+    <b:panelGrid columns="1">
+        <br/>
         <b:dataTable style="width: 100%; margin: 0 auto;" id="examenesTabla" value="#{lista}" var="item"
                      responsive="true" content-disabled="false" searching="true"
                      page-length="5" multi-column-search="true" multi-column-search-position="top">
@@ -20,9 +20,10 @@
                 </b:dateTimePicker>
             </b:dataTableColumn>
             <b:dataTableColumn label="¿Realizar exámen?" style="width: 15%"> 
-                <b:selectBooleanCheckbox id="carnEstua"
-                                         value="#{CitaBean.editedCheckExamen[item.exaId]}"
-                                         style="width: 25px; height: 25px;"/>
+                <b:selectBooleanCheckbox 
+                    id="carnEstua"
+                    value="#{CitaBean.editedCheckExamen[item.exaId]}"
+                    style="width: 25px; height: 25px;"/>
             </b:dataTableColumn>
             <b:dataTableColumn label="Descripción" style="width: 38%; display: inline-block;" >
                 <b:inputTextarea
@@ -50,5 +51,5 @@
                 </b:row>
             </b:dataTableColumn>
         </b:dataTable>
-</b:panelGrid>
+    </b:panelGrid>
 </html>

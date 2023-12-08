@@ -1,5 +1,5 @@
 package datos;
-// Generated 05/12/2023 11:55:16 by Hibernate Tools 4.3.1
+// Generated 08/12/2023 15:38:39 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,6 +13,7 @@ public class HistoriaExamen  implements java.io.Serializable {
      private Integer hisExaId;
      private Examenes examenes;
      private Historias historias;
+     private String hisExaIndicaciones;
      private String hisExaDescripcion;
      private Date hisExaFecha;
      private Date hisExaFechaUlt;
@@ -31,9 +32,10 @@ public class HistoriaExamen  implements java.io.Serializable {
         this.hisExaFechaUlt = hisExaFechaUlt;
         this.hisExaUsuario = hisExaUsuario;
     }
-    public HistoriaExamen(Examenes examenes, Historias historias, String hisExaDescripcion, Date hisExaFecha, Date hisExaFechaUlt, String hisExaUsuario, Byte hisExaCompletado) {
+    public HistoriaExamen(Examenes examenes, Historias historias, String hisExaIndicaciones, String hisExaDescripcion, Date hisExaFecha, Date hisExaFechaUlt, String hisExaUsuario, Byte hisExaCompletado) {
        this.examenes = examenes;
        this.historias = historias;
+       this.hisExaIndicaciones = hisExaIndicaciones;
        this.hisExaDescripcion = hisExaDescripcion;
        this.hisExaFecha = hisExaFecha;
        this.hisExaFechaUlt = hisExaFechaUlt;
@@ -61,6 +63,13 @@ public class HistoriaExamen  implements java.io.Serializable {
     
     public void setHistorias(Historias historias) {
         this.historias = historias;
+    }
+    public String getHisExaIndicaciones() {
+        return this.hisExaIndicaciones;
+    }
+    
+    public void setHisExaIndicaciones(String hisExaIndicaciones) {
+        this.hisExaIndicaciones = hisExaIndicaciones;
     }
     public String getHisExaDescripcion() {
         return this.hisExaDescripcion;

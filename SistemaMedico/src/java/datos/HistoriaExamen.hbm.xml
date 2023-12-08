@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 05/12/2023 11:55:17 by Hibernate Tools 4.3.1 -->
+<!-- Generated 08/12/2023 15:38:39 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.HistoriaExamen" table="historia_examen" catalog="smed" optimistic-lock="version">
         <id name="hisExaId" type="java.lang.Integer">
@@ -14,6 +14,9 @@
         <many-to-one name="historias" class="datos.Historias" fetch="select">
             <column name="his_id" not-null="true" />
         </many-to-one>
+        <property name="hisExaIndicaciones" type="string">
+            <column name="his_exa_indicaciones" length="200" />
+        </property>
         <property name="hisExaDescripcion" type="string">
             <column name="his_exa_descripcion" length="2000" not-null="true" />
         </property>

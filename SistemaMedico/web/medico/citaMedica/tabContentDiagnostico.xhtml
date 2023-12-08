@@ -5,36 +5,60 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-<b:panelGrid columns="1">
-    <br/>
-        <b:dataTable style="width: 100%; margin: 0 auto;" id="diagnosticoTabla" value="#{lista}" var="item"
+    <style>
+        .tipo-diagnostico {
+            width: 150% !important;
+            /* Otros estilos... */
+        }
+        .tipo-columna {
+            width: 100% !important;
+        }
+        .form-group {
+            width: 100% !important;
+        }
+    </style>
+    <b:panelGrid columns="1">
+        <br/>
+        <b:dataTable style="width: 100%; margin: 0 auto;" id="diagnosticoTabla" value="#{lista}" var="item" 
                      responsive="true" content-disabled="false" searching="true"
-                     page-length="5" multi-column-search="true" multi-column-search-position="top">
-            <b:dataTableColumn label="Código" value="#{item.diaCodigoCie}" style="width: 10%" />
+                     page-length="5" multi-column-search="true" multi-column-search-position="top">                
+            <b:dataTableColumn label="Código" value="#{item.diaCodigoCie}" style="width: 5%" />
             <b:dataTableColumn label="Descripción" value="#{item.diaDescripcionCie}" style="width: 25%" />
-            <b:dataTableColumn label="Observación" style="width: 53%; display: inline-block;" orderable="false" searchable="false" >
-                <b:inputTextarea
+            <b:dataTableColumn label="Tipo" style="width: 15%" orderable="false" searchable="false">
+                <b:selectOneMenu id="tipo_#{item.diaId}"
+                    styleClass="form-control tipo-columna"
+                    value="#{CitaBean.editedTipoDiagnostico[item.diaId]}"
+                    requiredMessage="Seleccione el tipo diagnóstico">
+                    <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="Morbilidad" itemValue="1" />
+                    <f:selectItem itemLabel="Prevención" itemValue="2" />
+                    <f:ajax render=":formDiagnostico:listadoDiagnostico :growl"/>
+                </b:selectOneMenu>
+                <h:message for="tipo_#{item.diaId}" />
+            </b:dataTableColumn>
+            <b:dataTableColumn label="Observación" style="width: 43%; display: inline-block;" orderable="false" searchable="false" >
+                <b:inputTextarea id="descripcion_#{item.diaId}"
+                    styleClass="form-control tipo-columna"
                     value="#{CitaBean.editedDescriptionsDiagnostico[item.diaId]}" 
                     rows="1" maxlength="2000"
-                    placeholder="Ingrese la observación del diagnóstico"
-                    style="width: 700px"/>
+                    placeholder="Ingrese la observación del diagnóstico" 
+                    required="true"/>
+                <h:message for="descripcion_#{item.diaId}" />
             </b:dataTableColumn>
 
             <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%" orderable="false" searchable="false">
-                <b:row>
-                    <b:column offset="1" span="2">
-                        <b:commandButton id="valoresButton_#{item.antId}"
-                            ajax="true" 
-                            value=" Agregar"
-                            actionListener="#{CitaBean.crearHistoriaDiagnosticoPrueba(item)}"
-                            tooltip="Guardar cambios" look="success"
-                            update="formDiagnostico:listadoDiagnostico formDiagnostico:listadoDiagnosticoPaciente formPrescripcion1:nombre_historia_diagnostico :growl"
-                            >
-                            <b:iconAwesome name="save"></b:iconAwesome>
-                        </b:commandButton>
-                    </b:column>
-                </b:row>
+                <b:column offset="1" span="2">
+                    <b:commandButton id="valoresButton_#{item.diaId}"
+                        ajax="true" 
+                        value=" Agregar"
+                        actionListener="#{CitaBean.crearHistoriaDiagnosticoPrueba(item)}"
+                        process=":tipo_#{item.diaId} :descripcion_#{item.diaId}"
+                        tooltip="Guardar cambios" look="success"
+                        update=":formDiagnostico:listadoDiagnostico :growl">
+                        <b:iconAwesome name="save"></b:iconAwesome>
+                    </b:commandButton>
+                </b:column>
             </b:dataTableColumn>
         </b:dataTable>
-</b:panelGrid>
+    </b:panelGrid>
 </html>

@@ -20,7 +20,7 @@ import org.hibernate.Session;
 public class HistoriaDiagnosticoDAO {
     
     /**
-     * Método para crear historia examen.
+     * Método para crear historia diagnostico.
      *
      * @param historiaDiagnostico
      */
@@ -28,6 +28,19 @@ public class HistoriaDiagnosticoDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         session.saveOrUpdate(historiaDiagnostico);
+        session.getTransaction().commit();
+        session.close();
+    }
+    
+    /**
+     * Método para eliminar historia diagnostico.
+     *
+     * @param historiaDiagnostico
+     */
+    public static void eliminarHistoriaDiagnostico(HistoriaDiagnostico historiaDiagnostico) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(historiaDiagnostico);
         session.getTransaction().commit();
         session.close();
     }

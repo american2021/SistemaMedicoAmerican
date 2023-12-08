@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 05/12/2023 11:55:17 by Hibernate Tools 4.3.1 -->
+<!-- Generated 08/12/2023 15:38:39 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.HistoriaDiagnostico" table="historia_diagnostico" catalog="smed" optimistic-lock="version">
         <id name="hisDiaId" type="java.lang.Integer">
@@ -16,6 +16,15 @@
         </many-to-one>
         <property name="hisDiaObservacion" type="string">
             <column name="his_dia_observacion" length="2000" not-null="true" />
+        </property>
+        <property name="hisDiaTipo" type="string">
+            <column name="his_dia_tipo" length="2" not-null="true" />
+        </property>
+        <property name="hisDiaCondicion" type="string">
+            <column name="his_dia_condicion" length="2" not-null="true" />
+        </property>
+        <property name="hisDiaCronologia" type="string">
+            <column name="his_dia_cronologia" length="2" not-null="true" />
         </property>
         <property name="hisDiaFechaUlt" type="timestamp">
             <column name="his_dia_fecha_ult" length="19" not-null="true" />
