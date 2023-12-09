@@ -22,6 +22,48 @@
                 </b:column>
             </b:row>
             <b:row>
+                <b:column span="4" > 
+                    <b:selectOneMenu label="Tipo"
+                                     ajax="true"
+                                     id="tipo"
+                                     value="#{CitaBean.updateHistoriaDiagnostico.hisDiaTipo}"
+                                     required="true"
+                                     requiredMessage="Seleccione">
+                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
+                        <f:selectItem itemLabel="Morbilidad" itemValue="1" />
+                        <f:selectItem itemLabel="Prevención" itemValue="2" />
+                    </b:selectOneMenu>
+                    <b:message for="per_orientacion_sexual" />
+                </b:column>
+                <b:column span="4" > 
+                    <b:selectOneMenu label="Condición"
+                                     ajax="true"
+                                     id="condicion"
+                                     value="#{CitaBean.updateHistoriaDiagnostico.hisDiaCondicion}"
+                                     required="true"
+                                     requiredMessage="Seleccione">
+                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
+                        <f:selectItem itemLabel="Presuntivo" itemValue="1" />
+                        <f:selectItem itemLabel="Definitivo inicial" itemValue="2" />
+                        <f:selectItem itemLabel="Definitivo control" itemValue="3" />
+                    </b:selectOneMenu>
+                    <b:message for="per_orientacion_sexual" />
+                </b:column>
+                <b:column span="4" > 
+                    <b:selectOneMenu label="Cronología"
+                                     ajax="true"
+                                     id="cronologia"
+                                     value="#{CitaBean.updateHistoriaDiagnostico.hisDiaCronologia}"
+                                     required="true"
+                                     requiredMessage="Seleccione">
+                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true" />
+                        <f:selectItem itemLabel="Primera" itemValue="1" />
+                        <f:selectItem itemLabel="Subsecuente" itemValue="2" />
+                    </b:selectOneMenu>
+                    <b:message for="per_orientacion_sexual" />
+                </b:column>
+            </b:row>
+            <b:row>
                 <b:column span="12">
                     <b:inputTextarea ajax="true"
                                      label="Observación del Diagnóstico"
@@ -40,7 +82,7 @@
                                      value="Cancelar diagnóstico"
                                      update="formUpdateHistoriaDiagnostico :growl "
                                      oncomplete="$('#modaUpdateHistoriaDiagnostico').modal('hide');"
-                                     tooltip="Cancelar Exámen" look="danger">
+                                     tooltip="Cancelar diagnóstico" look="danger">
                         <b:iconAwesome name="fa-trash"></b:iconAwesome>
                     </b:commandButton>
                 </b:column>

@@ -12,10 +12,13 @@ import datos.Historias;
 import datos.Tratamientos;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -112,22 +115,53 @@ public class CitaDAO {
      * @return
      */
     public static List<Historias> recuperarHistoriasDia(String dia) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("from Historias where his_fecha_creacion like '%" + dia + "%' order by his_fecha_ult desc");
-        List<Historias> historias = query.list();
-        historias.forEach((historia) -> {
-            //Necesario para cargar los datos de la persona en modo eager
-            historia.getPersonasByPacientePerId().getPerNombres();
-            try {
-                historia.getPersonasByMedicoPerId().getPerNombres();
-            } catch (Exception e) {
+//        Session session = HibernateUtil.getSessionFactory().openSession();
+//        session.beginTransaction();
+//        Query query = session.createQuery("from Historias where his_fecha_creacion like '%" + dia + "%' order by his_fecha_ult desc");
+//        List<Historias> historias = query.list();
+//        historias.forEach((historia) -> {
+//            //Necesario para cargar los datos de la persona en modo eager
+//            historia.getPersonasByPacientePerId().getPerNombres();
+//            try {
+//                historia.getPersonasByMedicoPerId().getPerNombres();
+//            } catch (Exception e) {
+//
+//            }
+//        });
+//        session.getTransaction().commit();
+//        session.close();
+//        return historias;
 
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from Historias where his_fecha_creacion like '%" + dia + "%' order by his_fecha_ult desc");
+
+            List<Historias> historias = query.list();
+
+            historias.forEach(historiaTratamient -> {
+                Hibernate.initialize(historiaTratamient.getPersonasByMedicoPerId());
+                Hibernate.initialize(historiaTratamient.getPersonasByPacientePerId());
+//                Hibernate.initialize(historiaTratamient.getTratamientos().getMedicamentos());
+//                Hibernate.initialize(historiaTratamient.getHistoriaDiagnostico().getDiagnosticos());
+            });
+
+            transaction.commit();
+            return historias;
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
             }
-        });
-        session.getTransaction().commit();
-        session.close();
-        return historias;
+            e.printStackTrace(); // Log or handle the exception appropriately
+            return Collections.emptyList();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
     }
 
     /**

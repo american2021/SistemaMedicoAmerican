@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <script>
+        window.validarCampos = function() {
+            console.log("VALIDA CAMPOS");
+             var campo1 = $('#formAddDiagnostico\\:dia_codigo_cie').val();
+            // Verifica si campo1 es undefined o vacío
+            if (typeof campo1 === 'undefined' || campo1 === '') {
+                alert('Por favor, complete todos los campos requeridos.');
+                return false;
+            }
+        };
+    </script>
+
+    <b:form id="formAddDiagnostico">
+        <b:panel title="Datos Generales" look="info" collapsible="false" id="panelAddDiagnostico">
+            <b:row>
+                <b:column span="6">
+                    <b:inputText label="Código CIE-10"
+                                 placeholder="Código CIE-10"
+                                 id="dia_codigo_cie"
+                                 maxlength="10"
+                                 value="#{CitaBean.nuevo_diagnostico.diaCodigoCie}"
+                                 required="true"
+                                 requiredMessage="Ingrese el código del diagnóstico"/>
+                </b:column>
+                <b:column span="6"> 
+                    <b:inputTextarea label="Descripción del Diagnóstico"
+                                     placeholder="Descripción del diagnóstico"
+                                     id="dia_descripcion_cie"
+                                     maxlength="500"
+                                     value="#{CitaBean.nuevo_diagnostico.diaDescripcionCie}"
+                                     required="true"
+                                     requiredMessage="Ingrese la descripción del diagnóstico"/>
+
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column offset="2" span="4" >
+                    <b:commandButton ajax="false"
+                                     immediate="true"
+                                     value="Cancelar diagnóstico"
+                                     update="formDiagnostico :growl "
+                                     process="@this"
+                                     oncomplete="$('#modalAddDiagnostico').modal('hide');"
+                                     tooltip="Cancelar diagnóstico" look="danger">
+                        <b:iconAwesome name="fa-trash"></b:iconAwesome>
+                    </b:commandButton>
+                </b:column>
+                <b:column span="4" >
+                    <b:commandButton id="submit" value="Crear diagnóstico"
+                                     onclick="return validarCampos();"
+                                     action="#{CitaBean.crearDiagnosticoCIE10()}"
+                                     look="primary" ajax="true"
+                                     update="formAddDiagnostico panelAddDiagnostico :growl"
+                                     oncomplete="$('#modalAddDiagnostico').modal('hide');" >
+                        <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
+                        <f:ajax event="change" listener="#{CitaBean.crearDiagnosticoCIE10()}"
+                                render=":formDiagnostico:listadoDiagnostico growl"/>
+                    </b:commandButton>
+                </b:column>
+            </b:row>
+        </b:panel>
+    </b:form>
+</html>

@@ -254,7 +254,6 @@ public final class AntecedenteBean implements Serializable{
     
     public List<Antecedente> getListaExamenesPer() {
         List<Antecedente> j = filtrarPorTipo("1");
-        System.out.println(Arrays.toString(j.toArray()));
         return j;
     }
 

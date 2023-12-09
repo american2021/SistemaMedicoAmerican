@@ -203,7 +203,7 @@ public class PersonaDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
-                "SELECT p FROM datos.Personas p, datos.Usuarios u WHERE  p.perId = u.usuId AND u.rolesRolId IN (1, 2) AND u.usuNombre = '"+ usuario + "'");
+                "SELECT p FROM datos.Personas p, datos.Usuarios u WHERE  p.perId = u.personas.perId AND u.rolesRolId IN (1, 2) AND u.usuNombre = '"+ usuario + "'");
         Personas persona = null;
         if (!query.list().isEmpty()) {
             persona = (Personas) query.list().get(0);

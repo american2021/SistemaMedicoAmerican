@@ -82,6 +82,38 @@ public class HistoriaAntecedenteDAO {
         session.close();
         return historiaAntecedente;
     }
+    
+    /**
+     * Método para recuperar los nombres de los diagnostico de un historial
+     *
+     * @param id_historia
+     * @param id_paciente
+     * @return
+     */
+    public static List<HistoriaAntecedente> recuperarHistorialHistoriaAntecedente(int id_historia, int id_paciente) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("SELECT d FROM HistoriaAntecedente d, Historias h  WHERE h.hisId = d.historias.hisId AND h.personasByPacientePerId ='" + id_paciente + "' AND h.hisId != '"+ id_historia + "'");         
+        List<HistoriaAntecedente> historiaAntecedente= query.list();
+        historiaAntecedente.forEach((historiaAntecedent) -> {
+            historiaAntecedent.getAntecedente().getAntTipo();
+            historiaAntecedent.setAntecedente(historiaAntecedent.getAntecedente());
+            // Recuperar historia
+            Historias aux_histori = historiaAntecedent.getHistorias();
+            // Recuperar persona
+            Personas aux_per = historiaAntecedent.getHistorias().getPersonasByMedicoPerId();
+            // Setear la persona para el campo medico dentro de la entidad historia
+            aux_per.getPerApellidos();
+            aux_histori.setPersonasByMedicoPerId(aux_per);
+            // Setear la historia
+            historiaAntecedent.setHistorias(aux_histori);
+        });
+        session.getTransaction().commit();
+        session.close();
+        return historiaAntecedente;
+    }
+    
+    
     /**
      * Método para recuperar los nombres de los diagnostico personal
      *

@@ -96,6 +96,7 @@ public final class CitaBean implements Serializable{
     private List<Diagnosticos> lista_diagnosticos;
     private List<Diagnosticos> lista_diagnosticos_all;
     private List<HistoriaAntecedente> lista_historia_antecedente;
+    private List<HistoriaAntecedente> lista_historial_historia_antecedente;
     private List<HistoriaTratamiento> lista_historia_tratamiento;
     private List<HistoriaAntecedente> lista_alergias_historia_antecedente;
     private List<HistoriaExamen> lista_historia_examen;
@@ -122,6 +123,7 @@ public final class CitaBean implements Serializable{
     private HistoriaDiagnostico updateHistoriaDiagnostico;
     private HistoriaTratamiento deleteHistoriaTratamiento;
     private List<Examenes> lista_examenes;
+    private Diagnosticos nuevo_diagnostico;
     
     
     private List<String> listaSugerencias = new ArrayList<>();
@@ -134,6 +136,8 @@ public final class CitaBean implements Serializable{
     private Map<Long, Date> editedDateExamen;
     private Map<Long, Boolean> editedCheckExamen;
     private Map<Long, String> editedTipoDiagnostico;
+    private Map<Long, String> editedCondicionDiagnostico;
+    private Map<Long, String> editedCronologiaDiagnostico;
     
     private String descripcionAntecedenteTemp;
     private Boolean realizarExamen;
@@ -190,6 +194,7 @@ public final class CitaBean implements Serializable{
         lista_diagnosticos_all = new ArrayList<>();
         lista_categoria_antecedentes = new ArrayList<>();
         lista_historia_antecedente = new ArrayList<>();
+        lista_historial_historia_antecedente = new ArrayList<>();
         lista_historia_tratamiento = new ArrayList<>();
         lista_alergias_historia_antecedente = new ArrayList<>();
         diagnostico = new Diagnosticos();
@@ -217,6 +222,7 @@ public final class CitaBean implements Serializable{
         nuevo_historia_examen = new HistoriaExamen();
         nuevo_tratamiento = new Tratamientos();
         nuevo_medicamento = new Medicamentos();
+        nuevo_diagnostico = new Diagnosticos();
         inicializarProfesionesYParentescos();
         inicializarCiudades();
         inicializarEstadosCiviles();
@@ -226,6 +232,8 @@ public final class CitaBean implements Serializable{
         editedDescriptionsExamen = new HashMap<>();
         editedDescriptionsDiagnostico = new HashMap<>();
         editedTipoDiagnostico = new HashMap<>();
+        editedCondicionDiagnostico = new HashMap<>();
+        editedCronologiaDiagnostico = new HashMap<>();
         editedDateExamen = new HashMap<>();
         editedCheckExamen = new HashMap<>();
         descripcionAntecedenteTemp = "";
@@ -357,6 +365,15 @@ public final class CitaBean implements Serializable{
      * Método para recuperar los antecedente registrados en la base de una persona
      * @return 
      */
+    public List<HistoriaAntecedente> recuperarHistorialHistoriaAntecedente() {
+        lista_historial_historia_antecedente = HistoriaAntecedenteDAO.recuperarHistorialHistoriaAntecedente(historia.getHisId(), historia.getPersonasByPacientePerId().getPerId());
+        return lista_historial_historia_antecedente;
+    }
+    
+    /**
+     * Método para recuperar los antecedente registrados en la base de una persona
+     * @return 
+     */
     public List<HistoriaTratamiento> recuperarHistoriaTratamiento() {
         lista_historia_tratamiento = HistoriaTratamientoDAO.recuperarHistoriaTratamiento(historia.getHisId());
         return lista_historia_tratamiento;
@@ -453,8 +470,8 @@ public final class CitaBean implements Serializable{
             mensajeDiagnostico = null; // Reset the message if there are diagnoses available
         }
         String historio_diagnostico_codigo[] = getNombre_historia_diagnostico().split(" - ");
-        if (historio_diagnostico_codigo.length == 2) {
-            nuevo_historia_diagnostico = HistoriaDiagnosticoDAO.recuperarHistoriaDiagnosticoListener(historio_diagnostico_codigo[0],historio_diagnostico_codigo[1], historia_actual_id );
+        if (historio_diagnostico_codigo.length == 3) {
+            nuevo_historia_diagnostico = HistoriaDiagnosticoDAO.recuperarHistoriaDiagnosticoListener(historio_diagnostico_codigo[0],historio_diagnostico_codigo[1], historio_diagnostico_codigo[2], historia_actual_id );
         }
         else {
             FacesMessages.info(":growlInfo", "No se ha encontrado el tratamiento", "This is a specific message!");
@@ -775,30 +792,73 @@ public final class CitaBean implements Serializable{
         return diagnosticos != null && diagnosticos.getDiaId() != null  && StringUtils.isNotBlank(editedDescriptionsDiagnostico.get(diagnosticos.getDiaId()));
     }
         
+    private boolean isBlank(String value) {
+        return StringUtils.isBlank(value);
+    }
+    
+    private void addErrorMessage(String clientId, String summary, String detail) {
+        FacesMessages.error(clientId, summary, detail);
+    }
+    private void validarCampo(String clientId, String value, String errorMessage) {
+        if (isBlank(value)) {
+            addErrorMessage(":growlInfo", errorMessage, "This is a specific message!");
+        }
+    }
     /**
      * Método para crear un nuevo Examen
      * @param diagnosticos
      */
     public void crearHistoriaDiagnosticoPrueba(Diagnosticos diagnosticos){
-        
-        nuevo_historia_diagnostico.setDiagnosticos(diagnosticos);
-        nuevo_historia_diagnostico.setHistorias(historia);
-        nuevo_historia_diagnostico.setHisDiaFechaUlt(new Date());
-        nuevo_historia_diagnostico.setHisDiaUsuario(session.getAttribute("usuario").toString());
-        nuevo_historia_diagnostico.setHisDiaObservacion(getEditedDescriptionsDiagnostico().get(diagnosticos.getDiaId()));
-        try {
-            HistoriaDiagnosticoDAO.crearActualizarHistoriaDiagnostico(nuevo_historia_diagnostico);
-//            recuperarNombresHistoriaDiagnosticos();
-            nuevo_historia_diagnostico = new HistoriaDiagnostico();
-            editedDescriptionsDiagnostico = new HashMap<>();
-            setNombre_diagnostico("");
-            recuperarHistoriaDiagnostico();
-            FacesMessages.info(":growlInfo", "Diagnóstico Creado", "This is a specific message!");
-        } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al crear el diagnóstico: "+e.getCause().getMessage(), "This is a specific message!");
+        validarCampo(":growlInfo", editedDescriptionsDiagnostico.get(diagnosticos.getDiaId()), "Error: Ingrese la observación del diagnóstico");
+        validarCampo(":growlInfo", editedTipoDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione el tipo del diagnóstico");
+        validarCampo(":growlInfo", editedCondicionDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione la condición del diagnóstico");
+        validarCampo(":growlInfo", editedCronologiaDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione la cronología del diagnóstico");
+
+        // Si todos los campos están llenos, imprimir un mensaje adicional
+        if (!isBlank(editedDescriptionsDiagnostico.get(diagnosticos.getDiaId()))
+                && !isBlank(editedTipoDiagnostico.get(diagnosticos.getDiaId()))
+                && !isBlank(editedCondicionDiagnostico.get(diagnosticos.getDiaId()))
+                && !isBlank(editedCronologiaDiagnostico.get(diagnosticos.getDiaId()))) {
+            nuevo_historia_diagnostico.setDiagnosticos(diagnosticos);
+            nuevo_historia_diagnostico.setHistorias(historia);
+            nuevo_historia_diagnostico.setHisDiaFechaUlt(new Date());
+            nuevo_historia_diagnostico.setHisDiaUsuario(session.getAttribute("usuario").toString());
+            nuevo_historia_diagnostico.setHisDiaObservacion(getEditedDescriptionsDiagnostico().get(diagnosticos.getDiaId()));
+            nuevo_historia_diagnostico.setHisDiaTipo(getEditedTipoDiagnostico().get(diagnosticos.getDiaId()));
+            nuevo_historia_diagnostico.setHisDiaCondicion(getEditedCondicionDiagnostico().get(diagnosticos.getDiaId()));
+            nuevo_historia_diagnostico.setHisDiaCronologia(getEditedCronologiaDiagnostico().get(diagnosticos.getDiaId()));
+            try {
+                HistoriaDiagnosticoDAO.crearActualizarHistoriaDiagnostico(nuevo_historia_diagnostico);
+                nuevo_historia_diagnostico = new HistoriaDiagnostico();
+                editedDescriptionsDiagnostico = new HashMap<>();
+                editedTipoDiagnostico = new HashMap<>();
+                editedCondicionDiagnostico = new HashMap<>();
+                editedCronologiaDiagnostico = new HashMap<>();
+                recuperarHistoriaDiagnostico();
+                FacesMessages.info(":growlInfo", "Diagnóstico Creado", "This is a specific message!");
+            } catch (Exception e) {
+                FacesMessages.info(":growlInfo", "Error al crear el diagnóstico: "+e.getCause().getMessage(), "This is a specific message!");
+            }
         }
     }
-    
+
+    /**
+     * Método para crear un nuevo diagnóstico CIE 10ma edición
+     */
+    public void crearDiagnosticoCIE10(){
+        nuevo_diagnostico.setDiaEdicionCie("10");
+        nuevo_diagnostico.setDiaFechaUlt(new Date());
+        nuevo_diagnostico.setDiaUsuario(session.getAttribute("usuario").toString());
+        try {
+            DiagnosticoDAO.crearActualizarDiagnostico(nuevo_diagnostico);
+            nuevo_diagnostico = new Diagnosticos();
+            recuperarDiagnosticos();
+            FacesMessages.info(":growlInfo", "Diagnóstico Creado", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.info(":growlInfo", "Error al crear diagnóstico: "+e.getCause().getMessage(), "This is a specific message!");
+        }
+        
+    }
     
     /**
      * Método para crear un nuevo tratamiento CIE 10ma edición
@@ -928,6 +988,7 @@ public final class CitaBean implements Serializable{
         nuevo_historia_tratamiento = new HistoriaTratamiento();
         nuevo_tratamiento = new Tratamientos();
         nuevo_medicamento = new Medicamentos();
+        nuevo_diagnostico = new Diagnosticos();
         editedDescriptions = new HashMap<>(); 
         editedDescriptionsExamen = new HashMap<>();
         editedDescriptionsDiagnostico = new HashMap<>();
@@ -938,9 +999,13 @@ public final class CitaBean implements Serializable{
         updateHistoriaTratamiento = new HistoriaTratamiento();
         updateHistoriaDiagnostico = new HistoriaDiagnostico();
         deleteHistoriaTratamiento = new HistoriaTratamiento();
+        editedTipoDiagnostico = new HashMap<>();
+        editedCondicionDiagnostico = new HashMap<>();
+        editedCronologiaDiagnostico = new HashMap<>();
         this.historia_actual_id = hisId;
         historia = CitaDAO.recuperarHistoriaID(hisId);
         recuperarHistoriaAntecedente();
+        recuperarHistorialHistoriaAntecedente();
         recuperarAlergiasHistoriaAntecedente();
         recuperarHistoriaExamenes();
         recuperarHistorialHistoriaExamenes();
@@ -994,7 +1059,6 @@ public final class CitaBean implements Serializable{
     }
     
     public void prepararActualizacionHistoriaExamen(HistoriaExamen historiaExamenActualizar){
-        System.out.println("historiaExamenActualizar: "+historiaExamenActualizar);
         actualizarHistoriaExamen = historiaExamenActualizar;
     }
     
@@ -1131,6 +1195,41 @@ public final class CitaBean implements Serializable{
                 return "Andrológicos";
             case "4":
                 return "Vacunación";
+            default:
+                return tipo;
+        }
+    }
+    
+    public String formatoTipoDiagostico(String tipo) {
+        switch (tipo) {
+            case "1":
+                return "Morbilidad";
+            case "2":
+                return "Prevención";
+            default:
+                return tipo;
+        }
+    }
+    
+    public String formatoCondicionDiagostico(String tipo) {
+        switch (tipo) {
+            case "1":
+                return "Presuntivo";
+            case "2":
+                return "Definitivo inicial";
+            case "3":
+                return "Definitivo control";
+            default:
+                return tipo;
+        }
+    }
+    
+    public String formatoCronologiaDiagostico(String tipo) {
+        switch (tipo) {
+            case "1":
+                return "Primera";
+            case "2":
+                return "Subsecuente";
             default:
                 return tipo;
         }
@@ -1701,6 +1800,10 @@ public final class CitaBean implements Serializable{
         return lista_historia_antecedente;
     }
 
+    public List<HistoriaAntecedente> getLista_historial_historia_antecedente() {
+        return lista_historial_historia_antecedente;
+    }
+
     public List<HistoriaTratamiento> getLista_historia_tratamiento() {
         return lista_historia_tratamiento;
     }
@@ -1747,6 +1850,14 @@ public final class CitaBean implements Serializable{
 
     public void setNuevo_medicamento(Medicamentos nuevo_medicamento) {
         this.nuevo_medicamento = nuevo_medicamento;
+    }
+
+    public Diagnosticos getNuevo_diagnostico() {
+        return nuevo_diagnostico;
+    }
+
+    public void setNuevo_diagnostico(Diagnosticos nuevo_diagnostico) {
+        this.nuevo_diagnostico = nuevo_diagnostico;
     }
 
     public HistoriaExamen getEliminarHistoriaExamen() {
@@ -1860,6 +1971,22 @@ public final class CitaBean implements Serializable{
 
     public void setEditedTipoDiagnostico(Map<Long, String> editedTipoDiagnostico) {
         this.editedTipoDiagnostico = editedTipoDiagnostico;
+    }
+
+    public Map<Long, String> getEditedCondicionDiagnostico() {
+        return editedCondicionDiagnostico;
+    }
+
+    public void setEditedCondicionDiagnostico(Map<Long, String> editedCondicionDiagnostico) {
+        this.editedCondicionDiagnostico = editedCondicionDiagnostico;
+    }
+
+    public Map<Long, String> getEditedCronologiaDiagnostico() {
+        return editedCronologiaDiagnostico;
+    }
+
+    public void setEditedCronologiaDiagnostico(Map<Long, String> editedCronologiaDiagnostico) {
+        this.editedCronologiaDiagnostico = editedCronologiaDiagnostico;
     }
     
     public Map<Long, Date> getEditedDateExamen() {

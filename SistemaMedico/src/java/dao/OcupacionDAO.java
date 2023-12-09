@@ -28,7 +28,6 @@ public class OcupacionDAO {
         session.beginTransaction();
         Query query = session.createQuery("from Ocupaciones order by ocu_descripcion asc");
         List<Ocupaciones> ocupaciones = query.list();
-        //System.out.println(historias.get(0).getPersonas().getPerApellidos());
         session.getTransaction().commit();
         session.close();
         return ocupaciones;

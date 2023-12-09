@@ -4,39 +4,44 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+    
+    <style>
+        .tipo-columna {
+            width: 100% !important;
+        }
+        .form-group {
+            width: 100% !important;
+        }
+    </style>
 
-<b:panelGrid columns="1">
-    <br/>
+    <b:panelGrid columns="1">
+        <br/>
         <b:dataTable style="width: 100%; margin: 0 auto;" id="antecedanteTabla" value="#{lista}" var="item"
                      responsive="true" content-disabled="false" searching="true"
                      page-length="5" multi-column-search="true" multi-column-search-position="top">
             <b:dataTableColumn label="Categoria" value="#{item.antCategoria}" style="width: 10% !important"/>
             <b:dataTableColumn label="Grupo" value="#{item.antGrupo}" style="width: 10%" />
             <b:dataTableColumn label="Descripción" style="width: 38%; display: inline-block;" >
-                    <b:inputTextarea
+                    <b:inputTextarea styleClass="form-control tipo-columna"
                         value="#{CitaBean.editedDescriptions[item.antId]}" 
                         rows="1" maxlength="2000"
-                        placeholder="Ingrese la descripción del antecedente"
-                        style="width: 600px"/>
+                        placeholder="Ingrese la descripción del antecedente"/>
             </b:dataTableColumn>
 
             <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%"
                                 orderable="false"
                                 searchable="false">
-                <b:row>
-                    <b:column offset="1" span="2">
-                        <b:commandButton id="valoresButton_#{item.antId}"
-                            ajax="true" 
-                            value=" Agregar"
-                            actionListener="#{CitaBean.crearHistoriaAntecedentePrueba(item)}"
-                            tooltip="Guardar cambios" look="success"
-                            update="commentform:modalConfirmacion  commentform:listadoAntecedente :growl"
-                            >
-                            <b:iconAwesome name="save"></b:iconAwesome>
-                        </b:commandButton>
-                    </b:column>
-                </b:row>
+                <b:commandButton id="valoresButton_#{item.antId}"
+                                 style="width: 100%"
+                                 ajax="true" 
+                                 value="&#160; Agregar"
+                                 actionListener="#{CitaBean.crearHistoriaAntecedentePrueba(item)}"
+                                 tooltip="Guardar cambios" look="success"
+                                 update="formAntecedente:panelListaAntecedente  formAntecedente:listadoAntecedente :growl"
+                                 >
+                    <b:iconAwesome name="save"></b:iconAwesome>
+                </b:commandButton>
             </b:dataTableColumn>
         </b:dataTable>
-</b:panelGrid>
+    </b:panelGrid>
 </html>

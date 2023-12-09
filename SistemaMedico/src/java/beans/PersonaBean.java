@@ -349,7 +349,6 @@ public final class PersonaBean implements Serializable {
         //Proceso para guardar historia
         historiaDefaut();
 
-        
         try {
             //Llamada a beans para guardar datos        
             CitaDAO.crearActualizarHistoria(historia);
@@ -389,6 +388,7 @@ public final class PersonaBean implements Serializable {
         historia.setRevisionSistemas(revision);
         historia.setPersonasByPacientePerId(persona);
         historia.setHisCompletado(Byte.valueOf("0"));
+        System.out.println("usuario: "+session.getAttribute("usuario"));
         historia.setPersonasByMedicoPerId(PersonaDAO.recuperarPersonaUsuario(session.getAttribute("usuario").toString()));
     }
 
@@ -595,7 +595,6 @@ public final class PersonaBean implements Serializable {
         List<String> colaboradores = new ArrayList<>();
         Usuarios u = new Usuarios();
         int tipo_usuario;
-        System.out.println("TEST");
         for (Personas p : PersonaDAO.recuperarColaboradores()) {
             System.out.println("p: " + p.getPerUsuario());
             u = (Usuarios) p.getUsuarioses().iterator().next();
