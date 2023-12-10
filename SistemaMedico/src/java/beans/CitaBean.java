@@ -120,6 +120,7 @@ public final class CitaBean implements Serializable{
     private HistoriaExamen eliminarHistoriaExamen;
     private HistoriaExamen actualizarHistoriaExamen;
     private HistoriaTratamiento updateHistoriaTratamiento;
+    private HistoriaAntecedente updateHistoriaAntecedente;
     private HistoriaDiagnostico updateHistoriaDiagnostico;
     private HistoriaTratamiento deleteHistoriaTratamiento;
     private List<Examenes> lista_examenes;
@@ -239,6 +240,7 @@ public final class CitaBean implements Serializable{
         descripcionAntecedenteTemp = "";
         actualizarHistoriaExamen = new HistoriaExamen();
         updateHistoriaTratamiento = new HistoriaTratamiento();
+        updateHistoriaAntecedente = new HistoriaAntecedente();
         updateHistoriaDiagnostico = new HistoriaDiagnostico();
         deleteHistoriaTratamiento = new HistoriaTratamiento();
     }
@@ -997,6 +999,7 @@ public final class CitaBean implements Serializable{
         lista_seleccion_historia_diagnostico = new ArrayList<>();
         lista_seleccion_medicamento = new ArrayList<>();
         updateHistoriaTratamiento = new HistoriaTratamiento();
+        updateHistoriaAntecedente = new HistoriaAntecedente();
         updateHistoriaDiagnostico = new HistoriaDiagnostico();
         deleteHistoriaTratamiento = new HistoriaTratamiento();
         editedTipoDiagnostico = new HashMap<>();
@@ -1073,6 +1076,15 @@ public final class CitaBean implements Serializable{
     }
     
     /**
+     * Método para preparar el antecedente a actualizar
+     *
+     * @param historiaAntecedente
+     */
+    public void prepareUpdateHistoriaAntecedente(HistoriaAntecedente historiaAntecedente){
+        updateHistoriaAntecedente = historiaAntecedente;
+    }
+    
+    /**
      * Método para preparar el tratamiento a actualizar
      *
      * @param historiaDiagnostico
@@ -1123,6 +1135,21 @@ public final class CitaBean implements Serializable{
     }
     
     /**
+     * Método para eliminar el historia antecedente
+     *
+     * @param historiaAntecedente
+     */
+    public void eliminarHistoriaAntecedente(HistoriaAntecedente historiaAntecedente){
+        try {
+            HistoriaAntecedenteDAO.eliminarHistoriaAntecedente(historiaAntecedente);
+            recuperarHistoriaAntecedente();
+            FacesMessages.info(":growlInfo", "Antecedente eliminado", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.info(":growlInfo", "Error al eliminar el antecedente: "+e.getCause().getMessage(), "This is a specific message!");
+        }
+    }
+    
+    /**
      * Método para eliminar el historia examen
      *
      * @param historiaExamen
@@ -1147,6 +1174,21 @@ public final class CitaBean implements Serializable{
             FacesMessages.info(":growlInfo", "Exámen actualizado", "This is a specific message!");
         } catch (Exception e) {
             FacesMessages.error(":growlInfo", "Error al actualizar el exámen: "+e.getCause().getMessage(), "This is a specific message!");
+        }
+    }
+    
+    /**
+     * Método para preparar actualizar el diagnostico
+     *
+     */
+    public void actualizarHistoriaAntecedente(){
+        try {
+            HistoriaAntecedenteDAO.crearActualizarHistoriaAntecedente(updateHistoriaAntecedente);
+            updateHistoriaAntecedente = new HistoriaAntecedente();
+            recuperarHistoriaAntecedente();
+            FacesMessages.info(":growlInfo", "Antecedente actualizado", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.error(":growlInfo", "Error al actualizar el antecedente: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
     
@@ -1884,6 +1926,14 @@ public final class CitaBean implements Serializable{
         this.updateHistoriaTratamiento = updateHistoriaTratamiento;
     }
 
+    public HistoriaAntecedente getUpdateHistoriaAntecedente() {
+        return updateHistoriaAntecedente;
+    }
+
+    public void setUpdateHistoriaAntecedente(HistoriaAntecedente updateHistoriaAntecedente) {
+        this.updateHistoriaAntecedente = updateHistoriaAntecedente;
+    }
+
     public HistoriaDiagnostico getUpdateHistoriaDiagnostico() {
         return updateHistoriaDiagnostico;
     }
@@ -1944,11 +1994,10 @@ public final class CitaBean implements Serializable{
         return editedDescriptions;
     }
 
-
     public void setEditedDescriptions(Map<Long, String> editedDescriptions) {
         this.editedDescriptions = editedDescriptions;
     }
-
+  
     public Map<Long, String> getEditedDescriptionsExamen() {
         return editedDescriptionsExamen;
     }

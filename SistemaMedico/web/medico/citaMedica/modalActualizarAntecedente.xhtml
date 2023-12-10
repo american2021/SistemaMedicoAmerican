@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <b:form id="formUpdateHistoriaAntecedente">
+        <b:panel title="Ingrese la información para actualizar el antecedente del paciente" look="info" collapsible="false" id="panelHistoriaAntecedente">
+            <b:row>
+                <b:column span="4">
+                    <b:row style="margin-left: 1%; margin-right: 1%">
+                        <h:outputLabel value="Tipo:" for="tipo_antecedente" />
+                    </b:row>
+                    <b:row style="margin-left: 1%; margin-right: 1%">
+                        <h:outputText value="#{CitaBean.antecedenteFormato(CitaBean.updateHistoriaAntecedente.antecedente.antTipo)}"
+                                  id="tipo_antecedente" styleClass="form-control">
+                        </h:outputText>
+                    </b:row>
+                </b:column>
+                <b:column span="4">
+                    <b:row style="margin-left: 1%; margin-right: 1%">
+                        <h:outputLabel value="Categoría:" for="categoria_antecedente" />
+                    </b:row>
+                    <b:row style="margin-left: 1%; margin-right: 1%">
+                        <h:outputText value="#{CitaBean.updateHistoriaAntecedente.antecedente.antCategoria}"
+                                  id="categoria_antecedente" styleClass="form-control">
+                        </h:outputText>
+                    </b:row>
+                </b:column>
+                <b:column span="4">
+                    <b:row style="margin-left: 1%; margin-right: 1%">
+                        <h:outputLabel value="Antecedente:" for="grupo_antecedente" />
+                    </b:row>
+                    <b:row style="margin-left: 1%; margin-right: 1%">
+                        <h:outputText value="#{CitaBean.updateHistoriaAntecedente.antecedente.antGrupo}"
+                                  id="grupo_antecedente" styleClass="form-control">
+                        </h:outputText>
+                    </b:row>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="12">
+                    <b:inputTextarea value="#{CitaBean.updateHistoriaAntecedente.hisAntDescripcion}"
+                                 label="Descripción del antecedente"
+                                 placeholder="Describa el antecedente"
+                                 id="descripcion_examen"
+                                 size="13"
+                                 rows="5"
+                                 maxlength="2000"
+                                 ajax="true"
+                                 requiredMessage="Describa el antecedente"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column offset="2" span="4" >
+                    <b:commandButton ajax="true"
+                                     value="Cancelar Antecedente"
+                                     update="formUpdateHistoriaAntecedente :growl "
+                                     oncomplete="$('#modalUpdateAntecedente').modal('hide');"
+                                     tooltip="Cancelar Antecedente" look="danger">
+                        <b:iconAwesome name="fa-trash"></b:iconAwesome>
+                    </b:commandButton>
+                </b:column>
+                <b:column span="4" >
+                    <b:commandButton id="submit" value="Actualizar Antecedente"
+                                    action="#{CitaBean.actualizarHistoriaAntecedente()}"
+                                    look="primary" ajax="true"
+                                    update="formUpdateHistoriaAntecedente panelHistoriaAntecedente :growl"
+                                    oncomplete="$('#modalUpdateAntecedente').modal('hide');" >
+                        <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
+                        <f:ajax event="change" listener="#{CitaBean.actualizarHistoriaAntecedente()}"
+                                render=":formExamenLabIma:listadoExamenPaciente growl"/>
+                    </b:commandButton>
+                </b:column>
+            </b:row>
+        </b:panel>
+    </b:form>
+</html>

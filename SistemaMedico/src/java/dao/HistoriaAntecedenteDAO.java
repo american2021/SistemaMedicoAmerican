@@ -31,6 +31,19 @@ public class HistoriaAntecedenteDAO {
         session.getTransaction().commit();
         session.close();
     }
+    
+    /**
+     * Método para eliminar un historiaAntecedente.
+     *
+     * @param historiaAntecedente
+     */
+    public static void eliminarHistoriaAntecedente(HistoriaAntecedente historiaAntecedente) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(historiaAntecedente);
+        session.getTransaction().commit();
+        session.close();
+    }
 
     /**
      * Método para recuperar historiaAntecedente según su id.

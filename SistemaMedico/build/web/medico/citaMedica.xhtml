@@ -89,11 +89,19 @@
             // Cambiar nombre al boton
             historyDiagnostico.innerHTML = historialVisible ? '&nbsp;Mostrar Historial' : '&nbsp;Mostrar Diagnóstico';
         }
+        
         function confirmarEliminacionTratamiento(descripcion, nombre, indicaciones) {
             var mensaje = '¿Está seguro de que desea eliminar el tratamiento ' + descripcion + ', con el medicamento ' + nombre + ', además las indicaciones ' + indicaciones + ' ?';
             // Confirmar y retornar el resultado
             return confirm(mensaje);
         }
+        
+        function confirmarEliminacionAntecedente(nombre, descripcion) {
+            var mensaje = '¿Está seguro de que desea eliminar el antecedente ' + nombre + ', con la descripción ' + descripcion + ' ?';
+            // Confirmar y retornar el resultado
+            return confirm(mensaje);
+        }
+        
         function confirmarEliminacionDiagnostico(descripcion, observacion) {
             var mensaje = '¿Está seguro de que desea eliminar el diagnóstico ' + descripcion +  ', con la observación ' + observacion +' ?';
             // Confirmar y retornar el resultado
@@ -132,6 +140,10 @@
         <b:modal id="modalAddDiagnostico" title="Crear diagnóstico" closable="true"
                  close-on-escape="true" backdrop="true" size="modal-lg">
             <ui:include src="citaMedica/modalCrearDiagnostico.xhtml" />
+        </b:modal>
+        <b:modal id="modalUpdateAntecedente" title="Actualizar antecedente" closable="true"
+                 close-on-escape="true" backdrop="true" size="modal-lg">
+            <ui:include src="citaMedica/modalActualizarAntecedente.xhtml" />
         </b:modal>
         
 
@@ -332,32 +344,34 @@
                                             <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaAntecedente.hisAntFechaUlt)}" style="width: 5%" />
                                             <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormato(historiaAntecedente.antecedente.antTipo)}" style="width: 5%" />
                                             <b:dataTableColumn label="Categoría" value="#{historiaAntecedente.antecedente.antCategoria}" style="width: 10%" />
-                                            <b:dataTableColumn label="Antecedente" value="#{historiaAntecedente.antecedente.antGrupo}" style="width: 15%" />
+                                            <b:dataTableColumn label="Antecedente" value="#{historiaAntecedente.antecedente.antGrupo}" style="width: 16%" />
                                             <b:dataTableColumn label="Descripción" value="#{historiaAntecedente.hisAntDescripcion}" style="width: 50%" />
-                                            <b:dataTableColumn label="Acciones" style="width: 13%; padding-left: 1%;padding-right: 1% "
-                                                                orderable="false"
-                                                                searchable="false">
-                                                <b:column offset="1" span="0">
+                                            <b:dataTableColumn label="Acciones" style="width: 12%; padding-left: 1%;padding-right: 1% "
+                                                          orderable="false"
+                                                          searchable="false">
+                                                <b:column span="1" offset="0">
                                                     <b:commandButton ajax="true" 
-                                                                     update=":modalActualizarHistoriaExamen :growl"
-                                                                     action="#{CitaBean.prepararActualizacionHistoriaExamen(historiaExamen)}"
-                                                                     oncomplete="$('#modalActualizarHistoriaExamen').modal('show')" 
-                                                                     tooltip="Editar resultado del exámen" look="warning">
-                                                       <b:iconAwesome name="pencil"></b:iconAwesome>
-                                                   </b:commandButton>
+                                                                    update="modalUpdateAntecedente :growl"
+                                                                    action="#{CitaBean.prepareUpdateHistoriaAntecedente(historiaAntecedente)}"
+                                                                    oncomplete="$('#modalUpdateAntecedente').modal('show')" 
+                                                                    tooltip="Editar antecedente" 
+                                                                    look="warning">
+                                                        <b:iconAwesome name="pencil"></b:iconAwesome>
+                                                    </b:commandButton>
                                                 </b:column>
                                                 <b:column offset="1" span="2">
                                                     <b:commandButton ajax="true"
-                                                                     update="formExamenLabIma:listadoExamenPaciente :growl"
-                                                                     tooltip="Eliminar exámen"
-                                                                     onclick="return confirmarEliminacionExamen('#{historiaExamen.examenes.exaGrupo}','#{historiaExamen.hisExaDescripcion}');"                                                                 look="danger">
+                                                                     update="panelListaAntecedente :growl"
+                                                                     tooltip="Eliminar amtecedente"
+                                                                     onclick="return confirmarEliminacionAntecedente('#{historiaAntecedente.antecedente.antGrupo}', '#{historiaAntecedente.hisAntDescripcion}');"
+                                                                     look="danger">
                                                         <b:iconAwesome name="trash"></b:iconAwesome>
                                                         <f:ajax execute="@this"
-                                                                render="formExamenLabIma:listadoExamenPaciente :growl"
-                                                                listener="#{CitaBean.eliminarHistoriaExamen(historiaExamen)}"/>
+                                                                render="formAntecedente:panelListaAntecedente :growl"
+                                                                listener="#{CitaBean.eliminarHistoriaAntecedente(historiaAntecedente)}"/>
                                                     </b:commandButton>
                                                 </b:column>
-                                            </b:dataTableColumn>
+                                           </b:dataTableColumn>
                                         </b:dataTable>
                                     </b:panel>
                                     <b:panel title="Historial de antecedentes del paciente" look="info" collapsible="false" id="panelListaHistoriaAntecedente">
