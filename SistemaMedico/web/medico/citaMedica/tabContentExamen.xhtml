@@ -4,6 +4,19 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+    
+    <style>
+        .tipo-columna {
+            width: 100% !important;
+        }
+        .form-group {
+            width: 100% !important;
+        }
+        .form-inline .radio label, .form-inline .checkbox label{
+            padding-left: auto;
+            align-content: center !important;
+        }
+    </style>
 
     <b:panelGrid columns="1">
         <br/>
@@ -12,43 +25,49 @@
                      page-length="5" multi-column-search="true" multi-column-search-position="top">
             <b:dataTableColumn label="Grupo" value="#{item.exaGrupo}" style="width: 15%" />
             <b:dataTableColumn label="Fecha del exámen" style="width: 15%">
-                <b:dateTimePicker
-                    id="exa_fecha"
-                    format="DD/MM/YYYY"
-                    locale="en"
-                    value="#{CitaBean.editedDateExamen[item.exaId]}" >
+                <b:dateTimePicker format="DD/MM/YYYY"
+                                  locale="en"
+                                  value="#{CitaBean.editedDateExamen[item.exaId]}" >
                 </b:dateTimePicker>
             </b:dataTableColumn>
-            <b:dataTableColumn label="¿Realizar exámen?" style="width: 15%"> 
-                <b:selectBooleanCheckbox 
-                    id="carnEstua"
-                    value="#{CitaBean.editedCheckExamen[item.exaId]}"
-                    style="width: 25px; height: 25px;"/>
+            <b:dataTableColumn label="¿Realizar exámen?" style="width: 6%; text-align: center;"
+                               orderable="false"
+                               searchable="false">
+                <b:selectBooleanCheckbox id="selec_#{item.exaId}"
+                                         value="#{CitaBean.editedCheckExamen[item.exaId]}"
+                                         style="width: 25px; height: 25px;">
+                    <f:ajax event="change" execute="@this"
+            render="@form" />
+                </b:selectBooleanCheckbox>
             </b:dataTableColumn>
-            <b:dataTableColumn label="Descripción" style="width: 38%; display: inline-block;" >
-                <b:inputTextarea
-                    value="#{CitaBean.editedDescriptionsExamen[item.exaId]}" 
-                    rows="1" maxlength="2000"
-                    placeholder="Ingrese la descripción del antecedente"
-                    style="width: 600px"/>
+            <b:dataTableColumn label="Indicación" style="width: 25%; display: inline-block;" >
+                <b:inputTextarea id="indicacion_#{item.exaId}" styleClass="form-control tipo-columna"
+                                 value="#{CitaBean.editedIndicacionesExamen[item.exaId]}"
+                                 rows="1" maxlength="2000"
+                                 placeholder="Ingrese las indicaciones del examen"
+                                 disabled="#{not CitaBean.editedCheckExamen[item.exaId]}"/>
             </b:dataTableColumn>
-
-            <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%"
-                                orderable="false"
-                                searchable="false">
-                <b:row>
-                    <b:column offset="1" span="2">
-                        <b:commandButton id="valoresButton_#{item.antId}"
-                            ajax="true" 
-                            value=" Agregar"
-                            actionListener="#{CitaBean.crearHistoriaExamenPrueba(item)}"
-                            tooltip="Guardar cambios" look="success"
-                            update="formExamenLabIma:listadoExamenes formExamenLabIma:listadoExamenPaciente :growl"
-                            >
-                            <b:iconAwesome name="save"></b:iconAwesome>
-                        </b:commandButton>
-                    </b:column>
-                </b:row>
+            <b:dataTableColumn label="Descripción" style="width: 25%; display: inline-block;" >
+                <b:inputTextarea id="descripcion_#{item.exaId}" styleClass="form-control tipo-columna"
+                                 value="#{CitaBean.editedDescriptionsExamen[item.exaId]}"
+                                 rows="1" maxlength="2000"
+                                 placeholder="#{CitaBean.editedCheckExamen[item.exaId] ? 'Sin resultados' : 'Ingrese la descripción del examen'}"
+                                 disabled="#{CitaBean.editedCheckExamen[item.exaId]}"/>
+            </b:dataTableColumn>
+            <b:dataTableColumn label="Acciones"
+                               style="width: 12%;padding-left: 1%;padding-right: 1%"                             
+                               orderable="false"
+                               searchable="false">
+                <b:commandButton id="valoresButton_#{item.antId}"
+                                 style="width: 100%"
+                                 ajax="true" 
+                                 value=" Agregar"
+                                 actionListener="#{CitaBean.crearHistoriaExamenPrueba(item)}"
+                                 tooltip="Guardar cambios"
+                                 update="formExamenLabIma:listadoExamenes formExamenLabIma:listadoExamenPaciente :growl"
+                                 look="success">
+                    <b:iconAwesome name="save"></b:iconAwesome>
+                </b:commandButton>
             </b:dataTableColumn>
         </b:dataTable>
     </b:panelGrid>

@@ -134,6 +134,7 @@ public final class CitaBean implements Serializable{
     private Map<Long, String> editedDescriptions;
     private Map<Long, String> editedDescriptionsExamen;
     private Map<Long, String> editedDescriptionsDiagnostico;
+    private Map<Long, String> editedIndicacionesExamen;
     private Map<Long, Date> editedDateExamen;
     private Map<Long, Boolean> editedCheckExamen;
     private Map<Long, String> editedTipoDiagnostico;
@@ -232,6 +233,7 @@ public final class CitaBean implements Serializable{
         editedDescriptions = new HashMap<>();
         editedDescriptionsExamen = new HashMap<>();
         editedDescriptionsDiagnostico = new HashMap<>();
+        editedIndicacionesExamen = new HashMap<>();
         editedTipoDiagnostico = new HashMap<>();
         editedCondicionDiagnostico = new HashMap<>();
         editedCronologiaDiagnostico = new HashMap<>();
@@ -738,13 +740,53 @@ public final class CitaBean implements Serializable{
      * @param examens
      */
     public void crearHistoriaExamenPrueba(Examenes examens){
-        if (getEditedDateExamen().get(examens.getExaId() ) != null) {
-            if (validarExamen(examens)) {
-                nuevo_historia_examen.setExamenes(examens);
+        System.out.println("");
+        if (getEditedDateExamen().get(examens.getExaId() ) == null &&
+                StringUtils.isBlank(getEditedDescriptionsExamen().get(examens.getExaId()))) {
+            FacesMessages.error(":growlInfo", "Error: El campo de fecha del exámen no puede estar vacío.", "This is a specific message!");
+            FacesMessages.error(":growlInfo", "Error: El campo de descripción no puede estar vacío.", "This is a specific message!");
+        } else
+            if(getEditedDateExamen().get(examens.getExaId() ) == null &&
+                StringUtils.isBlank(getEditedIndicacionesExamen().get(examens.getExaId()))
+                ){
+            FacesMessages.error(":growlInfo", "Error: El campo de fecha del exámen no puede estar vacío.", "This is a specific message!");
+            FacesMessages.error(":growlInfo", "Error: El campo de indicaciones no puede estar vacío.", "This is a specific message!");
+        }
+        
+        if (StringUtils.isNotBlank(getEditedIndicacionesExamen().get(examens.getExaId())) &&
+                getEditedCheckExamen().get(examens.getExaId())) {
+            System.out.println("entra"); 
+        } else {
+            FacesMessages.error(":growlInfo", "Error: El campo de indicaciones no puede estar vacío.", "This is a specific message!");
+
+        }
+        if (StringUtils.isNotBlank(getEditedDescriptionsExamen().get(examens.getExaId())) &&
+                !getEditedCheckExamen().get(examens.getExaId())) {
+            System.out.println("entra"); 
+        } else {
+            FacesMessages.error(":growlInfo", "Error: El campo de descripción no puede estar vacío.", "This is a specific message!");
+
+        }
+        
+//        if (getEditedDateExamen().get(examens.getExaId() ) != null) {
+//            if (validarExamen(examens)) {
+//                
+//            } else {
+//                FacesMessages.error(":growlInfo", "Error: El campo de descripción no puede estar vacío.", "This is a specific message!");
+//            }
+//        } else {
+//            FacesMessages.error(":growlInfo", "Error: El campo de fecha del exámen no puede estar vacío.", "This is a specific message!");
+//
+//        }
+    }
+    
+    public void crearhisexa(Examenes examens){
+        nuevo_historia_examen.setExamenes(examens);
                 nuevo_historia_examen.setHistorias(historia);
                 nuevo_historia_examen.setHisExaFechaUlt(new Date());
                 nuevo_historia_examen.setHisExaUsuario(session.getAttribute("usuario").toString());
                 nuevo_historia_examen.setHisExaCompletado(getEditedCheckExamen().get(examens.getExaId()) ? Byte.parseByte("0") : Byte.parseByte("1"));
+                nuevo_historia_examen.setHisExaIndicaciones(getEditedCheckExamen().get(examens.getExaId()) ? "Sin indicaciones"  : getEditedIndicacionesExamen().get(examens.getExaId()));
                 nuevo_historia_examen.setHisExaDescripcion(getEditedCheckExamen().get(examens.getExaId()) ? "Sin resultado"  : getEditedDescriptionsExamen().get(examens.getExaId()));
                 nuevo_historia_examen.setHisExaFecha(getEditedDateExamen().get(examens.getExaId()));
                 try {
@@ -761,13 +803,6 @@ public final class CitaBean implements Serializable{
                 } catch (Exception e) {
                     FacesMessages.info(":growlInfo", "Error al crear el exámen: "+e.getCause().getMessage(), "This is a specific message!");
                 }
-            } else {
-                FacesMessages.error(":growlInfo", "Error: El campo de descripción no puede estar vacío.", "This is a specific message!");
-            }
-        } else {
-            FacesMessages.error(":growlInfo", "Error: El campo de fecha del exámen no puede estar vacío.", "This is a specific message!");
-
-        }
     }
     
     /**
@@ -994,6 +1029,7 @@ public final class CitaBean implements Serializable{
         editedDescriptions = new HashMap<>(); 
         editedDescriptionsExamen = new HashMap<>();
         editedDescriptionsDiagnostico = new HashMap<>();
+        editedIndicacionesExamen = new HashMap<>();
         editedCheckExamen = new HashMap<>();
         editedDateExamen = new HashMap<>();
         lista_seleccion_historia_diagnostico = new ArrayList<>();
@@ -2012,6 +2048,14 @@ public final class CitaBean implements Serializable{
 
     public void setEditedDescriptionsDiagnostico(Map<Long, String> editedDescriptionsDiagnostico) {
         this.editedDescriptionsDiagnostico = editedDescriptionsDiagnostico;
+    }
+
+    public Map<Long, String> getEditedIndicacionesExamen() {
+        return editedIndicacionesExamen;
+    }
+
+    public void setEditedIndicacionesExamen(Map<Long, String> editedIndicacionesExamen) {
+        this.editedIndicacionesExamen = editedIndicacionesExamen;
     }
 
     public Map<Long, String> getEditedTipoDiagnostico() {
