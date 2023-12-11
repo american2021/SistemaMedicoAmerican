@@ -50,4 +50,28 @@ public class SignosDAO {
         session.close();
         return signos;
     }
+    
+    /**
+     * Método para recuperar el ultimo signos según el paciente.
+     *
+     * @param id_persona
+     * @return
+     */
+    public static Signos recuperarUltimoSignoPaciente(int id_persona) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+//        select s.* from historias h, signos s where h.signos_sig_id = s.sig_id and paciente_per_id = 18 order by his_fecha_ult desc limit 1;
+        Query query = session.createQuery("SELECT s FROM Historias h, Signos s WHERE h.signos.sigId = s.sigId and h.personasByPacientePerId.perId = '" + id_persona + "' order by h.hisFechaUlt desc");
+        query.setMaxResults(1);
+        Signos signos = null;
+        if (!query.list().isEmpty()) {
+
+            signos = (Signos) query.uniqueResult();
+
+        }
+        session.getTransaction().commit();
+        session.close();
+        return signos;
+    }
 }

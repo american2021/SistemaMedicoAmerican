@@ -36,8 +36,7 @@
                 <b:selectBooleanCheckbox id="selec_#{item.exaId}"
                                          value="#{CitaBean.editedCheckExamen[item.exaId]}"
                                          style="width: 25px; height: 25px;">
-                    <f:ajax event="change" execute="@this"
-            render="@form" />
+                    <f:ajax event="change" execute="@this" render="@form" />
                 </b:selectBooleanCheckbox>
             </b:dataTableColumn>
             <b:dataTableColumn label="Indicación" style="width: 25%; display: inline-block;" >
@@ -61,7 +60,7 @@
                 <b:commandButton id="valoresButton_#{item.antId}"
                                  style="width: 100%"
                                  ajax="true" 
-                                 value=" Agregar"
+                                 value="&#160; Agregar"
                                  actionListener="#{CitaBean.crearHistoriaExamenPrueba(item)}"
                                  tooltip="Guardar cambios"
                                  update="formExamenLabIma:listadoExamenes formExamenLabIma:listadoExamenPaciente :growl"

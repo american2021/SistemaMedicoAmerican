@@ -323,6 +323,19 @@ public final class PersonaBean implements Serializable {
     }
 
     public String guardarDatosHistoriaInicial() {
+        System.out.println("historia"+persona.getPerApellidos());
+        
+        Signos ultimoSignos = SignosDAO.recuperarUltimoSignoPaciente(persona.getPerId());
+        System.out.println("ultimos signos"+ultimoSignos.getSigId());
+        if (ultimoSignos.getSigId() != null) {
+            signos.setSigPeso(ultimoSignos.getSigPeso());
+            signos.setSigEstatura(ultimoSignos.getSigEstatura());
+            signos.setSigImc(ultimoSignos.getSigImc());
+        } else {
+            signos.setSigPeso(0f);
+            signos.setSigEstatura(0f);
+            signos.setSigImc(0);
+        }
         signos.setSigPresionSistolica(0);
         signos.setSigPresionDiastolica(0);
         signos.setSigPresionArterialMedia(0);
@@ -330,9 +343,6 @@ public final class PersonaBean implements Serializable {
         signos.setSigFrecuenciaRespiratoria(0);
         signos.setSigFrecuenciaCardiaca(0);
         signos.setSigSaturacion(0);
-        signos.setSigPeso(0f);
-        signos.setSigEstatura(0f);
-        signos.setSigImc(0);
         signos.setSigPerimetroAbdominal(0f);
         signos.setSigPerimetroBrazo(0f);
         signos.setSigGlucosaCapilar(0f);

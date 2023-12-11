@@ -264,38 +264,51 @@
 
                     <b:column span="10">
                         <!-- Your left-aligned content goes here -->
-                        <b:panelGrid columns="1" id="panel6">
+                        <b:panelGrid columns="1" id="panel1">
                             <b:panel span="12" offset="0">
-                                <h3>
-                                    <b>Historia Clínica</b>
-                                </h3>
-                                <b:panel title="Historia clínica" look="info" collapsible="false">
-                                    <b:row>
-                                        <b:column span="5">
-                                            <b:inputTextarea label="Motivo de la consulta"
-                                                         placeholder="Motivo consulta"
-                                                         id="motivo_consulta"
-                                                         size="13"
-                                                         rows="5"
-                                                         maxlength="100"
-                                                         value="#{CitaBean.historia.hisMotivo}"
-                                                         required="true"
-                                                         requiredMessage="Describa el motivo de consulta"/>
-                                        </b:column>     
-                                        <b:column span="7">
-                                            <b:inputTextarea label="Enfermedad actual"
-                                                        placeholder="Describa la enfermedad"
-                                                        id="nomEnfermedadActual"
-                                                        size="13"
-                                                        rows="5"
-                                                        maxlength="3000"
-                                                        value="#{CitaBean.historia.hisEnfermedad}"
-                                                        required="true"
-                                                        requiredMessage="Describa la enfermedad actual"/>
-                                        </b:column>
-                                    </b:row>
+                                <b:form id="formHistoriaClinica">
+                                    <h3>
+                                        <b>Historia Clínica</b>
+                                    </h3>
+                                    <b:panel title="Historia clínica" look="info" collapsible="false">
+                                        <b:row>
+                                            <b:column span="5">
+                                                <b:inputTextarea label="Motivo de la consulta"
+                                                             placeholder="Motivo consulta"
+                                                             id="motivo_consulta"
+                                                             size="13"
+                                                             rows="5"
+                                                             maxlength="100"
+                                                             value="#{CitaBean.historia.hisMotivo}"
+                                                             required="true"
+                                                             requiredMessage="Describa el motivo de consulta"/>
+                                            </b:column>     
+                                            <b:column span="7">
+                                                <b:inputTextarea label="Enfermedad actual"
+                                                            placeholder="Describa la enfermedad"
+                                                            id="nomEnfermedadActual"
+                                                            size="13"
+                                                            rows="5"
+                                                            maxlength="3000"
+                                                            value="#{CitaBean.historia.hisEnfermedad}"
+                                                            required="true"
+                                                            requiredMessage="Describa la enfermedad actual"/>
+                                            </b:column>
+                                        </b:row>
 
-                                </b:panel>
+                                        <b:row>
+                                            <b:column span="12" class="text-center">
+                                                <b:commandButton ajax="true"
+                                                                value="&nbsp; Guardar Historia Clínica"
+                                                                action="#{CitaBean.actualizarHistoriaPrueba()}"
+                                                                onclick="showPanel('panel2');"
+                                                                tooltip="Crear exámenes" look="primary">
+                                                    <b:iconAwesome name="plus"></b:iconAwesome>
+                                                </b:commandButton>
+                                            </b:column>
+                                        </b:row>
+                                    </b:panel>
+                                </b:form>
                             </b:panel>
                         </b:panelGrid>
                         <b:panelGrid columns="1" id="panel2">
@@ -430,7 +443,7 @@
                                 </b:panel>
                             </b:panel>
                         </b:panelGrid>
-                        <b:panelGrid columns="1" id="panel1" span="12" offset="0">
+                        <b:panelGrid columns="1" id="panel6" span="12" offset="0">
                             <h:form id="formExamenLabIma">
                                 <h3 id="reply-title">
                                     <b>Exámenes</b>
@@ -467,17 +480,15 @@
                                 <b:panel title="Exámenes de laboratorio e imagen" look="info" collapsible="false" id="listadoExamenPaciente" span="12">
                                     <b:dataTable large-screen="full-width" id="examenesTabla" value="#{CitaBean.lista_historia_examen}" var="historiaExamen" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
                                        page-length="7" multi-column-search="true" multi-column-search-position="top" >
-                                        
-                                        <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.hisExaFechaUlt)}" style="width: 5%" />
                                         <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormatoExamen(historiaExamen.examenes.exaTipo)}" style="width: 10%" />
                                         <b:dataTableColumn label="Exámen" value="#{historiaExamen.examenes.exaGrupo}" style="width: 15%" />
                                         <b:dataTableColumn label="Fecha Exámen" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.hisExaFecha)}" style="width: 5%" />
-                                        <b:dataTableColumn label="Resultado" value="#{historiaExamen.hisExaDescripcion}" style="width: 35%; height: 10%;" />
-                                        <b:dataTableColumn label="Doctor" orderable="false" searchable="false" value="#{historiaExamen.historias.personasByMedicoPerId.perApellidos} #{historiaExamen.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
-                                        <b:dataTableColumn label="Acciones" style="width: 10%; padding-left: 1%;padding-right: 1% "
-                                                           orderable="false"
-                                                           searchable="false">
-                                            <b:column offset="1" span="0" rendered="#{historiaExamen.hisExaCompletado eq '0' }">
+                                        <b:dataTableColumn label="Indicaciones" value="#{historiaExamen.hisExaIndicaciones}" style="width: 28%;" />
+                                        <b:dataTableColumn label="Resultado" value="#{historiaExamen.hisExaDescripcion}" style="width: 28%;" />
+                                        <b:dataTableColumn label="Acciones" style="width: 12%; padding-left: 1%;padding-right: 1% "
+                                                          orderable="false"
+                                                          searchable="false">
+                                            <b:column span="1" offset="0">
                                                 <b:commandButton ajax="true" 
                                                                  update=":modalActualizarHistoriaExamen :growl"
                                                                  action="#{CitaBean.prepararActualizacionHistoriaExamen(historiaExamen)}"

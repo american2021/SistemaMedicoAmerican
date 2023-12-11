@@ -42,7 +42,18 @@
                 </b:column>
             </b:row>
             <b:row>
-                <b:column span="12">
+                <b:column span="6">
+                    <b:inputTextarea value="#{CitaBean.actualizarHistoriaExamen.hisExaIndicaciones}"
+                                 label="Indicaciones de exámen"
+                                 placeholder="Describa la indicacion del exámen"
+                                 id="indicacion__examen"
+                                 size="13"
+                                 rows="5"
+                                 maxlength="2000"
+                                 ajax="true"
+                                 requiredMessage="Describa la indicacion del examen"/>
+                </b:column>
+                <b:column span="6">
                     <b:inputTextarea value="#{CitaBean.actualizarHistoriaExamen.hisExaDescripcion}"
                                  label="Resultado de exámen"
                                  placeholder="Describa el resultado del exámen"

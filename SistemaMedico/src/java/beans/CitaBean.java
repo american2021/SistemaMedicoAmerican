@@ -272,6 +272,15 @@ public final class CitaBean implements Serializable{
     }
     
     /**
+     * Método para actualizar la cita
+     */
+    public void actualizarHistoriaPrueba(){
+        CitaDAO.crearActualizarHistoriaConDatos(historia);
+//        FacesMessages.info(":growlInfo", "Sistemas Digestivo"+historia.getRevisionSistemas().getRevSisDigestivo(), "This is a specific message!");
+        //FacesMessages.info(":growlInfo", "Se han actualizado la historia clínica", "This is a specific message!");
+    }
+    
+    /**
      * Método para recuperar todas las historias (En caso de estar logueado
      * como médico, recuperará únicamente las historias asignadas a ese médico)
      */
@@ -734,75 +743,75 @@ public final class CitaBean implements Serializable{
     private boolean validarExamen(Examenes examenes) {
         return examenes != null && examenes.getExaId() != null && getEditedCheckExamen().get(examenes.getExaId()) ? StringUtils.isBlank(editedDescriptionsExamen.get(examenes.getExaId())) :StringUtils.isNotBlank(editedDescriptionsExamen.get(examenes.getExaId()));
     }
+    
+    private boolean validarExamen1(Examenes examenes) {
+        return examenes != null && examenes.getExaId() != null && !getEditedCheckExamen().get(examenes.getExaId()) ? StringUtils.isBlank(editedIndicacionesExamen.get(examenes.getExaId())) :StringUtils.isNotBlank(editedIndicacionesExamen.get(examenes.getExaId()));
+    }
 
     /**
      * Método para crear un nuevo Historia Examen
      * @param examens
      */
     public void crearHistoriaExamenPrueba(Examenes examens){
-        System.out.println("");
+        
         if (getEditedDateExamen().get(examens.getExaId() ) == null &&
+                !getEditedCheckExamen().get(examens.getExaId()) &&
                 StringUtils.isBlank(getEditedDescriptionsExamen().get(examens.getExaId()))) {
             FacesMessages.error(":growlInfo", "Error: El campo de fecha del exámen no puede estar vacío.", "This is a specific message!");
             FacesMessages.error(":growlInfo", "Error: El campo de descripción no puede estar vacío.", "This is a specific message!");
         } else
             if(getEditedDateExamen().get(examens.getExaId() ) == null &&
-                StringUtils.isBlank(getEditedIndicacionesExamen().get(examens.getExaId()))
+                    getEditedCheckExamen().get(examens.getExaId()) &&
+                    StringUtils.isBlank(getEditedIndicacionesExamen().get(examens.getExaId()))
                 ){
             FacesMessages.error(":growlInfo", "Error: El campo de fecha del exámen no puede estar vacío.", "This is a specific message!");
             FacesMessages.error(":growlInfo", "Error: El campo de indicaciones no puede estar vacío.", "This is a specific message!");
         }
-        
-        if (StringUtils.isNotBlank(getEditedIndicacionesExamen().get(examens.getExaId())) &&
-                getEditedCheckExamen().get(examens.getExaId())) {
-            System.out.println("entra"); 
-        } else {
-            FacesMessages.error(":growlInfo", "Error: El campo de indicaciones no puede estar vacío.", "This is a specific message!");
 
-        }
-        if (StringUtils.isNotBlank(getEditedDescriptionsExamen().get(examens.getExaId())) &&
-                !getEditedCheckExamen().get(examens.getExaId())) {
-            System.out.println("entra"); 
+        if (getEditedDateExamen().get(examens.getExaId() ) != null) {
+            if(!getEditedCheckExamen().get(examens.getExaId())){
+                if (validarExamen(examens)) {
+                    crearHisExa(examens);
+                } else {
+                    FacesMessages.error(":growlInfo", "Error: El campo de descripción no puede estar vacío.", "This is a specific message!");
+                }
+ 
+            } else {
+                if (validarExamen1(examens)) {
+                    crearHisExa(examens);
+                } else {
+                    FacesMessages.error(":growlInfo", "Error: El campo de indicaciones no puede estar vacío.", "This is a specific message!");
+                }
+            }
         } else {
-            FacesMessages.error(":growlInfo", "Error: El campo de descripción no puede estar vacío.", "This is a specific message!");
-
+            FacesMessages.error(":growlInfo", "Error: El campo de fecha del exámen no puede estar vacío.", "This is a specific message!");
         }
-        
-//        if (getEditedDateExamen().get(examens.getExaId() ) != null) {
-//            if (validarExamen(examens)) {
-//                
-//            } else {
-//                FacesMessages.error(":growlInfo", "Error: El campo de descripción no puede estar vacío.", "This is a specific message!");
-//            }
-//        } else {
-//            FacesMessages.error(":growlInfo", "Error: El campo de fecha del exámen no puede estar vacío.", "This is a specific message!");
-//
-//        }
     }
     
-    public void crearhisexa(Examenes examens){
+    public void crearHisExa(Examenes examens){
         nuevo_historia_examen.setExamenes(examens);
-                nuevo_historia_examen.setHistorias(historia);
-                nuevo_historia_examen.setHisExaFechaUlt(new Date());
-                nuevo_historia_examen.setHisExaUsuario(session.getAttribute("usuario").toString());
-                nuevo_historia_examen.setHisExaCompletado(getEditedCheckExamen().get(examens.getExaId()) ? Byte.parseByte("0") : Byte.parseByte("1"));
-                nuevo_historia_examen.setHisExaIndicaciones(getEditedCheckExamen().get(examens.getExaId()) ? "Sin indicaciones"  : getEditedIndicacionesExamen().get(examens.getExaId()));
-                nuevo_historia_examen.setHisExaDescripcion(getEditedCheckExamen().get(examens.getExaId()) ? "Sin resultado"  : getEditedDescriptionsExamen().get(examens.getExaId()));
-                nuevo_historia_examen.setHisExaFecha(getEditedDateExamen().get(examens.getExaId()));
-                try {
-                    HistoriaExamenDAO.crearActualizarHistoriaExamen(nuevo_historia_examen);
-                    nuevo_historia_examen = new HistoriaExamen();
-                    editedDescriptionsExamen = new HashMap<>();
-                    editedCheckExamen = new HashMap<>();
-                    editedDateExamen = new HashMap<>();
-                    realizarExamen = false;
-                    examenes = new Examenes();
-                    setNombre_examen("");
-                    recuperarHistoriaExamenes();
-                    FacesMessages.info(":growlInfo", "Exámen Creado", "This is a specific message!");
-                } catch (Exception e) {
-                    FacesMessages.info(":growlInfo", "Error al crear el exámen: "+e.getCause().getMessage(), "This is a specific message!");
-                }
+        nuevo_historia_examen.setHistorias(historia);
+        nuevo_historia_examen.setHisExaFechaUlt(new Date());
+        nuevo_historia_examen.setHisExaUsuario(session.getAttribute("usuario").toString());
+        nuevo_historia_examen.setHisExaCompletado(getEditedCheckExamen().get(examens.getExaId()) ? Byte.parseByte("0") : Byte.parseByte("1"));
+        nuevo_historia_examen.setHisExaIndicaciones(!getEditedCheckExamen().get(examens.getExaId()) ? "Sin indicaciones"  : getEditedIndicacionesExamen().get(examens.getExaId()));
+        nuevo_historia_examen.setHisExaDescripcion(getEditedCheckExamen().get(examens.getExaId()) ? "Sin resultado"  : getEditedDescriptionsExamen().get(examens.getExaId()));
+        nuevo_historia_examen.setHisExaFecha(getEditedDateExamen().get(examens.getExaId()));
+        try {
+            HistoriaExamenDAO.crearActualizarHistoriaExamen(nuevo_historia_examen);
+            nuevo_historia_examen = new HistoriaExamen();
+            editedDescriptionsExamen = new HashMap<>();
+            editedIndicacionesExamen = new HashMap<>();
+            editedCheckExamen = new HashMap<>();
+            editedDateExamen = new HashMap<>();
+            realizarExamen = false;
+            examenes = new Examenes();
+            setNombre_examen("");
+            recuperarHistoriaExamenes();
+            FacesMessages.info(":growlInfo", "Exámen Creado", "This is a specific message!");
+        } catch (Exception e) {
+            FacesMessages.info(":growlInfo", "Error al crear el exámen: "+e.getCause().getMessage(), "This is a specific message!");
+        }
     }
     
     /**
@@ -1202,7 +1211,7 @@ public final class CitaBean implements Serializable{
     
     public void actualizarExamen(){
         try {
-            actualizarHistoriaExamen.setHisExaCompletado(Byte.parseByte("1"));
+            actualizarHistoriaExamen.setHisExaCompletado(actualizarHistoriaExamen.getHisExaDescripcion().contains("Sin resultado") ? Byte.parseByte("0") : Byte.parseByte("1"));
             HistoriaExamenDAO.crearActualizarHistoriaExamen(actualizarHistoriaExamen);
             actualizarHistoriaExamen = new HistoriaExamen();
             recuperarHistoriaExamenes();
