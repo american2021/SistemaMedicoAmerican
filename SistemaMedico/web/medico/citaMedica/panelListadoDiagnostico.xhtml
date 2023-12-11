@@ -5,6 +5,14 @@
       xmlns:my="http://java.sun.com/jsf/composite/recursos"
       xmlns:p="http://primefaces.org/ui">
     
+    <style>
+        .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{
+            font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+            font-size: 14px !important;
+            line-height: 1.428571429 !important;
+        }
+    </style>
+    
     <b:panelGrid columns="1">
         <b:row>
             <b:column span="12" class="text-center">
@@ -21,7 +29,7 @@
         <br/>
         <p:outputPanel id="panelContainerDiagnostico">
             <b:panel title="Diagnóstico" look="info" collapsible="false" id="listadoDiagnosticoPaciente" span="12" rendered="#{CitaBean.visibleDiagnostico}">
-                <b:dataTable large-screen="full-width" id="historiaDiagnosticoTabla" value="#{CitaBean.lista_historia_diagnostico}" var="historiaDiagnostico" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                <b:dataTable large-screen="full-width" id="historiaDiagnosticoTabla2" value="#{CitaBean.lista_historia_diagnostico}" var="historiaDiagnostico" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
                     page-length="7" multi-column-search="true" multi-column-search-position="top" >
                     <b:dataTableColumn label="Código" value="#{CitaBean.antecedenteFormatoExamen(historiaDiagnostico.diagnosticos.diaCodigoCie)}" style="width: 5%" />
                     <b:dataTableColumn label="Descripción" value="#{historiaDiagnostico.diagnosticos.diaDescripcionCie}" style="width: 20%" />

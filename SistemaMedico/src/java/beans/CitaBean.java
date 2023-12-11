@@ -62,7 +62,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -138,6 +137,8 @@ public final class CitaBean implements Serializable{
     private Map<Long, String> editedTipoDiagnostico;
     private Map<Long, String> editedCondicionDiagnostico;
     private Map<Long, String> editedCronologiaDiagnostico;
+    
+    private Map<String, Boolean> menuPanel;
     
     private String descripcionAntecedenteTemp;
     private Boolean realizarExamen;
@@ -241,6 +242,7 @@ public final class CitaBean implements Serializable{
         editedTipoDiagnostico = new HashMap<>();
         editedCondicionDiagnostico = new HashMap<>();
         editedCronologiaDiagnostico = new HashMap<>();
+        menuPanel = new HashMap<>();
         editedDateExamen = new HashMap<>();
         editedCheckExamen = new HashMap<>();
         descripcionAntecedenteTemp = "";
@@ -252,6 +254,7 @@ public final class CitaBean implements Serializable{
         visibleAntecedente = true;
         visibleExamen = true;
         visibleDiagnostico = true;
+        cargaPanel();
     }
     
     /**
@@ -1057,6 +1060,8 @@ public final class CitaBean implements Serializable{
         editedTipoDiagnostico = new HashMap<>();
         editedCondicionDiagnostico = new HashMap<>();
         editedCronologiaDiagnostico = new HashMap<>();
+        menuPanel = new HashMap<>();
+        cargaPanel();
         visibleAntecedente = true;
         visibleExamen = true;
         visibleDiagnostico = true;
@@ -1130,6 +1135,34 @@ public final class CitaBean implements Serializable{
         visibleDiagnostico = !visibleDiagnostico;
     }
     
+    public void cargaPanel(){
+        menuPanel.put("panel1", true);
+        menuPanel.put("panel2", false);
+        menuPanel.put("panel3", false);
+        menuPanel.put("panel4", false);
+        menuPanel.put("panel5", false);
+        menuPanel.put("panel6", false);
+        menuPanel.put("panel7", false);
+        menuPanel.put("panel8", false);
+    }
+    
+    /**
+     * Método  para cambiar de paneles
+     *
+     * @param panelActual
+     * @param estado
+     */
+    public void cambioPanel(String panelActual, Boolean estado) {
+        System.out.println("panelActual: "+panelActual+" estado: "+estado);
+        for (String panel : menuPanel.keySet()) {
+            boolean estadoAll = panel.equals(panelActual);
+            if (panel.contains(panelActual)) {
+                menuPanel.put(panelActual, estado);
+            }
+            menuPanel.put(panel, estadoAll);
+        }
+    }
+    
     public void eliminarExamen(){
         try {
             HistoriaExamenDAO.eliminarHistoriaExamen(eliminarHistoriaExamen);
@@ -1151,6 +1184,7 @@ public final class CitaBean implements Serializable{
      * @param historiaTratamiento
      */
     public void prepareUpdateHistoriaTratamiento(HistoriaTratamiento historiaTratamiento){
+        System.out.println("historiaTratamiento: "+historiaTratamiento);
         updateHistoriaTratamiento = historiaTratamiento;
         update_name_diagnostic_history = updateHistoriaTratamiento.getHistoriaDiagnostico().getHisDiaObservacion();
     }
@@ -1423,6 +1457,7 @@ public final class CitaBean implements Serializable{
                 return tipo;
         }
     }
+    
     public String formatoViaAdministracionTratamiento(String tipo) {
         switch (tipo) {
             case "1":
@@ -1457,6 +1492,7 @@ public final class CitaBean implements Serializable{
                 return tipo;
         }
     }
+    
     
     
     public void cambiarCheck(int id_check){
@@ -2125,6 +2161,16 @@ public final class CitaBean implements Serializable{
     public void setEditedCronologiaDiagnostico(Map<Long, String> editedCronologiaDiagnostico) {
         this.editedCronologiaDiagnostico = editedCronologiaDiagnostico;
     }
+
+    public Map<String, Boolean> getMenuPanel() {
+        return menuPanel;
+    }
+
+    public void setMenuPanel(Map<String, Boolean> menuPanel) {
+        this.menuPanel = menuPanel;
+    }
+    
+    
     
     public Map<Long, Date> getEditedDateExamen() {
         return editedDateExamen;

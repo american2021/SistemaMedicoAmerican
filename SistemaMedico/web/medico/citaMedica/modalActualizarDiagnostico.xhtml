@@ -87,7 +87,7 @@
                     <b:commandButton id="submit" value="Actualizar diagnóstico"
                                      action="#{CitaBean.actualizarHistoriaDiagnostico()}"
                                      look="primary"
-                                     update="formDiagnostico:panelContainerDiagnostico:listadoDiagnosticoPaciente :growl"
+                                     update=":formDiagnostico:panelContainerDiagnostico:listadoDiagnosticoPaciente :growl"
                                      oncomplete="$('#modaUpdateHistoriaDiagnostico').modal('hide');" >
                         <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
                     </b:commandButton>

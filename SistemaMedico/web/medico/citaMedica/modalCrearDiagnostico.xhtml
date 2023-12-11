@@ -5,7 +5,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     
-    <script>
+<!--    <script>
         window.validarCampos = function() {
             console.log("VALIDA CAMPOS");
              var campo1 = $('#formAddDiagnostico\\:dia_codigo_cie').val();
@@ -15,7 +15,7 @@
                 return false;
             }
         };
-    </script>
+    </script>-->
 
     <b:form id="formAddDiagnostico">
         <b:panel title="Datos Generales" look="info" collapsible="false" id="panelAddDiagnostico">
@@ -57,7 +57,6 @@
                                      onclick="return validarCampos();"
                                      action="#{CitaBean.crearDiagnosticoCIE10()}"
                                      look="primary" ajax="true"
-                                     update="formAddDiagnostico panelAddDiagnostico :growl"
                                      oncomplete="$('#modalAddDiagnostico').modal('hide');" >
                         <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
                         <f:ajax event="change" listener="#{CitaBean.crearDiagnosticoCIE10()}"

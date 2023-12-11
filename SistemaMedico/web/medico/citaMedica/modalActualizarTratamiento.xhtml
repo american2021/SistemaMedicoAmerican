@@ -137,14 +137,14 @@
                     </b:commandButton>
                 </b:column>
                 <b:column span="4" >
-                    <b:commandButton id="submit" value="Actualizar Tratamiento"
-                                    action="#{CitaBean.actualizarHistoriaTratamiento()}"
-                                    look="primary" ajax="true"
-                                    update="formUpdateHistoriaTratamiento panelUpdatePrescripcion :growl"
-                                    oncomplete="$('#modaUpdateHistoriaTratamiento').modal('hide');" >
+                    <b:commandButton id="submit"
+                                     value="Actualizar Tratamiento"
+                                     action="#{CitaBean.actualizarHistoriaTratamiento()}"
+                                     look="primary"
+                                     ajax="true"
+                                     update=":formPrescripcion:panelTratamiento :formPrescripcion:listadoTratamientoPaciente :growl"
+                                     oncomplete="$('#modaUpdateHistoriaTratamiento').modal('hide');" >
                         <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
-                        <f:ajax event="change" listener="#{CitaBean.actualizarHistoriaTratamiento()}"
-                                render=":formPrescripcion:listadoTratamientoPaciente :growl"/>
                     </b:commandButton>
                 </b:column>
             </b:row>

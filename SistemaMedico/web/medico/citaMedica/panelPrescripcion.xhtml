@@ -1,32 +1,11 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:my="http://java.sun.com/jsf/composite/recursos"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/pdfmake.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.71/vfs_fonts.js"></script>
-    <script>
-        $.blockUI.defaults.css = {
-            padding: 0,
-            margin: 0,
-            width: '30%',
-            top: '40%',
-            left: '35%',
-            textAlign: 'center',
-            color: '#000',
-            border: '0px solid #aaa',
-            backgroundColor: 'transparent',
-            cursor: 'wait'
-        };
-        $.blockUI.defaults.overlayCSS.backgroundColor = '#b4bab4'; //5E655E b4bab4 eac99a ff0000
-        $.blockUI.defaults.overlayCSS.opacity = 0.5;
-        $.blockUI.defaults.message = '<b:spinner name="refresh" size="4x" style-class="spiner"/>';
-    </script>
-
+      xmlns:p="http://primefaces.org/ui">
+   
     <b:panelGrid columns="1">
         <style>
             .anchoCompleto {
@@ -232,16 +211,14 @@
             <b:row>
                 <b:column span="3" offset="4">
                     <b:commandButton large-screen="full-width" id="submit"
+                                     style="color: white !important;"
                                      ajax="true"
-                                     value="Crear Tratamiento"
-                                     actionListener="#{CitaBean.crearTratamientoCIE10()}"
-                                     tooltip="Agregar Tratamiento" look="primary" 
-                                     update="@form">
-                                    
+                                     value="&nbsp; Crear Tratamiento"
+                                     action="#{CitaBean.crearTratamientoCIE10()}"
+                                     tooltip="Agregar Tratamiento" look="primary"
+                                     update=":formPrescripcion:panelTratamiento :formPrescripcion:listadoTratamientoPaciente :growl"
+                                     >
                        <b:iconAwesome name="save"></b:iconAwesome>
-                       <f:ajax event="change"
-                                   listener="#{CitaBean.crearTratamientoCIE10()}"
-                                   render="formPrescripcion1:panelPrescripcion formPrescripcion:listadoTratamientoPaciente :growl"/>
                    </b:commandButton>
                 </b:column>
             </b:row>
