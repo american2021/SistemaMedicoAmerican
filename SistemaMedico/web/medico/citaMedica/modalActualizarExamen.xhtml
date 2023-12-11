@@ -77,13 +77,11 @@
                 </b:column>
                 <b:column span="4" >
                     <b:commandButton id="submit" value="Actualizar Exámen"
-                                    action="#{CitaBean.actualizarExamen()}"
-                                    look="primary" ajax="true"
-                                    update="formUpdateHistoriaExamen panelHistoriaExamen :growl"
-                                    oncomplete="$('#modalActualizarHistoriaExamen').modal('hide');" >
+                                     action="#{CitaBean.actualizarExamen()}"
+                                     look="primary"
+                                     update="formExamenLabIma:panelContainerExamen:listadoExamenPaciente :growl"
+                                     oncomplete="$('#modalActualizarHistoriaExamen').modal('hide');" >
                         <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
-                        <f:ajax event="change" listener="#{CitaBean.actualizarExamen()}"
-                                render=":formExamenLabIma:listadoExamenPaciente growl"/>
                     </b:commandButton>
                 </b:column>
             </b:row>

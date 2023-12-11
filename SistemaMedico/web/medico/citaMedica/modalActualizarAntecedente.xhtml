@@ -64,13 +64,11 @@
                 </b:column>
                 <b:column span="4" >
                     <b:commandButton id="submit" value="Actualizar Antecedente"
-                                    action="#{CitaBean.actualizarHistoriaAntecedente()}"
-                                    look="primary" ajax="true"
-                                    update="formUpdateHistoriaAntecedente panelHistoriaAntecedente :growl"
-                                    oncomplete="$('#modalUpdateAntecedente').modal('hide');" >
-                        <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
-                        <f:ajax event="change" listener="#{CitaBean.actualizarHistoriaAntecedente()}"
-                                render=":formExamenLabIma:listadoExamenPaciente growl"/>
+                                     action="#{CitaBean.actualizarHistoriaAntecedente()}"
+                                     look="primary"
+                                     update=":formAntecedente:panelContainer:panelListaAntecedente :growl"
+                                     oncomplete="$('#modalUpdateAntecedente').modal('hide');" >
+                        <b:iconAwesome name="fa-bookmark"></b:iconAwesome>  
                     </b:commandButton>
                 </b:column>
             </b:row>

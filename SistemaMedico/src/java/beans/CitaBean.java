@@ -125,9 +125,7 @@ public final class CitaBean implements Serializable{
     private HistoriaTratamiento deleteHistoriaTratamiento;
     private List<Examenes> lista_examenes;
     private Diagnosticos nuevo_diagnostico;
-    
-    
-    private List<String> listaSugerencias = new ArrayList<>();
+        
     private String ultimoValorValido;
     private String consultaUsuario;
     
@@ -168,6 +166,12 @@ public final class CitaBean implements Serializable{
     
     // Variable para setear los checkbox de la revisión del sistema
     private ArrayList<Boolean> revision_checks;
+    // Variable para cambiar de panel de antecedente
+    private Boolean visibleAntecedente;
+    // Variable para cambiar de panel de antecedente
+    private Boolean visibleExamen;
+    // Variable para cambiar de panel de antecedente
+    private Boolean visibleDiagnostico;
     
     FacesContext context;
     HttpSession session;
@@ -245,6 +249,9 @@ public final class CitaBean implements Serializable{
         updateHistoriaAntecedente = new HistoriaAntecedente();
         updateHistoriaDiagnostico = new HistoriaDiagnostico();
         deleteHistoriaTratamiento = new HistoriaTratamiento();
+        visibleAntecedente = true;
+        visibleExamen = true;
+        visibleDiagnostico = true;
     }
     
     /**
@@ -1050,6 +1057,9 @@ public final class CitaBean implements Serializable{
         editedTipoDiagnostico = new HashMap<>();
         editedCondicionDiagnostico = new HashMap<>();
         editedCronologiaDiagnostico = new HashMap<>();
+        visibleAntecedente = true;
+        visibleExamen = true;
+        visibleDiagnostico = true;
         this.historia_actual_id = hisId;
         historia = CitaDAO.recuperarHistoriaID(hisId);
         recuperarHistoriaAntecedente();
@@ -1093,6 +1103,31 @@ public final class CitaBean implements Serializable{
     
     public void prepararEliminacionHistoriaExamen(HistoriaExamen historiaExamenEliminar){
         eliminarHistoriaExamen = historiaExamenEliminar;
+    }
+    
+
+    /**
+     * Método para preparar para cambiar el estado de visibleAntecedente
+     *
+     */
+    public void switchAntecedente() {
+        visibleAntecedente = !visibleAntecedente;
+    }
+    
+    /**
+     * Método para preparar para cambiar el estado de visibleExamen
+     *
+     */
+    public void switchExamen() {
+        visibleExamen = !visibleExamen;
+    }
+    
+    /**
+     * Método para preparar para cambiar el estado de visibleDiagnostico
+     *
+     */
+    public void switchDiagnostico() {
+        visibleDiagnostico = !visibleDiagnostico;
     }
     
     public void eliminarExamen(){
@@ -2161,4 +2196,28 @@ public final class CitaBean implements Serializable{
         this.mensajeDiagnostico = mensajeDiagnostico;
     }
 
+    public Boolean getVisibleAntecedente() {
+        return visibleAntecedente;
+    }
+
+    public void setVisibleAntecedente(Boolean visibleAntecedente) {
+        this.visibleAntecedente = visibleAntecedente;
+    }
+
+    public Boolean getVisibleExamen() {
+        return visibleExamen;
+    }
+
+    public void setVisibleExamen(Boolean visibleExamen) {
+        this.visibleExamen = visibleExamen;
+    }
+
+    public Boolean getVisibleDiagnostico() {
+        return visibleDiagnostico;
+    }
+
+    public void setVisibleDiagnostico(Boolean visibleDiagnostico) {
+        this.visibleDiagnostico = visibleDiagnostico;
+    }
+    
 }

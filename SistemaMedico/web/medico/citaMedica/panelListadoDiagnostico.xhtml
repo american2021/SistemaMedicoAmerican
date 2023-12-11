@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/recursos"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <b:panelGrid columns="1">
+        <b:row>
+            <b:column span="12" class="text-center">
+                <b:commandButton ajax="true"
+                                 id="visible_diagnostico"
+                                 iconAwesome="#{CitaBean.visibleDiagnostico? 'fa-eye' : 'fa-eye-slash'}"
+                                 action="#{CitaBean.switchDiagnostico()}"
+                                 value="#{CitaBean.visibleDiagnostico ? '&nbsp; Mostrar Historial' : '&nbsp; Ocultar Historial'}"
+                                 update="visible_diagnostico :formDiagnostico:panelContainerDiagnostico :growl"
+                                 tooltip="Mostrar Historial" look="primary">
+                </b:commandButton>
+            </b:column>
+        </b:row>
+        <br/>
+        <p:outputPanel id="panelContainerDiagnostico">
+            <b:panel title="Diagnóstico" look="info" collapsible="false" id="listadoDiagnosticoPaciente" span="12" rendered="#{CitaBean.visibleDiagnostico}">
+                <b:dataTable large-screen="full-width" id="historiaDiagnosticoTabla" value="#{CitaBean.lista_historia_diagnostico}" var="historiaDiagnostico" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                    page-length="7" multi-column-search="true" multi-column-search-position="top" >
+                    <b:dataTableColumn label="Código" value="#{CitaBean.antecedenteFormatoExamen(historiaDiagnostico.diagnosticos.diaCodigoCie)}" style="width: 5%" />
+                    <b:dataTableColumn label="Descripción" value="#{historiaDiagnostico.diagnosticos.diaDescripcionCie}" style="width: 20%" />
+                    <b:dataTableColumn label="Tipo" value="#{CitaBean.formatoTipoDiagostico(historiaDiagnostico.hisDiaTipo)}" style="width: 8%" />
+                    <b:dataTableColumn label="Condición" value="#{CitaBean.formatoCondicionDiagostico(historiaDiagnostico.hisDiaCondicion)}" style="width: 8%" />
+                    <b:dataTableColumn label="Cronología" value="#{CitaBean.formatoCronologiaDiagostico(historiaDiagnostico.hisDiaCronologia)}" style="width: 8%" />
+                    <b:dataTableColumn label="Observación" value="#{historiaDiagnostico.hisDiaObservacion}" style="width: 37%" />
+                    <b:dataTableColumn label="Acciones" style="width: 12%; padding-left: 1%;padding-right: 1% "
+                                      orderable="false"
+                                      searchable="false">
+                        <b:column span="1" offset="0">
+                            <b:commandButton ajax="true" 
+                                             style="color: white !important;"
+                                             update="modaUpdateHistoriaDiagnostico :growl"
+                                             action="#{CitaBean.prepareUpdateHistoriaDiagnostico(historiaDiagnostico)}"
+                                             oncomplete="$('#modaUpdateHistoriaDiagnostico').modal('show')" 
+                                             tooltip="Editar diagnóstico" 
+                                             look="warning">
+                                <b:iconAwesome name="pencil"></b:iconAwesome>
+                            </b:commandButton>
+                        </b:column>
+                        <b:column offset="1" span="2">
+                            <b:commandButton ajax="true"
+                                             style="color: white !important;"
+                                             tooltip="Eliminar diagnóstico"
+                                             onclick="return confirmarEliminacionDiagnostico('#{historiaDiagnostico.diagnosticos.diaDescripcionCie}','#{historiaDiagnostico.hisDiaObservacion}');"
+                                             look="danger">
+                                <b:iconAwesome name="trash"></b:iconAwesome>
+                                <f:ajax execute="@this"
+                                        render="formDiagnostico:panelContainerDiagnostico:listadoDiagnosticoPaciente :growl"
+                                        listener="#{CitaBean.eliminarHistoriaDiagnostico(historiaDiagnostico)}"/>
+                            </b:commandButton>
+                        </b:column>
+                   </b:dataTableColumn>
+                </b:dataTable>
+            </b:panel>
+            <b:panel title="Historial" look="info" collapsible="false" id="historialDiagnosticoPanel" span="12" rendered="#{ not CitaBean.visibleDiagnostico}">
+                <b:dataTable large-screen="full-width" id="diagnosticoHistoriaTabla" value="#{CitaBean.lista_historial_historia_diagnostico}" var="historiaDiagnostico" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                   page-length="7" multi-column-search="true" multi-column-search-position="top" >
+                    <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaDiagnostico.hisDiaFechaUlt)}" style="width: 5%" />
+                    <b:dataTableColumn label="Código" value="#{CitaBean.antecedenteFormatoExamen(historiaDiagnostico.diagnosticos.diaCodigoCie)}" style="width: 5%" />
+                    <b:dataTableColumn label="Descripción" value="#{historiaDiagnostico.diagnosticos.diaDescripcionCie}" style="width: 20%" />
+                    <b:dataTableColumn label="Tipo" value="#{CitaBean.formatoTipoDiagostico(historiaDiagnostico.hisDiaTipo)}" style="width: 8%" />
+                    <b:dataTableColumn label="Condición" value="#{CitaBean.formatoCondicionDiagostico(historiaDiagnostico.hisDiaCondicion)}" style="width: 8%" />
+                    <b:dataTableColumn label="Cronología" value="#{CitaBean.formatoCronologiaDiagostico(historiaDiagnostico.hisDiaCronologia)}" style="width: 8%" />
+                    <b:dataTableColumn label="Observación" value="#{historiaDiagnostico.hisDiaObservacion}" style="width: 35%" />
+                    <b:dataTableColumn label="Doctor" orderable="false" searchable="false" value="#{historiaDiagnostico.historias.personasByMedicoPerId.perApellidos} #{historiaDiagnostico.historias.personasByMedicoPerId.perNombres}" style="width: 11%" />
+                </b:dataTable>
+            </b:panel>
+        </p:outputPanel>
+    </b:panelGrid>
+</html>

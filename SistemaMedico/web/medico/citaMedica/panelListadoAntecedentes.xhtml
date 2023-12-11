@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/recursos"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <b:panelGrid columns="1">
+        <b:row>
+            <b:column span="12" class="text-center">
+                    <b:commandButton ajax="true"
+                                     id="visible_antecedente"
+                                     iconAwesome="#{CitaBean.visibleAntecedente ? 'fa-eye' : 'fa-eye-slash'}"
+                                     action="#{CitaBean.switchAntecedente()}"
+                                     value="#{CitaBean.visibleAntecedente ? '&nbsp; Mostrar Historial' : '&nbsp; Ocultar Historial'}"
+                                     update="visible_antecedente :formAntecedente:panelContainer :growl"
+                                     tooltip="Mostrar Historial" look="primary">
+                    </b:commandButton>
+            </b:column>
+        </b:row>
+        <br/>
+        <p:outputPanel id="panelContainer">
+            <b:panel title="Antecedentes del paciente" look="info" collapsible="false" id="panelListaAntecedente" rendered="#{CitaBean.visibleAntecedente}">
+                <b:dataTable large-screen="full-width" id="inscritosTabla" value="#{CitaBean.lista_historia_antecedente}" var="historiaAntecedente" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                             page-length="7" multi-column-search="true" multi-column-search-position="top" >
+                    <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaAntecedente.hisAntFechaUlt)}" style="width: 5%" />
+                    <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormato(historiaAntecedente.antecedente.antTipo)}" style="width: 5%" />
+                    <b:dataTableColumn label="Categoría" value="#{historiaAntecedente.antecedente.antCategoria}" style="width: 10%" />
+                    <b:dataTableColumn label="Antecedente" value="#{historiaAntecedente.antecedente.antGrupo}" style="width: 16%" />
+                    <b:dataTableColumn label="Descripción" value="#{historiaAntecedente.hisAntDescripcion}" style="width: 50%" />
+                    <b:dataTableColumn label="Acciones" style="width: 12%; padding-left: 1%;padding-right: 1% "
+                                       orderable="false"
+                                       searchable="false">
+                        <b:column span="1" offset="0">
+                            <b:commandButton ajax="true"
+                                             style="color: white !important;"
+                                             update=":modalUpdateAntecedente :growl"
+                                             action="#{CitaBean.prepareUpdateHistoriaAntecedente(historiaAntecedente)}"
+                                             oncomplete="$('#modalUpdateAntecedente').modal('show'); return false;"
+                                             tooltip="Editar antecedente" 
+                                             look="warning">
+                                <b:iconAwesome name="pencil"></b:iconAwesome>
+                            </b:commandButton>
+                        </b:column>
+                        <b:column offset="1" span="2">
+                            <b:commandButton ajax="true"
+                                             style="color: white !important;"
+                                             tooltip="Eliminar antecedente"
+                                             onclick="return confirmarEliminacionAntecedente('#{historiaAntecedente.antecedente.antGrupo}', '#{historiaAntecedente.hisAntDescripcion}');"
+                                             look="danger">
+                                <b:iconAwesome name="trash"></b:iconAwesome>
+                                <f:ajax execute="@this"
+                                        render="formAntecedente:panelContainer:panelListaAntecedente :growl"
+                                        listener="#{CitaBean.eliminarHistoriaAntecedente(historiaAntecedente)}"/>
+                            </b:commandButton>
+                        </b:column>
+                    </b:dataTableColumn>
+                </b:dataTable>
+            </b:panel>
+            <b:panel title="Historial de antecedentes del paciente" look="info" collapsible="false" id="panelListaHistoriaAntecedente" rendered="#{ not CitaBean.visibleAntecedente}">
+                <b:dataTable large-screen="full-width" id="listaHistorialAntecedente" value="#{CitaBean.lista_historial_historia_antecedente}" var="historiaAntecedente" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                    page-length="7" multi-column-search="true" multi-column-search-position="top" >
+                    <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaAntecedente.hisAntFechaUlt)}" style="width: 5%" />
+                    <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormato(historiaAntecedente.antecedente.antTipo)}" style="width: 5%" />
+                    <b:dataTableColumn label="Categoría" value="#{historiaAntecedente.antecedente.antCategoria}" style="width: 10%" />
+                    <b:dataTableColumn label="Antecedente" value="#{historiaAntecedente.antecedente.antGrupo}" style="width: 15%" />
+                    <b:dataTableColumn label="Descripción" value="#{historiaAntecedente.hisAntDescripcion}" style="width: 50%" />
+                    <b:dataTableColumn label="Doctor" value="#{historiaAntecedente.historias.personasByMedicoPerId.perApellidos} #{historiaAntecedente.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
+                </b:dataTable>
+            </b:panel>
+        </p:outputPanel>
+    </b:panelGrid>
+</html>

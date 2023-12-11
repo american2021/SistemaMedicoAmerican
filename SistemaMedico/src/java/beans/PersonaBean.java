@@ -322,11 +322,8 @@ public final class PersonaBean implements Serializable {
         }
     }
 
-    public String guardarDatosHistoriaInicial() {
-        System.out.println("historia"+persona.getPerApellidos());
-        
+    public String guardarDatosHistoriaInicial() {        
         Signos ultimoSignos = SignosDAO.recuperarUltimoSignoPaciente(persona.getPerId());
-        System.out.println("ultimos signos"+ultimoSignos.getSigId());
         if (ultimoSignos.getSigId() != null) {
             signos.setSigPeso(ultimoSignos.getSigPeso());
             signos.setSigEstatura(ultimoSignos.getSigEstatura());
@@ -398,7 +395,6 @@ public final class PersonaBean implements Serializable {
         historia.setRevisionSistemas(revision);
         historia.setPersonasByPacientePerId(persona);
         historia.setHisCompletado(Byte.valueOf("0"));
-        System.out.println("usuario: "+session.getAttribute("usuario"));
         historia.setPersonasByMedicoPerId(PersonaDAO.recuperarPersonaUsuario(session.getAttribute("usuario").toString()));
     }
 
