@@ -1,9 +1,7 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://java.sun.com/jsf/html">
 
     <b:form id="formUpdateHistoriaAntecedente">
         <b:panel title="Ingrese la información para actualizar el antecedente del paciente" look="info" collapsible="false" id="panelHistoriaAntecedente">
@@ -55,15 +53,16 @@
             <b:row>
                 <b:column offset="2" span="4" >
                     <b:commandButton ajax="true"
-                                     value="Cancelar Antecedente"
-                                     update="formUpdateHistoriaAntecedente :growl "
+                                     immediate="true"
+                                     value="&nbsp; Cancelar Antecedente"
                                      oncomplete="$('#modalUpdateAntecedente').modal('hide');"
                                      tooltip="Cancelar Antecedente" look="danger">
                         <b:iconAwesome name="fa-trash"></b:iconAwesome>
                     </b:commandButton>
                 </b:column>
                 <b:column span="4" >
-                    <b:commandButton id="submit" value="Actualizar Antecedente"
+                    <b:commandButton id="submit" 
+                                     value="&nbsp; Actualizar Antecedente"
                                      action="#{CitaBean.actualizarHistoriaAntecedente()}"
                                      look="primary"
                                      update=":formAntecedente:panelContainer:panelListaAntecedente :growl"

@@ -283,11 +283,21 @@ public final class CitaBean implements Serializable{
     
     /**
      * Método para actualizar la cita
+     * @param panel
      */
-    public void actualizarHistoriaPrueba(){
-        CitaDAO.crearActualizarHistoriaConDatos(historia);
-//        FacesMessages.info(":growlInfo", "Sistemas Digestivo"+historia.getRevisionSistemas().getRevSisDigestivo(), "This is a specific message!");
-        //FacesMessages.info(":growlInfo", "Se han actualizado la historia clínica", "This is a specific message!");
+    public void actualizarHistoriaPrueba(String panel){
+        if (historia.getHisCompletado().toString().contains("0")) {
+            if (panel.contains("panel5")) {
+                revision.setRevSisUsuario(session.getAttribute("usuario").toString());
+                RevisionSistemasDAO.crearActualizarRevision(revision);
+                historia.setRevisionSistemas(revision);
+            } else if(panel.contains("panel4")){
+                SignosDAO.crearActualizarSignos(signos);
+                historia.setSignos(signos);
+                setRevisionChecks();
+            }
+            CitaDAO.crearActualizarHistoriaConDatos(historia);
+        }
     }
     
     /**
@@ -475,7 +485,7 @@ public final class CitaBean implements Serializable{
     public void recuperarMedicamentosListener(){
         String medicamento_codigo[] = getNombre_medicamento().split(" - ");
         if (medicamento_codigo.length == 3) {
-            nuevo_medicamento = MedicamentosDAO.recuperarMedicamento(medicamento_codigo[0],medicamento_codigo[1], medicamento_codigo[2] );
+            nuevo_medicamento = MedicamentosDAO.recuperarMedicamento(medicamento_codigo[0],medicamento_codigo[1], revert(medicamento_codigo[2]) );
             nombre_medicamento = nuevo_medicamento.getMedNombre();
         }
         else {
@@ -649,25 +659,21 @@ public final class CitaBean implements Serializable{
         if (parentesco_abierto.length() > 0) {
             historia.getPersonasByPacientePerId().setPerParentesco(parentesco_abierto);
         }
-        // Si existe un diagnóstico lo guardará
-        revision.setRevSisUsuario(session.getAttribute("usuario").toString());
-        RevisionSistemasDAO.crearActualizarRevision(revision);
-        historia.setRevisionSistemas(revision);
-        SignosDAO.crearActualizarSignos(signos);
-        historia.setSignos(signos);
-        if(tratamiento != null){
-            TratamientoDAO.crearActualizarTratamiento(tratamiento);
-        }
-        setRevisionChecks();
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         
         historia.setHisCompletado(Byte.valueOf("1"));
         
-        CitaDAO.crearActualizarHistoria(historia);
-        FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
-        
-        return "/estudiante/listadoCitas.xhtml?faces-redirect=true";
+        try {
+            CitaDAO.crearActualizarHistoria(historia);
+            FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/SistemaMedico/listado-citas-dia");
+            return null; // No olvides devolver null para indicar que no hay navegación implícita.
+        } catch (Exception e) {
+
+            FacesMessages.error(":growlInfo", "Error al finalizar la cita médica: "+e.getCause().getMessage(), "This is a specific message!");
+            return "";
+        }
     }
 
     /**
@@ -687,7 +693,7 @@ public final class CitaBean implements Serializable{
             recuperarAlergiasHistoriaAntecedente();
             FacesMessages.info(":growlInfo", "Antecedente Creado", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al crear el antecedente: "+e.getCause().getMessage(), "This is a specific message!");
+            FacesMessages.error(":growlInfo", "Error al crear el antecedente: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
     
@@ -1153,7 +1159,6 @@ public final class CitaBean implements Serializable{
      * @param estado
      */
     public void cambioPanel(String panelActual, Boolean estado) {
-        System.out.println("panelActual: "+panelActual+" estado: "+estado);
         for (String panel : menuPanel.keySet()) {
             boolean estadoAll = panel.equals(panelActual);
             if (panel.contains(panelActual)) {
@@ -1184,7 +1189,6 @@ public final class CitaBean implements Serializable{
      * @param historiaTratamiento
      */
     public void prepareUpdateHistoriaTratamiento(HistoriaTratamiento historiaTratamiento){
-        System.out.println("historiaTratamiento: "+historiaTratamiento);
         updateHistoriaTratamiento = historiaTratamiento;
         update_name_diagnostic_history = updateHistoriaTratamiento.getHistoriaDiagnostico().getHisDiaObservacion();
     }
@@ -1432,6 +1436,38 @@ public final class CitaBean implements Serializable{
                 return "Miliequivalente";
             default:
                 return tipo;
+        }
+    }
+    
+    public String revert(String med_medida){
+        String aux_medida;
+        switch(med_medida){
+            case "Microgramo":
+                return aux_medida = "1";
+            case "Miligramo":
+                return aux_medida = "2";
+            case "Gramo":
+                return aux_medida = "3";
+            case "Kilogramno":
+                return aux_medida = "4";
+            case "Unidades internacionales":
+                return aux_medida = "5";
+            case "Microlitro":
+                return aux_medida = "6";
+            case "Mililitro":
+                return aux_medida = "7";
+            case "Litro":
+                return aux_medida = "8";
+            case "Ingreso Manual":
+                return aux_medida = "9";
+            case "Porcentaje":
+                return aux_medida = "10";
+            case "Unidades":
+                return aux_medida = "11";
+            case "Miliequivalente":
+                return aux_medida = "12";
+            default:
+                return aux_medida = "0";
         }
     }
     

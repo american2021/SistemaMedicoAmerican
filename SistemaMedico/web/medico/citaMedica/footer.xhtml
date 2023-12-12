@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/recursos">
+    
+    <b:row>
+        <b:column span="6" class="text-center">
+            <b:commandButton ajax="true"
+                             span="4" offset="6"
+                             value="&nbsp; Anterior"
+                             action="#{CitaBean.cambioPanel(panelBefore, true)}"
+                             update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion"
+                             tooltip="#{tooltipBefore}"
+                             look="danger">
+                <b:iconAwesome name="fa-arrow-left"></b:iconAwesome>
+            </b:commandButton>
+        </b:column>
+        <b:column span="6" class="text-center">
+            <b:commandButton ajax="true" 
+                             span="4" offset="3"
+                             value="&nbsp; Siguiente"
+                             action="#{CitaBean.cambioPanel(panelNext, true)}"
+                             actionListener="#{CitaBean.actualizarHistoriaPrueba(panelNext)}"
+                             update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion"
+                             tooltip="#{tooltipNext}"
+                             look="success">
+                <b:iconAwesome name="fa-arrow-right"></b:iconAwesome>
+            </b:commandButton>
+        </b:column>
+    </b:row>
+</html>

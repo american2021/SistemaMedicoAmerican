@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:b="http://bootsfaces.net/ui" xmlns:my="http://java.sun.com/jsf/composite/recursos">
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <link rel="stylesheet" type="text/css" href="../../css/cabecera.css" media="screen" />
+    </head>
+    
+    <cc:interface>
+        <cc:attribute name="menuHorizontalMedico" default="menuHorizontalMedico"/>
+    </cc:interface>
+    <cc:implementation>
+        
+        <style>
+            .horizontal-menu {
+                display: flex;
+                list-style: none;
+                padding: 0;
+                justify-content: center;
+                margin-bottom: -2%;
+            }
+
+            .horizontal-menu li {
+                width: 150px;
+                padding: 1%;
+                background-color: gainsboro;
+                color: #fff;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                position: relative;
+                text-align: center;
+                font-size: 16px; /* Ajusta el tamaÃ±o del texto segÃºn tus necesidades */
+                font-family: 'Arial', sans-serif; /* Cambia la fuente segÃºn tus necesidades */
+            }
+            
+            .horizontal-menu li:hover {
+                background-color: #b7c5d6; /* Color de fondo al pasar el ratÃ³n en el menÃº desplegable */
+            }
+            .horizontal-menu li a {
+                /*display: block;*/
+                padding: 10px; /* Ajusta el espaciado segÃºn sea necesario */
+                text-decoration: none;
+                color: #2196F3 ;
+                /*width: 100%;*/    
+                text-align: left; /* Centra el texto dentro del enlace */
+            }
+            
+            .horizontal-menu li:hover .submenu {
+                background-color: #b7c5d6; /* Color de fondo al pasar el ratÃ³n */
+                display: block;
+            }
+
+            .submenu {
+                display: none;
+                position: absolute;
+                width: max-content;
+                padding: 0;
+                z-index: 100;
+                background: #fff;
+            }
+
+            .submenu > * {
+                
+                overflow: hidden;
+                height: 30px;
+                padding: 5px 10px;
+                background: rgba(0, 0, 0, 0);
+                white-space: nowrap;
+                transition: 0.5s height cubic-bezier(0.73, 0.32, 0.34, 1.5),
+                  0.5s padding cubic-bezier(0.73, 0.32, 0.34, 1.5),
+                  0.5s margin cubic-bezier(0.73, 0.32, 0.34, 1.5), 0.5s 0.2s color,
+                  0.2s background-color;
+              }
+
+            .submenu > *:hover {
+              background: rgba(0, 0, 0, 0.1);
+            }
+
+            .submenu li {
+                margin-top: 0px;
+                margin-right: 0px;
+                text-align: left;
+            }
+
+            .submenu li:hover {
+                background-color: #b7c5d6; /* Color de fondo al pasar el ratÃ³n en el menÃº desplegable */
+            }
+        </style>
+
+        <b:container fluid="true">
+            <b:panel look="primary"
+                     title="Menú Médico"
+                     class="menuHorizontal"
+                     collapsible="false"
+                     collapsed="false"
+                     rendered="#{LoginBean.renderizarMedico()}"
+                     span="12" >
+
+                <ul class="horizontal-menu">
+                    <li class="with-submenu">
+                        <b:navLink>Pacientes</b:navLink>
+                        <ul class="submenu">
+                            <li><b:navLink href="registro-paciente">
+                                    <b:iconAwesome name="">
+                                        Registro
+                                    </b:iconAwesome>
+                                </b:navLink></li>
+                            <li><b:navLink href="actualizacion-paciente" value="" iconAlign="left">
+                                    <b:iconAwesome name="">
+                                        Actualizar
+                                    </b:iconAwesome>
+                                </b:navLink></li>
+                        </ul>
+                    </li>
+                    <li class="with-submenu">
+                        <b:navLink>Citas</b:navLink>
+                        <ul class="submenu">
+                            <li>
+                                <b:navLink href="listado-citas" value="" iconAlign="left">
+                                    <b:iconAwesome name="">
+                                        Listado
+                                    </b:iconAwesome>
+                                </b:navLink>
+                            </li>
+                            <li>
+                                <b:navLink href="listado-citas-dia" value="" iconAlign="left">
+                                    <b:iconAwesome name="">
+                                        Listado del día
+                                    </b:iconAwesome>
+                                </b:navLink>
+                            </li>
+                            <li>    
+                                <b:navLink href="registro-cita" value="" iconAlign="left">
+                                    <b:iconAwesome name="">
+                                        Registro de nueva cita
+                                    </b:iconAwesome>
+                                </b:navLink>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="with-submenu">
+                        <b:navLink>Patologías</b:navLink>
+                        <ul class="submenu">
+                            <li>
+                                <b:navLink href="registro-patologia" value="" iconAlign="left">
+                                    <b:iconAwesome name="">
+                                        Registro
+                                    </b:iconAwesome>
+                                </b:navLink>
+                            </li>
+                            <li> 
+                                <b:navLink href="actualizacion-enfermedad" value="" iconAlign="left">
+                                    <b:iconAwesome name="">
+                                        Edición
+                                    </b:iconAwesome>
+                                </b:navLink>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </b:panel>
+        </b:container>
+    </cc:implementation>
+</html>

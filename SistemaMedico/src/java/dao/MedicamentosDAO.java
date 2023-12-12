@@ -94,7 +94,7 @@ public class MedicamentosDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
-                "SELECT concat(med_nombre,' - ',med_dosis_unitaria,' - ',med_medida) FROM Medicamentos");
+                "SELECT concat(med_nombre,' - ',med_dosis_unitaria,' - ', CASE med_medida WHEN 1 THEN 'Microgramo' WHEN 2 THEN 'Miligramo' WHEN 3 THEN 'Gramo' WHEN 4 THEN 'Kilogramno' WHEN 5 THEN 'Unidades internacionales' WHEN 6 THEN 'Microlitro' WHEN 7 THEN 'Mililitro' WHEN 8 THEN 'Litro' WHEN 9 THEN 'Ingreso Manual' WHEN 10 THEN 'Porcentaje' WHEN 11 THEN 'Unidades' WHEN 12 THEN 'Miliequivalente' ELSE '' END) FROM Medicamentos");
         List<String> diagnosticos = query.list();
         session.getTransaction().commit();
         session.close();
@@ -109,8 +109,8 @@ public class MedicamentosDAO {
      * @param med_medida
      * @return
      */
-    public static Medicamentos recuperarMedicamento(String med_nombre, String med_dosis_unitaria, String med_medida) {
-
+    public static Medicamentos recuperarMedicamento(String med_nombre, String med_dosis_unitaria, String med_medida) {        
+        
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Medicamentos where med_nombre = '" + med_nombre + "' and med_dosis_unitaria = '" + med_dosis_unitaria + "' and med_medida= '" + med_medida + "'");

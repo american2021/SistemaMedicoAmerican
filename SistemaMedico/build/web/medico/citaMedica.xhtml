@@ -63,8 +63,8 @@
     <b:scrollUp distance="200" animation="fade" text="" name="scrollUpCustom" />
     
     <my:cabecera id="cabecera"/>
-<!--    <my:menuLateralMedico id="menuLateralMedico"/>
-    <my:menuLateralEstudiante id="menuLateralEstudiante"/>-->
+    <my:menuHorizontalMedico id="menuHorizontalMedico"/>
+   <!--  <my:menuLateralEstudiante id="menuLateralEstudiante"/>-->
     <!--<my:menuLateralAdministrador id="menuLateralAdministrador"/>-->
     <my:menuHorizontalAdministrador id="menuHorizontalAdministrador"/>
     <!--<my:menuLateralContador id="menuLateralContador"/>-->
@@ -82,11 +82,10 @@
                  close-on-escape="true" backdrop="true" size="modal-lg">
             <ui:include src="citaMedica/modalActualizarTratamiento.xhtml" />
         </b:modal>
-        
-<!--        <b:modal id="modalAddDiagnostico" title="Crear diagnóstico" closable="true"
+        <b:modal id="modalAddDiagnostico" title="Crear diagnóstico" closable="true"
                  close-on-escape="true" backdrop="true" size="modal-lg">
             <ui:include src="citaMedica/modalCrearDiagnostico.xhtml" />
-        </b:modal>-->
+        </b:modal>
         <b:modal id="modalUpdateAntecedente" title="Actualizar antecedente" closable="true"
                  close-on-escape="true" backdrop="true" size="modal-lg">
             <ui:include src="citaMedica/modalActualizarAntecedente.xhtml" />
@@ -151,7 +150,7 @@
                                                      value="Historia Clínica" 
                                                      styleClass="btn btn-default custom-button"
                                                      action="#{CitaBean.cambioPanel('panel1', true)}"
-                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion"/>
+                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion formFinal"/>
                                 </b:column>
                             </b:row>
                             <b:row>
@@ -160,7 +159,7 @@
                                                      value="Antecedente"
                                                      styleClass="btn btn-default custom-button"
                                                      action="#{CitaBean.cambioPanel('panel2', true)}"
-                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion"/>
+                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion formFinal"/>
                                 </b:column>
                             </b:row>
                             <b:row>
@@ -169,7 +168,7 @@
                                                      value="Signos" 
                                                      styleClass="btn btn-default custom-button" 
                                                      action="#{CitaBean.cambioPanel('panel3', true)}"
-                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion"/>
+                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion formFinal"/>
                                 </b:column>
                             </b:row>
                             <b:row>
@@ -178,7 +177,7 @@
                                                      value="Revisión de órganos y sistemas" 
                                                      styleClass="btn btn-default custom-button" 
                                                      action="#{CitaBean.cambioPanel('panel4', true)}"
-                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion"/>
+                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion formFinal"/>
                                 </b:column>
                             </b:row>
                             <b:row>
@@ -187,7 +186,7 @@
                                                      value="Exámen fisico" 
                                                      styleClass="btn btn-default custom-button" 
                                                      action="#{CitaBean.cambioPanel('panel5', true)}"
-                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion" />
+                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion formFinal" />
                                 </b:column>
                             </b:row>
                             <b:row>
@@ -196,7 +195,7 @@
                                                      value="Exámenes" 
                                                      styleClass="btn btn-default custom-button" 
                                                      action="#{CitaBean.cambioPanel('panel6', true)}"
-                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion" />
+                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion formFinal" />
                                 </b:column>
                             </b:row>
                             <b:row>
@@ -205,7 +204,7 @@
                                                      value="Diagnóstico" 
                                                      styleClass="btn btn-default custom-button" 
                                                      action="#{CitaBean.cambioPanel('panel7', true)}"
-                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion" />
+                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion formFinal" />
                                 </b:column>
                             </b:row>
                             <b:row>
@@ -214,7 +213,7 @@
                                                      value="Tratamiento" 
                                                      styleClass="btn btn-default custom-button" 
                                                      action="#{CitaBean.cambioPanel('panel8', true)}"
-                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion" />
+                                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion formFinal" />
                                 </b:column>
                             </b:row>
                         </b:column>
@@ -257,10 +256,11 @@
                                                 <b:commandButton ajax="true"
                                                                 value="&nbsp; Guardar Historia Clínica"
                                                                 action="#{CitaBean.cambioPanel('panel2', true)}"
+                                                                actionListener="#{CitaBean.actualizarHistoriaPrueba('panel2')}"
                                                                 update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion"
                                                                 tooltip="Crear exámenes" 
                                                                 look="success">
-                                                    <b:iconAwesome name="plus"></b:iconAwesome>
+                                                    <b:iconAwesome name="save"></b:iconAwesome>
                                                 </b:commandButton>
                                             </b:column>
                                         </b:row>
@@ -299,29 +299,12 @@
                                         </b:tabView>
                                     </b:panel>
                                     <ui:include src="citaMedica/panelListadoAntecedentes.xhtml"/>
-                                    <b:row>
-                                        <b:column span="6" class="text-center">
-                                            <b:commandButton ajax="true"
-                                                            value="&nbsp; Anterior"
-                                                            action="#{CitaBean.cambioPanel('panel1', true)}"
-                                                            update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion"
-                                                            tooltip="Historia Clínica" 
-                                                            look="danger">
-                                                <b:iconAwesome name="fa-arrow-turn-down-left"></b:iconAwesome>
-                                                <!--<i class="fa-light fa-arrow-turn-down-left"></i>-->
-                                            </b:commandButton>
-                                        </b:column>
-                                        <b:column span="6" class="text-center">
-                                            <b:commandButton ajax="true"
-                                                            value="&nbsp; Siguiente"
-                                                            action="#{CitaBean.cambioPanel('panel3', true)}"
-                                                            update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion"
-                                                            tooltip="Signos" 
-                                                            look="success">
-                                                <b:iconAwesome name="plus"></b:iconAwesome>
-                                            </b:commandButton>
-                                        </b:column>
-                                    </b:row>
+                                    <ui:include src="citaMedica/footer.xhtml">
+                                        <ui:param name="panelBefore" value="panel1" />
+                                        <ui:param name="panelNext" value="panel3" />
+                                        <ui:param name="tooltipBefore" value="Historia Clínica" />
+                                        <ui:param name="tooltipNext" value="Signos" />
+                                    </ui:include>
                                 </b:panelGrid>
                             </p:outputPanel>
                         </b:form>
@@ -330,6 +313,12 @@
                                 <b:panelGrid columns="1" id="panelGrid3" span="12">
                                     <ui:include src="citaMedica/panelSignoPaciente.xhtml"/>
                                 </b:panelGrid>
+                                <ui:include src="citaMedica/footer.xhtml">
+                                    <ui:param name="panelBefore" value="panel2" />
+                                    <ui:param name="panelNext" value="panel4" />
+                                    <ui:param name="tooltipBefore" value="Antecedentes" />
+                                    <ui:param name="tooltipNext" value="Revisión de órganos y sistema" />
+                                </ui:include>
                             </p:outputPanel>
                         </b:form>
                         <b:form id="formRevision">
@@ -337,6 +326,12 @@
                                 <b:panelGrid columns="1" id="panel4" span="12">
                                     <ui:include src="citaMedica/panelRevision.xhtml"/>
                                 </b:panelGrid>
+                                <ui:include src="citaMedica/footer.xhtml">
+                                    <ui:param name="panelBefore" value="panel3" />
+                                    <ui:param name="panelNext" value="panel5" />
+                                    <ui:param name="tooltipBefore" value="Signo" />
+                                    <ui:param name="tooltipNext" value="Exámen fisico" />
+                                </ui:include>
                             </p:outputPanel>
                         </b:form>
                         <b:form id="formExamenFisico">
@@ -370,6 +365,12 @@
                                         </b:panel>
                                     </b:panel>
                                 </b:panelGrid>
+                                <ui:include src="citaMedica/footer.xhtml">
+                                    <ui:param name="panelBefore" value="panel4" />
+                                    <ui:param name="panelNext" value="panel6" />
+                                    <ui:param name="tooltipBefore" value="Revisión de órganos y sistema" />
+                                    <ui:param name="tooltipNext" value="Exámenes" />
+                                </ui:include>
                             </p:outputPanel>
                         </b:form>
                         <b:form id="formExamenLabIma">
@@ -399,11 +400,17 @@
                                     </b:panel>
                                     <ui:include src="citaMedica/panelListadoExamen.xhtml"/>
                                 </b:panelGrid>
+                                <ui:include src="citaMedica/footer.xhtml">
+                                    <ui:param name="panelBefore" value="panel5" />
+                                    <ui:param name="panelNext" value="panel7" />
+                                    <ui:param name="tooltipBefore" value="Exámen fisico" />
+                                    <ui:param name="tooltipNext" value="Diagnóstico" />
+                                </ui:include>
                             </p:outputPanel>
                         </b:form>
                         <b:form id="formDiagnostico">
                             <p:outputPanel id="panelOut7" rendered="#{CitaBean.menuPanel['panel7']}">
-                                <b:panelGrid columns="1" id="panel7" span="12" offset="0">
+                                <b:panelGrid columns="1" span="12" offset="0">
                                     <h3 id="reply-title">
                                         <b>Diagnóstico</b>
                                     </h3>
@@ -424,6 +431,12 @@
                                     </b:panel>
                                     <ui:include src="citaMedica/panelListadoDiagnostico.xhtml"/>
                                 </b:panelGrid>
+                                <ui:include src="citaMedica/footer.xhtml">
+                                    <ui:param name="panelBefore" value="panel6" />
+                                    <ui:param name="panelNext" value="panel8" />
+                                    <ui:param name="tooltipBefore" value="Exámenes" />
+                                    <ui:param name="tooltipNext" value="Tratamiento" />
+                                </ui:include>
                             </p:outputPanel>
                         </b:form>
                         <b:form id="formPrescripcion">
@@ -433,7 +446,6 @@
                                             <ui:include src="citaMedica/panelPrescripcion.xhtml">
                                             </ui:include>
                                         </b:panel>
-                                        <br/>
                                         <b:panel title="Tratamientos" look="info" collapsible="false" id="listadoTratamientoPaciente" span="12">
                                             <b:dataTable large-screen="full-width" id="historiaDiagnosticoTabla" value="#{CitaBean.lista_historia_tratamiento}" var="historiaTratamiento" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
                                                 page-length="7" multi-column-search="true" multi-column-search-position="top" >
@@ -474,6 +486,26 @@
                                             </b:dataTable>
                                         </b:panel>
                                 </b:panelGrid>
+                                
+                            </p:outputPanel>
+                        </b:form>
+                        <b:form id="formFinal">
+                            <p:outputPanel id="panelOut9" rendered="#{CitaBean.menuPanel['panel8']}">
+                                <b:row>
+                                    <b:column span="12" class="text-center">
+                                        <b:commandButton ajax="true"
+                                                         span="3" offset="5"
+                                                         style="color: white !important;"
+                                                         value="&nbsp; Finalizar cita"
+                                                         actionListener="#{CitaBean.actualizarCita()}"
+                                                         rendered="#{CitaBean.historia.hisCompletado eq '0'}"
+                                                         tooltip="Guardar cita" 
+                                                         look="primary">
+                                            <b:iconAwesome name="fa-save"></b:iconAwesome>
+                                            <f:ajax execute="formFinal" render="formFinal" />
+                                        </b:commandButton>
+                                    </b:column>
+                                </b:row>
                             </p:outputPanel>
                         </b:form>
                     </b:column>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -76,15 +76,16 @@
             <b:row>
                 <b:column offset="2" span="4" >
                     <b:commandButton ajax="true"
-                                     value="Cancelar diagnóstico"
-                                     update="formUpdateHistoriaDiagnostico :growl "
+                                     immediate="true"
+                                     value="&nbsp; Cancelar diagnóstico"
                                      oncomplete="$('#modaUpdateHistoriaDiagnostico').modal('hide');"
                                      tooltip="Cancelar diagnóstico" look="danger">
                         <b:iconAwesome name="fa-trash"></b:iconAwesome>
                     </b:commandButton>
                 </b:column>
                 <b:column span="4" >
-                    <b:commandButton id="submit" value="Actualizar diagnóstico"
+                    <b:commandButton id="submit" 
+                                     value="&nbsp; Actualizar diagnóstico"
                                      action="#{CitaBean.actualizarHistoriaDiagnostico()}"
                                      look="primary"
                                      update=":formDiagnostico:panelContainerDiagnostico:listadoDiagnosticoPaciente :growl"

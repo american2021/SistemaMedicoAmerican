@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -42,25 +42,23 @@
             </b:row>
             <b:row>
                 <b:column offset="2" span="4" >
-                    <b:commandButton ajax="false"
+                    <b:commandButton ajax="true"
                                      immediate="true"
-                                     value="Cancelar diagnóstico"
-                                     update="formDiagnostico :growl "
-                                     process="@this"
+                                     value="&nbsp; Cancelar diagnóstico"
                                      oncomplete="$('#modalAddDiagnostico').modal('hide');"
                                      tooltip="Cancelar diagnóstico" look="danger">
                         <b:iconAwesome name="fa-trash"></b:iconAwesome>
                     </b:commandButton>
                 </b:column>
                 <b:column span="4" >
-                    <b:commandButton id="submit" value="Crear diagnóstico"
-                                     onclick="return validarCampos();"
+                    <b:commandButton id="submit" 
+                                     value="&nbsp; Crear diagnóstico"
                                      action="#{CitaBean.crearDiagnosticoCIE10()}"
-                                     look="primary" ajax="true"
+                                     look="primary" 
+                                     ajax="true"
+                                     update=":formDiagnostico:panelOut7:listadoDiagnostico :growl"
                                      oncomplete="$('#modalAddDiagnostico').modal('hide');" >
                         <b:iconAwesome name="fa-bookmark"></b:iconAwesome>
-                        <f:ajax event="change" listener="#{CitaBean.crearDiagnosticoCIE10()}"
-                                render=":formDiagnostico:listadoDiagnostico growl"/>
                     </b:commandButton>
                 </b:column>
             </b:row>
