@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 13/12/2023 1:09:48 by Hibernate Tools 4.3.1 -->
+<!-- Generated 14/12/2023 18:28:39 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Resultados" table="resultados" catalog="smed" optimistic-lock="version">
-        <id name="resId" type="java.lang.Integer">
+        <id name="resId" type="int">
             <column name="res_id" />
-            <generator class="identity" />
+            <generator class="assigned" />
         </id>
         <property name="resExamen" type="string">
             <column name="res_examen" length="300" not-null="true" />

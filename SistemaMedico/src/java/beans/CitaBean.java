@@ -1200,6 +1200,8 @@ public final class CitaBean implements Serializable{
         menuPanel.put("panel6", false);
         menuPanel.put("panel7", false);
         menuPanel.put("panel8", false);
+        menuPanel.put("panel9", false);
+        menuPanel.put("panel10", false);
     }
     
     /**
