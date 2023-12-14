@@ -7,9 +7,13 @@ package dao;
 
 import conexion.HibernateUtil;
 import datos.Diagnosticos;
+import java.sql.SQLException;
 import java.util.List;
+import net.bootsfaces.utils.FacesMessages;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 
 /**
  *
@@ -21,16 +25,33 @@ public class DiagnosticoDAO {
      * Método para crear o actualizar un diagnóstico.
      *
      * @param diagnostico
+     * @throws java.lang.Exception 
      */
-    public static void crearActualizarDiagnostico(Diagnosticos diagnostico) {
+    public static void crearActualizarDiagnostico(Diagnosticos diagnostico) throws Exception{
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.saveOrUpdate(diagnostico);
-        session.getTransaction().commit();
-        session.close();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.saveOrUpdate(diagnostico);
+            transaction.commit();
+        } catch (ConstraintViolationException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.out.println("e"+e);
+            throw e;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.out.println("h"+e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
     
-        /**
+    /**
      * Método para eliminar un diagnóstico.
      *
      * @param diagnostico

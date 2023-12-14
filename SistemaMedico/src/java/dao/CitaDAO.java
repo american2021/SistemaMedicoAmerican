@@ -217,12 +217,13 @@ public class CitaDAO {
     /**
      * Método para recuperar la última historia registrada.
      *
+     * @param id_paciente
      * @return
      */
-    public static int recuperarIDUltimaHistoria() {
+    public static int recuperarIDUltimaHistoria(int id_paciente) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM Historias order by his_id desc");
+        Query query = session.createQuery("FROM Historias WHERE  personasByPacientePerId.perId = '"+id_paciente+"' order by his_id desc");
         Historias h = (Historias) query.list().get(0);
         int id = h.getHisId();
         session.getTransaction().commit();

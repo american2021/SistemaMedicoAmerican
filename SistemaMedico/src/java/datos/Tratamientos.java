@@ -1,5 +1,5 @@
 package datos;
-// Generated 12/12/2023 11:30:07 by Hibernate Tools 4.3.1
+// Generated 13/12/2023 1:09:47 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -15,14 +15,14 @@ public class Tratamientos  implements java.io.Serializable {
      private Integer traId;
      private Medicamentos medicamentos;
      private String traCodigoCie;
+     private String traIndicaciones;
+     private String traAdvertencias;
      private String traEdicionCie;
      private String traEstado;
      private String traFrecuencia;
      private String traViaAdministracion;
      private int traDuracion;
      private int traCantidad;
-     private String traIndicaciones;
-     private String traAdvertencias;
      private Date traFechaUlt;
      private String traUsuario;
      private Set historiaTratamientos = new HashSet(0);
@@ -31,29 +31,29 @@ public class Tratamientos  implements java.io.Serializable {
     }
 
 	
-    public Tratamientos(Medicamentos medicamentos, String traEstado, String traFrecuencia, String traViaAdministracion, int traDuracion, int traCantidad, String traIndicaciones, String traAdvertencias, Date traFechaUlt, String traUsuario) {
+    public Tratamientos(Medicamentos medicamentos, String traIndicaciones, String traAdvertencias, String traEstado, String traFrecuencia, String traViaAdministracion, int traDuracion, int traCantidad, Date traFechaUlt, String traUsuario) {
         this.medicamentos = medicamentos;
+        this.traIndicaciones = traIndicaciones;
+        this.traAdvertencias = traAdvertencias;
         this.traEstado = traEstado;
         this.traFrecuencia = traFrecuencia;
         this.traViaAdministracion = traViaAdministracion;
         this.traDuracion = traDuracion;
         this.traCantidad = traCantidad;
-        this.traIndicaciones = traIndicaciones;
-        this.traAdvertencias = traAdvertencias;
         this.traFechaUlt = traFechaUlt;
         this.traUsuario = traUsuario;
     }
-    public Tratamientos(Medicamentos medicamentos, String traCodigoCie, String traEdicionCie, String traEstado, String traFrecuencia, String traViaAdministracion, int traDuracion, int traCantidad, String traIndicaciones, String traAdvertencias, Date traFechaUlt, String traUsuario, Set historiaTratamientos) {
+    public Tratamientos(Medicamentos medicamentos, String traCodigoCie, String traIndicaciones, String traAdvertencias, String traEdicionCie, String traEstado, String traFrecuencia, String traViaAdministracion, int traDuracion, int traCantidad, Date traFechaUlt, String traUsuario, Set historiaTratamientos) {
        this.medicamentos = medicamentos;
        this.traCodigoCie = traCodigoCie;
+       this.traIndicaciones = traIndicaciones;
+       this.traAdvertencias = traAdvertencias;
        this.traEdicionCie = traEdicionCie;
        this.traEstado = traEstado;
        this.traFrecuencia = traFrecuencia;
        this.traViaAdministracion = traViaAdministracion;
        this.traDuracion = traDuracion;
        this.traCantidad = traCantidad;
-       this.traIndicaciones = traIndicaciones;
-       this.traAdvertencias = traAdvertencias;
        this.traFechaUlt = traFechaUlt;
        this.traUsuario = traUsuario;
        this.historiaTratamientos = historiaTratamientos;
@@ -79,6 +79,20 @@ public class Tratamientos  implements java.io.Serializable {
     
     public void setTraCodigoCie(String traCodigoCie) {
         this.traCodigoCie = traCodigoCie;
+    }
+    public String getTraIndicaciones() {
+        return this.traIndicaciones;
+    }
+    
+    public void setTraIndicaciones(String traIndicaciones) {
+        this.traIndicaciones = traIndicaciones;
+    }
+    public String getTraAdvertencias() {
+        return this.traAdvertencias;
+    }
+    
+    public void setTraAdvertencias(String traAdvertencias) {
+        this.traAdvertencias = traAdvertencias;
     }
     public String getTraEdicionCie() {
         return this.traEdicionCie;
@@ -121,20 +135,6 @@ public class Tratamientos  implements java.io.Serializable {
     
     public void setTraCantidad(int traCantidad) {
         this.traCantidad = traCantidad;
-    }
-    public String getTraIndicaciones() {
-        return this.traIndicaciones;
-    }
-    
-    public void setTraIndicaciones(String traIndicaciones) {
-        this.traIndicaciones = traIndicaciones;
-    }
-    public String getTraAdvertencias() {
-        return this.traAdvertencias;
-    }
-    
-    public void setTraAdvertencias(String traAdvertencias) {
-        this.traAdvertencias = traAdvertencias;
     }
     public Date getTraFechaUlt() {
         return this.traFechaUlt;

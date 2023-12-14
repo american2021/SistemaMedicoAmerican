@@ -344,25 +344,25 @@
                         <br/>
                         <b:row style="text-align: center;" contentDisabled="false">
 
-                            <b:column offset="1" span="3">
+                            <b:column offset="2" span="4">
                                 <b:button large-screen="full-width"
                                           id="salir"
                                           value="Regresar"
                                           look="danger"
                                           href="home"/>
                             </b:column>
-                            <b:column span="3">
+                            <b:column span="4">
                                 <b:commandButton 
                                     large-screen="full-width"
                                     id="guardar_persona"
-                                    value="Guardar y regresar"
+                                    value="Guardar y ver cita"
                                     type="submit"
                                     action="#{PersonaBean.guardarPaciente()}"
                                     look="info">
                                     <f:ajax execute="commentform" render="commentform" />
                                 </b:commandButton>
                             </b:column>
-                            <b:column span="3">
+<!--                            <b:column span="3">
                                 <b:commandButton
                                     large-screen="full-width"
                                     id="guardar_persona_signos"
@@ -372,7 +372,7 @@
                                     look="info">
                                     <f:ajax execute="commentform" render="commentform" />
                                 </b:commandButton>
-                            </b:column>
+                            </b:column>-->
                         </b:row>
                     </b:panel>
                 </b:form>

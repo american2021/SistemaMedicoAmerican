@@ -33,10 +33,10 @@
                     page-length="7" multi-column-search="true" multi-column-search-position="top" >
                     <b:dataTableColumn label="Código" value="#{CitaBean.antecedenteFormatoExamen(historiaDiagnostico.diagnosticos.diaCodigoCie)}" style="width: 5%" />
                     <b:dataTableColumn label="Descripción" value="#{historiaDiagnostico.diagnosticos.diaDescripcionCie}" style="width: 20%" />
-                    <b:dataTableColumn label="Tipo" value="#{CitaBean.formatoTipoDiagostico(historiaDiagnostico.hisDiaTipo)}" style="width: 8%" />
-                    <b:dataTableColumn label="Condición" value="#{CitaBean.formatoCondicionDiagostico(historiaDiagnostico.hisDiaCondicion)}" style="width: 8%" />
-                    <b:dataTableColumn label="Cronología" value="#{CitaBean.formatoCronologiaDiagostico(historiaDiagnostico.hisDiaCronologia)}" style="width: 8%" />
-                    <b:dataTableColumn label="Observación" value="#{historiaDiagnostico.hisDiaObservacion}" style="width: 37%" />
+                    <b:dataTableColumn label="Tipo" value="#{CitaBean.formatoTipoDiagostico(historiaDiagnostico.hisDiaTipo)}" style="width: 12%" />
+                    <b:dataTableColumn label="Condición" value="#{CitaBean.formatoCondicionDiagostico(historiaDiagnostico.hisDiaCondicion)}" style="width: 12%" />
+                    <b:dataTableColumn label="Cronología" value="#{CitaBean.formatoCronologiaDiagostico(historiaDiagnostico.hisDiaCronologia)}" style="width: 12%" />
+                    <b:dataTableColumn label="Observación" value="#{historiaDiagnostico.hisDiaObservacion}" style="width: 25%" />
                     <b:dataTableColumn label="Acciones" style="width: 12%; padding-left: 1%;padding-right: 1% "
                                       orderable="false"
                                       searchable="false">
@@ -59,7 +59,7 @@
                                              look="danger">
                                 <b:iconAwesome name="trash"></b:iconAwesome>
                                 <f:ajax execute="@this"
-                                        render="formDiagnostico:panelContainerDiagnostico:listadoDiagnosticoPaciente :growl"
+                                        render="formDiagnostico:panelContainerDiagnostico:listadoDiagnosticoPaciente formDiagnostico:listadoDiagnostico:diagnosticoTabla :growl"
                                         listener="#{CitaBean.eliminarHistoriaDiagnostico(historiaDiagnostico)}"/>
                             </b:commandButton>
                         </b:column>

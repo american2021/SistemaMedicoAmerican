@@ -49,6 +49,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -59,9 +60,13 @@ import java.util.List;
 import net.bootsfaces.utils.FacesMessages;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.faces.context.FacesContext;
+import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -74,6 +79,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -96,6 +102,7 @@ public final class CitaBean implements Serializable{
     private List<Diagnosticos> lista_diagnosticos_all;
     private List<HistoriaAntecedente> lista_historia_antecedente;
     private List<HistoriaAntecedente> lista_historial_historia_antecedente;
+    private List<HistoriaAntecedente> lista_historial_default_historia_antecedente;
     private List<HistoriaTratamiento> lista_historia_tratamiento;
     private List<HistoriaAntecedente> lista_alergias_historia_antecedente;
     private List<HistoriaExamen> lista_historia_examen;
@@ -161,6 +168,8 @@ public final class CitaBean implements Serializable{
     
     private String panelActual = "panel1";
     
+    private Set<String> grupoSet = new HashSet<>();
+    
     private List<Ciudades> lista_ciudades;
     private List<Estadocivil> lista_estados_civiles;
     private List<String> lista_categoria_antecedentes;
@@ -202,6 +211,7 @@ public final class CitaBean implements Serializable{
         lista_categoria_antecedentes = new ArrayList<>();
         lista_historia_antecedente = new ArrayList<>();
         lista_historial_historia_antecedente = new ArrayList<>();
+        lista_historial_default_historia_antecedente = new ArrayList<>();
         lista_historia_tratamiento = new ArrayList<>();
         lista_alergias_historia_antecedente = new ArrayList<>();
         diagnostico = new Diagnosticos();
@@ -407,6 +417,15 @@ public final class CitaBean implements Serializable{
      * Método para recuperar los antecedente registrados en la base de una persona
      * @return 
      */
+    public List<HistoriaAntecedente> recuperarHistorialDefaultHistoriaAntecedente() {
+        lista_historial_default_historia_antecedente = HistoriaAntecedenteDAO.recuperarHistorialDefectoHistoriaAntecedente(historia.getHisId(), historia.getPersonasByPacientePerId().getPerId());
+        return lista_historial_default_historia_antecedente;
+    }
+    
+    /**
+     * Método para recuperar los antecedente registrados en la base de una persona
+     * @return 
+     */
     public List<HistoriaTratamiento> recuperarHistoriaTratamiento() {
         lista_historia_tratamiento = HistoriaTratamientoDAO.recuperarHistoriaTratamiento(historia.getHisId());
         return lista_historia_tratamiento;
@@ -426,7 +445,7 @@ public final class CitaBean implements Serializable{
      * @return 
      */
     public List<HistoriaExamen> recuperarHistoriaExamenes() {
-        lista_historia_examen= HistoriaExamenDAO.recuperarHistoriaExamenes(historia.getHisId());
+        lista_historia_examen= HistoriaExamenDAO.recuperarHistoriaExamenes(historia_actual_id, historia.getPersonasByPacientePerId().getPerId());
         return lista_historia_examen;
     }
     
@@ -668,6 +687,7 @@ public final class CitaBean implements Serializable{
             CitaDAO.crearActualizarHistoria(historia);
             FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
             FacesContext.getCurrentInstance().getExternalContext().redirect("/SistemaMedico/listado-citas-dia");
+            HistoriaAntecedenteDAO.crearDefaultHistoriaAntecedente(historia_actual_id);
             return null; // No olvides devolver null para indicar que no hay navegación implícita.
         } catch (Exception e) {
 
@@ -871,14 +891,11 @@ public final class CitaBean implements Serializable{
      * @param diagnosticos
      */
     public void crearHistoriaDiagnosticoPrueba(Diagnosticos diagnosticos){
-        validarCampo(":growlInfo", editedDescriptionsDiagnostico.get(diagnosticos.getDiaId()), "Error: Ingrese la observación del diagnóstico");
         validarCampo(":growlInfo", editedTipoDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione el tipo del diagnóstico");
         validarCampo(":growlInfo", editedCondicionDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione la condición del diagnóstico");
         validarCampo(":growlInfo", editedCronologiaDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione la cronología del diagnóstico");
 
-        // Si todos los campos están llenos, imprimir un mensaje adicional
-        if (!isBlank(editedDescriptionsDiagnostico.get(diagnosticos.getDiaId()))
-                && !isBlank(editedTipoDiagnostico.get(diagnosticos.getDiaId()))
+        if (!isBlank(editedTipoDiagnostico.get(diagnosticos.getDiaId()))
                 && !isBlank(editedCondicionDiagnostico.get(diagnosticos.getDiaId()))
                 && !isBlank(editedCronologiaDiagnostico.get(diagnosticos.getDiaId()))) {
             nuevo_historia_diagnostico.setDiagnosticos(diagnosticos);
@@ -896,12 +913,28 @@ public final class CitaBean implements Serializable{
                 editedTipoDiagnostico = new HashMap<>();
                 editedCondicionDiagnostico = new HashMap<>();
                 editedCronologiaDiagnostico = new HashMap<>();
+                removeListDiagnostico(diagnosticos);
                 recuperarHistoriaDiagnostico();
                 FacesMessages.info(":growlInfo", "Diagnóstico Creado", "This is a specific message!");
             } catch (Exception e) {
                 FacesMessages.info(":growlInfo", "Error al crear el diagnóstico: "+e.getCause().getMessage(), "This is a specific message!");
             }
         }
+    }
+    
+    public void removeListDiagnostico(Diagnosticos diagnosticos){
+//        lista_diagnosticos_all.remove(diagnosticos.getDiaId());
+        Iterator<Diagnosticos> iterator = lista_diagnosticos_all.iterator();
+        while (iterator.hasNext()) {
+            Diagnosticos currentDiagnostico = iterator.next();
+            if (currentDiagnostico.getDiaId() == diagnosticos.getDiaId()) {
+                iterator.remove();
+            }
+        }
+    }
+    
+    public void addListDiagnostico(Diagnosticos diagnosticos){
+        lista_diagnosticos_all.add(diagnosticos);    
     }
 
     /**
@@ -916,8 +949,20 @@ public final class CitaBean implements Serializable{
             nuevo_diagnostico = new Diagnosticos();
             recuperarDiagnosticos();
             FacesMessages.info(":growlInfo", "Diagnóstico Creado", "This is a specific message!");
+        } catch (ConstraintViolationException e) {
+            System.out.println("entra a e: "+e);
+            String sqlErrorCode = e.getSQLException().getSQLState();
+            int sqlErrorCod = e.getSQLException().getErrorCode();
+            if ("23000".equals(sqlErrorCode) && sqlErrorCod == 1062){
+                // Código de error SQL 1062 (violación de restricción única)
+                FacesMessages.error(":growlInfo", "Error al crear diagnóstico: El código de diagnóstico ya se encuentra registrado", "This is a specific message!");
+            } else {
+                // Otro código de error SQL
+                FacesMessages.error(":growlInfo", "Error al crear diagnóstico: " + e.getMessage(), "This is a specific message!");
+            }
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al crear diagnóstico: "+e.getCause().getMessage(), "This is a specific message!");
+            System.out.println("entra a e2 : "+e);
+            FacesMessages.error(":growlInfo", "Error al crear diagnóstico: "+e.getCause().getMessage(), "This is a specific message!");
         }
         
     }
@@ -1075,6 +1120,7 @@ public final class CitaBean implements Serializable{
         historia = CitaDAO.recuperarHistoriaID(hisId);
         recuperarHistoriaAntecedente();
         recuperarHistorialHistoriaAntecedente();
+        recuperarHistorialDefaultHistoriaAntecedente();
         recuperarAlergiasHistoriaAntecedente();
         recuperarHistoriaExamenes();
         recuperarHistorialHistoriaExamenes();
@@ -1083,6 +1129,10 @@ public final class CitaBean implements Serializable{
         recuperarHistorialHistoriaDiagnostico();
         recuperarHistoriaTratamiento();
         recuperarDiagnosticos();
+        // Eliminar los diagnosticos registrados
+        for (HistoriaDiagnostico historiaDiagnostico : lista_historia_diagnostico) {
+            removeListDiagnostico(historiaDiagnostico.getDiagnosticos());
+        }
         signos = SignosDAO.recuperarSignosId(historia.getSignos().getSigId());
         revision = RevisionSistemasDAO.recuperarRevision(historia.getRevisionSistemas().getRevSisId());
 
@@ -1168,6 +1218,13 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    public boolean shouldExpandPanel(String antGrupo) {
+    // Lógica para determinar si se debe expandir el panel basado en antGrupo
+    // Puedes implementar tu propia lógica aquí
+    // Por ejemplo, podrías comparar antGrupo con algún valor específico y devolver true o false en consecuencia.
+    return "grupoEspecial".equals(antGrupo);
+}
+    
     public void eliminarExamen(){
         try {
             HistoriaExamenDAO.eliminarHistoriaExamen(eliminarHistoriaExamen);
@@ -1244,7 +1301,9 @@ public final class CitaBean implements Serializable{
      */
     public void eliminarHistoriaDiagnostico(HistoriaDiagnostico historiaDiagnostico){
         try {
+            Diagnosticos diagnosticos = historiaDiagnostico.getDiagnosticos();
             HistoriaDiagnosticoDAO.eliminarHistoriaDiagnostico(historiaDiagnostico);
+            addListDiagnostico(diagnosticos);
             recuperarHistoriaDiagnostico();
             FacesMessages.info(":growlInfo", "Diagnóstico eliminado", "This is a specific message!");
         } catch (Exception e) {
@@ -1978,6 +2037,10 @@ public final class CitaBean implements Serializable{
         return lista_diagnosticos_all;
     }
 
+    public void setLista_diagnosticos_all(List<Diagnosticos> lista_diagnosticos_all) {
+        this.lista_diagnosticos_all = lista_diagnosticos_all;
+    }
+
     public List<String> getLista_categoria_antecedentes() {
         return lista_categoria_antecedentes;
     }
@@ -1996,6 +2059,10 @@ public final class CitaBean implements Serializable{
 
     public List<HistoriaAntecedente> getLista_historial_historia_antecedente() {
         return lista_historial_historia_antecedente;
+    }
+
+    public List<HistoriaAntecedente> getLista_historial_default_historia_antecedente() {
+        return lista_historial_default_historia_antecedente;
     }
 
     public List<HistoriaTratamiento> getLista_historia_tratamiento() {
@@ -2302,4 +2369,8 @@ public final class CitaBean implements Serializable{
         this.visibleDiagnostico = visibleDiagnostico;
     }
     
+    // Getter para el conjunto
+    public Set<String> getGrupoSet() {
+        return grupoSet;
+    }
 }

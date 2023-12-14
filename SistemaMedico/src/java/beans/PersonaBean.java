@@ -221,12 +221,15 @@ public final class PersonaBean implements Serializable {
         PersonaDAO.crearActualizarPersona(persona);
 
         guardarDatosHistoriaInicial();
+        guardarPacienteConSignos();
+        citaBean.VerCitaMedica(CitaDAO.recuperarIDUltimaHistoria(persona.getPerId()));
 
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
 
-        FacesMessages.info(":growlInfo", "Paciente creado con éxito", "This is a specific message!");
-        return "/privado/home.xhtml?faces-redirect=true";
+//        FacesMessages.info(":growlInfo", "Paciente creado con éxito", "This is a specific message!");
+        return "/medico/citaMedica.xhtml?faces-redirect=true";
+//        return "/privado/home.xhtml?faces-redirect=true";
     }
 
     public String recuperarSexoPorCodigo(int id) {
@@ -324,7 +327,7 @@ public final class PersonaBean implements Serializable {
 
     public String guardarDatosHistoriaInicial() {        
         Signos ultimoSignos = SignosDAO.recuperarUltimoSignoPaciente(persona.getPerId());
-        if (ultimoSignos.getSigId() != null) {
+        if (ultimoSignos != null) {
             signos.setSigPeso(ultimoSignos.getSigPeso());
             signos.setSigEstatura(ultimoSignos.getSigEstatura());
             signos.setSigImc(ultimoSignos.getSigImc());
@@ -398,26 +401,7 @@ public final class PersonaBean implements Serializable {
         historia.setPersonasByMedicoPerId(PersonaDAO.recuperarPersonaUsuario(session.getAttribute("usuario").toString()));
     }
 
-    public String redireccionarPacienteGuardado() throws InterruptedException {
-        guardarPacienteConSignos();
-        context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        FacesMessages.info(":growlInfo", "Paciente creado con éxito", "This is a specific message!");
-        // Fragmento para conservar los mensajes entre vistas
-        return "/privado/home.xhtml?faces-redirect=true";
-    }
-
-    public String redireccionarIniciarCita() {
-        guardarPacienteConSignos();
-        citaBean.VerCitaMedica(CitaDAO.recuperarIDUltimaHistoria());
-        context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        FacesMessages.info(":growlInfo", "Cita Iniciada", "This is a specific message!");
-        // Fragmento para conservar los mensajes entre vistas
-        return "/medico/citaMedica.xhtml?faces-redirect=true";
-    }
-
-    public String actualizarPaciente() {
+    public String actualizarPaciente() throws InterruptedException{
         if (profesion_abierta.length() > 0) {
             persona.setPerProfesion(profesion_abierta);
         }

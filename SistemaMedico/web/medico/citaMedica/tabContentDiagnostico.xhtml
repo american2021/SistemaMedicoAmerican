@@ -29,7 +29,7 @@
         <b:dataTable style="width: 100%; margin: 0 auto;" id="diagnosticoTabla" value="#{lista}" var="item"  ajax="true"
                      responsive="true"  searching="true" markSearchResults=""
                     page-length="5" multi-column-search="true" multi-column-search-position="top">               
-            <b:dataTableColumn label="Código" value="#{item.diaCodigoCie}" style="width: 4%" />
+            <b:dataTableColumn label="Código" value="#{item.diaCodigoCie}" style="width: 10%" />
             <b:dataTableColumn label="Descripción" value="#{item.diaDescripcionCie}" style="width: 20%" />
             <b:dataTableColumn label="Tipo" style="width: 10%" orderable="false" searchable="false">
                 <b:selectOneMenu id="tipo_#{item.diaId}"
@@ -65,7 +65,7 @@
                 </b:selectOneMenu>
                 <b:message for="cronologia_#{item.diaId}" />
             </b:dataTableColumn>
-            <b:dataTableColumn label="Observación" style="width: 34%; display: inline-block;" orderable="false" searchable="false" >
+            <b:dataTableColumn label="Observación" style="width: 28%; display: inline-block;" orderable="false" searchable="false" >
                 <b:inputTextarea id="descripcion_#{item.diaId}"
                     styleClass="form-control tipo-columna"
                     value="#{CitaBean.editedDescriptionsDiagnostico[item.diaId]}" 

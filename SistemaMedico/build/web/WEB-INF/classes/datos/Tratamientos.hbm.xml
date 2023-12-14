@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 12/12/2023 11:30:08 by Hibernate Tools 4.3.1 -->
+<!-- Generated 13/12/2023 1:09:48 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Tratamientos" table="tratamientos" catalog="smed" optimistic-lock="version">
         <id name="traId" type="java.lang.Integer">
@@ -13,6 +13,12 @@
         </many-to-one>
         <property name="traCodigoCie" type="string">
             <column name="tra_codigo_cie" length="50" />
+        </property>
+        <property name="traIndicaciones" type="string">
+            <column name="tra_indicaciones" length="300" not-null="true" />
+        </property>
+        <property name="traAdvertencias" type="string">
+            <column name="tra_advertencias" length="500" not-null="true" />
         </property>
         <property name="traEdicionCie" type="string">
             <column name="tra_edicion_cie" length="2" />
@@ -31,12 +37,6 @@
         </property>
         <property name="traCantidad" type="int">
             <column name="tra_cantidad" not-null="true" />
-        </property>
-        <property name="traIndicaciones" type="string">
-            <column name="tra_indicaciones" length="300" not-null="true" />
-        </property>
-        <property name="traAdvertencias" type="string">
-            <column name="tra_advertencias" length="500" not-null="true" />
         </property>
         <property name="traFechaUlt" type="timestamp">
             <column name="tra_fecha_ult" length="19" not-null="true" />

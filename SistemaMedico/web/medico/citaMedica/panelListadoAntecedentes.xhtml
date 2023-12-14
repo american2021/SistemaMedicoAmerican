@@ -57,17 +57,35 @@
                     </b:dataTableColumn>
                 </b:dataTable>
             </b:panel>
-            <b:panel title="Historial de antecedentes del paciente" look="info" collapsible="false" id="panelListaHistoriaAntecedente" rendered="#{ not CitaBean.visibleAntecedente}">
-                <b:dataTable large-screen="full-width" id="listaHistorialAntecedente" value="#{CitaBean.lista_historial_historia_antecedente}" var="historiaAntecedente" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
-                    page-length="7" multi-column-search="true" multi-column-search-position="top" >
-                    <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaAntecedente.hisAntFechaUlt)}" style="width: 5%" />
-                    <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormato(historiaAntecedente.antecedente.antTipo)}" style="width: 5%" />
-                    <b:dataTableColumn label="Categoría" value="#{historiaAntecedente.antecedente.antCategoria}" style="width: 10%" />
-                    <b:dataTableColumn label="Antecedente" value="#{historiaAntecedente.antecedente.antGrupo}" style="width: 15%" />
-                    <b:dataTableColumn label="Descripción" value="#{historiaAntecedente.hisAntDescripcion}" style="width: 50%" />
-                    <b:dataTableColumn label="Doctor" value="#{historiaAntecedente.historias.personasByMedicoPerId.perApellidos} #{historiaAntecedente.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
-                </b:dataTable>
-            </b:panel>
+            <b:tabView style-class="width: 100%">
+                <b:tab title="Registrados">
+                    <b:panel title="Historial de antecedentes del paciente registrados" look="info" collapsible="false" id="panelListaHistoriaAntecedente" rendered="#{ not CitaBean.visibleAntecedente}">
+                        <b:dataTable large-screen="full-width" id="listaHistorialAntecedente" value="#{CitaBean.lista_historial_historia_antecedente}" var="historiaAntecedente" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                            page-length="7" multi-column-search="true" multi-column-search-position="top" >
+                            <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaAntecedente.hisAntFechaUlt)}" style="width: 5%" />
+                            <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormato(historiaAntecedente.antecedente.antTipo)}" style="width: 5%" />
+                            <b:dataTableColumn label="Categoría" value="#{historiaAntecedente.antecedente.antCategoria}" style="width: 10%" />
+                            <b:dataTableColumn label="Antecedente" value="#{historiaAntecedente.antecedente.antGrupo}" style="width: 15%" />
+                            <b:dataTableColumn label="Descripción" value="#{historiaAntecedente.hisAntDescripcion}" style="width: 50%" />
+                            <b:dataTableColumn label="Doctor" value="#{historiaAntecedente.historias.personasByMedicoPerId.perApellidos} #{historiaAntecedente.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
+                        </b:dataTable>
+                    </b:panel>
+                </b:tab>
+                <b:tab title="Por defecto">
+                    <b:panel title="Historial de antecedentes del paciente no ingresados" look="info" collapsible="false" id="panelListaHistoriaAntecedente" rendered="#{ not CitaBean.visibleAntecedente}">
+                        <b:dataTable large-screen="full-width" id="listaHistorialAntecedente" value="#{CitaBean.lista_historial_default_historia_antecedente}" var="historiaAntecedente" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                            page-length="7" multi-column-search="true" multi-column-search-position="top" >
+                            <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaAntecedente.hisAntFechaUlt)}" style="width: 5%" />
+                            <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormato(historiaAntecedente.antecedente.antTipo)}" style="width: 5%" />
+                            <b:dataTableColumn label="Categoría" value="#{historiaAntecedente.antecedente.antCategoria}" style="width: 10%" />
+                            <b:dataTableColumn label="Antecedente" value="#{historiaAntecedente.antecedente.antGrupo}" style="width: 15%" />
+                            <b:dataTableColumn label="Descripción" value="#{historiaAntecedente.hisAntDescripcion}" style="width: 50%" />
+                            <b:dataTableColumn label="Doctor" value="#{historiaAntecedente.historias.personasByMedicoPerId.perApellidos} #{historiaAntecedente.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
+                        </b:dataTable>
+                    </b:panel>
+                </b:tab>
+            </b:tabView>
+            
         </p:outputPanel>
     </b:panelGrid>
 </html>

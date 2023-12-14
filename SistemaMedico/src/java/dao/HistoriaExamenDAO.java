@@ -9,9 +9,12 @@ import conexion.HibernateUtil;
 import datos.HistoriaExamen;
 import datos.Historias;
 import datos.Personas;
+import java.util.Collections;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -71,28 +74,64 @@ public class HistoriaExamenDAO {
      * Método para recuperar los nombres de los diagnostico personal
      *
      * @param id_historia
+     * @param id_paciente
      * @return
      */
-    public static List<HistoriaExamen> recuperarHistoriaExamenes(int id_historia) {
+    public static List<HistoriaExamen> recuperarHistoriaExamenes(int id_historia, int id_paciente) {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            Query query = session.createQuery(" SELECT e FROM HistoriaExamen e, Historias h  WHERE h.hisId = e.historias.hisId AND h.personasByPacientePerId ='" + 
+                    id_paciente + "' AND ( ( e.historias.hisId = '" + 
+                    id_historia + "' ) OR ( e.historias.hisId != '" + 
+                    id_historia + "' AND e.hisExaCompletado = 0) )");
+
+            List<HistoriaExamen> historiaExamen= query.list();
+
+            historiaExamen.forEach((historiaExame) -> {
+                Hibernate.initialize(historiaExame.getExamenes());
+                Hibernate.initialize(historiaExame.getHistorias().getPersonasByPacientePerId());
+            });
+
+            transaction.commit();
+            return historiaExamen;
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace(); // Log or handle the exception appropriately
+            return Collections.emptyList();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
 //        Examenes exa = new Examenes();
-        session.beginTransaction();
-        Query query = session.createQuery("FROM HistoriaExamen where his_id= '" + id_historia + "' OR his_id != '" + id_historia + "'  AND his_exa_completado = 0");         
-        List<HistoriaExamen> historiaExamen= query.list();
-        historiaExamen.forEach((historiaExame) -> {
-            historiaExame.setExamenes(ExamenesDAO.recuperarExamenesId(historiaExame.getExamenes().getExaId()));
-            Historias aux_histori = historiaExame.getHistorias();
-            // Recuperar persona
-            Personas aux_per = historiaExame.getHistorias().getPersonasByMedicoPerId();
-            // Setear la persona para el campo medico dentro de la entidad historia
-            aux_per.getPerApellidos();
-            aux_histori.setPersonasByMedicoPerId(aux_per);
-            // Setear la historia
-            historiaExame.setHistorias(aux_histori);
-        });
-        session.getTransaction().commit();
-        session.close();
-        return historiaExamen;
+//        session.beginTransaction();
+//        Query query = session.createQuery("FROM HistoriaExamen where his_id= '" + id_historia + "' OR his_id != '" + id_historia + "'  AND his_exa_completado = 0");         
+//        List<HistoriaExamen> historiaExamen= query.list();
+//        System.out.println("his"+historiaExamen);
+//        if (historiaExamen.isEmpty()) {
+//            System.out.println("entra");
+//        } else {
+//            System.out.println("no entra");
+//        }
+//        historiaExamen.forEach((historiaExame) -> {
+//            historiaExame.setExamenes(ExamenesDAO.recuperarExamenesId(historiaExame.getExamenes().getExaId()));
+//            Historias aux_histori = historiaExame.getHistorias();
+//            // Recuperar persona
+//            Personas aux_per = historiaExame.getHistorias().getPersonasByMedicoPerId();
+//            // Setear la persona para el campo medico dentro de la entidad historia
+//            aux_per.getPerApellidos();
+//            aux_histori.setPersonasByMedicoPerId(aux_per);
+//            // Setear la historia
+//            historiaExame.setHistorias(aux_histori);
+//        });
+//        session.getTransaction().commit();
+//        session.close();
+//        return historiaExamen;
     }
     /**
      * Método para recuperar los nombres de los diagnostico personal

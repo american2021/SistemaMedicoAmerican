@@ -3,7 +3,8 @@
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     
     <style>
         .tipo-columna {
@@ -24,7 +25,18 @@
         <b:dataTable style="width: 100%; margin: 0 auto;" id="antecedanteTabla" value="#{lista}" var="item"
                      responsive="true" content-disabled="false" searching="true"
                      page-length="5" multi-column-search="true" multi-column-search-position="top">
-            <b:dataTableColumn label="Categoria" value="#{item.antCategoria}" style="width: 10% !important"/>
+            <b:dataTableColumn label="Acciones" style="width: 10%; padding-left: 1%; padding-right: 1%" orderable="false" searchable="false">
+                <!-- Acordeón para cada tipo de item.antCategoria y filtrado por grupo -->
+                <b:accordion contentDisabled="true" id="accordion_#{item.antCategoria}_#{item.antGrupo}">
+                    <b:panel title="Detalles">
+                        <!-- Contenido del acordeón, puedes agregar más detalles aquí -->
+                        <b:inputText value="#{item.antCategoria}"></b:inputText>
+                        <b:inputText value="#{item.antGrupo}"></b:inputText>
+                    </b:panel>
+                </b:accordion>
+                <!-- Fin del acordeón -->
+            </b:dataTableColumn>
+            <!--<b:dataTableColumn label="Categoria" value="#{item.antCategoria}" style="width: 10% !important"/>-->
             <b:dataTableColumn label="Grupo" value="#{item.antGrupo}" style="width: 10%" />
             <b:dataTableColumn label="Descripción" style="width: 38%; display: inline-block;" >
                     <b:inputTextarea styleClass="form-control tipo-columna"
@@ -48,5 +60,36 @@
                 </b:commandButton>
             </b:dataTableColumn>
         </b:dataTable>
+        
+        <!-- Obtener la lista de grupos únicos -->
+<!--        <ui:repeat value="#{lista}" var="item" varStatus="status">
+            <ui:fragment rendered="#{status.first}">
+                <b:accordion contentDisabled="true" id="accordion_#{item.antGrupo}">
+                    <b:panel title="Grupo #{item.antGrupo}">
+                         Lista de elementos en el grupo 
+                        <ui:repeat value="#{lista}" var="elemento">
+                            <ui:fragment rendered="#{elemento.antGrupo eq item.antGrupo}">
+                                 Contenido del acordeón, puedes agregar más detalles aquí 
+                                <p>Categoría: #{elemento.antCategoria}</p>
+                                <p>Descripción: #{elemento.descripcion}</p>
+                                 Agrega más detalles según sea necesario 
+                            </ui:fragment>
+                        </ui:repeat>
+                    </b:panel>
+                </b:accordion>
+            </ui:fragment>
+        </ui:repeat>-->
+<b:accordion contentDisabled="true">
+    <b:panel title="Panel 1">
+        <!-- Contenido del panel 1 -->
+    </b:panel>
+    <b:panel title="Panel 2">
+        <!-- Contenido del panel 2 -->
+    </b:panel>
+    <!-- Agrega más paneles según sea necesario -->
+</b:accordion>
+
+
+
     </b:panelGrid>
 </html>

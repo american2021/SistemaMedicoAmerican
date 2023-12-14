@@ -1,5 +1,5 @@
 package datos;
-// Generated 12/12/2023 11:30:07 by Hibernate Tools 4.3.1
+// Generated 13/12/2023 1:09:47 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -16,9 +16,9 @@ public class HistoriaExamen  implements java.io.Serializable {
      private String hisExaIndicaciones;
      private String hisExaDescripcion;
      private Date hisExaFecha;
+     private Byte hisExaCompletado;
      private Date hisExaFechaUlt;
      private String hisExaUsuario;
-     private Byte hisExaCompletado;
 
     public HistoriaExamen() {
     }
@@ -32,15 +32,15 @@ public class HistoriaExamen  implements java.io.Serializable {
         this.hisExaFechaUlt = hisExaFechaUlt;
         this.hisExaUsuario = hisExaUsuario;
     }
-    public HistoriaExamen(Examenes examenes, Historias historias, String hisExaIndicaciones, String hisExaDescripcion, Date hisExaFecha, Date hisExaFechaUlt, String hisExaUsuario, Byte hisExaCompletado) {
+    public HistoriaExamen(Examenes examenes, Historias historias, String hisExaIndicaciones, String hisExaDescripcion, Date hisExaFecha, Byte hisExaCompletado, Date hisExaFechaUlt, String hisExaUsuario) {
        this.examenes = examenes;
        this.historias = historias;
        this.hisExaIndicaciones = hisExaIndicaciones;
        this.hisExaDescripcion = hisExaDescripcion;
        this.hisExaFecha = hisExaFecha;
+       this.hisExaCompletado = hisExaCompletado;
        this.hisExaFechaUlt = hisExaFechaUlt;
        this.hisExaUsuario = hisExaUsuario;
-       this.hisExaCompletado = hisExaCompletado;
     }
    
     public Integer getHisExaId() {
@@ -85,6 +85,13 @@ public class HistoriaExamen  implements java.io.Serializable {
     public void setHisExaFecha(Date hisExaFecha) {
         this.hisExaFecha = hisExaFecha;
     }
+    public Byte getHisExaCompletado() {
+        return this.hisExaCompletado;
+    }
+    
+    public void setHisExaCompletado(Byte hisExaCompletado) {
+        this.hisExaCompletado = hisExaCompletado;
+    }
     public Date getHisExaFechaUlt() {
         return this.hisExaFechaUlt;
     }
@@ -98,13 +105,6 @@ public class HistoriaExamen  implements java.io.Serializable {
     
     public void setHisExaUsuario(String hisExaUsuario) {
         this.hisExaUsuario = hisExaUsuario;
-    }
-    public Byte getHisExaCompletado() {
-        return this.hisExaCompletado;
-    }
-    
-    public void setHisExaCompletado(Byte hisExaCompletado) {
-        this.hisExaCompletado = hisExaCompletado;
     }
 
 

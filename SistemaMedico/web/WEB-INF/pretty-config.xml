@@ -125,17 +125,7 @@
         <pattern value="/actualizacion-paciente" />
         <view-id value="/faces/medico/actualizacionPaciente.xhtml"/>
     </url-mapping>
-    
-    <url-mapping id="actualizacion-signos">
-        <pattern value="/actualizacion-signos" />
-        <view-id value="/faces/medico/actualizacionSignos.xhtml"/>
-    </url-mapping>
-    
-    <url-mapping id="registro-signos">
-        <pattern value="/registro-signos" />
-        <view-id value="/faces/medico/registroSignos.xhtml" />
-    </url-mapping>
-    
+
     <url-mapping id="revision-signos">
         <pattern value="/revision-signos" />
         <view-id value="/faces/medico/revisionSignos.xhtml" />

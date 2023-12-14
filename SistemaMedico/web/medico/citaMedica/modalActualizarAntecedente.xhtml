@@ -39,15 +39,15 @@
             </b:row>
             <b:row>
                 <b:column span="12">
-                    <b:inputTextarea value="#{CitaBean.updateHistoriaAntecedente.hisAntDescripcion}"
-                                 label="Descripción del antecedente"
-                                 placeholder="Describa el antecedente"
-                                 id="descripcion_examen"
-                                 size="13"
-                                 rows="5"
-                                 maxlength="2000"
-                                 ajax="true"
-                                 requiredMessage="Describa el antecedente"/>
+                    <b:inputTextarea ajax="true"
+                                     value="#{CitaBean.updateHistoriaAntecedente.hisAntDescripcion}"
+                                     label="Descripción del antecedente"
+                                     placeholder="Describa el antecedente"
+                                     id="descripcion_examen"
+                                     size="13"
+                                     rows="5"
+                                     maxlength="2000"
+                                     requiredMessage="Describa el antecedente"/>
                 </b:column>
             </b:row>
             <b:row>
@@ -61,11 +61,12 @@
                     </b:commandButton>
                 </b:column>
                 <b:column span="4" >
-                    <b:commandButton id="submit" 
+                    <b:commandButton id="submit"
+                                     ajax="true"
                                      value="&nbsp; Actualizar Antecedente"
                                      action="#{CitaBean.actualizarHistoriaAntecedente()}"
                                      look="primary"
-                                     update=":formAntecedente:panelContainer:panelListaAntecedente :growl"
+                                     update="formAntecedente:panelContainer:panelListaAntecedente :growl"
                                      oncomplete="$('#modalUpdateAntecedente').modal('hide');" >
                         <b:iconAwesome name="fa-bookmark"></b:iconAwesome>  
                     </b:commandButton>
