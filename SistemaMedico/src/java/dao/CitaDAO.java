@@ -277,18 +277,34 @@ public class CitaDAO {
     public static void verificarHistoria() {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+        Transaction transaction = null;
         // Calcula la fecha actual menos una hora
         LocalDateTime localDateTime = LocalDateTime.now();
         LocalDateTime unaHoraMenos = localDateTime.minusHours(2);
-
         // Convierte LocalDateTime a Date
         Date horaHaceUnaHora = Date.from(unaHoraMenos.atZone(ZoneId.systemDefault()).toInstant());
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("DELETE FROM Historias WHERE hisCompletado = 0 AND hisFechaUlt < :horaLimite");
+            query.setParameter("horaLimite", horaHaceUnaHora);
+            query.executeUpdate();
+            transaction.commit();
+            session.flush();
+            session.clear();
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+                session.clear();
+            }
+            e.printStackTrace(); // Log or handle the exception appropriately
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.clear();
+                session.close();
+                
+            }
+        }
         
-        Query query = session.createQuery("DELETE FROM Historias WHERE hisCompletado = 0 AND hisFechaUlt < :horaLimite");
-        query.setParameter("horaLimite", horaHaceUnaHora);
-        query.executeUpdate();
-        session.getTransaction().commit();
-        session.close();
     }
 }

@@ -5,23 +5,25 @@
     
     <b:row>
         <b:column span="6" class="text-center">
-            <b:commandButton ajax="true"
+            <b:commandButton style="color: white !important;"
                              span="4" offset="6"
                              value="&nbsp; Anterior"
+                             immediate="true"
                              action="#{CitaBean.cambioPanel(panelBefore, true)}"
-                             update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion"
+                             update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion  formIndicaciones formEvolucion"
                              tooltip="#{tooltipBefore}"
                              look="danger">
                 <b:iconAwesome name="fa-arrow-left"></b:iconAwesome>
             </b:commandButton>
         </b:column>
         <b:column span="6" class="text-center">
-            <b:commandButton ajax="true" 
+            <b:commandButton ajax="true"
+                             style="color: white !important;"
                              span="4" offset="3"
                              value="&nbsp; Siguiente"
                              action="#{CitaBean.cambioPanel(panelNext, true)}"
                              actionListener="#{CitaBean.actualizarHistoriaPrueba(panelNext)}"
-                             update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion"
+                             update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion  formIndicaciones formEvolucion"
                              tooltip="#{tooltipNext}"
                              look="success">
                 <b:iconAwesome name="fa-arrow-right"></b:iconAwesome>

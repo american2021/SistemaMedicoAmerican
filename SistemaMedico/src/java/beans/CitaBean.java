@@ -296,17 +296,23 @@ public final class CitaBean implements Serializable{
      * @param panel
      */
     public void actualizarHistoriaPrueba(String panel){
-        if (historia.getHisCompletado().toString().contains("0")) {
-            if (panel.contains("panel5")) {
-                revision.setRevSisUsuario(session.getAttribute("usuario").toString());
-                RevisionSistemasDAO.crearActualizarRevision(revision);
-                historia.setRevisionSistemas(revision);
-            } else if(panel.contains("panel4")){
-                SignosDAO.crearActualizarSignos(signos);
-                historia.setSignos(signos);
-                setRevisionChecks();
+        if (historia.getHisCompletado().toString().contains("0") && !panel.contains("panel11")) {
+            if (panel.contains("panel10")) {
+                actualizarCita();
+            } else {
+                if (panel.contains("panel5")) {
+                    revision.setRevSisUsuario(session.getAttribute("usuario").toString());
+                    RevisionSistemasDAO.crearActualizarRevision(revision);
+                    historia.setRevisionSistemas(revision);
+                } else if(panel.contains("panel4")){
+                    SignosDAO.crearActualizarSignos(signos);
+                    historia.setSignos(signos);
+                    setRevisionChecks();
+                }
+                CitaDAO.crearActualizarHistoriaConDatos(historia);
             }
-            CitaDAO.crearActualizarHistoriaConDatos(historia);
+        } else {
+            CitaDAO.crearActualizarHistoria(historia);
         }
     }
     
