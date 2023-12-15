@@ -43,7 +43,7 @@
             <b>Tratamiento</b>
         </h3>
     
-        <b:row>
+        <b:row rendered="#{CitaBean.historia.hisCompletado eq '0'}">
             <b:column span="6">
                 <b:panel title="Estado del paciente" look="info" collapsible="false" id="panelEstadoPaciente">
                     <b:radiobutton id="radioButton" value="#{CitaBean.nuevo_tratamiento.traEstado}" required="true" requiredMessage="Seleccione el estado del paciente">
@@ -63,7 +63,11 @@
             </b:column>
         </b:row>
         
-        <b:panel title="Ingrese la información para crear el nuevo tratamiento " look="info" collapsible="false" id="panelPrescripcion">
+        <b:panel title="Ingrese la información para crear el nuevo tratamiento"
+                 look="info"
+                 collapsible="false"
+                 rendered="#{CitaBean.historia.hisCompletado eq '0'}"
+                 id="panelPrescripcion">
             <b:row >
                 <b:column span="6">
                     <b:inputText value="#{CitaBean.nombre_historia_diagnostico}"

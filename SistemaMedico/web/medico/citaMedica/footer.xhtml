@@ -20,12 +20,12 @@
             <b:commandButton ajax="true"
                              style="color: white !important;"
                              span="4" offset="3"
-                             value="&nbsp; Siguiente"
+                             value="#{panelNext eq 'panel11' ? ' &nbsp; Siguiente' : '&nbsp; Guardar'}"
                              action="#{CitaBean.cambioPanel(panelNext, true)}"
                              actionListener="#{CitaBean.actualizarHistoriaPrueba(panelNext)}"
                              update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion  formIndicaciones formEvolucion"
                              tooltip="#{tooltipNext}"
-                             look="success">
+                             look= "#{panelNext eq 'panel11' ? 'success' : 'primary'}">
                 <b:iconAwesome name="fa-arrow-right"></b:iconAwesome>
             </b:commandButton>
         </b:column>

@@ -30,6 +30,7 @@
                     <b:dataTableColumn label="Descripción" value="#{historiaAntecedente.hisAntDescripcion}" style="width: 50%" />
                     <b:dataTableColumn label="Acciones" style="width: 12%; padding-left: 1%;padding-right: 1% "
                                        orderable="false"
+                                       rendered="#{CitaBean.historia.hisCompletado eq '0'}"
                                        searchable="false">
                         <b:column span="1" offset="0">
                             <b:commandButton ajax="true"

@@ -29,6 +29,7 @@
                     <b:dataTableColumn label="Indicaciones" value="#{historiaExamen.hisExaIndicaciones}" style="width: 28%;" />
                     <b:dataTableColumn label="Resultado" value="#{historiaExamen.hisExaDescripcion}" style="width: 28%;" />
                     <b:dataTableColumn label="Acciones" style="width: 12%; padding-left: 1%; padding-right: 1%;"
+                                       rendered="#{CitaBean.historia.hisCompletado eq '0'}"
                                        orderable="false"
                                        searchable="false">
                         <b:column span="1" offset="0">

@@ -17,6 +17,7 @@
                 <b:row>
                     <b:column span="3">
                         <b:selectBooleanCheckbox label="Revisión sin patología"
+                                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
                                                  id="rev_sis_patologia_check"
                                                  value="#{CitaBean.revision.revSisPatologia}"/>
                     </b:column>
@@ -41,10 +42,11 @@
                         </b:selectBooleanCheckbox>
                         <b:panel id="panel_sentidos">
                             <b:inputText
-                             placeholder="Especifique"
-                             id="rev_sis_sentidos"
-                             maxlength="100"
-                             value="#{CitaBean.revision.revSisSentidos}"/>
+                                disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                placeholder="Especifique"
+                                id="rev_sis_sentidos"
+                                maxlength="100"
+                                value="#{CitaBean.revision.revSisSentidos}"/>
     <!--                                         rendered="# {CitaBean.revision_checks[0]}"-->
                         </b:panel>
                     </b:column>
@@ -59,10 +61,11 @@
                         </b:selectBooleanCheckbox>
                         <b:panel id="panel_respiratorio">
                             <b:inputText
-                             placeholder="Especifique"
-                             id="rev_sis_respiratorio"
-                             maxlength="100"
-                             value="#{CitaBean.revision.revSisRespiratorio}"/>
+                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                 placeholder="Especifique"
+                                 id="rev_sis_respiratorio"
+                                 maxlength="100"
+                                 value="#{CitaBean.revision.revSisRespiratorio}"/>
                         </b:panel>
                     </b:column>
                     <b:column span="3">
@@ -76,10 +79,11 @@
                         </b:selectBooleanCheckbox>
                         <b:panel id="panel_cardiovascular">
                             <b:inputText
-                             placeholder="Especifique"
-                             id="rev_sis_cardiovascular"
-                             maxlength="100"
-                             value="#{CitaBean.revision.revSisCardiovascular}"/>
+                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                 placeholder="Especifique"
+                                 id="rev_sis_cardiovascular"
+                                 maxlength="100"
+                                 value="#{CitaBean.revision.revSisCardiovascular}"/>
                         </b:panel>
                     </b:column>
                     <b:column span="3">
@@ -93,10 +97,11 @@
                         </b:selectBooleanCheckbox>
                         <b:panel id="panel_digestivo">
                             <b:inputText
-                             placeholder="Especifique"
-                             id="rev_sis_digestivo"
-                             maxlength="100"
-                             value="#{CitaBean.revision.revSisDigestivo}"/>
+                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                 placeholder="Especifique"
+                                 id="rev_sis_digestivo"
+                                 maxlength="100"
+                                 value="#{CitaBean.revision.revSisDigestivo}"/>
                         </b:panel>
                     </b:column>
                 </b:row>
@@ -112,10 +117,11 @@
                         </b:selectBooleanCheckbox>
                         <b:panel id="panel_genital">
                             <b:inputText
-                             placeholder="Especifique"
-                             id="rev_sis_genital"
-                             maxlength="100"
-                             value="#{CitaBean.revision.revSisGenital}"/>
+                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                 placeholder="Especifique"
+                                 id="rev_sis_genital"
+                                 maxlength="100"
+                                 value="#{CitaBean.revision.revSisGenital}"/>
                         </b:panel>
                     </b:column>
                     <b:column span="3">
@@ -129,10 +135,11 @@
                         </b:selectBooleanCheckbox>
                         <b:panel id="panel_urinario">
                             <b:inputText
-                             placeholder="Especifique"
-                             id="rev_sis_urinario"
-                             maxlength="100"
-                             value="#{CitaBean.revision.revSisUrinario}"/>
+                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                 placeholder="Especifique"
+                                 id="rev_sis_urinario"
+                                 maxlength="100"
+                                 value="#{CitaBean.revision.revSisUrinario}"/>
                         </b:panel>
                     </b:column>
                     <b:column span="3">
@@ -146,10 +153,11 @@
                         </b:selectBooleanCheckbox>
                         <b:panel id="panel_esqueletico">
                             <b:inputText
-                             placeholder="Especifique"
-                             id="rev_sis_esqueletico"
-                             maxlength="100"
-                             value="#{CitaBean.revision.revSisEsqueletico}"/>
+                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                 placeholder="Especifique"
+                                 id="rev_sis_esqueletico"
+                                 maxlength="100"
+                                 value="#{CitaBean.revision.revSisEsqueletico}"/>
                         </b:panel>
                     </b:column>
                     <b:column span="3">
@@ -163,10 +171,11 @@
                         </b:selectBooleanCheckbox>
                         <b:panel id="panel_muscular">
                             <b:inputText
-                             placeholder="Especifique"
-                             id="rev_sis_muscular"
-                             maxlength="100"
-                             value="#{CitaBean.revision.revSisMuscular}"/>
+                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                 placeholder="Especifique"
+                                 id="rev_sis_muscular"
+                                 maxlength="100"
+                                 value="#{CitaBean.revision.revSisMuscular}"/>
                         </b:panel>
                     </b:column>
                 </b:row>
@@ -182,10 +191,11 @@
                         </b:selectBooleanCheckbox>
                         <b:panel id="panel_nervioso">
                             <b:inputText
-                             placeholder="Especifique"
-                             id="rev_sis_nervioso"
-                             maxlength="100"
-                             value="#{CitaBean.revision.revSisNervioso}"/>
+                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                 placeholder="Especifique"
+                                 id="rev_sis_nervioso"
+                                 maxlength="100"
+                                 value="#{CitaBean.revision.revSisNervioso}"/>
                         </b:panel>
                     </b:column>
                     <b:column span="3">
@@ -199,10 +209,11 @@
                         </b:selectBooleanCheckbox>
                         <b:panel id="panel_endocrino">
                             <b:inputText
-                             placeholder="Especifique"
-                             id="rev_sis_endocrino"
-                             maxlength="100"
-                             value="#{CitaBean.revision.revSisEndocrino}"/>
+                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                 placeholder="Especifique"
+                                 id="rev_sis_endocrino"
+                                 maxlength="100"
+                                 value="#{CitaBean.revision.revSisEndocrino}"/>
                         </b:panel>
                     </b:column>
                     <b:column span="3">
@@ -216,10 +227,11 @@
                         </b:selectBooleanCheckbox>
                         <b:panel id="panel_hemolinfatico">
                             <b:inputText
-                             placeholder="Especifique"
-                             id="rev_sis_hemolinfatico"
-                             maxlength="100"
-                             value="#{CitaBean.revision.revSisHemolinfatico}"/>
+                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                 placeholder="Especifique"
+                                 id="rev_sis_hemolinfatico"
+                                 maxlength="100"
+                                 value="#{CitaBean.revision.revSisHemolinfatico}"/>
                         </b:panel>
                     </b:column>
                     <b:column span="3">
@@ -233,10 +245,11 @@
                         </b:selectBooleanCheckbox>
                         <b:panel id="panel_tegumentario">
                             <b:inputText
-                             placeholder="Especifique"
-                             id="rev_sis_tegumentario"
-                             maxlength="100"
-                             value="#{CitaBean.revision.revSisTegumentario}"/>
+                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                 placeholder="Especifique"
+                                 id="rev_sis_tegumentario"
+                                 maxlength="100"
+                                 value="#{CitaBean.revision.revSisTegumentario}"/>
                         </b:panel>
                     </b:column>
                 </b:row>
