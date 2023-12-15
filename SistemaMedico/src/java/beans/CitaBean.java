@@ -312,7 +312,14 @@ public final class CitaBean implements Serializable{
                 CitaDAO.crearActualizarHistoriaConDatos(historia);
             }
         } else {
-            CitaDAO.crearActualizarHistoria(historia);
+            try {
+                CitaDAO.crearActualizarHistoria(historia);
+                FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/SistemaMedico/listado-citas-dia");
+            } catch (Exception e) {
+                FacesMessages.error(":growlInfo", "Error al finalizar la cita médica: "+e.getCause().getMessage(), "This is a specific message!");
+            }
+            
         }
     }
     
