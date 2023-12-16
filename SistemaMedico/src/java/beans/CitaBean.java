@@ -65,6 +65,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpServletResponse;
@@ -149,6 +150,7 @@ public final class CitaBean implements Serializable{
     
     private String descripcionAntecedenteTemp;
     private Boolean realizarExamen;
+    private Boolean updatePanel;
     
     private String renderizar_profesion_abierta;
     private String renderizar_parentesco_abierto;
@@ -203,6 +205,7 @@ public final class CitaBean implements Serializable{
         nombre_historia_diagnostico = null;
         update_name_diagnostic_history = null;
         realizarExamen = false;
+        updatePanel = true;
         historias = new ArrayList<>();
         historiasdia = new ArrayList<>();
         revision_checks = new ArrayList<>();
@@ -294,8 +297,9 @@ public final class CitaBean implements Serializable{
     /**
      * Método para actualizar la cita
      * @param panel
+     * @return 
      */
-    public void actualizarHistoriaPrueba(String panel){
+    public String actualizarHistoriaPrueba(String panel){
         if (historia.getHisCompletado().toString().contains("0") && !panel.contains("panel11")) {
             if (panel.contains("panel10")) {
                 actualizarCita();
@@ -311,16 +315,19 @@ public final class CitaBean implements Serializable{
                 }
                 CitaDAO.crearActualizarHistoriaConDatos(historia);
             }
-        } else {
+        } else if (historia.getHisCompletado().toString().contains("1") && panel.contains("panel11")){
+            System.out.println("entra al final");
             try {
+                context = FacesContext.getCurrentInstance();
+                context.getExternalContext().getFlash().setKeepMessages(true);
                 CitaDAO.crearActualizarHistoria(historia);
-                FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/SistemaMedico/listado-citas-dia");
+                FacesMessages.info(":growlInfo", "Cita médica finalizada", "This is a specific message!");
+                return "/medico/listadoPaciente.xhtml?faces-redirect=true";
             } catch (Exception e) {
                 FacesMessages.error(":growlInfo", "Error al finalizar la cita médica: "+e.getCause().getMessage(), "This is a specific message!");
             }
-            
         }
+        return null;
     }
     
     /**
@@ -346,7 +353,7 @@ public final class CitaBean implements Serializable{
      */
     public List<String> recuperarNombresDiagnosticos() {
         return DiagnosticoDAO.recuperarNombresDiagnosticos();
-    }
+    } 
     
     /**
      * Método para recuperar los medicamentos registrados en la base
@@ -532,13 +539,13 @@ public final class CitaBean implements Serializable{
         if (lista_historia_diagnostico == null || lista_historia_diagnostico.isEmpty()) {
             mensajeDiagnostico = "No hay diagnósticos disponibles.";
         } else {
-            mensajeDiagnostico = null; // Reset the message if there are diagnoses available
+            mensajeDiagnostico = null;
         }
         String historio_diagnostico_codigo[] = getNombre_historia_diagnostico().split(" - ");
-        if (historio_diagnostico_codigo.length == 3) {
-            nuevo_historia_diagnostico = HistoriaDiagnosticoDAO.recuperarHistoriaDiagnosticoListener(historio_diagnostico_codigo[0],historio_diagnostico_codigo[1], historio_diagnostico_codigo[2], historia_actual_id );
+        if (historio_diagnostico_codigo.length == 2) {
+            nuevo_historia_diagnostico = HistoriaDiagnosticoDAO.recuperarHistoriaDiagnosticoListener(historio_diagnostico_codigo[0],historio_diagnostico_codigo[1], historia_actual_id );
         }
-        else {
+        else { 
             FacesMessages.info(":growlInfo", "No se ha encontrado el tratamiento", "This is a specific message!");
             nombre_historia_diagnostico = "";
         }
@@ -694,19 +701,24 @@ public final class CitaBean implements Serializable{
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         
-        historia.setHisCompletado(Byte.valueOf("1"));
-        
-        try {
-            CitaDAO.crearActualizarHistoria(historia);
-            FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/SistemaMedico/listado-citas-dia");
-            HistoriaAntecedenteDAO.crearDefaultHistoriaAntecedente(historia_actual_id);
-            return null; // No olvides devolver null para indicar que no hay navegación implícita.
-        } catch (Exception e) {
-
-            FacesMessages.error(":growlInfo", "Error al finalizar la cita médica: "+e.getCause().getMessage(), "This is a specific message!");
-            return "";
+        if (lista_historia_tratamiento.isEmpty()) {
+            FacesMessages.info(":growlInfo", "No se ha actualizado la cita médica, no tiene tratamiento", "This is a specific message!");
+            return "Sin tratamiento";
+        }else {
+            historia.setHisCompletado(Byte.valueOf("1"));
+            try {
+                CitaDAO.crearActualizarHistoria(historia);
+                FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/SistemaMedico/listado-citas-dia");
+                HistoriaAntecedenteDAO.crearDefaultHistoriaAntecedente(historia_actual_id);
+                return null; // No olvides devolver null para indicar que no hay navegación implícita.
+            } catch (Exception e) {
+                FacesMessages.error(":growlInfo", "Error al finalizar la cita médica: "+e.getCause().getMessage(), "This is a specific message!");
+                return "";
+            }
         }
+        
+        
     }
 
     /**
@@ -899,6 +911,7 @@ public final class CitaBean implements Serializable{
             addErrorMessage(":growlInfo", errorMessage, "This is a specific message!");
         }
     }
+    
     /**
      * Método para crear un nuevo Examen
      * @param diagnosticos
@@ -1099,6 +1112,7 @@ public final class CitaBean implements Serializable{
 
     
     public String VerCitaMedica(int hisId) {
+        updatePanel = true;
         nombre_medicamento = null;
         nombre_historia_diagnostico = null;
         update_name_diagnostic_history = null;
@@ -1215,6 +1229,7 @@ public final class CitaBean implements Serializable{
         menuPanel.put("panel8", false);
         menuPanel.put("panel9", false);
         menuPanel.put("panel10", false);
+        menuPanel.put("panel11", false);
     }
     
     /**
@@ -1222,23 +1237,30 @@ public final class CitaBean implements Serializable{
      *
      * @param panelActual
      * @param estado
+     * @return 
      */
     public void cambioPanel(String panelActual, Boolean estado) {
-        for (String panel : menuPanel.keySet()) {
-            boolean estadoAll = panel.equals(panelActual);
-            if (panel.contains(panelActual)) {
-                menuPanel.put(panelActual, estado);
+        if (lista_historia_diagnostico.isEmpty() && panelActual.contains("panel8") != false) {
+            FacesMessages.warning(":growlInfo", "Ingresar un diagnóstico. para seguir con el tratamiento", "This is a specific message!");
+            updatePanel = false;
+        } else if (lista_historia_tratamiento.isEmpty() && panelActual.contains("panel9") != false) {
+            FacesMessages.warning(":growlInfo", "Ingresar un tratamiento", "This is a specific message!");
+            updatePanel = false;        
+        } else {
+            for (String panel : menuPanel.keySet()) {
+                boolean estadoAll = panel.equals(panelActual);
+                if (panel.contains(panelActual)) {
+                    menuPanel.put(panelActual, estado);
+                    actualizarHistoriaPrueba(panelActual);
+                } 
+                if (!panelActual.contains("panel11")) {
+                    menuPanel.put(panel, estadoAll);
+                }
+                
             }
-            menuPanel.put(panel, estadoAll);
+            updatePanel = true;
         }
     }
-    
-    public boolean shouldExpandPanel(String antGrupo) {
-    // Lógica para determinar si se debe expandir el panel basado en antGrupo
-    // Puedes implementar tu propia lógica aquí
-    // Por ejemplo, podrías comparar antGrupo con algún valor específico y devolver true o false en consecuencia.
-    return "grupoEspecial".equals(antGrupo);
-}
     
     public void eliminarExamen(){
         try {
@@ -2200,6 +2222,14 @@ public final class CitaBean implements Serializable{
 
     public void setRealizarExamen(Boolean realizarExamen) {
         this.realizarExamen = realizarExamen;
+    }
+
+    public Boolean getUpdatePanel() {
+        return updatePanel;
+    }
+
+    public void setUpdatePanel(Boolean updatePanel) {
+        this.updatePanel = updatePanel;
     }
     
     public List<Antecedente> getListaAntecedentePer() {

@@ -84,9 +84,8 @@ public class HistoriaExamenDAO {
             transaction = session.beginTransaction();
 
             Query query = session.createQuery(" SELECT e FROM HistoriaExamen e, Historias h  WHERE h.hisId = e.historias.hisId AND h.personasByPacientePerId ='" + 
-                    id_paciente + "' AND ( ( e.historias.hisId = '" + 
-                    id_historia + "' ) OR ( e.historias.hisId != '" + 
-                    id_historia + "' AND e.hisExaCompletado = 0) )");
+                    id_paciente + "' AND e.historias.hisId = '" + 
+                    id_historia + "'");
 
             List<HistoriaExamen> historiaExamen= query.list();
 

@@ -103,19 +103,22 @@
             <b:row>
                 <b:column span="4">
                     <b:inputText label="Dósis unitaria"
-                             placeholder="Dósis unitaria"
-                             id="tra_dosis_unitaria"
-                             maxlength="500"
-                             value="#{CitaBean.nuevo_medicamento.medDosisUnitaria}"
-                             required="true"
-                             requiredMessage="Ingrese la dósis del medicamento" ajax="true">
+                                 placeholder="Dósis unitaria"
+                                 id="tra_dosis_unitaria"
+                                 maxlength="500"
+                                 value="#{CitaBean.nuevo_medicamento.medDosisUnitaria}"
+                                 required="true"
+                                 requiredMessage="Ingrese la dósis del medicamento" ajax="true">
                     </b:inputText>
                     <b:message for="tra_dosis_unitaria" />
                 </b:column>
                 <b:column span="4" >
-                    <b:selectOneMenu label="Medida" id="tra_medida" required="true"
+                    <b:selectOneMenu label="Medida" 
+                                     id="tra_medida" 
+                                     required="true"
                                      value="#{CitaBean.nuevo_medicamento.medMedida}"
-                                     requiredMessage="Seleccione la medida del medicamento" ajax="true">
+                                     requiredMessage="Seleccione la medida del medicamento" 
+                                     ajax="true">
                         <f:selectItem itemLabel="Seleccione la medida" noSelectionOption="true" />
                         <f:selectItem itemLabel="Microgramo" itemValue="1" />
                         <f:selectItem itemLabel="Miligramo" itemValue="2" />

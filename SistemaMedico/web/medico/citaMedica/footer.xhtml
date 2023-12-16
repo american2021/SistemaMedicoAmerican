@@ -1,7 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:my="http://java.sun.com/jsf/composite/recursos">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
     
     <b:row>
         <b:column span="6" class="text-center">
@@ -16,18 +19,33 @@
                 <b:iconAwesome name="fa-arrow-left"></b:iconAwesome>
             </b:commandButton>
         </b:column>
-        <b:column span="6" class="text-center">
+        <b:column span="6" class="text-center" rendered="#{panelNext ne 'panel11'}">
+            <b:commandButton ajax="true"
+                             immediate="#{panelNext eq 'panel9'}"
+                             process="#{panelNext eq 'panel9' ? '@this' : '@form'} "
+                             style="color: white !important;"
+                             span="4" offset="3"
+                             value="&nbsp; Siguiente"
+                             action="#{CitaBean.cambioPanel(panelNext, true) }"
+                             update="#{CitaBean.updatePanel == true ? 'formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion  formIndicaciones formEvolucion :growl' : ' :growl'}"
+                             tooltip="#{tooltipNext}"
+                             look= "success">
+                <b:iconAwesome name="fa-arrow-right"></b:iconAwesome>
+            </b:commandButton>
+        </b:column>
+        <b:column span="6" class="text-center" rendered="#{panelNext eq 'panel11'}">
             <b:commandButton ajax="true"
                              style="color: white !important;"
                              span="4" offset="3"
-                             value="#{panelNext eq 'panel11' ? ' &nbsp; Guardar' : '&nbsp; Siguiente'}"
+                             value="&nbsp; Guardar"
                              action="#{CitaBean.cambioPanel(panelNext, true) }"
-                             actionListener="#{CitaBean.actualizarHistoriaPrueba(panelNext)}"
-                             update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion  formIndicaciones formEvolucion"
+                             update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion  formIndicaciones formEvolucion :growl"
                              tooltip="#{tooltipNext}"
-                             look= "#{panelNext eq 'panel11' ? 'primary' : 'success'}">
-                <b:iconAwesome name="#{panelNext eq 'panel11' ? 'save' : 'fa-arrow-right'}"></b:iconAwesome>
+                             look="primary">
+                <b:iconAwesome name="save"></b:iconAwesome>
             </b:commandButton>
         </b:column>
     </b:row>
+    <br/>
+    <br/>
 </html>
