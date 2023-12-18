@@ -300,10 +300,10 @@
                                         <b:tabView style-class="width: 100%">
                                             <b:tab title="Personal">
                                                 <ui:include src="citaMedica/tabContentAntecedente.xhtml">
-                                                    <ui:param name="lista" value="#{CitaBean.listaAntecedentePer}" />
+                                                    <ui:param name="mapaElementos" value="#{CitaBean.mapaElementos}" />
                                                 </ui:include>
                                             </b:tab>
-                                            <b:tab title="Familiar">
+<!--                                            <b:tab title="Familiar">
                                                 <ui:include src="citaMedica/tabContentAntecedente.xhtml">
                                                     <ui:param name="lista" value="#{CitaBean.listaAntecedenteFan}" />
                                                 </ui:include>
@@ -317,7 +317,7 @@
                                                 <ui:include src="citaMedica/tabContentAntecedente.xhtml">
                                                     <ui:param name="lista" value="#{CitaBean.listaAntecedenteVac}" />
                                                 </ui:include>
-                                            </b:tab>
+                                            </b:tab>-->
                                         </b:tabView>
                                     </b:panel>
                                     <ui:include src="citaMedica/panelListadoAntecedentes.xhtml"/>

@@ -56,6 +56,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import net.bootsfaces.utils.FacesMessages;
 import java.util.Date;
@@ -64,9 +65,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -145,6 +148,9 @@ public final class CitaBean implements Serializable{
     private Map<Long, String> editedTipoDiagnostico;
     private Map<Long, String> editedCondicionDiagnostico;
     private Map<Long, String> editedCronologiaDiagnostico;
+    private Map<Long, String> editedSelectAntecedente;
+    
+    Map<String, Antecedente> mapaElementos;
     
     private Map<String, Boolean> menuPanel;
     
@@ -255,6 +261,8 @@ public final class CitaBean implements Serializable{
         editedTipoDiagnostico = new HashMap<>();
         editedCondicionDiagnostico = new HashMap<>();
         editedCronologiaDiagnostico = new HashMap<>();
+        editedSelectAntecedente = new HashMap<>();
+        mapaElementos = new HashMap<>();
         menuPanel = new HashMap<>();
         editedDateExamen = new HashMap<>();
         editedCheckExamen = new HashMap<>();
@@ -750,30 +758,46 @@ public final class CitaBean implements Serializable{
      * Método para crear un nuevo Historia antecedente
      * @param antecedent
      */
-    public void crearHistoriaAntecedentePrueba(Antecedente antecedent){
-    
-        if (validarAntecedente(antecedent)) {
-            // Lógica para procesar el antecedente si la validación pasa
-            nuevo_historia_antecedente.setAntecedente(antecedent);
-            nuevo_historia_antecedente.setHisAntFechaUlt(new Date());
-            nuevo_historia_antecedente.setHisAntUsuario(session.getAttribute("usuario").toString());
-            nuevo_historia_antecedente.setHistorias(historia);
-            nuevo_historia_antecedente.setHisAntDescripcion(getEditedDescriptions().get(antecedent.getAntId()) );
-            try {
-                HistoriaAntecedenteDAO.crearActualizarHistoriaAntecedente(nuevo_historia_antecedente);
-                nuevo_historia_antecedente = new HistoriaAntecedente();
-                editedDescriptions = new HashMap<>();
-                setNombre_antecedente("");
-                recuperarHistoriaAntecedente();
-                recuperarAlergiasHistoriaAntecedente();
-                FacesMessages.info(":growlInfo", "Antecedente Creado", "This is a specific message!");
-            } catch (Exception e) {
-                FacesMessages.error(":growlInfo", "Error al crear el antecedente: "+e.getCause().getMessage(), "This is a specific message!");
+    public void crearHistoriaAntecedentePrueba(String keyMap){
+        System.out.println("HISTORIAL ANTECEDENTE"+editedSelectAntecedente);
+        System.out.println("HISTORIAL ANTECEDENTE"+editedDescriptions);
+        System.out.println("antecent"+ keyMap);
+        String antGrupo = getEditedSelectAntecedente().get(keyMap);
+        Antecedente antecedenteRe = new Antecedente();
+        for (Map.Entry<String, Antecedente> entry : mapaElementos.entrySet()) {
+            if (entry.getKey().equals(keyMap) && entry.getValue().getAntGrupo().contains(antGrupo)) {
+                System.out.println("entry: "+entry);
+                System.out.println("entry: "+entry.getValue().getAntCategoria());
+                antecedenteRe = entry.getValue();
             }
-        } else {
-            FacesContext context = FacesContext.getCurrentInstance();
-            FacesMessages.error(":growlInfo", "Error: El campo de descripción no puede estar vacío.", "This is a specific message!");
         }
+        System.out.println("antecedenteRe: "+ antecedenteRe.getAntCategoria());
+        System.out.println("antecedenteRe: "+ antecedenteRe.getAntGrupo());
+        System.out.println("antecedenteRe: "+ antecedenteRe.getAntId());
+
+//        if (validarAntecedente(antecedent)) {
+//            // Lógica para procesar el antecedente si la validación pasa
+//            nuevo_historia_antecedente.setAntecedente(antecedent);
+//            nuevo_historia_antecedente.setHisAntFechaUlt(new Date());
+//            nuevo_historia_antecedente.setHisAntUsuario(session.getAttribute("usuario").toString());
+//            nuevo_historia_antecedente.setHistorias(historia);
+//            nuevo_historia_antecedente.setHisAntDescripcion(getEditedDescriptions().get(antecedent.getAntId()) );
+//            try {
+//                HistoriaAntecedenteDAO.crearActualizarHistoriaAntecedente(nuevo_historia_antecedente);
+//                nuevo_historia_antecedente = new HistoriaAntecedente();
+//                editedDescriptions = new HashMap<>();
+//                editedSelectAntecedente = new HashMap<>();
+//                setNombre_antecedente("");
+//                recuperarHistoriaAntecedente();
+//                recuperarAlergiasHistoriaAntecedente();
+//                FacesMessages.info(":growlInfo", "Antecedente Creado", "This is a specific message!");
+//            } catch (Exception e) {
+//                FacesMessages.error(":growlInfo", "Error al crear el antecedente: "+e.getCause().getMessage(), "This is a specific message!");
+//            }
+//        } else {
+//            FacesContext context = FacesContext.getCurrentInstance();
+//            FacesMessages.error(":growlInfo", "Error: El campo de descripción no puede estar vacío.", "This is a specific message!");
+//        }
     }
     
     /**
@@ -1109,6 +1133,36 @@ public final class CitaBean implements Serializable{
             nuevo_medicamento = MedicamentosDAO.recuperarMedicamentosId(Integer.valueOf(lista_seleccion_medicamento.get(0)));
         }
     }
+    
+    public List<SelectItem> obtenerListaGrupos(Antecedente antecedente) {
+        // Divide la cadena de antGrupo en una lista usando la coma como delimitador
+        List<String> grupos = Arrays.asList(antecedente.getAntGrupo().split(","));
+
+        // Crea una lista de SelectItem a partir de los elementos en la lista
+        List<SelectItem> items = new ArrayList<>();
+        for (String grupo : grupos) {
+            items.add(new SelectItem(grupo, grupo));
+        }
+
+        return items;
+    }
+    
+//    public List<GrupoItem> obtenerListaGrupos(String antGrupo, String antId) {
+//        // Divide la cadena de antGrupo en una lista usando la coma como delimitador
+//        List<String> grupos = Arrays.asList(antGrupo.split(","));
+//
+//        // Crea una lista de GrupoItem a partir de los elementos en la lista
+//        List<GrupoItem> items = new ArrayList<>();
+//        for (String grupo : grupos) {
+//            GrupoItem grupoItem = new GrupoItem();
+//            grupoItem.setAntId(antId);
+//            grupoItem.setAntGrupo(grupo);
+//            items.add(grupoItem);
+//        }
+//
+//        return items;
+//    }
+
 
     
     public String VerCitaMedica(int hisId) {
@@ -1138,6 +1192,8 @@ public final class CitaBean implements Serializable{
         editedTipoDiagnostico = new HashMap<>();
         editedCondicionDiagnostico = new HashMap<>();
         editedCronologiaDiagnostico = new HashMap<>();
+        editedSelectAntecedente = new HashMap<>();
+        mapaElementos = new HashMap<>();
         menuPanel = new HashMap<>();
         cargaPanel();
         visibleAntecedente = true;
@@ -1156,6 +1212,7 @@ public final class CitaBean implements Serializable{
         recuperarHistorialHistoriaDiagnostico();
         recuperarHistoriaTratamiento();
         recuperarDiagnosticos();
+        getListaAntecedentePer();
         // Eliminar los diagnosticos registrados
         for (HistoriaDiagnostico historiaDiagnostico : lista_historia_diagnostico) {
             removeListDiagnostico(historiaDiagnostico.getDiagnosticos());
@@ -2232,7 +2289,20 @@ public final class CitaBean implements Serializable{
         this.updatePanel = updatePanel;
     }
     
+    
     public List<Antecedente> getListaAntecedentePer() {
+        List<Antecedente> listAntecedente = filtrarPorTipos("1");
+
+        mapaElementos = listAntecedente.stream()
+        .collect(Collectors.toMap(
+                Antecedente::getAntCategoria,
+                Function.identity(),
+                (elementoExistente, nuevoElemento) -> {
+                    elementoExistente.setAntGrupo(elementoExistente.getAntGrupo() + ", " + nuevoElemento.getAntGrupo());
+                    elementoExistente.setAntId(elementoExistente.getAntId() + nuevoElemento.getAntId());
+                    return elementoExistente;
+                }));
+                
         return filtrarPorTipos("1");
     }
 
@@ -2309,6 +2379,24 @@ public final class CitaBean implements Serializable{
     public void setEditedCronologiaDiagnostico(Map<Long, String> editedCronologiaDiagnostico) {
         this.editedCronologiaDiagnostico = editedCronologiaDiagnostico;
     }
+
+    public Map<Long, String> getEditedSelectAntecedente() {
+        return editedSelectAntecedente;
+    }
+
+    public void setEditedSelectAntecedente(Map<Long, String> editedSelectAntecedente) {
+        this.editedSelectAntecedente = editedSelectAntecedente;
+    }
+    
+    public Map<String, Antecedente> getMapaElementos() {
+        return mapaElementos;
+    }
+
+    public void setMapaElementos(Map<String, Antecedente> mapaElementos) {
+        this.mapaElementos = mapaElementos;
+    }
+    
+    
 
     public Map<String, Boolean> getMenuPanel() {
         return menuPanel;
@@ -2417,5 +2505,32 @@ public final class CitaBean implements Serializable{
     // Getter para el conjunto
     public Set<String> getGrupoSet() {
         return grupoSet;
+    }
+
+    private static class GrupoItem {
+
+        private String antId;
+        private String antGrupo;
+        
+        public GrupoItem() {
+        }
+
+        public String getAntId() {
+            return antId;
+        }
+
+        public void setAntId(String antId) {
+            this.antId = antId;
+        }
+
+        public String getAntGrupo() {
+            return antGrupo;
+        }
+
+        public void setAntGrupo(String antGrupo) {
+            this.antGrupo = antGrupo;
+        }
+        
+        
     }
 }
