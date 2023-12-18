@@ -46,7 +46,7 @@
                                  style="width: 100%"
                                  ajax="true" 
                                  value="&#160; Agregar"
-                                 action="#{CitaBean.crearHistoriaAntecedentePrueba(item.key)}"
+                                 action="#{CitaBean.crearHistoriaAntecedentePrueba(item.key, item.value.antTipo)}"
                                  tooltip="Guardar cambios" look="success"
                                  update="formAntecedente:panelContainer:panelListaAntecedente  formAntecedente:listadoAntecedente :growl"
                                  >

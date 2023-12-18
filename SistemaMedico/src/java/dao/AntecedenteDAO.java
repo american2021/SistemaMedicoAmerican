@@ -66,6 +66,28 @@ public class AntecedenteDAO {
     }
     
     /**
+     * Método para recuperar antecedente según su id.
+     *
+     * @param grupo
+     * @param categoria
+     * @param tipo
+     * @return
+     */
+    public static Antecedente recuperarAntecedenteGrupoCategoria(String grupo, String categoria, String tipo) {
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from Antecedente where antCategoria like '%" + categoria + "%' AND antGrupo like '%" + grupo + "%' AND antTipo = '" + tipo + "'");
+        Antecedente antecedente = null;
+        if (!query.list().isEmpty()) {
+            antecedente = (Antecedente) query.uniqueResult();
+        }
+        session.getTransaction().commit();
+        session.close();
+        return antecedente;
+    }
+    
+    /**
      * Método para recuperar la categoria de los antecedentes
      *
      * @return
@@ -89,7 +111,7 @@ public class AntecedenteDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery(
-                "SELECT concat(CASE antTipo WHEN 1 THEN 'Personal' WHEN 2 THEN 'Familiar' WHEN 3 THEN 'Andrológico' WHEN 4 THEN 'Vacunación' ELSE '' END, ' - ', antCategoria, ' - ',antGrupo ) AS Antecedente_Completo FROM Antecedente WHERE  antTipo NOT IN(0)");
+                "SELECT concat(CASE antTipo WHEN 1 THEN 'Personal' WHEN 2 THEN 'Familiar' WHEN 3 THEN 'Gineco/Obstétrico' WHEN 4 THEN 'Vacunación' ELSE '' END, ' - ', antCategoria, ' - ',antGrupo ) AS Antecedente_Completo FROM Antecedente WHERE  antTipo NOT IN(0)");
         List<String> antecedente = query.list();
         session.getTransaction().commit();
         session.close();
@@ -109,8 +131,8 @@ public class AntecedenteDAO {
             tipo = tipo.replace("Personal", "1");
         } else if (tipo.equals("Familiar")) {
           tipo = tipo.replace("Familiar", "2");
-        } else if (tipo.equals("Andrológico")) {
-          tipo = tipo.replace("Andrológico", "3");
+        } else if (tipo.equals("Gineco/Obstétrico")) {
+          tipo = tipo.replace("Gineco/Obstétrico", "3");
         } else if (tipo.equals("Vacunación")){
           tipo = tipo.replace("Vacunación", "4");
         }

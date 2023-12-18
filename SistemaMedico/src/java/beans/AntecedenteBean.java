@@ -180,7 +180,7 @@ public final class AntecedenteBean implements Serializable{
         } else if (tipo.equals("2")){
             tipo = "Familiar";
         } else if (tipo.equals("3")){
-            tipo = "Andrológicos";
+            tipo = "Gineco/Obstétrico";
         } else if (tipo.equals("4")){
             tipo = "Vacunación";
         }  
