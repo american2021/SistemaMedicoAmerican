@@ -330,7 +330,6 @@ public final class CitaBean implements Serializable{
                 CitaDAO.crearActualizarHistoriaConDatos(historia);
             }
         } else if (historia.getHisCompletado().toString().contains("1") && panel.contains("panel11")){
-            System.out.println("entra al final");
             try {
                 context = FacesContext.getCurrentInstance();
                 context.getExternalContext().getFlash().setKeepMessages(true);
@@ -715,10 +714,12 @@ public final class CitaBean implements Serializable{
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         
-        if (lista_historia_tratamiento.isEmpty()) {
+        if (lista_historia_tratamiento.isEmpty() && !historia.getHisIndicacionesNoFarmacologica().isEmpty() ||
+                !lista_historia_tratamiento.isEmpty() && historia.getHisIndicacionesNoFarmacologica().isEmpty()) {
             FacesMessages.info(":growlInfo", "No se ha actualizado la cita médica, no tiene tratamiento", "This is a specific message!");
             return "Sin tratamiento";
         }else {
+            
             historia.setHisCompletado(Byte.valueOf("1"));
             try {
                 CitaDAO.crearActualizarHistoria(historia);
@@ -763,10 +764,10 @@ public final class CitaBean implements Serializable{
     /**
      * Método para crear un nuevo Historia antecedente
      * @param keyMap
+     * @param tipo
      */
     public void crearHistoriaAntecedentePrueba(String keyMap, String tipo){
         Antecedente antecedent = AntecedenteDAO.recuperarAntecedenteGrupoCategoria(getEditedSelectAntecedente().get(keyMap), keyMap, tipo);
-
         if (validarAntecedente(antecedent, keyMap)) {
             // Lógica para procesar el antecedente si la validación pasa
             nuevo_historia_antecedente.setAntecedente(antecedent);
@@ -991,7 +992,6 @@ public final class CitaBean implements Serializable{
             recuperarDiagnosticos();
             FacesMessages.info(":growlInfo", "Diagnóstico Creado", "This is a specific message!");
         } catch (ConstraintViolationException e) {
-            System.out.println("entra a e: "+e);
             String sqlErrorCode = e.getSQLException().getSQLState();
             int sqlErrorCod = e.getSQLException().getErrorCode();
             if ("23000".equals(sqlErrorCode) && sqlErrorCod == 1062){
@@ -1297,10 +1297,12 @@ public final class CitaBean implements Serializable{
         if (lista_historia_diagnostico.isEmpty() && panelActual.contains("panel8") != false) {
             FacesMessages.warning(":growlInfo", "Ingresar un diagnóstico. para seguir con el tratamiento", "This is a specific message!");
             updatePanel = false;
-        } else if (lista_historia_tratamiento.isEmpty() && panelActual.contains("panel9") != false) {
-            FacesMessages.warning(":growlInfo", "Ingresar un tratamiento", "This is a specific message!");
-            updatePanel = false;        
-        } else {
+        } 
+    //        else if (lista_historia_tratamiento.isEmpty() && panelActual.contains("panel9") != false) {
+    //            FacesMessages.warning(":growlInfo", "Ingresar un tratamiento", "This is a specific message!");
+    //            updatePanel = false;        
+    //        } 
+        else {
             for (String panel : menuPanel.keySet()) {
                 boolean estadoAll = panel.equals(panelActual);
                 if (panel.contains(panelActual)) {
@@ -2289,10 +2291,7 @@ public final class CitaBean implements Serializable{
     
     public List<Antecedente> getListaAntecedentePer() {
         List<Antecedente> listAntecedente = filtrarPorTipos("1");
-        for (Antecedente antecedente1 : listAntecedente) {
-            System.out.println(" categoria: " + antecedente1.getAntCategoria() + " grupo: " +antecedente1.getAntGrupo());
-        }
-
+        
         mapaElementos = listAntecedente.stream()
         .collect(Collectors.toMap(
                 Antecedente::getAntCategoria,
@@ -2318,13 +2317,7 @@ public final class CitaBean implements Serializable{
                     elementoExistente.setAntTipo('2');
                     return elementoExistente;
                 }));
-        
-        for (Map.Entry<String, Antecedente> entry : mapAntecedenteFam.entrySet()) {
-            String key = entry.getKey();
-            Antecedente value = entry.getValue();
-            System.out.println("key: "+key +" value: "+value.getAntCategoria());
-            
-        }
+       
         return mapAntecedenteFam;
     }
     

@@ -25,7 +25,7 @@
                              process="#{panelNext eq 'panel9' ? '@this' : '@form'} "
                              style="color: white !important;"
                              span="4" offset="3"
-                             value="&nbsp; Siguiente"
+                             value="#{panelNext ne 'panel10' ? '&nbsp; Siguiente' : '&nbsp; Finalizar Cita'}"
                              action="#{CitaBean.cambioPanel(panelNext, true) }"
                              update="#{CitaBean.updatePanel == true ? 'formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion  formIndicaciones formEvolucion :growl' : ' :growl'}"
                              tooltip="#{tooltipNext}"
