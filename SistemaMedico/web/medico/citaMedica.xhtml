@@ -91,6 +91,11 @@
             <ui:include src="citaMedica/modalActualizarAntecedente.xhtml" />
         </b:modal>
         
+        <b:modal id="modalDeleteHistoriaTratamiento" title="Eliminar Tratamiento" closable="true"
+                 close-on-escape="true" backdrop="true" size="modal-lg">
+            <ui:include src="citaMedica/modalEliminarTratamiento.xhtml" />
+        </b:modal>
+        
         <style>
             #modalDeleteHistoriaTratamiento .modal-header {
                 text-align: center;
@@ -240,54 +245,8 @@
                     <b:column span="10" id="allPanel">
                         <b:form id="formHistoriaClinica">
                             <p:outputPanel id="panelOut1" rendered="#{CitaBean.menuPanel['panel1']}">
-                                <b:panelGrid columns="1" id="panelGrid1">
-                                    <h3>
-                                        <b>Historia Clínica</b>
-                                    </h3>
-                                    <b:panel title="Historia clínica" look="info" collapsible="false">
-                                        <b:row>
-                                            <b:column span="5">
-                                                <b:inputTextarea label="Motivo de la consulta"
-                                                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
-                                                                 placeholder="Motivo consulta"
-                                                                 id="motivo_consulta"
-                                                                 size="13"
-                                                                 rows="5"
-                                                                 maxlength="100"
-                                                                 value="#{CitaBean.historia.hisMotivo}"
-                                                                 required="true"
-                                                                 requiredMessage="Describa el motivo de consulta"/>
-                                            </b:column>     
-                                            <b:column span="7">
-                                                <b:inputTextarea label="Enfermedad actual"
-                                                                 disabled="#{CitaBean.historia.hisCompletado eq '1'}"
-                                                                 placeholder="Describa la enfermedad"
-                                                                 id="nomEnfermedadActual"
-                                                                 size="13"
-                                                                 rows="5"
-                                                                 maxlength="3000"
-                                                                 value="#{CitaBean.historia.hisEnfermedad}"
-                                                                 required="true"
-                                                                 requiredMessage="Describa la enfermedad actual"/>
-                                            </b:column>
-                                        </b:row>
-                                        <b:row>
-                                            <b:column span="6"  offset="6" class="text-center">
-                                                <b:commandButton ajax="true"
-                                                                 style="color: white !important;"
-                                                                 span="4" offset="3"
-                                                                 value="&nbsp; Siguiente"
-                                                                 action="#{CitaBean.cambioPanel('panel2', true)}"
-                                                                 actionListener="#{CitaBean.actualizarHistoriaPrueba('panel2')}"
-                                                                 update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion  formIndicaciones formEvolucion"
-                                                                 tooltip="Antecedente"
-                                                                 look="success">
-                                                    <b:iconAwesome name="fa-arrow-right"></b:iconAwesome>
-                                                </b:commandButton>
-                                            </b:column>
-                                        </b:row>
-                                    </b:panel>
-                                </b:panelGrid>
+                                <ui:include src="citaMedica/tabContentHistoriaClinica.xhtml"/>
+                                <ui:include src="citaMedica/panelListadoHistoriaClinica.xhtml"/>
                             </p:outputPanel>
                         </b:form>
                         <b:form id="formAntecedente">
@@ -300,7 +259,7 @@
                                         <b:tabView style-class="width: 100%">
                                             <b:tab title="Personal">
                                                 <ui:include src="citaMedica/tabContentAntecedente.xhtml">
-                                                    <ui:param name="mapaElementos" value="#{CitaBean.mapaElementos}" />
+                                                    <ui:param name="mapaElementos" value="#{CitaBean.mapAntecedentePer}" />
                                                 </ui:include>
                                             </b:tab>
                                            <b:tab title="Familiar">
@@ -335,6 +294,7 @@
                                 <b:panelGrid columns="1" id="panelGrid3" span="12">
                                     <ui:include src="citaMedica/panelSignoPaciente.xhtml"/>
                                 </b:panelGrid>
+                                <ui:include src="citaMedica/panelListadoSignoPaciente.xhtml"/>
                                 <ui:include src="citaMedica/footer.xhtml">
                                     <ui:param name="panelBefore" value="panel2" />
                                     <ui:param name="panelNext" value="panel4" />
@@ -347,6 +307,7 @@
                             <p:outputPanel id="panelOut4" rendered="#{CitaBean.menuPanel['panel4']}">
                                 <b:panelGrid columns="1" id="panel4" span="12">
                                     <ui:include src="citaMedica/panelRevision.xhtml"/>
+                                    <ui:include src="citaMedica/panelListadoRevisionSistema.xhtml"/>
                                 </b:panelGrid>
                                 <ui:include src="citaMedica/footer.xhtml">
                                     <ui:param name="panelBefore" value="panel3" />
@@ -358,37 +319,8 @@
                         </b:form>
                         <b:form id="formExamenFisico">
                             <p:outputPanel id="panelOut5" rendered="#{CitaBean.menuPanel['panel5']}">
-                                <b:panelGrid columns="1" id="panel5">
-                                    <b:panel span="12" offset="0">
-                                        <h3>
-                                            <b>Exámen Físico</b>
-                                        </h3>
-                                        <b:panel title="Exámen" look="info" collapsible="false">
-                                            <b:row>
-                                                <b:column span="6">
-                                                    <b:inputTextarea label="Exámen General"
-                                                                     disabled="#{CitaBean.historia.hisCompletado eq '1'}"
-                                                                     placeholder="Examenes generales"
-                                                                     id="examenes_general"
-                                                                     size="13"
-                                                                     rows="5"
-                                                                     maxlength="2000"
-                                                                     value="#{CitaBean.historia.hisExamenGeneral}"/>
-                                                </b:column>
-                                                <b:column span="6">
-                                                    <b:inputTextarea label="Exámen Neurologico"
-                                                                     disabled="#{CitaBean.historia.hisCompletado eq '1'}"
-                                                                     placeholder="Examenes neurologicos"
-                                                                     id="examenes_neurologicos"
-                                                                     size="13"
-                                                                     rows="5"
-                                                                     maxlength="2000"
-                                                                     value="#{CitaBean.historia.hisExamenNeurologico}"/>
-                                                </b:column>
-                                            </b:row>
-                                        </b:panel>
-                                    </b:panel>
-                                </b:panelGrid>
+                                <ui:include src="citaMedica/tabContentExamenFisico.xhtml"/>
+                                <ui:include src="citaMedica/panelListadoExamenFisico.xhtml"/>
                                 <ui:include src="citaMedica/footer.xhtml">
                                     <ui:param name="panelBefore" value="panel4" />
                                     <ui:param name="panelNext" value="panel6" />
@@ -504,7 +436,7 @@
                                                     </b:commandButton>
                                                 </b:column>
                                                 <b:column offset="1" span="2">
-                                                    <b:commandButton ajax="true"
+<!--                                                    <b:commandButton ajax="true"
                                                                      style="color: white !important;"
                                                                      tooltip="Eliminar tratamiento"
                                                                      onclick="return confirmarEliminacionTratamiento('#{historiaTratamiento.historiaDiagnostico.diagnosticos.diaDescripcionCie}', '#{historiaTratamiento.tratamientos.medicamentos.medNombre}', '#{historiaTratamiento.tratamientos.traIndicaciones}');"                                                                 look="danger">
@@ -512,6 +444,16 @@
                                                         <f:ajax execute="@this"
                                                                 render="formPrescripcion :growl"
                                                                 listener="#{CitaBean.eliminarHistoriaTratamiento(historiaTratamiento)}"/>
+                                                    </b:commandButton>-->
+                                                    <b:commandButton ajax="true"
+                                                                     style="color: white !important;"
+                                                                     immediate="true"
+                                                                     process="@this"
+                                                                     update=" :growl"
+                                                                     oncomplete="$('#modalDeleteHistoriaTratamiento').modal('show'); return false;"
+                                                                     tooltip="Editar antecedente" 
+                                                                     look="danger">
+                                                        <b:iconAwesome name="trash"></b:iconAwesome>
                                                     </b:commandButton>
                                                 </b:column>
                                            </b:dataTableColumn>
@@ -528,27 +470,8 @@
                         </b:form>
                         <b:form id="formIndicaciones">
                             <p:outputPanel id="panelOut9" rendered="#{CitaBean.menuPanel['panel9']}">
-                                <b:panelGrid columns="1" id="panel5">
-                                    <b:panel span="12" offset="0">
-                                        <h3>
-                                            <b>Indicaciones</b>
-                                        </h3>
-                                        <b:panel title="Indicaciones no farmacologicas" look="info" collapsible="false">
-                                            <b:row>
-                                                <b:column span="12">
-                                                    <b:inputTextarea label="Indicaciones"
-                                                                     disabled="#{CitaBean.historia.hisCompletado eq '1'}"
-                                                                     placeholder="Ingrese indicaciones"
-                                                                     id="indicaciones"
-                                                                     size="13"
-                                                                     rows="5"
-                                                                     maxlength="2000"
-                                                                     value="#{CitaBean.historia.hisIndicacionesNoFarmacologica}"/>
-                                                </b:column>
-                                            </b:row>
-                                        </b:panel>
-                                    </b:panel>
-                                </b:panelGrid>
+                                <ui:include src="citaMedica/tabContentIndicaciones.xhtml"/>
+                                <ui:include src="citaMedica/panelListadoIndicaciones.xhtml"/>
                                 <ui:include src="citaMedica/footer.xhtml">
                                     <ui:param name="panelBefore" value="panel8" />
                                     <ui:param name="panelNext" value="panel10" />
@@ -560,23 +483,21 @@
                         <b:form id="formEvolucion">
                             <p:outputPanel id="panelOut10" rendered="#{CitaBean.menuPanel['panel10']}">
                                 <b:panelGrid columns="1" id="panel5">
-                                    <b:panel span="12" offset="0">
-                                        <h3>
-                                            <b>Evolución</b>
-                                        </h3>
-                                        <b:panel title="Evolución del paciente" look="info" collapsible="false">
-                                            <b:row>
-                                                <b:column span="12">
-                                                    <b:inputTextarea label="Evolución"
-                                                                 placeholder="Ingrese evolución"
-                                                                 id="indicaciones"
-                                                                 size="13"
-                                                                 rows="5"
-                                                                 maxlength="2000"
-                                                                 value="#{CitaBean.historia.hisEvolucion}"/>
-                                                </b:column>
-                                            </b:row>
-                                        </b:panel>
+                                    <h3>
+                                        <b>Evolución</b>
+                                    </h3>
+                                    <b:panel title="Evolución del paciente" look="info" collapsible="false">
+                                        <b:row>
+                                            <b:column span="12">
+                                                <b:inputTextarea label="Evolución"
+                                                             placeholder="Ingrese evolución"
+                                                             id="indicaciones"
+                                                             size="13"
+                                                             rows="5"
+                                                             maxlength="2000"
+                                                             value="#{CitaBean.historia.hisEvolucion}"/>
+                                            </b:column>
+                                        </b:row>
                                     </b:panel>
                                 </b:panelGrid>
                                 <ui:include src="citaMedica/footer.xhtml">

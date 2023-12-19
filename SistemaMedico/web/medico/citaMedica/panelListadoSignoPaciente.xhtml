@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/recursos"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <b:panelGrid columns="1" rendered="#{CitaBean.historia.hisCompletado eq '1'}">
+        <p:outputPanel id="panelListadoSignoPaciente">
+            <b:panel title="Historial de signos" look="info" collapsible="false" id="historialPanel" span="12">
+                <b:dataTable large-screen="full-width" id="examenesHistoriaTabla" value="#{CitaBean.lista_historial_signos}" var="historiaSigno" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                   page-length="7" multi-column-search="true" multi-column-search-position="top" >
+                   <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaSigno.sigFechaUlt)}" style="width: 5%" />
+                   <b:dataTableColumn label="Presion Arterial Sistólica" value="#{historiaSigno.sigPresionSistolica}" style="width: 5%" />
+                   <b:dataTableColumn label="Presion Arterial Diastólica" value="#{historiaSigno.sigPresionDiastolica}" style="width: 5%" />
+                   <b:dataTableColumn label="Presión Arterial Media" value="#{historiaSigno.sigPresionArterialMedia}" style="width: 5%" />
+                   <b:dataTableColumn label="Temperatura °C" value="#{historiaSigno.sigTemperatura}" style="width: 5%" />
+                   <b:dataTableColumn label="Frecuencia Respiratoria" value="#{historiaSigno.sigFrecuenciaRespiratoria}" style="width: 5%" />
+                   <b:dataTableColumn label="Frecuencia Cardíaca " value="#{historiaSigno.sigFrecuenciaCardiaca}" style="width: 5%" />
+                   <b:dataTableColumn label="Saturacion (%)" value="#{historiaSigno.sigSaturacion}" style="width: 5%" />
+                   <b:dataTableColumn label="Peso" value="#{historiaSigno.sigPeso}" style="width: 3%" />
+                   <b:dataTableColumn label="Estatura" value="#{historiaSigno.sigEstatura}" style="width: 3%" />
+                   <b:dataTableColumn label="Indice masa corporal" value="#{historiaSigno.sigImc}" style="width: 5%" />
+                   <b:dataTableColumn label="Perímetro abdominal" value="#{historiaSigno.sigPerimetroAbdominal}" style="width: 5%" />
+                   <b:dataTableColumn label="Perímetro brazo" value="#{historiaSigno.sigPerimetroBrazo}" style="width: 5%" />
+                   <b:dataTableColumn label="Glucosa Capilar" value="#{historiaSigno.sigGlucosaCapilar}" style="width: 5%" />
+                   <b:dataTableColumn label="Valor Hemoglobina" value="#{historiaSigno.sigValorHemoglobina}" style="width: 5%" />
+                   <b:dataTableColumn label="Valor Hemoglobina Corregido" value="#{historiaSigno.sigValorHemoglobinaCorr}" style="width: 5%" />
+                </b:dataTable>
+            </b:panel>
+        </p:outputPanel>
+    </b:panelGrid>
+</html>

@@ -107,31 +107,8 @@ public class HistoriaExamenDAO {
                 session.close();
             }
         }
-//        Examenes exa = new Examenes();
-//        session.beginTransaction();
-//        Query query = session.createQuery("FROM HistoriaExamen where his_id= '" + id_historia + "' OR his_id != '" + id_historia + "'  AND his_exa_completado = 0");         
-//        List<HistoriaExamen> historiaExamen= query.list();
-//        System.out.println("his"+historiaExamen);
-//        if (historiaExamen.isEmpty()) {
-//            System.out.println("entra");
-//        } else {
-//            System.out.println("no entra");
-//        }
-//        historiaExamen.forEach((historiaExame) -> {
-//            historiaExame.setExamenes(ExamenesDAO.recuperarExamenesId(historiaExame.getExamenes().getExaId()));
-//            Historias aux_histori = historiaExame.getHistorias();
-//            // Recuperar persona
-//            Personas aux_per = historiaExame.getHistorias().getPersonasByMedicoPerId();
-//            // Setear la persona para el campo medico dentro de la entidad historia
-//            aux_per.getPerApellidos();
-//            aux_histori.setPersonasByMedicoPerId(aux_per);
-//            // Setear la historia
-//            historiaExame.setHistorias(aux_histori);
-//        });
-//        session.getTransaction().commit();
-//        session.close();
-//        return historiaExamen;
     }
+    
     /**
      * Método para recuperar los nombres de los diagnostico personal
      *

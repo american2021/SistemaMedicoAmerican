@@ -176,6 +176,7 @@ public class HistoriaAntecedenteDAO {
         session.close();
         return historiaAntecedente;
     }
+    
     /**
      * Método para recuperar los nombres de los diagnostico de un historial
      *

@@ -305,6 +305,41 @@ public class CitaDAO {
                 
             }
         }
+    }
+    
+    /**
+     * Método para recuperar los nombres de los diagnostico de un historial
+     *
+     * @param id_historia
+     * @param id_paciente
+     * @return
+     */
+    public static List<Historias> recuperarHistorialHistorias(int id_historia, int id_paciente) {
         
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("FROM Historias WHERE personasByPacientePerId = '" + id_paciente + "' AND hisId != '"+ id_historia + "'");
+
+            List<Historias> historias= query.list();
+
+            historias.forEach((historia) -> {
+                Hibernate.initialize(historia.getPersonasByMedicoPerId());
+            });
+
+            transaction.commit();
+            return historias;
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace(); // Log or handle the exception appropriately
+            return Collections.emptyList();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
     }
 }

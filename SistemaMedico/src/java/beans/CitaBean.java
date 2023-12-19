@@ -49,7 +49,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -57,6 +56,7 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import net.bootsfaces.utils.FacesMessages;
 import java.util.Date;
@@ -67,10 +67,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -106,6 +104,9 @@ public final class CitaBean implements Serializable{
     private List<Diagnosticos> lista_diagnosticos_all;
     private List<HistoriaAntecedente> lista_historia_antecedente;
     private List<HistoriaAntecedente> lista_historial_historia_antecedente;
+    private List<Historias> lista_historial_historias;
+    private List<Signos> lista_historial_signos;
+    private List<RevisionSistemas> lista_historial_revision_sistema;
     private List<HistoriaAntecedente> lista_historial_default_historia_antecedente;
     private List<HistoriaTratamiento> lista_historia_tratamiento;
     private List<HistoriaAntecedente> lista_alergias_historia_antecedente;
@@ -150,7 +151,7 @@ public final class CitaBean implements Serializable{
     private Map<Long, String> editedCronologiaDiagnostico;
     private Map<Long, String> editedSelectAntecedente;
     
-    Map<String, Antecedente> mapaElementos;
+    Map<String, Antecedente> mapAntecedentePer;
     Map<String, Antecedente> mapAntecedenteFam;
     Map<String, Antecedente> mapAntecedenteGin;
     Map<String, Antecedente> mapAntecedenteVac;
@@ -223,6 +224,9 @@ public final class CitaBean implements Serializable{
         lista_categoria_antecedentes = new ArrayList<>();
         lista_historia_antecedente = new ArrayList<>();
         lista_historial_historia_antecedente = new ArrayList<>();
+        lista_historial_historias = new ArrayList<>();
+        lista_historial_signos = new ArrayList<>();
+        lista_historial_revision_sistema = new ArrayList<>();
         lista_historial_default_historia_antecedente = new ArrayList<>();
         lista_historia_tratamiento = new ArrayList<>();
         lista_alergias_historia_antecedente = new ArrayList<>();
@@ -265,7 +269,7 @@ public final class CitaBean implements Serializable{
         editedCondicionDiagnostico = new HashMap<>();
         editedCronologiaDiagnostico = new HashMap<>();
         editedSelectAntecedente = new HashMap<>();
-        mapaElementos = new HashMap<>();
+        mapAntecedentePer = new HashMap<>();
         mapAntecedenteFam = new HashMap<>();
         mapAntecedenteGin = new HashMap<>();
         mapAntecedenteVac = new HashMap<>();
@@ -316,7 +320,7 @@ public final class CitaBean implements Serializable{
     public String actualizarHistoriaPrueba(String panel){
         if (historia.getHisCompletado().toString().contains("0") && !panel.contains("panel11")) {
             if (panel.contains("panel10")) {
-                actualizarCita();
+                return actualizarCita();
             } else {
                 if (panel.contains("panel5")) {
                     revision.setRevSisUsuario(session.getAttribute("usuario").toString());
@@ -340,7 +344,7 @@ public final class CitaBean implements Serializable{
                 FacesMessages.error(":growlInfo", "Error al finalizar la cita médica: "+e.getCause().getMessage(), "This is a specific message!");
             }
         }
-        return null;
+        return "Completado";
     }
     
     /**
@@ -444,6 +448,33 @@ public final class CitaBean implements Serializable{
     public List<HistoriaAntecedente> recuperarHistorialHistoriaAntecedente() {
         lista_historial_historia_antecedente = HistoriaAntecedenteDAO.recuperarHistorialHistoriaAntecedente(historia.getHisId(), historia.getPersonasByPacientePerId().getPerId());
         return lista_historial_historia_antecedente;
+    }
+    
+    /**
+     * Método para recuperar las historias registrados en la base de una persona
+     * @return 
+     */
+    public List<Historias> recuperarHistorialHistorias() {
+        lista_historial_historias =  CitaDAO.recuperarHistorialHistorias(historia.getHisId(), historia.getPersonasByPacientePerId().getPerId());
+        return lista_historial_historias;
+    }
+    
+    /**
+     * Método para recuperar los signos registrados en la base de una persona
+     * @return 
+     */
+    public List<Signos> recuperarHistorialSignos() {
+        lista_historial_signos =  SignosDAO.recuperarHistoriaSignos(historia.getHisId(), historia.getPersonasByPacientePerId().getPerId());
+        return lista_historial_signos;
+    }
+    
+    /**
+     * Método para recuperar los revision sistema registrados en la base de una persona
+     * @return 
+     */
+    public List<RevisionSistemas> recuperarHistorialRevisionSistema() {
+        lista_historial_revision_sistema =  RevisionSistemasDAO.recuperarHistoriaRevisionSistemas(historia.getHisId(), historia.getPersonasByPacientePerId().getPerId());
+        return lista_historial_revision_sistema;
     }
     
     /**
@@ -714,9 +745,8 @@ public final class CitaBean implements Serializable{
         context = FacesContext.getCurrentInstance();
         context.getExternalContext().getFlash().setKeepMessages(true);
         
-        if (lista_historia_tratamiento.isEmpty() && !historia.getHisIndicacionesNoFarmacologica().isEmpty() ||
-                !lista_historia_tratamiento.isEmpty() && historia.getHisIndicacionesNoFarmacologica().isEmpty()) {
-            FacesMessages.info(":growlInfo", "No se ha actualizado la cita médica, no tiene tratamiento", "This is a specific message!");
+        if (lista_historia_tratamiento.isEmpty() && historia.getHisIndicacionesNoFarmacologica().isEmpty()) {
+            FacesMessages.info(":growlInfo", "No se ha actualizado la cita médica, no tiene tratamiento y/o indicaciones no farmacológicas", "This is a specific message!");
             return "Sin tratamiento";
         }else {
             
@@ -726,10 +756,10 @@ public final class CitaBean implements Serializable{
                 FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/SistemaMedico/listado-citas-dia");
                 HistoriaAntecedenteDAO.crearDefaultHistoriaAntecedente(historia_actual_id);
-                return null; // No olvides devolver null para indicar que no hay navegación implícita.
+                return "Completado"; // No olvides devolver null para indicar que no hay navegación implícita.
             } catch (Exception e) {
                 FacesMessages.error(":growlInfo", "Error al finalizar la cita médica: "+e.getCause().getMessage(), "This is a specific message!");
-                return "";
+                return "Completado";
             }
         }
         
@@ -757,24 +787,25 @@ public final class CitaBean implements Serializable{
         }
     }
     
-    private boolean validarAntecedente(Antecedente antecedente, String keyMap) {
-        return antecedente != null && antecedente.getAntId() != null && StringUtils.isNotBlank(editedDescriptions.get(keyMap));
+    private boolean validarAntecedente(Antecedente antecedente, String id) {
+        return antecedente != null && antecedente.getAntId() != null && StringUtils.isNotBlank(editedDescriptions.get(id));
     }
         
     /**
      * Método para crear un nuevo Historia antecedente
      * @param keyMap
      * @param tipo
+     * @param id
      */
-    public void crearHistoriaAntecedentePrueba(String keyMap, String tipo){
-        Antecedente antecedent = AntecedenteDAO.recuperarAntecedenteGrupoCategoria(getEditedSelectAntecedente().get(keyMap), keyMap, tipo);
-        if (validarAntecedente(antecedent, keyMap)) {
+    public void crearHistoriaAntecedentePrueba(String keyMap, String tipo, String id){
+        Antecedente antecedent = AntecedenteDAO.recuperarAntecedenteGrupoCategoria(editedSelectAntecedente.get(id), keyMap, tipo);
+        if (validarAntecedente(antecedent, id)) {
             // Lógica para procesar el antecedente si la validación pasa
             nuevo_historia_antecedente.setAntecedente(antecedent);
             nuevo_historia_antecedente.setHisAntFechaUlt(new Date());
             nuevo_historia_antecedente.setHisAntUsuario(session.getAttribute("usuario").toString());
             nuevo_historia_antecedente.setHistorias(historia);
-            nuevo_historia_antecedente.setHisAntDescripcion(getEditedDescriptions().get(keyMap) );
+            nuevo_historia_antecedente.setHisAntDescripcion(editedDescriptions.get(id) );
             try {
                 HistoriaAntecedenteDAO.crearActualizarHistoriaAntecedente(nuevo_historia_antecedente);
                 nuevo_historia_antecedente = new HistoriaAntecedente();
@@ -1126,13 +1157,17 @@ public final class CitaBean implements Serializable{
     }
     
     public List<SelectItem> obtenerListaGrupos(Antecedente antecedente) {
+        if (antecedente == null || antecedente.getAntGrupo() == null) {
+            return Collections.emptyList(); // o devuelve una lista vacía, dependiendo de tus necesidades
+        }
+
         // Divide la cadena de antGrupo en una lista usando la coma como delimitador
         List<String> grupos = Arrays.asList(antecedente.getAntGrupo().split(","));
 
         // Crea una lista de SelectItem a partir de los elementos en la lista
         List<SelectItem> items = new ArrayList<>();
         for (String grupo : grupos) {
-            items.add(new SelectItem(grupo, grupo));
+            items.add(new SelectItem(grupo.trim(), grupo.trim()));
         }
 
         return items;
@@ -1184,7 +1219,7 @@ public final class CitaBean implements Serializable{
         editedCondicionDiagnostico = new HashMap<>();
         editedCronologiaDiagnostico = new HashMap<>();
         editedSelectAntecedente = new HashMap<>();
-        mapaElementos = new HashMap<>();
+        mapAntecedentePer = new HashMap<>();
         mapAntecedenteFam = new HashMap<>();
         mapAntecedenteGin = new HashMap<>();
         mapAntecedenteVac = new HashMap<>();
@@ -1197,6 +1232,9 @@ public final class CitaBean implements Serializable{
         historia = CitaDAO.recuperarHistoriaID(hisId);
         recuperarHistoriaAntecedente();
         recuperarHistorialHistoriaAntecedente();
+        recuperarHistorialHistorias();
+        recuperarHistorialSignos();
+        recuperarHistorialRevisionSistema();
         recuperarHistorialDefaultHistoriaAntecedente();
         recuperarAlergiasHistoriaAntecedente();
         recuperarHistoriaExamenes();
@@ -1291,7 +1329,6 @@ public final class CitaBean implements Serializable{
      *
      * @param panelActual
      * @param estado
-     * @return 
      */
     public void cambioPanel(String panelActual, Boolean estado) {
         if (lista_historia_diagnostico.isEmpty() && panelActual.contains("panel8") != false) {
@@ -1303,19 +1340,28 @@ public final class CitaBean implements Serializable{
     //            updatePanel = false;        
     //        } 
         else {
+            String valor = "";
             for (String panel : menuPanel.keySet()) {
                 boolean estadoAll = panel.equals(panelActual);
                 if (panel.contains(panelActual)) {
-                    menuPanel.put(panelActual, estado);
-                    actualizarHistoriaPrueba(panelActual);
+                    valor = actualizarHistoriaPrueba(panelActual);
+                    if(valor.contains("Sin tratamiento")){
+                        menuPanel.put("panel9", estado);
+                        menuPanel.put(panel, false);
+                    } else {
+                        menuPanel.put(panelActual, estado);
+                    }
                 } 
-                if (!panelActual.contains("panel11")) {
+                if (!panelActual.contains("panel11") && !valor.contains("Sin tratamiento")) {
                     menuPanel.put(panel, estadoAll);
                 }
-                
             }
             updatePanel = true;
         }
+    }
+    
+    public void eliminarHistoriaTratamiento(){
+        System.out.println("entra a eliminar");
     }
     
     public void eliminarExamen(){
@@ -2154,6 +2200,22 @@ public final class CitaBean implements Serializable{
         return lista_historial_historia_antecedente;
     }
 
+    public List<Historias> getLista_historial_historias() {
+        return lista_historial_historias;
+    }
+
+    public List<Signos> getLista_historial_signos() {
+        return lista_historial_signos;
+    }
+
+    public List<RevisionSistemas> getLista_historial_revision_sistema() {
+        return lista_historial_revision_sistema;
+    }
+
+    public void setLista_historial_revision_sistema(List<RevisionSistemas> lista_historial_revision_sistema) {
+        this.lista_historial_revision_sistema = lista_historial_revision_sistema;
+    }
+    
     public List<HistoriaAntecedente> getLista_historial_default_historia_antecedente() {
         return lista_historial_default_historia_antecedente;
     }
@@ -2292,7 +2354,7 @@ public final class CitaBean implements Serializable{
     public List<Antecedente> getListaAntecedentePer() {
         List<Antecedente> listAntecedente = filtrarPorTipos("1");
         
-        mapaElementos = listAntecedente.stream()
+        mapAntecedentePer = listAntecedente.stream()
         .collect(Collectors.toMap(
                 Antecedente::getAntCategoria,
                 Function.identity(),
@@ -2432,13 +2494,13 @@ public final class CitaBean implements Serializable{
     public void setEditedSelectAntecedente(Map<Long, String> editedSelectAntecedente) {
         this.editedSelectAntecedente = editedSelectAntecedente;
     }
-    
-    public Map<String, Antecedente> getMapaElementos() {
-        return mapaElementos;
+
+    public Map<String, Antecedente> getMapAntecedentePer() {
+        return mapAntecedentePer;
     }
 
-    public void setMapaElementos(Map<String, Antecedente> mapaElementos) {
-        this.mapaElementos = mapaElementos;
+    public void setMapAntecedentePer(Map<String, Antecedente> mapAntecedentePer) {
+        this.mapAntecedentePer = mapAntecedentePer;
     }
 
     public Map<String, Antecedente> getMapAntecedenteFam() {

@@ -1,10 +1,7 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"> 
     
     <style>
         .tipo-columna {
@@ -22,31 +19,31 @@
 
     <b:panelGrid columns="1">
         <br/>
-        <b:dataTable style="width: 100%; margin: 0 auto;" id="antecedanteTabla" value="#{mapaElementos.entrySet().toArray()}" var="item"
+        <b:dataTable style="width: 100%; margin: 0 auto;" id="antecedanteTabla" value="#{mapaElementos.entrySet()}" var="item"
                      responsive="true" content-disabled="false" searching="true"
                      page-length="5" multi-column-search="true" multi-column-search-position="top">
             <b:dataTableColumn label="Categoria" value="#{item.key}" style="width: 10% !important" order-by="asc"/>
-            <b:dataTableColumn label="Grupo" style="width: 10%" >
-                <b:selectOneMenu value="#{CitaBean.editedSelectAntecedente[item.key]}"
-                                 styleClass="form-control tipo-columna">
+            <b:dataTableColumn label="Grupo" style="width: 10%">
+                <b:selectOneMenu id="grupo_#{item.value}"
+                                 styleClass="form-control tipo-columna"
+                                 value="#{CitaBean.editedSelectAntecedente[item.value.antGrupo]}">
                     <f:selectItem itemLabel="Seleccionar el grupo" itemValue="" noSelectionOption="true" />
                     <f:selectItems value="#{CitaBean.obtenerListaGrupos(item.value)}" />
                 </b:selectOneMenu>
             </b:dataTableColumn>
             <b:dataTableColumn label="Descripción" style="width: 38%; display: inline-block;" >
                     <b:inputTextarea styleClass="form-control tipo-columna"
-                        value="#{CitaBean.editedDescriptions[item.key]}" 
-                        rows="1" maxlength="2000"
-                        placeholder="Ingrese la descripción del antecedente"/>
+                                     value="#{CitaBean.editedDescriptions[item.value.antGrupo]}" 
+                                     rows="1" maxlength="2000"
+                                     placeholder="Ingrese la descripción del antecedente"/>
             </b:dataTableColumn>
             <b:dataTableColumn label="Acciones" style="width: 10%;padding-left: 1%;padding-right: 1%"
                                orderable="false"
                                searchable="false">
-                <b:commandButton id="valoresButton_#{item.key}"
-                                 style="width: 100%"
+                <b:commandButton style="width: 100%"
                                  ajax="true" 
                                  value="&#160; Agregar"
-                                 action="#{CitaBean.crearHistoriaAntecedentePrueba(item.key, item.value.antTipo)}"
+                                 action="#{CitaBean.crearHistoriaAntecedentePrueba(item.key, item.value.antTipo, item.value.antGrupo)}"
                                  tooltip="Guardar cambios" look="success"
                                  update="formAntecedente:panelContainer:panelListaAntecedente  formAntecedente:listadoAntecedente :growl"
                                  >

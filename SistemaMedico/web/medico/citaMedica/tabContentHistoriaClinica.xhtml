@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <style>
+        .tipo-columna {
+            width: 100% !important;
+        }
+        .form-group {
+            width: 100% !important;
+        }
+        .form-inline .radio label, .form-inline .checkbox label{
+            padding-left: auto;
+            align-content: center !important;
+        }   
+        .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{
+            font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+            font-size: 14px !important;
+            line-height: 1.428571429 !important;
+        }
+    </style>
+
+    <b:panelGrid columns="1" id="panelGrid1">
+        <h3>
+            <b>Historia Clínica</b>
+        </h3>
+        <b:panel title="Historia clínica" look="info" collapsible="false">
+            <b:row>
+                <b:column span="5">
+                    <b:inputTextarea label="Motivo de la consulta"
+                                     disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                     placeholder="Motivo consulta"
+                                     id="motivo_consulta"
+                                     size="13"
+                                     rows="5"
+                                     maxlength="100"
+                                     value="#{CitaBean.historia.hisMotivo}"
+                                     required="true"
+                                     requiredMessage="Describa el motivo de consulta"/>
+                </b:column>     
+                <b:column span="7">
+                    <b:inputTextarea label="Enfermedad actual"
+                                     disabled="#{CitaBean.historia.hisCompletado eq '1'}"
+                                     placeholder="Describa la enfermedad"
+                                     id="nomEnfermedadActual"
+                                     size="13"
+                                     rows="5"
+                                     maxlength="3000"
+                                     value="#{CitaBean.historia.hisEnfermedad}"
+                                     required="true"
+                                     requiredMessage="Describa la enfermedad actual"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="6"  offset="6" class="text-center">
+                    <b:commandButton ajax="true"
+                                     style="color: white !important;"
+                                     span="4" offset="3"
+                                     value="&nbsp; Siguiente"
+                                     action="#{CitaBean.cambioPanel('panel2', true)}"
+                                     actionListener="#{CitaBean.actualizarHistoriaPrueba('panel2')}"
+                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion  formIndicaciones formEvolucion"
+                                     tooltip="Antecedente"
+                                     look="success">
+                        <b:iconAwesome name="fa-arrow-right"></b:iconAwesome>
+                    </b:commandButton>
+                </b:column>
+            </b:row>
+        </b:panel>
+    </b:panelGrid>
+</html>

@@ -77,7 +77,7 @@ public class AntecedenteDAO {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Antecedente where antCategoria like '%" + categoria + "%' AND antGrupo like '%" + grupo + "%' AND antTipo = '" + tipo + "'");
+        Query query = session.createQuery("from Antecedente where antCategoria like '%" + categoria + "%' AND antGrupo = '" + grupo + "' AND antTipo = '" + tipo + "'");
         Antecedente antecedente = null;
         if (!query.list().isEmpty()) {
             antecedente = (Antecedente) query.uniqueResult();

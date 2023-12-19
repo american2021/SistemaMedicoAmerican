@@ -173,7 +173,6 @@ public class HistoriaDiagnosticoDAO {
      *
      * @param dia_Codigo_Cie
      * @param dia_descripcion_cie
-     * @param his_dia_observacion
      * @param id_historia
      * @return
      */
