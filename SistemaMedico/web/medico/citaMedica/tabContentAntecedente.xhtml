@@ -26,14 +26,14 @@
             <b:dataTableColumn label="Grupo" style="width: 10%">
                 <b:selectOneMenu id="grupo_#{item.value}"
                                  styleClass="form-control tipo-columna"
-                                 value="#{CitaBean.editedSelectAntecedente[item.value.antGrupo]}">
+                                 value="#{CitaBean.editedSelectAntecedente[item.value.antId]}">
                     <f:selectItem itemLabel="Seleccionar el grupo" itemValue="" noSelectionOption="true" />
                     <f:selectItems value="#{CitaBean.obtenerListaGrupos(item.value)}" />
                 </b:selectOneMenu>
-            </b:dataTableColumn>
+            </b:dataTableColumn> 
             <b:dataTableColumn label="Descripción" style="width: 38%; display: inline-block;" >
                     <b:inputTextarea styleClass="form-control tipo-columna"
-                                     value="#{CitaBean.editedDescriptions[item.value.antGrupo]}" 
+                                     value="#{CitaBean.editedDescriptions[item.value.antId]}" 
                                      rows="1" maxlength="2000"
                                      placeholder="Ingrese la descripción del antecedente"/>
             </b:dataTableColumn>
@@ -43,9 +43,9 @@
                 <b:commandButton style="width: 100%"
                                  ajax="true" 
                                  value="&#160; Agregar"
-                                 action="#{CitaBean.crearHistoriaAntecedentePrueba(item.key, item.value.antTipo, item.value.antGrupo)}"
+                                 action="#{CitaBean.crearHistoriaAntecedentePrueba(item.key, item.value.antTipo, item.value.antId)}"
                                  tooltip="Guardar cambios" look="success"
-                                 update="formAntecedente:panelContainer:panelListaAntecedente  formAntecedente:listadoAntecedente :growl"
+                                 update="formAntecedente:panelListadoAntecedente:panelListaAntecedente  formAntecedente:listadoAntecedente :growl"
                                  >
                     <b:iconAwesome name="save"></b:iconAwesome>
                 </b:commandButton>

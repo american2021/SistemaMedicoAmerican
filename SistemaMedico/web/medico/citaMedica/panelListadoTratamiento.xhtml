@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:my="http://java.sun.com/jsf/composite/recursos"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <b:panelGrid columns="1">
+        <b:row>
+            <b:column span="12" class="text-center">
+                <b:commandButton ajax="true"
+                                 style="color: white !important;"
+                                 immediate="true"
+                                 process="@this"
+                                 id="visible_tratamiento"
+                                 iconAwesome="#{CitaBean.historialLista.get('tratamiento') ? 'fa-eye' : 'fa-eye-slash'}"
+                                 action="#{CitaBean.cambioHistoriaList('tratamiento')}"
+                                 value="#{CitaBean.historialLista.get('tratamiento') ? '&nbsp; Mostrar Historial' : '&nbsp; Ocultar Historial'}"
+                                 update="visible_tratamiento  :formPrescripcion:panelContainerTratamiento :growl"
+                                 tooltip="#{CitaBean.historialLista.get('tratamiento') ?  'Mostrar Historial' : 'Ocultar Historial'}" look="primary">
+                </b:commandButton>
+            </b:column>
+        </b:row>
+        <br/>
+        <p:outputPanel id="panelContainerTratamiento">
+            <b:panel title="Tratamientos"
+                     look="info" 
+                     collapsible="false" 
+                     id="listadoTratamientoPaciente" 
+                     span="12"
+                     rendered="#{CitaBean.historialLista.get('tratamiento')}">
+                <b:dataTable large-screen="full-width" id="historiaDiagnosticoTabla" 
+                             value="#{CitaBean.lista_historia_tratamiento}" 
+                             var="historiaTratamiento" responsive="true" 
+                             style="font-size: 11px; width: 100%" 
+                             info="true" content-disabled="false" 
+                             searching="true" page-length="7" 
+                             multi-column-search="true" 
+                             multi-column-search-position="top" >
+                    <b:dataTableColumn label="Diagnóstico" value="#{historiaTratamiento.historiaDiagnostico.diagnosticos.diaDescripcionCie}" style="width: 15%" />
+                    <b:dataTableColumn label="Medicamento" value="#{historiaTratamiento.tratamientos.medicamentos.medNombre}" style="width: 15%" />
+                    <b:dataTableColumn label="Vía de administración" value="#{CitaBean.formatoViaAdministracionTratamiento(historiaTratamiento.tratamientos.traViaAdministracion)}" style="width: 15%" />
+                    <b:dataTableColumn label="Dósis unitaria" value="#{historiaTratamiento.tratamientos.medicamentos.medDosisUnitaria}" style="width: 5%" />
+                    <b:dataTableColumn label="Medida" value="#{CitaBean.formatoMedidaMedicamento(historiaTratamiento.tratamientos.medicamentos.medMedida)}" style="width: 10%" />
+                    <b:dataTableColumn label="Frecuencia" value="#{CitaBean.formatoFrecuenciaTratamiento(historiaTratamiento.tratamientos.traFrecuencia)}" style="width: 10%" />
+                    <b:dataTableColumn label="Duración" value="#{historiaTratamiento.tratamientos.traDuracion}" style="width: 5%" />
+                    <b:dataTableColumn label="Acciones" style="width: 12%; padding-left: 1%;padding-right: 1% "
+                                       rendered="#{CitaBean.historia.hisCompletado eq '0'}"
+                                       orderable="false"
+                                       searchable="false">
+                        <b:column span="1" offset="0">
+                            <b:commandButton ajax="true" 
+                                             style="color: white !important;"
+                                             immediate="true"
+                                             update="modaUpdateHistoriaTratamiento :growl"
+                                             action="#{CitaBean.prepareUpdateHistoriaTratamiento(historiaTratamiento)}"
+                                             oncomplete="$('#modaUpdateHistoriaTratamiento').modal('show')" 
+                                             tooltip="Editar tratamiento" 
+                                             look="warning">
+                                <b:iconAwesome name="pencil"></b:iconAwesome>
+                            </b:commandButton>
+                        </b:column>
+                        <b:column offset="1" span="2">
+                            <b:commandButton ajax="true"
+                                             style="color: white !important;"
+                                             tooltip="Eliminar tratamiento"
+                                             onclick="return confirmarEliminacionTratamiento('#{historiaTratamiento.historiaDiagnostico.diagnosticos.diaDescripcionCie}', '#{historiaTratamiento.tratamientos.medicamentos.medNombre}', '#{historiaTratamiento.tratamientos.traIndicaciones}');"                                                                 look="danger">
+                                <b:iconAwesome name="trash"></b:iconAwesome>
+                                <f:ajax execute="@this"
+                                        render="formPrescripcion :growl"
+                                        listener="#{CitaBean.eliminarHistoriaTratamiento(historiaTratamiento)}"/>
+                            </b:commandButton>
+<!--                                                    <b:commandButton ajax="true"
+                                             style="color: white !important;"
+                                             immediate="true"
+                                             process="@this"
+                                             update=" :growl"
+                                             oncomplete="$('#modalDeleteHistoriaTratamiento').modal('show'); return false;"
+                                             tooltip="Editar antecedente" 
+                                             look="danger">
+                                <b:iconAwesome name="trash"></b:iconAwesome>
+                            </b:commandButton>-->
+                        </b:column>
+                   </b:dataTableColumn>
+                </b:dataTable>
+            </b:panel>
+            <b:panel title="Tratamientos"
+                     look="info" 
+                     collapsible="false" 
+                     id="listadoHistorialTratamientoPaciente" 
+                     span="12"
+                     rendered="#{!CitaBean.historialLista.get('tratamiento')}">
+                <b:dataTable large-screen="full-width" id="historiaHistorialDiagnosticoTabla" 
+                             value="#{CitaBean.lista_historial_historia_tratamiento}" 
+                             var="historiaTratamiento" responsive="true" 
+                             style="font-size: 11px; width: 100%" 
+                             info="true" content-disabled="false" 
+                             searching="true" page-length="7" 
+                             multi-column-search="true" 
+                             multi-column-search-position="top" >
+                    <b:dataTableColumn label="Diagnóstico" value="#{historiaTratamiento.historiaDiagnostico.diagnosticos.diaDescripcionCie}" style="width: 15%" />
+                    <b:dataTableColumn label="Medicamento" value="#{historiaTratamiento.tratamientos.medicamentos.medNombre}" style="width: 15%" />
+                    <b:dataTableColumn label="Vía de administración" value="#{CitaBean.formatoViaAdministracionTratamiento(historiaTratamiento.tratamientos.traViaAdministracion)}" style="width: 15%" />
+                    <b:dataTableColumn label="Dósis unitaria" value="#{historiaTratamiento.tratamientos.medicamentos.medDosisUnitaria}" style="width: 5%" />
+                    <b:dataTableColumn label="Medida" value="#{CitaBean.formatoMedidaMedicamento(historiaTratamiento.tratamientos.medicamentos.medMedida)}" style="width: 10%" />
+                    <b:dataTableColumn label="Frecuencia" value="#{CitaBean.formatoFrecuenciaTratamiento(historiaTratamiento.tratamientos.traFrecuencia)}" style="width: 10%" />
+                    <b:dataTableColumn label="Duración" value="#{historiaTratamiento.tratamientos.traDuracion}" style="width: 5%" />
+                </b:dataTable>
+            </b:panel>
+        </p:outputPanel>
+    </b:panelGrid>
+</html>

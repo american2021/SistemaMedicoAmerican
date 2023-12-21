@@ -86,9 +86,9 @@ public class HistoriaExamenDAO {
             Query query = session.createQuery(" SELECT e FROM HistoriaExamen e, Historias h  WHERE h.hisId = e.historias.hisId AND h.personasByPacientePerId ='" + 
                     id_paciente + "' AND e.historias.hisId = '" + 
                     id_historia + "'");
-
+            
             List<HistoriaExamen> historiaExamen= query.list();
-
+ 
             historiaExamen.forEach((historiaExame) -> {
                 Hibernate.initialize(historiaExame.getExamenes());
                 Hibernate.initialize(historiaExame.getHistorias().getPersonasByPacientePerId());

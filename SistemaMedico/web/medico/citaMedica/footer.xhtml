@@ -7,8 +7,9 @@
 
     
     <b:row>
-        <b:column span="6" class="text-center">
+        <b:column span="6" class="text-center" >
             <b:commandButton style="color: white !important;"
+                             rendered="#{panelBefore ne 'panel0'}"
                              span="4" offset="6"
                              value="&nbsp; Anterior"
                              immediate="true"
@@ -19,8 +20,23 @@
                 <b:iconAwesome name="fa-arrow-left"></b:iconAwesome>
             </b:commandButton>
         </b:column>
-        <b:column span="6" class="text-center" rendered="#{panelNext ne 'panel11'}">
+        <b:column span="6" class="text-center" rendered="#{panelNext ne 'panel11' and panelNext ne 'panel10'}">
             <b:commandButton ajax="true"
+                             immediate="#{panelNext eq 'panel9'}"
+                             process="#{panelNext eq 'panel9' ? '@this' : '@form'} "
+                             style="color: white !important;"
+                             span="4" offset="3"
+                             value="#{panelNext ne 'panel10'  ? '&nbsp; Siguiente' : CitaBean.historia.hisCompletado eq '0' ? '&nbsp; Finalizar Cita' : '&nbsp; Siguiente'}"
+                             action="#{CitaBean.cambioPanel(panelNext, true) }"
+                             update="#{CitaBean.updatePanel == true ? 'formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion  formIndicaciones formEvolucion :growl' : ' :growl'}"
+                             tooltip="#{tooltipNext}"
+                             look= "success">
+                <b:iconAwesome name="fa-arrow-right"></b:iconAwesome>
+            </b:commandButton>
+        </b:column>
+        <b:column span="6" class="text-center" rendered="#{panelNext eq 'panel10'}">
+            <b:commandButton ajax="true"
+                             rendered="#{CitaBean.historia.hisCompletado ne '1'}"
                              immediate="#{panelNext eq 'panel9'}"
                              process="#{panelNext eq 'panel9' ? '@this' : '@form'} "
                              style="color: white !important;"

@@ -38,13 +38,11 @@ public class DiagnosticoDAO {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println("e"+e);
             throw e;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            System.out.println("h"+e);
             throw e;
         } finally {
             session.close();

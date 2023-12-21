@@ -8,21 +8,31 @@
     <b:panelGrid columns="1">
         <b:row>
             <b:column span="12" class="text-center">
-                    <b:commandButton ajax="true"
-                                     id="visible_antecedente"
-                                     iconAwesome="#{CitaBean.visibleAntecedente ? 'fa-eye' : 'fa-eye-slash'}"
-                                     action="#{CitaBean.switchAntecedente()}"
-                                     value="#{CitaBean.visibleAntecedente ? '&nbsp; Mostrar Historial' : '&nbsp; Ocultar Historial'}"
-                                     update="visible_antecedente :formAntecedente:panelContainer :growl"
-                                     tooltip="Mostrar Historial" look="primary">
-                    </b:commandButton>
+                <b:commandButton ajax="true"
+                                 id="visible_antecedente"
+                                 iconAwesome="#{CitaBean.historialLista.get('antecedente') ? 'fa-eye' : 'fa-eye-slash'}"
+                                 action="#{CitaBean.cambioHistoriaList('antecedente')}"
+                                 value="#{CitaBean.historialLista.get('antecedente') ? '&nbsp; Mostrar Historial' : '&nbsp; Ocultar Historial'}"
+                                 update="visible_antecedente  :formAntecedente:panelListadoAntecedente :growl"
+                                 tooltip="#{CitaBean.historialLista.get('antecedente') ?  'Mostrar Historial' : 'Ocultar Historial'}" look="primary">
+                </b:commandButton>
             </b:column>
         </b:row>
         <br/>
-        <p:outputPanel id="panelContainer">
-            <b:panel title="Antecedentes del paciente" look="info" collapsible="false" id="panelListaAntecedente" rendered="#{CitaBean.visibleAntecedente}">
-                <b:dataTable large-screen="full-width" id="inscritosTabla" value="#{CitaBean.lista_historia_antecedente}" var="historiaAntecedente" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
-                             page-length="7" multi-column-search="true" multi-column-search-position="top" >
+        <p:outputPanel id="panelListadoAntecedente">
+            <b:panel title="Antecedentes del paciente" 
+                     look="info" 
+                     collapsible="false" 
+                     id="panelListaAntecedente" 
+                     rendered="#{CitaBean.historialLista.get('antecedente')}">
+                <b:dataTable large-screen="full-width" id="inscritosTabla" 
+                             value="#{CitaBean.lista_historia_antecedente}" 
+                             var="historiaAntecedente" responsive="true" 
+                             style="font-size: 11px; width: 100%" 
+                             info="true" content-disabled="false" 
+                             searching="true" page-length="7" 
+                             multi-column-search="true" 
+                             multi-column-search-position="top" >
                     <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaAntecedente.hisAntFechaUlt)}" style="width: 5%" />
                     <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormato(historiaAntecedente.antecedente.antTipo)}" style="width: 5%" />
                     <b:dataTableColumn label="Categoría" value="#{historiaAntecedente.antecedente.antCategoria}" style="width: 10%" />
@@ -51,17 +61,19 @@
                                              look="danger">
                                 <b:iconAwesome name="trash"></b:iconAwesome>
                                 <f:ajax execute="@this"
-                                        render="formAntecedente:panelContainer:panelListaAntecedente :growl"
+                                        render="formAntecedente:panelListadoAntecedente:panelListaAntecedente :growl"
                                         listener="#{CitaBean.eliminarHistoriaAntecedente(historiaAntecedente)}"/>
                             </b:commandButton>
                         </b:column>
                     </b:dataTableColumn>
                 </b:dataTable>
             </b:panel>
-            <b:tabView style-class="width: 100%" rendered="#{ not CitaBean.visibleAntecedente}">
+            <b:tabView style-class="width: 100%" rendered="#{!CitaBean.historialLista.get('antecedente')}">
                 <b:tab title="Registrados">
                     <b:panel title="Historial de antecedentes del paciente registrados" look="info" collapsible="false" id="panelListaHistoriaAntecedente">
-                        <b:dataTable large-screen="full-width" id="listaHistorialAntecedente" value="#{CitaBean.lista_historial_historia_antecedente}" var="historiaAntecedente" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
+                        <b:dataTable large-screen="full-width" id="listaHistorialAntecedente" value="#{CitaBean.lista_historial_historia_antecedente}" 
+                                     var="historiaAntecedente" responsive="true" style="font-size: 11px; width: 100%" 
+                                     info="true" content-disabled="false" searching="true"
                             page-length="7" multi-column-search="true" multi-column-search-position="top" >
                             <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaAntecedente.hisAntFechaUlt)}" style="width: 5%" />
                             <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormato(historiaAntecedente.antecedente.antTipo)}" style="width: 5%" />
@@ -73,7 +85,7 @@
                     </b:panel>
                 </b:tab>
                 <b:tab title="Por defecto">
-                    <b:panel title="Historial de antecedentes del paciente no ingresados" look="info" collapsible="false" id="panelListaHistoriaAntecedente" rendered="#{ not CitaBean.visibleAntecedente}">
+                    <b:panel title="Historial de antecedentes del paciente no ingresados" look="info" collapsible="false" id="panelListaHistoriaAntecedente" rendered="#{!CitaBean.historialLista.get('antecedente')}">
                         <b:dataTable large-screen="full-width" id="listaHistorialAntecedente" value="#{CitaBean.lista_historial_default_historia_antecedente}" var="historiaAntecedente" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
                             page-length="7" multi-column-search="true" multi-column-search-position="top" >
                             <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaAntecedente.hisAntFechaUlt)}" style="width: 5%" />
@@ -86,7 +98,6 @@
                     </b:panel>
                 </b:tab>
             </b:tabView>
-            
         </p:outputPanel>
     </b:panelGrid>
 </html>

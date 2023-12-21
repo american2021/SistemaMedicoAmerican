@@ -4,25 +4,50 @@
       xmlns:my="http://java.sun.com/jsf/composite/recursos"
       xmlns:p="http://primefaces.org/ui">
     
-    <b:panelGrid columns="1" rendered="#{CitaBean.historia.hisCompletado eq '1'}">
+    <b:panelGrid columns="1">
+        <b:row>
+            <b:column span="12" class="text-center">
+                    <b:commandButton ajax="true"
+                                     immediate="true"
+                                     process="@this"
+                                     id="visible_revision_sistema"
+                                     iconAwesome="#{CitaBean.historialLista.get('revision_sistema') ? 'fa-eye' : 'fa-eye-slash'}"
+                                     action="#{CitaBean.cambioHistoriaList('revision_sistema')}"
+                                     value="#{CitaBean.historialLista.get('revision_sistema') ? '&nbsp; Mostrar Historial' : '&nbsp; Ocultar Historial'}"
+                                     update="visible_revision_sistema :formRevision:panelListadoRevisionSistemas :growl"
+                                     tooltip="#{CitaBean.historialLista.get('revision_sistema') ?  'Mostrar Historial' : 'Ocultar Historial'}" look="primary">
+                    </b:commandButton>
+            </b:column>
+        </b:row>
+        <br/>
         <p:outputPanel id="panelListadoRevisionSistemas">
-            <b:panel title="Historial de signos" look="info" collapsible="false" id="historialPanel" span="12">
-                <b:dataTable large-screen="full-width" id="examenesHistoriaTabla" value="#{CitaBean.lista_historial_revision_sistema}" var="historisRevisionSistema" responsive="true" style="font-size: 11px; width: 100%" info="true" content-disabled="false" searching="true"
-                   page-length="7" multi-column-search="true" multi-column-search-position="top" >
-                   <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historisRevisionSistema.revSisFechaUlt)}" style="width: 5%" />
-                   <b:dataTableColumn label="Patología" value="#{historisRevisionSistema.revSisPatologia ? 'Con patología' : 'Sin patología'}" style="width: 5%" />
-                   <b:dataTableColumn label="Órganos de los sentidos" value="#{historisRevisionSistema.revSisSentidos}" style="width: 5%" />
-                   <b:dataTableColumn label="Respiratorio" value="#{historisRevisionSistema.revSisRespiratorio}" style="width: 5%" />
-                   <b:dataTableColumn label="Cardiovascular" value="#{historisRevisionSistema.revSisCardiovascular}" style="width: 5%" />
-                   <b:dataTableColumn label="Digestivo" value="#{historisRevisionSistema.revSisDigestivo}" style="width: 5%" />
-                   <b:dataTableColumn label="Genital" value="#{historisRevisionSistema.revSisGenital}" style="width: 5%" />
-                   <b:dataTableColumn label="Urinario" value="#{historisRevisionSistema.revSisUrinario}" style="width: 5%" />
-                   <b:dataTableColumn label="Esquelético" value="#{historisRevisionSistema.revSisEsqueletico}" style="width: 3%" />
-                   <b:dataTableColumn label="Muscular" value="#{historisRevisionSistema.revSisMuscular}" style="width: 3%" />
-                   <b:dataTableColumn label="Sistema Nervioso" value="#{historisRevisionSistema.revSisNervioso}" style="width: 5%" />
-                   <b:dataTableColumn label="Endócrino" value="#{historisRevisionSistema.revSisEndocrino}" style="width: 5%" />
-                   <b:dataTableColumn label="Hemolinfático" value="#{historisRevisionSistema.revSisHemolinfatico}" style="width: 5%" />
-                   <b:dataTableColumn label="Tegumentario (Piel-Faneras)" value="#{historisRevisionSistema.revSisTegumentario}" style="width: 5%" />
+            <b:panel title="Historial de signos" 
+                     look="info" 
+                     collapsible="false"
+                     span="12"
+                     rendered="#{!CitaBean.historialLista.get('revision_sistema')}">
+                <b:dataTable large-screen="full-width" id="examenesHistoriaTabla" 
+                             value="#{CitaBean.lista_historial_revision_sistema}" 
+                             var="historisRevisionSistema" responsive="true" 
+                             style="font-size: 11px; width: 100%"
+                             info="true" content-disabled="false" 
+                             searching="true" page-length="7" 
+                             multi-column-search="true" 
+                             multi-column-search-position="top" >
+                    <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historisRevisionSistema.revSisFechaUlt)}" style="width: 3%" />
+                    <b:dataTableColumn label="Patología" value="#{historisRevisionSistema.revSisPatologia ? 'Con patología' : 'Sin patología'}" style="width: 5%" />
+                    <b:dataTableColumn label="Órganos de los sentidos" value="#{historisRevisionSistema.revSisSentidos}" style="width: 5%" />
+                    <b:dataTableColumn label="Respiratorio" value="#{historisRevisionSistema.revSisRespiratorio}" style="width: 5%" />
+                    <b:dataTableColumn label="Cardiovascular" value="#{historisRevisionSistema.revSisCardiovascular}" style="width: 5%" />
+                    <b:dataTableColumn label="Digestivo" value="#{historisRevisionSistema.revSisDigestivo}" style="width: 5%" />
+                    <b:dataTableColumn label="Genital" value="#{historisRevisionSistema.revSisGenital}" style="width: 5%" />
+                    <b:dataTableColumn label="Urinario" value="#{historisRevisionSistema.revSisUrinario}" style="width: 5%" />
+                    <b:dataTableColumn label="Esquelético" value="#{historisRevisionSistema.revSisEsqueletico}" style="width: 3%" />
+                    <b:dataTableColumn label="Muscular" value="#{historisRevisionSistema.revSisMuscular}" style="width: 3%" />
+                    <b:dataTableColumn label="Sistema Nervioso" value="#{historisRevisionSistema.revSisNervioso}" style="width: 5%" />
+                    <b:dataTableColumn label="Endócrino" value="#{historisRevisionSistema.revSisEndocrino}" style="width: 5%" />
+                    <b:dataTableColumn label="Hemolinfático" value="#{historisRevisionSistema.revSisHemolinfatico}" style="width: 5%" />
+                    <b:dataTableColumn label="Tegumentario (Piel-Faneras)" value="#{historisRevisionSistema.revSisTegumentario}" style="width: 5%" />
                 </b:dataTable>
             </b:panel>
         </p:outputPanel>

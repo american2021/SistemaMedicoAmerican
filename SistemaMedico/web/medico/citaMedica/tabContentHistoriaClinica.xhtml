@@ -55,21 +55,6 @@
                                      requiredMessage="Describa la enfermedad actual"/>
                 </b:column>
             </b:row>
-            <b:row>
-                <b:column span="6"  offset="6" class="text-center">
-                    <b:commandButton ajax="true"
-                                     style="color: white !important;"
-                                     span="4" offset="3"
-                                     value="&nbsp; Siguiente"
-                                     action="#{CitaBean.cambioPanel('panel2', true)}"
-                                     actionListener="#{CitaBean.actualizarHistoriaPrueba('panel2')}"
-                                     update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion  formIndicaciones formEvolucion"
-                                     tooltip="Antecedente"
-                                     look="success">
-                        <b:iconAwesome name="fa-arrow-right"></b:iconAwesome>
-                    </b:commandButton>
-                </b:column>
-            </b:row>
         </b:panel>
     </b:panelGrid>
 </html>

@@ -72,7 +72,7 @@ public class HistoriaTratamientoDAO {
     }
     
     /**
-     * Método para recuperar los nombres de los diagnostico personal
+     * Método para recuperar las historias tratamiento por la historia
      *
      * @param id_historia
      * @return
@@ -86,6 +86,43 @@ public class HistoriaTratamientoDAO {
 
             Query query = session.createQuery("FROM HistoriaTratamiento WHERE historias.hisId = :id");
             query.setParameter("id", id_historia);
+
+            List<HistoriaTratamiento> historiaTratamiento = query.list();
+
+            historiaTratamiento.forEach(historiaTratamient -> {
+                Hibernate.initialize(historiaTratamient.getTratamientos());
+                Hibernate.initialize(historiaTratamient.getTratamientos().getMedicamentos());
+                Hibernate.initialize(historiaTratamient.getHistoriaDiagnostico().getDiagnosticos());
+            });
+
+            transaction.commit();
+            return historiaTratamiento;
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace(); // Log or handle the exception appropriately
+            return Collections.emptyList();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+    
+    /**
+     * Método para recuperar el historial de historias tratamientos de diferentes historias
+     *
+     * @param id_historia
+     * @return
+     */
+    public static List<HistoriaTratamiento> recuperarHistorialHistoriaTratamiento(int id_historia, int id_paciente) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("SELECT d FROM HistoriaTratamiento d, Historias h  WHERE h.hisId = d.historias.hisId AND h.personasByPacientePerId ='" + id_paciente + "' AND h.hisId != '"+ id_historia + "'"); 
 
             List<HistoriaTratamiento> historiaTratamiento = query.list();
 
