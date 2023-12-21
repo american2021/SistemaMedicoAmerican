@@ -161,7 +161,6 @@ public final class CitaBean implements Serializable{
     private String descripcionAntecedenteTemp;
     private Boolean realizarExamen;
     private Boolean updatePanel;
-    private Boolean renderedEvolucion;
     
     private String renderizar_profesion_abierta;
     private String renderizar_parentesco_abierto;
@@ -208,7 +207,6 @@ public final class CitaBean implements Serializable{
         nombre_historia_diagnostico = null;
         update_name_diagnostic_history = null;
         realizarExamen = false;
-        renderedEvolucion = true;
         updatePanel = true;
         historias = new ArrayList<>();
         historiasdia = new ArrayList<>();
@@ -530,11 +528,6 @@ public final class CitaBean implements Serializable{
      */
     public List<HistoriaDiagnostico> recuperarHistoriaDiagnostico() {
         lista_historia_diagnostico= HistoriaDiagnosticoDAO.recuperarHistoriaDiagnostico(historia.getHisId().toString());
-        for (HistoriaDiagnostico historiaDiagnostico : lista_historia_diagnostico) {
-            if (historiaDiagnostico.getHisDiaCronologia().contains("1")) {
-                renderedEvolucion = false;
-            }
-        }
         return lista_historia_diagnostico;
     }
     
@@ -756,7 +749,6 @@ public final class CitaBean implements Serializable{
             FacesMessages.info(":growlInfo", "No se ha actualizado la cita médica, no tiene tratamiento y/o indicaciones no farmacológicas", "This is a specific message!");
             return "Sin tratamiento";
         }else {
-            
             historia.setHisCompletado(Byte.valueOf("1"));
             try {
                 CitaDAO.crearActualizarHistoria(historia);
@@ -1055,6 +1047,15 @@ public final class CitaBean implements Serializable{
                 nuevo_medicamento.setMedUsuario(session.getAttribute("usuario").toString());
                 nuevo_medicamento.setMedNombre(nombre_medicamento);
                 nuevo_medicamento = MedicamentosDAO.crearActualizarMedicamentos(nuevo_medicamento);
+            } else {
+                Medicamentos aux_medicMedicamentos = MedicamentosDAO.recuperarMedicamentosId(nuevo_medicamento.getMedId());
+                if(nuevo_medicamento.getMedDosisUnitaria() != aux_medicMedicamentos.getMedDosisUnitaria()){
+                    nuevo_medicamento.setMedId(null);
+                    nuevo_medicamento = MedicamentosDAO.crearActualizarMedicamentos(nuevo_medicamento);
+                } else if(nuevo_medicamento.getMedMedida() == null ? aux_medicMedicamentos.getMedMedida() != null : !nuevo_medicamento.getMedMedida().equals(aux_medicMedicamentos.getMedMedida())){
+                    nuevo_medicamento.setMedId(null);
+                    nuevo_medicamento = MedicamentosDAO.crearActualizarMedicamentos(nuevo_medicamento);
+                }
             }
             nuevo_tratamiento.setMedicamentos(nuevo_medicamento);
             nuevo_tratamiento.setTraEdicionCie("10");
@@ -1199,7 +1200,6 @@ public final class CitaBean implements Serializable{
     
     public String VerCitaMedica(int hisId) {
         updatePanel = true;
-        renderedEvolucion = true;
         nombre_medicamento = null;
         nombre_historia_diagnostico = null;
         update_name_diagnostic_history = null;
@@ -2345,14 +2345,6 @@ public final class CitaBean implements Serializable{
 
     public void setRealizarExamen(Boolean realizarExamen) {
         this.realizarExamen = realizarExamen;
-    }
-
-    public Boolean getRenderedEvolucion() {
-        return renderedEvolucion;
-    }
-
-    public void setRenderedEvolucion(Boolean renderedEvolucion) {
-        this.renderedEvolucion = renderedEvolucion;
     }
 
     public Boolean getUpdatePanel() {
