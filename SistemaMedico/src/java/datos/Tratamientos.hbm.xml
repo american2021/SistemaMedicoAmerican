@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 14/12/2023 18:28:39 by Hibernate Tools 4.3.1 -->
+<!-- Generated 03/01/2024 17:24:15 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="datos.Tratamientos" table="tratamientos" catalog="smed" optimistic-lock="version">
         <id name="traId" type="java.lang.Integer">
@@ -11,17 +11,11 @@
         <many-to-one name="medicamentos" class="datos.Medicamentos" fetch="select">
             <column name="med_id" not-null="true" />
         </many-to-one>
-        <property name="traCodigoCie" type="string">
-            <column name="tra_codigo_cie" length="50" />
-        </property>
         <property name="traIndicaciones" type="string">
             <column name="tra_indicaciones" length="300" not-null="true" />
         </property>
         <property name="traAdvertencias" type="string">
             <column name="tra_advertencias" length="500" not-null="true" />
-        </property>
-        <property name="traEdicionCie" type="string">
-            <column name="tra_edicion_cie" length="2" />
         </property>
         <property name="traEstado" type="string">
             <column name="tra_estado" length="10" not-null="true" />

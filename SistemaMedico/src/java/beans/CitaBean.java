@@ -982,7 +982,7 @@ public final class CitaBean implements Serializable{
     /**
      * Método para crear un nuevo tratamiento CIE 10ma edición
      */
-    public void crearTratamientoCIE10(){
+    public void crearTratamiento(){
         try {
             if (nuevo_medicamento.getMedId() == null) {
                 nuevo_medicamento.setMedFechaUlt(new Date());
@@ -1000,7 +1000,6 @@ public final class CitaBean implements Serializable{
                 }
             }
             nuevo_tratamiento.setMedicamentos(nuevo_medicamento);
-            nuevo_tratamiento.setTraEdicionCie("10");
             nuevo_tratamiento.setTraFechaUlt(new Date());
             nuevo_tratamiento.setTraUsuario(session.getAttribute("usuario").toString());
             nuevo_tratamiento = TratamientoDAO.crearTratamiento(nuevo_tratamiento);

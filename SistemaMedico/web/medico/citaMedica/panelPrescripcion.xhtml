@@ -217,12 +217,12 @@
             </b:row>
             <br/>
             <b:row>
-                <b:column span="3" offset="5">
+                <b:column span="12" class="text-center">
                     <b:commandButton id="submit"
                                      style="color: white !important;"
                                      ajax="true"
                                      value="&nbsp; Crear Tratamiento"
-                                     action="#{CitaBean.crearTratamientoCIE10()}"
+                                     action="#{CitaBean.crearTratamiento()}"
                                      tooltip="Agregar Tratamiento" look="primary"
                                      update=":formPrescripcion:panelTratamiento :formPrescripcion:listadoTratamientoPaciente :growl"
                                      >

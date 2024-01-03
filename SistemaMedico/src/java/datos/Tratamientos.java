@@ -1,5 +1,5 @@
 package datos;
-// Generated 14/12/2023 18:28:38 by Hibernate Tools 4.3.1
+// Generated 03/01/2024 17:24:14 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,10 +14,8 @@ public class Tratamientos  implements java.io.Serializable {
 
      private Integer traId;
      private Medicamentos medicamentos;
-     private String traCodigoCie;
      private String traIndicaciones;
      private String traAdvertencias;
-     private String traEdicionCie;
      private String traEstado;
      private String traFrecuencia;
      private String traViaAdministracion;
@@ -43,12 +41,10 @@ public class Tratamientos  implements java.io.Serializable {
         this.traFechaUlt = traFechaUlt;
         this.traUsuario = traUsuario;
     }
-    public Tratamientos(Medicamentos medicamentos, String traCodigoCie, String traIndicaciones, String traAdvertencias, String traEdicionCie, String traEstado, String traFrecuencia, String traViaAdministracion, int traDuracion, int traCantidad, Date traFechaUlt, String traUsuario, Set historiaTratamientos) {
+    public Tratamientos(Medicamentos medicamentos, String traIndicaciones, String traAdvertencias, String traEstado, String traFrecuencia, String traViaAdministracion, int traDuracion, int traCantidad, Date traFechaUlt, String traUsuario, Set historiaTratamientos) {
        this.medicamentos = medicamentos;
-       this.traCodigoCie = traCodigoCie;
        this.traIndicaciones = traIndicaciones;
        this.traAdvertencias = traAdvertencias;
-       this.traEdicionCie = traEdicionCie;
        this.traEstado = traEstado;
        this.traFrecuencia = traFrecuencia;
        this.traViaAdministracion = traViaAdministracion;
@@ -73,13 +69,6 @@ public class Tratamientos  implements java.io.Serializable {
     public void setMedicamentos(Medicamentos medicamentos) {
         this.medicamentos = medicamentos;
     }
-    public String getTraCodigoCie() {
-        return this.traCodigoCie;
-    }
-    
-    public void setTraCodigoCie(String traCodigoCie) {
-        this.traCodigoCie = traCodigoCie;
-    }
     public String getTraIndicaciones() {
         return this.traIndicaciones;
     }
@@ -93,13 +82,6 @@ public class Tratamientos  implements java.io.Serializable {
     
     public void setTraAdvertencias(String traAdvertencias) {
         this.traAdvertencias = traAdvertencias;
-    }
-    public String getTraEdicionCie() {
-        return this.traEdicionCie;
-    }
-    
-    public void setTraEdicionCie(String traEdicionCie) {
-        this.traEdicionCie = traEdicionCie;
     }
     public String getTraEstado() {
         return this.traEstado;
