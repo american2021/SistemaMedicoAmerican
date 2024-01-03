@@ -1052,7 +1052,9 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para crear las indicaciones automaticamente mientras de actualiza
+     * Método para generar el documentos con la receta
+     * @throws net.sf.jasperreports.engine.JRException
+     * @throws java.io.IOException
      */
     public void imprimirDiagnostico() throws net.sf.jasperreports.engine.JRException, IOException {
         Map<String, Object> parametros = new HashMap<>();
@@ -1216,11 +1218,18 @@ public final class CitaBean implements Serializable{
         return "/medico/citaMedica.xhtml?faces-redirect=true";
     }
    
-    
+    /**
+     * Preparar la historia examen para eliminar
+     * @param historiaExamenEliminar
+     */
     public void prepararEliminacionHistoriaExamen(HistoriaExamen historiaExamenEliminar){
         eliminarHistoriaExamen = historiaExamenEliminar;
     }
     
+    /**
+     * Carga por defecto de los paneles de la cita medica
+     *
+     */
     public void cargaPanel(){
         menuPanel.put("panel1", true);
         menuPanel.put("panel2", false);
@@ -1235,6 +1244,10 @@ public final class CitaBean implements Serializable{
         menuPanel.put("panel11", false);
     }
     
+    /**
+     * Carga por defecto de los paneles para los historiales
+     *
+     */
     public void cargaHistoriaLista(){
         historialLista.put("historia_clinica", true);
         historialLista.put("antecedente", true);
@@ -1255,6 +1268,7 @@ public final class CitaBean implements Serializable{
      * @param estado
      */
     public void cambioPanel(String panelActual, Boolean estado) {
+        // Validar que por lo menos tengo un diagnóstico antes de ingresar a tratamiento
         if (lista_historia_diagnostico.isEmpty() && panelActual.contains("panel8") != false) {
             FacesMessages.warning(":growlInfo", "Ingresar un diagnóstico. para seguir con el tratamiento", "This is a specific message!");
             updatePanel = false;
@@ -1264,6 +1278,7 @@ public final class CitaBean implements Serializable{
             for (String panel : menuPanel.keySet()) {
                 boolean estadoAll = panel.equals(panelActual);
                 if (panel.contains(panelActual)) {
+                    // Validar que el return de actualizarHistoriaClinica al menos tengo un tratamiento o indicaciones no farmacológicas
                     valor = actualizarHistoriaClinica(panelActual);
                     if(valor.contains("Sin tratamiento")){
                         menuPanel.put("panel9", estado);
@@ -1280,15 +1295,28 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método para cambiar es valor de los historial
+     *
+     * @param keyMap
+     */
     public void cambioHistoriaList(String keyMap ){
         boolean estados = historialLista.get(keyMap);
         historialLista.put(keyMap, !estados);
     }
     
+    /**
+     * Método para eliminar el historia tratamiento
+     *
+     */
     public void eliminarHistoriaTratamiento(){
         System.out.println("entra a eliminar");
     }
     
+    /**
+     * Método para eliminar el historia tratamiento
+     *
+     */
     public void eliminarExamen(){
         try {
             HistoriaExamenDAO.eliminarHistoriaExamen(eliminarHistoriaExamen);
@@ -1300,12 +1328,16 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método para preparar la historia examen para actualizar
+     * @param historiaExamenActualizar
+     */
     public void prepararActualizacionHistoriaExamen(HistoriaExamen historiaExamenActualizar){
         actualizarHistoriaExamen = historiaExamenActualizar;
     }
     
     /**
-     * Método para preparar el tratamiento a actualizar
+     * Método para preparar la historia tratamiento a actualizar
      *
      * @param historiaTratamiento
      */
@@ -1315,7 +1347,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para preparar el antecedente a actualizar
+     * Método para preparar la historia antecedente a actualizar
      *
      * @param historiaAntecedente
      */
@@ -1324,7 +1356,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para preparar el tratamiento a actualizar
+     * Método para preparar la historia tratamiento a actualizar
      *
      * @param historiaDiagnostico
      */
@@ -1333,7 +1365,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para preparar el tratamiento a actualizar
+     * Método para preparar la historia tratamiento a eliminar
      *
      * @param historiaTratamiento
      */
@@ -1342,7 +1374,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para preparar el tratamiento a actualizar
+     * Método para eliminar la historia tratamiento
      *
      * @param historiaTratamiento
      */
@@ -1359,7 +1391,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para eliminar el historia diagnóstico
+     * Método para eliminar la historia diagnóstico
      *
      * @param historiaDiagnostico
      */
@@ -1376,7 +1408,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para eliminar el historia antecedente
+     * Método para eliminar la historia antecedente
      *
      * @param historiaAntecedente
      */
@@ -1391,7 +1423,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para eliminar el historia examen
+     * Método para eliminar la historia examen
      *
      * @param historiaExamen
      */
@@ -1405,6 +1437,10 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método para actualizar la historia examen
+     *
+     */
     public void actualizarExamen(){
         try {
             actualizarHistoriaExamen.setHisExaCompletado(actualizarHistoriaExamen.getHisExaDescripcion().contains("Sin resultado") ? Byte.parseByte("0") : Byte.parseByte("1"));
@@ -1419,7 +1455,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para preparar actualizar el diagnostico
+     * Método para preparar actualizar la historia antecedente
      *
      */
     public void actualizarHistoriaAntecedente(){
@@ -1434,7 +1470,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para preparar actualizar el diagnostico
+     * Método para preparar actualizar la historia diagnostico
      *
      */
     public void actualizarHistoriaDiagnostico(){
@@ -1449,7 +1485,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para preparar actualizar el tratamiento
+     * Método para preparar actualizar la historia tratamiento
      *
      */
     public void actualizarHistoriaTratamiento(){
@@ -1463,11 +1499,22 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método retornar la fecha con formato año/mes/dia
+     *
+     * @param fecha
+     */
     public String fechaFormatoYMDS(Date fecha) {
         SimpleDateFormat formatt = new SimpleDateFormat("yyyy/MM/dd");
         return formatt.format(fecha);
     }
     
+    /**
+     * Método retornar el tipo de formato del antecedente
+     *
+     * @param tipo
+     * @return 
+     */
     public String antecedenteFormato(String tipo) {
         switch (tipo) {
             case "1":
@@ -1483,6 +1530,12 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método retornar el tipo de formato del diagnóstico
+     *
+     * @param tipo
+     * @return 
+     */
     public String formatoTipoDiagostico(String tipo) {
         switch (tipo) {
             case "1":
@@ -1494,6 +1547,12 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método retornar la condicion de formato del antecedente
+     *
+     * @param tipo
+     * @return 
+     */
     public String formatoCondicionDiagostico(String tipo) {
         switch (tipo) {
             case "1":
@@ -1507,6 +1566,12 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método retornar la cronologia de formato del antecedente
+     *
+     * @param tipo
+     * @return 
+     */
     public String formatoCronologiaDiagostico(String tipo) {
         switch (tipo) {
             case "1":
@@ -1518,6 +1583,12 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método retornar el tipo de formato del examen
+     *
+     * @param tipo
+     * @return 
+     */
     public String antecedenteFormatoExamen(String tipo) {
         switch (tipo) {
             case "1":
@@ -1531,6 +1602,12 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método retornar la medida de formato del medicamento
+     *
+     * @param tipo
+     * @return 
+     */
     public String formatoMedidaMedicamento(String tipo) {
         switch (tipo) {
             case "1":
@@ -1562,8 +1639,14 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método reverir la medida de formato del medicamento
+     *
+     * @param med_medida
+     * @return 
+     */
     public String revert(String med_medida){
-        String aux_medida;
+        String aux_medida = "";
         switch(med_medida){
             case "Microgramo":
                 return aux_medida = "1";
