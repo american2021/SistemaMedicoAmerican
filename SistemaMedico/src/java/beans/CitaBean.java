@@ -308,7 +308,7 @@ public final class CitaBean implements Serializable{
      * @param panel
      * @return 
      */
-    public String actualizarHistoriaPrueba(String panel){
+    public String actualizarHistoriaClinica(String panel){
         if (historia.getHisCompletado().toString().contains("0") && !panel.contains("panel11")) {
             if (panel.contains("panel10")) {
                 return actualizarCita();
@@ -764,27 +764,6 @@ public final class CitaBean implements Serializable{
         
         
     }
-
-    /**
-     * Método para crear un nuevo Historia antecedente
-     */
-    public void crearHistoriaAntecedente(){
-
-        nuevo_historia_antecedente.setAntecedente(antecedente);
-        nuevo_historia_antecedente.setHisAntFechaUlt(new Date());
-        nuevo_historia_antecedente.setHisAntUsuario(session.getAttribute("usuario").toString());
-        nuevo_historia_antecedente.setHistorias(historia);
-        try {
-            HistoriaAntecedenteDAO.crearActualizarHistoriaAntecedente(nuevo_historia_antecedente);
-            nuevo_historia_antecedente = new HistoriaAntecedente();
-            setNombre_antecedente("");
-            recuperarHistoriaAntecedente();
-            recuperarAlergiasHistoriaAntecedente();
-            FacesMessages.info(":growlInfo", "Antecedente Creado", "This is a specific message!");
-        } catch (Exception e) {
-            FacesMessages.error(":growlInfo", "Error al crear el antecedente: "+e.getCause().getMessage(), "This is a specific message!");
-        }
-    }
     
     private boolean validarAntecedente(Antecedente antecedente, int id) {
         return antecedente != null && antecedente.getAntId() != null && StringUtils.isNotBlank(editedDescriptions.get(id));
@@ -796,7 +775,7 @@ public final class CitaBean implements Serializable{
      * @param tipo
      * @param id
      */
-    public void crearHistoriaAntecedentePrueba(String keyMap, String tipo, int id){
+    public void crearHistoriaAntecedente(String keyMap, String tipo, int id){
         Antecedente antecedent = AntecedenteDAO.recuperarAntecedenteGrupoCategoria(editedSelectAntecedente.get(id), keyMap, tipo);
         if (validarAntecedente(antecedent, id)) {
             // Lógica para procesar el antecedente si la validación pasa
@@ -822,31 +801,6 @@ public final class CitaBean implements Serializable{
         }
     }
     
-    /**
-     * Método para crear un nuevo Historia Examen
-     */
-    public void crearHistoriaExamen(){
-        Usuarios u = UsuarioDAO.obtenerUsuario(session.getAttribute("usuario").toString());
-        Personas p = PersonaDAO.recuperarPersonaID(u.getPersonas().getPerId());
-        nuevo_historia_examen.setExamenes(examenes);
-        nuevo_historia_examen.setHistorias(historia);
-        nuevo_historia_examen.setHisExaFechaUlt(new Date());
-        nuevo_historia_examen.setHisExaUsuario(session.getAttribute("usuario").toString());
-        nuevo_historia_examen.setHisExaCompletado(realizarExamen ? Byte.parseByte("1") : Byte.parseByte("0"));
-        nuevo_historia_examen.setHisExaDescripcion(realizarExamen ? "Sin resultado"  : nuevo_historia_examen.getHisExaDescripcion());
-        try {
-            HistoriaExamenDAO.crearActualizarHistoriaExamen(nuevo_historia_examen);
-            nuevo_historia_examen = new HistoriaExamen();
-            realizarExamen = false;
-            examenes = new Examenes();
-            setNombre_examen("");
-            recuperarHistoriaExamenes();
-            FacesMessages.info(":growlInfo", "Exámen Creado", "This is a specific message!");
-        } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al crear el exámen: "+e.getCause().getMessage(), "This is a specific message!");
-        }
-    }
-    
     private boolean validarExamen(Examenes examenes) {
         return examenes != null && examenes.getExaId() != null && getEditedCheckExamen().get(examenes.getExaId()) ? StringUtils.isBlank(editedDescriptionsExamen.get(examenes.getExaId())) :StringUtils.isNotBlank(editedDescriptionsExamen.get(examenes.getExaId()));
     }
@@ -856,22 +810,22 @@ public final class CitaBean implements Serializable{
     }
 
     /**
-     * Método para crear un nuevo Historia Examen
+     * Método para validar los parametros para crear un nuevo Historia Examen
      * @param examens
      */
-    public void crearHistoriaExamenPrueba(Examenes examens){
-        
+    public void crearHistoriaExamen(Examenes examens){
+        // Validar si los campos no sean null       
         if (getEditedDateExamen().get(examens.getExaId() ) == null &&
                 !getEditedCheckExamen().get(examens.getExaId()) &&
                 StringUtils.isBlank(getEditedDescriptionsExamen().get(examens.getExaId()))) {
-            FacesMessages.error(":growlInfo", "Error: El campo de fecha del exámen no puede estar vacío.", "This is a specific message!");
+            FacesMessages.error(":growlInfo", "Error: El campo de fecha del examen no puede estar vacío.", "This is a specific message!");
             FacesMessages.error(":growlInfo", "Error: El campo de descripción no puede estar vacío.", "This is a specific message!");
         } else
             if(getEditedDateExamen().get(examens.getExaId() ) == null &&
                     getEditedCheckExamen().get(examens.getExaId()) &&
                     StringUtils.isBlank(getEditedIndicacionesExamen().get(examens.getExaId()))
                 ){
-            FacesMessages.error(":growlInfo", "Error: El campo de fecha del exámen no puede estar vacío.", "This is a specific message!");
+            FacesMessages.error(":growlInfo", "Error: El campo de fecha del examen no puede estar vacío.", "This is a specific message!");
             FacesMessages.error(":growlInfo", "Error: El campo de indicaciones no puede estar vacío.", "This is a specific message!");
         }
 
@@ -891,10 +845,14 @@ public final class CitaBean implements Serializable{
                 }
             }
         } else {
-            FacesMessages.error(":growlInfo", "Error: El campo de fecha del exámen no puede estar vacío.", "This is a specific message!");
+            FacesMessages.error(":growlInfo", "Error: El campo de fecha del examen no puede estar vacío.", "This is a specific message!");
         }
     }
     
+    /**
+     * Método para crear un nuevo Historia Examen
+     * @param examens
+     */
     public void crearHisExa(Examenes examens){
         nuevo_historia_examen.setExamenes(examens);
         nuevo_historia_examen.setHistorias(historia);
@@ -915,36 +873,12 @@ public final class CitaBean implements Serializable{
             examenes = new Examenes();
             setNombre_examen("");
             recuperarHistoriaExamenes();
-            FacesMessages.info(":growlInfo", "Exámen Creado", "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Examen Creado", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al crear el exámen: "+e.getCause().getMessage(), "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al crear el examen: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
-    
-    /**
-     * Método para crear un nuevo Examen
-     */
-    public void crearHistoriaDiagnostico(){
-        
-        nuevo_historia_diagnostico.setDiagnosticos(diagnostico);
-        nuevo_historia_diagnostico.setHistorias(historia);
-        nuevo_historia_diagnostico.setHisDiaFechaUlt(new Date());
-        nuevo_historia_diagnostico.setHisDiaUsuario(session.getAttribute("usuario").toString());
-        try {
-            HistoriaDiagnosticoDAO.crearActualizarHistoriaDiagnostico(nuevo_historia_diagnostico);
-            nuevo_historia_diagnostico = new HistoriaDiagnostico();
-            setNombre_diagnostico("");
-            recuperarHistoriaDiagnostico();
-            FacesMessages.info(":growlInfo", "Diagnóstico Creado", "This is a specific message!");
-        } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al crear el diagnóstico: "+e.getCause().getMessage(), "This is a specific message!");
-        }
-    }
-    
-    private boolean validarDiagnostic(Diagnosticos diagnosticos) {
-        return diagnosticos != null && diagnosticos.getDiaId() != null  && StringUtils.isNotBlank(editedDescriptionsDiagnostico.get(diagnosticos.getDiaId()));
-    }
-        
+  
     private boolean isBlank(String value) {
         return StringUtils.isBlank(value);
     }
@@ -959,10 +893,11 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para crear un nuevo Examen
+     * Método para crear un nuevo Historia Diagnóstico
      * @param diagnosticos
      */
-    public void crearHistoriaDiagnosticoPrueba(Diagnosticos diagnosticos){
+    public void crearHistoriaDiagnostico(Diagnosticos diagnosticos){
+        // validar que los campos ingresados no sean null
         validarCampo(":growlInfo", editedTipoDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione el tipo del diagnóstico");
         validarCampo(":growlInfo", editedCondicionDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione la condición del diagnóstico");
         validarCampo(":growlInfo", editedCronologiaDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione la cronología del diagnóstico");
@@ -994,8 +929,11 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método para eliminar un diagnotico, por el id del diagnostico
+     * @param diagnosticos
+     */
     public void removeListDiagnostico(Diagnosticos diagnosticos){
-//        lista_diagnosticos_all.remove(diagnosticos.getDiaId());
         Iterator<Diagnosticos> iterator = lista_diagnosticos_all.iterator();
         while (iterator.hasNext()) {
             Diagnosticos currentDiagnostico = iterator.next();
@@ -1005,6 +943,10 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método para agregar un diagnotico a la lista de todos los diagnósticos
+     * @param diagnosticos
+     */
     public void addListDiagnostico(Diagnosticos diagnosticos){
         lista_diagnosticos_all.add(diagnosticos);    
     }
@@ -1083,7 +1025,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para crear un nuevo tratamiento CIE 10ma edición
+     * Método para crear las indicaciones automaticamente
      */
     public void generarIndicaciones(){
         if (nuevo_medicamento.getMedMedida() != null || nuevo_tratamiento.getTraFrecuencia() != null || nuevo_medicamento.getMedDosisUnitaria() != 0 || nuevo_tratamiento.getTraDuracion() != 0){
@@ -1097,7 +1039,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para crear un nuevo tratamiento CIE 10ma edición
+     * Método para crear las indicaciones automaticamente mientras de actualiza
      */
     public void generarIndicacionesUpdate(){
         if ( updateHistoriaTratamiento.getTratamientos().getTraFrecuencia() != null || updateHistoriaTratamiento.getTratamientos().getTraDuracion() != 0){
@@ -1110,6 +1052,9 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método para crear las indicaciones automaticamente mientras de actualiza
+     */
     public void imprimirDiagnostico() throws net.sf.jasperreports.engine.JRException, IOException {
         Map<String, Object> parametros = new HashMap<>();
 
@@ -1147,22 +1092,18 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Id de la historia a cargar
+     * Recuperar los signos de la historia clinica por el Id
      * @param id 
      */
     public void recuperarSignosId(int id){
         signos = SignosDAO.recuperarSignosId(id);
     }
     
-    public void seleccionarMedicamento(SelectEvent event) {
-        String consulta = (String) event.getObject();
-        consultaUsuario = consulta;
-        ultimoValorValido = consulta;
-        if (!lista_seleccion_medicamento.isEmpty()) {
-            nuevo_medicamento = MedicamentosDAO.recuperarMedicamentosId(Integer.valueOf(lista_seleccion_medicamento.get(0)));
-        }
-    }
-    
+    /**
+     * Recuperar la lista por medio del campo grupo
+     * @param antecedente 
+     * @return  
+     */
     public List<SelectItem> obtenerListaGrupos(Antecedente antecedente) {
         if (antecedente == null || antecedente.getAntGrupo() == null) {
             return Collections.emptyList(); // o devuelve una lista vacía, dependiendo de tus necesidades
@@ -1180,24 +1121,12 @@ public final class CitaBean implements Serializable{
         return items;
     }
     
-//    public List<GrupoItem> obtenerListaGrupos(String antGrupo, String antId) {
-//        // Divide la cadena de antGrupo en una lista usando la coma como delimitador
-//        List<String> grupos = Arrays.asList(antGrupo.split(","));
-//
-//        // Crea una lista de GrupoItem a partir de los elementos en la lista
-//        List<GrupoItem> items = new ArrayList<>();
-//        for (String grupo : grupos) {
-//            GrupoItem grupoItem = new GrupoItem();
-//            grupoItem.setAntId(antId);
-//            grupoItem.setAntGrupo(grupo);
-//            items.add(grupoItem);
-//        }
-//
-//        return items;
-//    }
-
-
     
+    /**
+     * Recuperar todos los datos de la historia clinica, según el id
+     * @param hisId 
+     * @return  
+     */
     public String VerCitaMedica(int hisId) {
         updatePanel = true;
         nombre_medicamento = null;
@@ -1321,7 +1250,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método  para cambiar de paneles
+     * Método  para cambiar de paneles en la cita medica
      *
      * @param panelActual
      * @param estado
@@ -1330,17 +1259,13 @@ public final class CitaBean implements Serializable{
         if (lista_historia_diagnostico.isEmpty() && panelActual.contains("panel8") != false) {
             FacesMessages.warning(":growlInfo", "Ingresar un diagnóstico. para seguir con el tratamiento", "This is a specific message!");
             updatePanel = false;
-        } 
-    //        else if (lista_historia_tratamiento.isEmpty() && panelActual.contains("panel9") != false) {
-    //            FacesMessages.warning(":growlInfo", "Ingresar un tratamiento", "This is a specific message!");
-    //            updatePanel = false;        
-    //        } 
+        }
         else {
             String valor = "";
             for (String panel : menuPanel.keySet()) {
                 boolean estadoAll = panel.equals(panelActual);
                 if (panel.contains(panelActual)) {
-                    valor = actualizarHistoriaPrueba(panelActual);
+                    valor = actualizarHistoriaClinica(panelActual);
                     if(valor.contains("Sin tratamiento")){
                         menuPanel.put("panel9", estado);
                         menuPanel.put(panel, false);
@@ -1370,7 +1295,7 @@ public final class CitaBean implements Serializable{
             HistoriaExamenDAO.eliminarHistoriaExamen(eliminarHistoriaExamen);
             eliminarHistoriaExamen = new HistoriaExamen();
             recuperarHistoriaExamenes();
-            FacesMessages.info(":growlInfo", "Exámen eliminado", "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Examen eliminado", "This is a specific message!");
         } catch (Exception e) {
             FacesMessages.info(":growlInfo", "Error al eliminar el examen: "+e.getCause().getMessage(), "This is a specific message!");
         }
@@ -1475,9 +1400,9 @@ public final class CitaBean implements Serializable{
         try {
             HistoriaExamenDAO.eliminarHistoriaExamen(historiaExamen);
             recuperarHistoriaExamenes();
-            FacesMessages.info(":growlInfo", "Exámen eliminado", "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Examen eliminado", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al eliminar el exámen: "+e.getCause().getMessage(), "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al eliminar el examen: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
     
@@ -1488,9 +1413,9 @@ public final class CitaBean implements Serializable{
             actualizarHistoriaExamen = new HistoriaExamen();
             recuperarHistoriaExamenes();
             recuperarHistorialHistoriaExamenes();
-            FacesMessages.info(":growlInfo", "Exámen actualizado", "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Examen actualizado", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.error(":growlInfo", "Error al actualizar el exámen: "+e.getCause().getMessage(), "This is a specific message!");
+            FacesMessages.error(":growlInfo", "Error al actualizar el examen: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
     

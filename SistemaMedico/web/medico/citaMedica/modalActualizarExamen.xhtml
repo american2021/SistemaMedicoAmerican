@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
     <b:form id="formUpdateHistoriaExamen">
-        <b:panel title="Ingrese la información para actualizar el exámen del paciente" look="info" collapsible="false" id="panelHistoriaExamen">
+        <b:panel title="Ingrese la información para actualizar el examen del paciente" look="info" collapsible="false" id="panelHistoriaExamen">
             <b:row>
                 <b:column span="4" >
                     <b:row style="margin-left: 1%; margin-right: 1%">
@@ -18,7 +18,7 @@
                 </b:column>
                 <b:column span="4">
                     <b:row style="margin-left: 1%; margin-right: 1%">
-                        <h:outputLabel value="Exámen:" for="nombre_examen" />
+                        <h:outputLabel value="Examen:" for="nombre_examen" />
                     </b:row>
                     <b:row style="margin-left: 1%; margin-right: 1%">
                         <h:outputText value="#{CitaBean.actualizarHistoriaExamen.examenes.exaGrupo}"
@@ -32,18 +32,18 @@
                         format="DD/MM/YYYY"
                         locale="en"
                         value="#{CitaBean.actualizarHistoriaExamen.hisExaFecha}"
-                        label="Fecha del exámen"
+                        label="Fecha del examen"
                         required="true"
                         ajax="true"
-                        requiredMessage="Ingrese la fecha del exámen">
+                        requiredMessage="Ingrese la fecha del examen">
                     </b:dateTimePicker>
                 </b:column>
             </b:row>
             <b:row>
                 <b:column span="6">
                     <b:inputTextarea value="#{CitaBean.actualizarHistoriaExamen.hisExaIndicaciones}"
-                                 label="Indicaciones de exámen"
-                                 placeholder="Describa la indicacion del exámen"
+                                 label="Indicaciones de examen"
+                                 placeholder="Describa la indicacion del examen"
                                  id="indicacion__examen"
                                  size="13"
                                  rows="5"
@@ -53,8 +53,8 @@
                 </b:column>
                 <b:column span="6">
                     <b:inputTextarea value="#{CitaBean.actualizarHistoriaExamen.hisExaDescripcion}"
-                                 label="Resultado de exámen"
-                                 placeholder="Describa el resultado del exámen"
+                                 label="Resultado de examen"
+                                 placeholder="Describa el resultado del examen"
                                  id="descripcion_examen"
                                  size="13"
                                  rows="5"
@@ -67,15 +67,15 @@
                 <b:column offset="2" span="4" >
                     <b:commandButton ajax="true"
                                      immediate="true"
-                                     value="&nbsp; Cancelar Exámen"
+                                     value="&nbsp; Cancelar Examen"
                                      oncomplete="$('#modalActualizarHistoriaExamen').modal('hide');"
-                                     tooltip="Cancelar Exámen" look="danger">
+                                     tooltip="Cancelar Examen" look="danger">
                         <b:iconAwesome name="fa-trash"></b:iconAwesome>
                     </b:commandButton>
                 </b:column>
                 <b:column span="4" >
                     <b:commandButton id="submit" 
-                                     value="&nbsp; Actualizar Exámen"
+                                     value="&nbsp; Actualizar Examen"
                                      action="#{CitaBean.actualizarExamen()}"
                                      look="primary"
                                      update="formExamenLabIma:panelContainerExamen:listadoExamenPaciente formExamenLabIma:panelContainerExamen:historialPanel :growl"

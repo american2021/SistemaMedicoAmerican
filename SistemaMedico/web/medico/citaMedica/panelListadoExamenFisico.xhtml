@@ -35,8 +35,8 @@
                              multi-column-search="true" 
                              multi-column-search-position="top" >
                     <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaHistoriaClinica.hisFechaUlt)}" style="width: 15%" />
-                    <b:dataTableColumn label="Exámen General" value="#{historiaHistoriaClinica.hisExamenGeneral}" style="width: 35%" />
-                    <b:dataTableColumn label="Exámen Neurologico" value="#{historiaHistoriaClinica.hisExamenNeurologico}" style="width: 35%" />
+                    <b:dataTableColumn label="Examen General" value="#{historiaHistoriaClinica.hisExamenGeneral}" style="width: 35%" />
+                    <b:dataTableColumn label="Examen Neurologico" value="#{historiaHistoriaClinica.hisExamenNeurologico}" style="width: 35%" />
                     <b:dataTableColumn label="Doctor" orderable="false" searchable="false" value="#{historiaHistoriaClinica.personasByMedicoPerId.perApellidos} #{historiaHistoriaClinica.personasByMedicoPerId.perNombres}" style="width: 15%" />
                 </b:dataTable>
             </b:panel>

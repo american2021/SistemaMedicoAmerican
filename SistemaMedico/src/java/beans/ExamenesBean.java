@@ -97,9 +97,9 @@ public final class ExamenesBean implements Serializable{
             nuevo_examenes = new Examenes();
             recuperarNombresExamen();
             recuperarExamenes();
-            FacesMessages.info(":growlInfo", "Exámen Creado", "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Examen Creado", "This is a specific message!");
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al crear exámen: "+e.getCause().getMessage(), "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al crear examen: "+e.getCause().getMessage(), "This is a specific message!");
         }
     }
     
@@ -113,12 +113,12 @@ public final class ExamenesBean implements Serializable{
             examenes = new Examenes();
             nombre_examen = null;
             recuperarNombresExamen();
-            FacesMessages.info(":growlInfo", "Exámen actualizado", "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Examen actualizado", "This is a specific message!");
             if (this.actualizar.equals("1")) {
                 return "/administrador/registroExamen.xhtml?faces-redirect=true";
             }
         } catch (Exception e) {
-            FacesMessages.info(":growlInfo", "Error al actualizar exámen: "+e.getCause().getMessage(), "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Error al actualizar examen: "+e.getCause().getMessage(), "This is a specific message!");
             return null;
         }
         return null;
@@ -132,7 +132,7 @@ public final class ExamenesBean implements Serializable{
             ExamenesDAO.eliminarExamanes(examenes);
             recuperarNombresExamen();
             recuperarExamenes();
-            FacesMessages.info(":growlInfo", "Exámen eliminado", "This is a specific message!");
+            FacesMessages.info(":growlInfo", "Examen eliminado", "This is a specific message!");
         } catch (Exception e) {
             FacesMessages.info(":growlInfo", "Error al eliminar examen: "+e.getCause().getMessage(), "This is a specific message!");
         }

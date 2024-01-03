@@ -29,13 +29,13 @@
                      responsive="true" content-disabled="false" searching="true"
                      page-length="5" multi-column-search="true" multi-column-search-position="top">
             <b:dataTableColumn label="Grupo" value="#{item.exaGrupo}" style="width: 15%" />
-            <b:dataTableColumn label="Fecha del exámen" style="width: 15%">
+            <b:dataTableColumn label="Fecha del examen" style="width: 15%">
                 <b:dateTimePicker format="DD/MM/YYYY"
                                   locale="en"
                                   value="#{CitaBean.editedDateExamen[item.exaId]}" >
                 </b:dateTimePicker>
             </b:dataTableColumn>
-            <b:dataTableColumn label="¿Realizar exámen?" style="width: 6%; text-align: center;"
+            <b:dataTableColumn label="¿Realizar examen?" style="width: 6%; text-align: center;"
                                orderable="false"
                                searchable="false">
                 <b:selectBooleanCheckbox id="selec_#{item.exaId}"
@@ -66,7 +66,7 @@
                                  style="width: 100%"
                                  ajax="true" 
                                  value="&#160; Agregar"
-                                 actionListener="#{CitaBean.crearHistoriaExamenPrueba(item)}"
+                                 actionListener="#{CitaBean.crearHistoriaExamen(item)}"
                                  tooltip="Guardar cambios"
                                  update="formExamenLabIma:panelContainerExamen:listadoExamenPaciente formExamenLabIma:listadoExamenes :growl"
                                  look="success">

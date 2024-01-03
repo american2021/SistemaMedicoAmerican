@@ -55,7 +55,7 @@
         }
         
         function confirmarEliminacionExamen(exaGrupo, resultado) {
-            var mensaje = '¿Está seguro de que desea eliminar el exámen ' + exaGrupo +  ', con resultado ' + resultado +' ?';
+            var mensaje = '¿Está seguro de que desea eliminar el examen ' + exaGrupo +  ', con resultado ' + resultado +' ?';
             return confirm(mensaje);
         }
     </script>
@@ -70,7 +70,7 @@
     <!--<my:menuLateralContador id="menuLateralContador"/>-->
  
     <h:body onload="toggleHistorialPanel()">
-        <b:modal id="modalActualizarHistoriaExamen" title="Actualizar exámen" closable="true"
+        <b:modal id="modalActualizarHistoriaExamen" title="Actualizar examen" closable="true"
                  close-on-escape="true" backdrop="true" size="modal-lg">
             <ui:include src="citaMedica/modalActualizarExamen.xhtml" />
         </b:modal>
@@ -188,7 +188,7 @@
                             <b:row>
                                 <b:column  style="text-align: center;">
                                     <b:commandButton ajax="true"
-                                                     value="Exámen fisico" 
+                                                     value="Examen fisico" 
                                                      styleClass="btn btn-default custom-button" 
                                                      action="#{CitaBean.cambioPanel('panel5', true)}"
                                                      update="formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion  formIndicaciones formEvolucion" />
@@ -317,7 +317,7 @@
                                     <ui:param name="panelBefore" value="panel3" />
                                     <ui:param name="panelNext" value="panel5" />
                                     <ui:param name="tooltipBefore" value="Signo" />
-                                    <ui:param name="tooltipNext" value="Exámen fisico" />
+                                    <ui:param name="tooltipNext" value="Examen fisico" />
                                 </ui:include>
                             </p:outputPanel>
                         </b:form>
@@ -367,7 +367,7 @@
                                 <ui:include src="citaMedica/footer.xhtml">
                                     <ui:param name="panelBefore" value="panel5" />
                                     <ui:param name="panelNext" value="panel7" />
-                                    <ui:param name="tooltipBefore" value="Exámen fisico" />
+                                    <ui:param name="tooltipBefore" value="Examen fisico" />
                                     <ui:param name="tooltipNext" value="Diagnóstico" />
                                 </ui:include>
                             </p:outputPanel>

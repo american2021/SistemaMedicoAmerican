@@ -37,8 +37,8 @@
                              multi-column-search="true" 
                              multi-column-search-position="top" >
                     <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormatoExamen(historiaExamen.examenes.exaTipo)}" style="width: 10%" />
-                    <b:dataTableColumn label="Exámen" value="#{historiaExamen.examenes.exaGrupo}" style="width: 15%" />
-                    <b:dataTableColumn label="Fecha Exámen" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.hisExaFecha)}" style="width: 5%" />
+                    <b:dataTableColumn label="Examen" value="#{historiaExamen.examenes.exaGrupo}" style="width: 15%" />
+                    <b:dataTableColumn label="Fecha Examen" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.hisExaFecha)}" style="width: 5%" />
                     <b:dataTableColumn label="Indicaciones" value="#{historiaExamen.hisExaIndicaciones}" style="width: 28%;" />
                     <b:dataTableColumn label="Resultado" value="#{historiaExamen.hisExaDescripcion}" style="width: 28%;" />
                     <b:dataTableColumn label="Acciones" style="width: 12%; padding-left: 1%; padding-right: 1%;"
@@ -51,7 +51,7 @@
                                              update=":modalActualizarHistoriaExamen :growl"
                                              action="#{CitaBean.prepararActualizacionHistoriaExamen(historiaExamen)}"
                                              oncomplete="$('#modalActualizarHistoriaExamen').modal('show')" 
-                                             tooltip="Editar resultado del exámen" 
+                                             tooltip="Editar resultado del examen" 
                                              look="warning">
                                 <b:iconAwesome name="pencil"></b:iconAwesome>
                             </b:commandButton>
@@ -59,7 +59,7 @@
                         <b:column offset="1" span="2">
                             <b:commandButton ajax="true"
                                              style="color: white !important;"
-                                             tooltip="Eliminar exámen"
+                                             tooltip="Eliminar examen"
                                              onclick="return confirmarEliminacionExamen('#{historiaExamen.examenes.exaGrupo}','#{historiaExamen.hisExaDescripcion}');"
                                              look="danger">
                                 <b:iconAwesome name="trash"></b:iconAwesome>
@@ -87,8 +87,8 @@
                              multi-column-search-position="top" >
                    <b:dataTableColumn label="Fecha" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.hisExaFechaUlt)}" style="width: 5%" />
                    <b:dataTableColumn label="Tipo" value="#{CitaBean.antecedenteFormatoExamen(historiaExamen.examenes.exaTipo)}" style="width: 10%" />
-                   <b:dataTableColumn label="Exámen" value="#{historiaExamen.examenes.exaGrupo}" style="width: 15%" />
-                   <b:dataTableColumn label="Fecha Exámen" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.hisExaFecha)}" style="width: 5%" />
+                   <b:dataTableColumn label="Examen" value="#{historiaExamen.examenes.exaGrupo}" style="width: 15%" />
+                   <b:dataTableColumn label="Fecha Examen" value="#{CitaBean.fechaFormatoYMDS(historiaExamen.hisExaFecha)}" style="width: 5%" />
                    <b:dataTableColumn label="Resultado" value="#{historiaExamen.hisExaDescripcion}" style="width: 35%" />
                    <b:dataTableColumn label="Doctor" orderable="false" searchable="false" value="#{historiaExamen.historias.personasByMedicoPerId.perApellidos} #{historiaExamen.historias.personasByMedicoPerId.perNombres}" style="width: 15%" />
                 </b:dataTable>

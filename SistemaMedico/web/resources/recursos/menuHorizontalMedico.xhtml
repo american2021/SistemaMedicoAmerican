@@ -33,16 +33,16 @@
                 transition: background-color 0.3s ease;
                 position: relative;
                 text-align: center;
-                font-size: 16px; /* Ajusta el tamaÃ±o del texto segÃºn tus necesidades */
-                font-family: 'Arial', sans-serif; /* Cambia la fuente segÃºn tus necesidades */
+                font-size: 16px; /* Ajusta el tamaÃÂ±o del texto segÃÂºn tus necesidades */
+                font-family: 'Arial', sans-serif; /* Cambia la fuente segÃÂºn tus necesidades */
             }
             
             .horizontal-menu li:hover {
-                background-color: #b7c5d6; /* Color de fondo al pasar el ratÃ³n en el menÃº desplegable */
+                background-color: #b7c5d6; /* Color de fondo al pasar el ratÃÂ³n en el menÃÂº desplegable */
             }
             .horizontal-menu li a {
                 /*display: block;*/
-                padding: 10px; /* Ajusta el espaciado segÃºn sea necesario */
+                padding: 10px; /* Ajusta el espaciado segÃÂºn sea necesario */
                 text-decoration: none;
                 color: #2196F3 ;
                 /*width: 100%;*/    
@@ -50,7 +50,7 @@
             }
             
             .horizontal-menu li:hover .submenu {
-                background-color: #b7c5d6; /* Color de fondo al pasar el ratÃ³n */
+                background-color: #b7c5d6; /* Color de fondo al pasar el ratÃÂ³n */
                 display: block;
             }
 
@@ -87,14 +87,14 @@
             }
 
             .submenu li:hover {
-                background-color: #b7c5d6; /* Color de fondo al pasar el ratÃ³n en el menÃº desplegable */
+                background-color: #b7c5d6; /* Color de fondo al pasar el ratÃÂ³n en el menÃÂº desplegable */
             }
         </style>
 
         <b:container fluid="true">
             <b:panel look="primary"
-                     title="Menú Médico"
-                     class="menuHorizontal"
+                     title="MenÃº MÃ©dico"
+                     class="menuHoriz   ontal"
                      collapsible="false"
                      collapsed="false"
                      rendered="#{LoginBean.renderizarMedico()}"
@@ -142,8 +142,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="with-submenu">
-                        <b:navLink>Patologías</b:navLink>
+<!--                    <li class="with-submenu" rendered="false">
+                        <b:navLink>PatologÃ­as</b:navLink>
                         <ul class="submenu">
                             <li>
                                 <b:navLink href="registro-patologia" value="" iconAlign="left">
@@ -155,12 +155,12 @@
                             <li> 
                                 <b:navLink href="actualizacion-enfermedad" value="" iconAlign="left">
                                     <b:iconAwesome name="">
-                                        Edición
+                                        EdiciÃ³n
                                     </b:iconAwesome>
                                 </b:navLink>
                             </li>
                         </ul>
-                    </li>
+                    </li>-->
                 </ul>
             </b:panel>
         </b:container>

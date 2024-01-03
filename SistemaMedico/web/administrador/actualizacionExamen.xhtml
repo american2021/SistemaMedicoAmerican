@@ -57,7 +57,7 @@
             <b:panel span="10" offset="0">
                 <b:row>
                     <b:column span="12" style="text-align: center;">
-                        <h2><b>Actualización del exámen</b></h2>
+                        <h2><b>Actualización del examen</b></h2>
                     </b:column>
                     <b:column span="12" style="text-align: center;">
                         <h6>Todos los campos marcados con * son obligatorios</h6>
@@ -70,8 +70,8 @@
                     <b:row>
                             <b:column span="6" offset="3">
                                 <b:inputText value="#{ExamenesBean.nombre_examen}"
-                                                 label="Exámen"
-                                                 placeholder="Digite el nombre de un exámen"
+                                                 label="Examen"
+                                                 placeholder="Digite el nombre de un examen"
                                                  typeahead="true"
                                                  id="enf_nombres"
                                                  typeahead-limit="20"
@@ -89,7 +89,7 @@
                                                      id="ext_tipo"
                                                      value="#{ExamenesBean.examenes.exaTipo}"
                                                      required="true"
-                                                     requiredMessage="Seleccione el tipo de exámen">
+                                                     requiredMessage="Seleccione el tipo de examen">
                                         <f:selectItem itemLabel="Seleccione" noSelectionOption="true" itemValue="#{null}" />
                                         <f:selectItem itemLabel="Laboratorio" itemValue="1" />
                                         <f:selectItem itemLabel="Imagenologia" itemValue="2" />
@@ -99,13 +99,13 @@
                                 
                                 <b:column span="6">
                                     <b:inputText label="Descripción"
-                                                 placeholder="Descripción del Exámen"
+                                                 placeholder="Descripción del Examen"
                                                  id="enf_codigo"
                                                  size="13"
                                                  maxlength="100"
                                                  value="#{ExamenesBean.examenes.exaGrupo}"
                                                  required="true"
-                                                 requiredMessage="Ingrese la descripción del exámen"/>
+                                                 requiredMessage="Ingrese la descripción del examen"/>
                                     <b:message for="enf_codigo"/>
                                 </b:column>
                             </b:row>

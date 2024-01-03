@@ -89,7 +89,7 @@
                         </p:idleMonitor>
                         <b:row>
                             <b:column span="12" style="text-align: center;">
-                                <h2><b>Registro Exámen</b></h2>
+                                <h2><b>Registro Examen</b></h2>
                             </b:column>
                             <b:column span="12" style="text-align: center;">
                                 <h6>Todos los campos marcados con * son obligatorios</h6>
@@ -101,7 +101,7 @@
                         <b:panel title="Datos Generales" look="info" collapsible="false">
                             <b:row>
                                 <b:column span="6">
-                                    <b:selectOneMenu label="Tipo de exámen"
+                                    <b:selectOneMenu label="Tipo de examen"
                                                      id="ext_tipo"
                                                      value="#{ExamenesBean.nuevo_examenes.exaTipo}"
                                                      required="false"
@@ -163,7 +163,7 @@
                                                 <b:column span="1" offset="0">
                                                     <b:commandButton ajax="true"
                                                                      action="#{ExamenesBean.cargarExamen(item,'1')}"
-                                                                     tooltip="Editar exámen" look="warning">
+                                                                     tooltip="Editar examen" look="warning">
                                                         <b:iconAwesome name="pencil"></b:iconAwesome>
                                                     </b:commandButton>
                                                 </b:column>
@@ -173,7 +173,7 @@
                                                                      actionListener="#{ExamenesBean.prepararExamen(item)}"
                                                                      update=":modalConfirmacion :formEliminacion :growl"
                                                                      oncomplete="$('#modalConfirmacion').modal('show')"
-                                                                     tooltip="Elimiar exámen del paciente" look="danger">
+                                                                     tooltip="Elimiar examen del paciente" look="danger">
                                                         <b:iconAwesome name="trash"></b:iconAwesome>
                                                     </b:commandButton>
                                                 </b:column>
@@ -198,7 +198,7 @@
                                                 <b:column span="1" offset="0">
                                                     <b:commandButton ajax="true"
                                                                      action="#{ExamenesBean.cargarExamen(item,'1')}"
-                                                                     tooltip="Editar exámen" look="warning">
+                                                                     tooltip="Editar examen" look="warning">
                                                         <b:iconAwesome name="pencil"></b:iconAwesome>
                                                     </b:commandButton>
                                                 </b:column>
@@ -208,7 +208,7 @@
                                                                      actionListener="#{ExamenesBean.prepararExamen(item)}"
                                                                      update=":modalConfirmacion :formEliminacion :growl"
                                                                      oncomplete="$('#modalConfirmacion').modal('show')"
-                                                                     tooltip="Elimiar exámen del paciente" look="danger">
+                                                                     tooltip="Elimiar examen del paciente" look="danger">
                                                         <b:iconAwesome name="trash"></b:iconAwesome>
                                                     </b:commandButton>
                                                 </b:column>
@@ -232,7 +232,7 @@
                                             <b:column span="1" offset="0">
                                                 <b:commandButton ajax="true"
                                                                  action="#{ExamenesBean.cargarExamen(item,'1')}"
-                                                                 tooltip="Editar exámen" look="warning">
+                                                                 tooltip="Editar examen" look="warning">
                                                     <b:iconAwesome name="pencil"></b:iconAwesome>
                                                 </b:commandButton>
                                             </b:column>
@@ -242,7 +242,7 @@
                                                                  actionListener="#{ExamenesBean.prepararExamen(item)}"
                                                                  update=":modalConfirmacion :formEliminacion :growl"
                                                                  oncomplete="$('#modalConfirmacion').modal('show')"
-                                                                 tooltip="Elimiar exámen del paciente" look="danger">
+                                                                 tooltip="Elimiar examen del paciente" look="danger">
                                                     <b:iconAwesome name="trash"></b:iconAwesome>
                                                 </b:commandButton>
                                             </b:column>
