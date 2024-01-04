@@ -90,7 +90,7 @@ public class CitaDAO {
     public static List<Historias> recuperarHistoriasMedico(int medico_id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Historias where medico_per_id = " + medico_id + " order by his_id asc");
+        Query query = session.createQuery("from Historias where medico_per_id = " + medico_id + " order by his_id desc");
         List<Historias> historias = query.list();
         historias.forEach((historia) -> {
             //Necesario para cargar los datos de la persona en modo eager
@@ -176,7 +176,7 @@ public class CitaDAO {
         session.beginTransaction();
         Query query = session.createQuery("from Historias "
                 + "where his_fecha_creacion like '%" + dia + "%' "
-                + "and medico_per_id = " + medico_id + " order by his_id asc");
+                + "and medico_per_id = " + medico_id + " order by his_id desc");
         List<Historias> historias = query.list();
         historias.forEach((historia) -> {
             //Necesario para cargar los datos de la persona en modo eager

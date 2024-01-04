@@ -15,14 +15,12 @@ import dao.HistoriaDiagnosticoDAO;
 import dao.OcupacionDAO;
 import dao.ParentescoDAO;
 import dao.HistoriaAntecedenteDAO;
-import dao.PersonaDAO;
 import dao.HistoriaExamenDAO;
 import dao.HistoriaTratamientoDAO;
 import dao.MedicamentosDAO;
 import dao.RevisionSistemasDAO;
 import dao.SignosDAO;
 import dao.TratamientoDAO;
-import dao.UsuarioDAO;
 import datos.Antecedente;
 import datos.Ciudades;
 import datos.Diagnosticos;
@@ -36,14 +34,12 @@ import datos.HistoriaAntecedente;
 import datos.HistoriaExamen;
 import datos.HistoriaTratamiento;
 import datos.Medicamentos;
-import datos.Personas;
 import datos.RevisionSistemas;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import datos.Signos;
 import datos.Tratamientos;
-import datos.Usuarios;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -80,7 +76,6 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
-import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -177,9 +172,7 @@ public final class CitaBean implements Serializable{
     private String nombre_examen;
     private String nombre_tratamiento;
     private String mensajeDiagnostico;
-    
-    private String panelActual = "panel1";
-    
+        
     private List<Ciudades> lista_ciudades;
     private List<Estadocivil> lista_estados_civiles;
     private List<String> lista_categoria_antecedentes;
@@ -343,16 +336,14 @@ public final class CitaBean implements Serializable{
      * como médico, recuperará únicamente las historias asignadas a ese médico)
      */
     public void recuperarHistorias() {
-//        if(session.getAttribute("rol").toString().equals("2")){
-//            historias.clear();
-//            historias = CitaDAO.recuperarHistoriasMedico((Integer)session.getAttribute("per_id"));
-//        }
-//        else{
         verificarHistorias();
-        historias.clear();
-        
-        historias = CitaDAO.recuperarHistorias();
-        //}
+        if(session.getAttribute("rol").toString().equals("1")){
+            historias.clear();
+            historias = CitaDAO.recuperarHistorias();
+        } else if (session.getAttribute("rol").toString().equals("2")){
+            historias.clear();
+            historias = CitaDAO.recuperarHistoriasMedico((Integer)session.getAttribute("per_id"));
+        }
     }
     
     /**
@@ -648,18 +639,14 @@ public final class CitaBean implements Serializable{
     public void recuperarHistoriasDia() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date dia = new Date();
-
-//        if(session.getAttribute("rol").toString().equals("2")){
-//            historiasdia.clear();
-//            historiasdia = CitaDAO.recuperarHistoriasMedicoDia(formatter.format(dia),(Integer)session.getAttribute("per_id"));
-//        }
-//        else{
-            verificarHistorias();
+        verificarHistorias();
+        if(session.getAttribute("rol").toString().equals("1")){
             historiasdia.clear();
-        
             historiasdia = CitaDAO.recuperarHistoriasDia(format.format(dia));
-        //}
-        
+        } else if(session.getAttribute("rol").toString().equals("2")){
+            historiasdia.clear();
+            historiasdia = CitaDAO.recuperarHistoriasMedicoDia(formatter.format(dia),(Integer)session.getAttribute("per_id"));
+        }
     }
     
     /**
@@ -716,11 +703,21 @@ public final class CitaBean implements Serializable{
                 +" "+h.getPersonasByPacientePerId().getPerApellidos();
     }
     
+    /**
+     * Método modificar el formata de la fecha a dia/mes/año hora:minuto
+     * @param date
+     * @return 
+     */
     public String getFormatoFecha(Date date){
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         return formato.format(date);
     }
     
+    /**
+     * Método recuperar el nombre del doctor por la historia
+     * @param h
+     * @return 
+     */
     public String getNombreCompletoMedico(Historias h){
         try{
             return h.getPersonasByMedicoPerId().getPerNombres()
@@ -731,10 +728,20 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método recuperar la medida del medicamento
+     * @param medida
+     * @return 
+     */
     public String getMedidaMedicamento(String medida){
         return formatoMedidaMedicamento( medida);
     }
     
+    /**
+     * Método actualizar cita médica
+     * 
+     * @return 
+     */
     public String actualizarCita(){
         if (profesion_abierta.length() > 0) {
             historia.getPersonasByPacientePerId().setPerProfesion(profesion_abierta);
@@ -761,10 +768,13 @@ public final class CitaBean implements Serializable{
                 return "Completado";
             }
         }
-        
-        
     }
     
+    /**
+     * Método validar que el antecedente no sea null
+     * 
+     * @return 
+     */
     private boolean validarAntecedente(Antecedente antecedente, int id) {
         return antecedente != null && antecedente.getAntId() != null && StringUtils.isNotBlank(editedDescriptions.get(id));
     }
@@ -801,10 +811,20 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método validar que el examen no sea null
+     * 
+     * @return 
+     */
     private boolean validarExamen(Examenes examenes) {
         return examenes != null && examenes.getExaId() != null && getEditedCheckExamen().get(examenes.getExaId()) ? StringUtils.isBlank(editedDescriptionsExamen.get(examenes.getExaId())) :StringUtils.isNotBlank(editedDescriptionsExamen.get(examenes.getExaId()));
     }
     
+     /**
+     * Método validar que el examen no sea null
+     * 
+     * @return 
+     */
     private boolean validarExamen1(Examenes examenes) {
         return examenes != null && examenes.getExaId() != null && !getEditedCheckExamen().get(examenes.getExaId()) ? StringUtils.isBlank(editedIndicacionesExamen.get(examenes.getExaId())) :StringUtils.isNotBlank(editedIndicacionesExamen.get(examenes.getExaId()));
     }
@@ -879,14 +899,30 @@ public final class CitaBean implements Serializable{
         }
     }
   
+    /**
+    * Método validar que el examen no sea null
+    * 
+    * @return 
+    */
     private boolean isBlank(String value) {
         return StringUtils.isBlank(value);
     }
     
+    /**
+    * Método para mensaje de error
+    * 
+    * @return 
+    */
     private void addErrorMessage(String clientId, String summary, String detail) {
         FacesMessages.error(clientId, summary, detail);
     }
-    private void validarCampo(String clientId, String value, String errorMessage) {
+    
+    /**
+    * Método validar que el campo
+    * 
+    * @return 
+    */
+    private void validarCampo( String value, String errorMessage) {
         if (isBlank(value)) {
             addErrorMessage(":growlInfo", errorMessage, "This is a specific message!");
         }
@@ -898,9 +934,9 @@ public final class CitaBean implements Serializable{
      */
     public void crearHistoriaDiagnostico(Diagnosticos diagnosticos){
         // validar que los campos ingresados no sean null
-        validarCampo(":growlInfo", editedTipoDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione el tipo del diagnóstico");
-        validarCampo(":growlInfo", editedCondicionDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione la condición del diagnóstico");
-        validarCampo(":growlInfo", editedCronologiaDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione la cronología del diagnóstico");
+        validarCampo( editedTipoDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione el tipo del diagnóstico");
+        validarCampo( editedCondicionDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione la condición del diagnóstico");
+        validarCampo( editedCronologiaDiagnostico.get(diagnosticos.getDiaId()), "Error: Seleccione la cronología del diagnóstico");
 
         if (!isBlank(editedTipoDiagnostico.get(diagnosticos.getDiaId()))
                 && !isBlank(editedCondicionDiagnostico.get(diagnosticos.getDiaId()))
@@ -980,7 +1016,7 @@ public final class CitaBean implements Serializable{
     }
     
     /**
-     * Método para crear un nuevo tratamiento CIE 10ma edición
+     * Método para crear un nuevo tratamiento
      */
     public void crearTratamiento(){
         try {
@@ -1646,37 +1682,42 @@ public final class CitaBean implements Serializable{
      * @return 
      */
     public String revert(String med_medida){
-        String aux_medida = "";
         switch(med_medida){
             case "Microgramo":
-                return aux_medida = "1";
+                return "1";
             case "Miligramo":
-                return aux_medida = "2";
+                return "2";
             case "Gramo":
-                return aux_medida = "3";
+                return "3";
             case "Kilogramno":
-                return aux_medida = "4";
+                return "4";
             case "Unidades internacionales":
-                return aux_medida = "5";
+                return "5";
             case "Microlitro":
-                return aux_medida = "6";
+                return "6";
             case "Mililitro":
-                return aux_medida = "7";
+                return "7";
             case "Litro":
-                return aux_medida = "8";
+                return "8";
             case "Ingreso Manual":
-                return aux_medida = "9";
+                return "9";
             case "Porcentaje":
-                return aux_medida = "10";
+                return "10";
             case "Unidades":
-                return aux_medida = "11";
+                return "11";
             case "Miliequivalente":
-                return aux_medida = "12";
+                return "12";
             default:
-                return aux_medida = "0";
+                return "0";
         }
     }
     
+    /**
+     * Método retornar la frecuencia de formato del tratamiento
+     *
+     * @param tipo
+     * @return 
+     */
     public String formatoFrecuenciaTratamiento(String tipo) {
         switch (tipo) {
             case "1":
@@ -1700,6 +1741,12 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método retornar la via de administracion de formato del tratamiento
+     *
+     * @param tipo
+     * @return 
+     */
     public String formatoViaAdministracionTratamiento(String tipo) {
         switch (tipo) {
             case "1":
@@ -1735,8 +1782,11 @@ public final class CitaBean implements Serializable{
         }
     }
     
-    
-    
+    /**
+     * Método modificar la seleccion de revision de órganos y sistemas
+     *
+     * @param id_check
+     */
     public void cambiarCheck(int id_check){
         switch(id_check){
             case 0:
@@ -1778,6 +1828,10 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método agregar una nueva ocupacion
+     *
+     */
     public void especificar_ocupacion(){
         if(historia.getPersonasByPacientePerId().getPerProfesion().equals("51")){
             renderizar_profesion_abierta = "true";
@@ -1788,6 +1842,10 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método agregar un nuevo parantesco
+     *
+     */
     public void especificar_parentesco(){
         if(historia.getPersonasByPacientePerId().getPerParentesco().equals("9")){
             renderizar_parentesco_abierto = "true";
@@ -1798,6 +1856,10 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método para calcular la precison arterial media
+     *
+     */
     public void calcularPresionArterialMedia(){
         if(signos.getSigPresionSistolica() != 0 && signos.getSigPresionDiastolica() != 0){
             signos.setSigPresionArterialMedia((signos.getSigPresionSistolica()
@@ -1805,16 +1867,28 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método para calcular hemoglobina corregido
+     *
+     */
     public void calcularHemoglobinaCorregido(){
         signos.setSigValorHemoglobinaCorr(signos.getSigValorHemoglobina()-1.3f);
     }
     
+    /**
+     * Método para calcular el indice de masa corporal
+     *
+     */
     public void calcularIMC(){
         if(signos.getSigPeso() != 0f && signos.getSigEstatura() != 0f){
             signos.setSigImc(Math.round(signos.getSigPeso() / (float)Math.pow(signos.getSigEstatura()/100, 2)));
         }
     }
     
+    /**
+     * Método defenir los item de revision de órganos y sistema
+     *
+     */
     public void setRevisionChecks(){
         revision_checks.clear();
         //Definiendo los items de la revision
@@ -1892,6 +1966,10 @@ public final class CitaBean implements Serializable{
         }
     }
     
+    /**
+     * Método para calcular el la edad del paciente
+     *
+     */
     public void calcularEdad(){
         String edad;
         if(historia.getPersonasByPacientePerId().getPerNac()!=null){
@@ -1916,22 +1994,26 @@ public final class CitaBean implements Serializable{
         }
     }
     
-    public void mostrarPanel(String panel) {
-        panelActual = panel;
-    }
-
-    public String getPanelActual() {
-        return panelActual;
-    }
-    
+    /**
+     * Método para recuperar las ciudades
+     *
+     */
     public void inicializarCiudades(){
         lista_ciudades = CiudadesDAO.recuperarCiudades();
     }
     
+    /**
+     * Método para recuperar los estados civiles
+     *
+     */
     public void inicializarEstadosCiviles(){
         lista_estados_civiles = EstadoCivilDAO.recuperarEstados();
     }
     
+    /**
+     * Método para recuperar las ocupaciones y patentescos
+     *
+     */
     public void inicializarProfesionesYParentescos(){        
         lista_ocupaciones = OcupacionDAO.recuperarOcupaciones();
         lista_parentescos = ParentescoDAO.recuperarParentescos();
@@ -2328,8 +2410,6 @@ public final class CitaBean implements Serializable{
         this.updateHistoriaDiagnostico = updateHistoriaDiagnostico;
     }
     
-    
-
     public HistoriaTratamiento getDeleteHistoriaTratamiento() {
         return deleteHistoriaTratamiento;
     }
@@ -2362,7 +2442,11 @@ public final class CitaBean implements Serializable{
         this.updatePanel = updatePanel;
     }
     
-    
+    /**
+     * Método para recuperar la lista de antecedentes por el tipo Personal
+     *
+     * @return 
+     */
     public List<Antecedente> getListaAntecedentePer() {
         List<Antecedente> listAntecedente = filtrarPorTipos("1");
         
@@ -2379,6 +2463,11 @@ public final class CitaBean implements Serializable{
         return filtrarPorTipos("1");
     }
     
+    /**
+     * Método para recuperar el mapa de antecedentes por el tipo Familiar
+     *
+     * @return 
+     */
     public Map<String, Antecedente> getMapAntecedenteFan() {
         List<Antecedente> listAntecedente = filtrarPorTipos("2");
 
@@ -2395,6 +2484,11 @@ public final class CitaBean implements Serializable{
         return mapAntecedenteFam;
     }
     
+    /**
+     * Método para recuperar la lista de antecedentes por el tipo Familiar
+     *
+     * @return 
+     */
     public List<Antecedente> getListaAntecedenteFan() {
         List<Antecedente> listAntecedente = filtrarPorTipos("2");
         mapAntecedenteFam = listAntecedente.stream()
@@ -2409,6 +2503,11 @@ public final class CitaBean implements Serializable{
         return filtrarPorTipos("2");
     }
 
+    /**
+     * Método para recuperar la lista de antecedentes por el tipo Gineco/Obstétrico
+     *
+     * @return 
+     */
     public List<Antecedente> getListaAntecedenteGen() {
         List<Antecedente> listAntecedente = filtrarPorTipos("3");
         mapAntecedenteGin = listAntecedente.stream()
@@ -2423,6 +2522,11 @@ public final class CitaBean implements Serializable{
         return filtrarPorTipos("3");
     }
     
+    /**
+     * Método para recuperar la lista de antecedentes por el tipo Vacunación
+     *
+     * @return 
+     */
     public List<Antecedente> getListaAntecedenteVac() {
         List<Antecedente> listAntecedente = filtrarPorTipos("4");
         mapAntecedenteVac = listAntecedente.stream()
@@ -2436,7 +2540,13 @@ public final class CitaBean implements Serializable{
                 }));
         return filtrarPorTipos("4");
     }
-
+    
+    /**
+     * Método para recuperar la lista de antecedentes por el tipo
+     *
+     * @param tipo
+     * @return 
+     */
     private List<Antecedente> filtrarPorTipos(String tipo) {;
         return lista_antecedente.stream()
                 .filter(antecedente -> String.valueOf(antecedente.getAntTipo()).equals(tipo))
@@ -2595,6 +2705,11 @@ public final class CitaBean implements Serializable{
         return filtrarPorTipoExamen("3");
     }
     
+    /**
+     * Método para recuperar la lista de antecedentes por el tipo Familiar
+     *
+     * @return 
+     */
     private List<Examenes> filtrarPorTipoExamen(String tipo) {;
         return lista_examenes.stream()
                 .filter(examen -> String.valueOf(examen.getExaTipo()).equals(tipo))
