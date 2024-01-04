@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:my="http://java.sun.com/jsf/composite/recursos"
       xmlns:p="http://primefaces.org/ui">
@@ -52,8 +51,9 @@
                             <b:commandButton ajax="true" 
                                              style="color: white !important;"
                                              immediate="true"
-                                             update="modaUpdateHistoriaTratamiento :growl"
-                                             action="#{CitaBean.prepareUpdateHistoriaTratamiento(historiaTratamiento)}"
+                                             process="@this"
+                                             update="formUpdateHistoriaTratamiento :growl"
+                                             action="#{CitaBean.prepararHistoriaTratamiento(historiaTratamiento)}"
                                              oncomplete="$('#modaUpdateHistoriaTratamiento').modal('show')" 
                                              tooltip="Editar tratamiento" 
                                              look="warning">
@@ -63,23 +63,15 @@
                         <b:column offset="1" span="2">
                             <b:commandButton ajax="true"
                                              style="color: white !important;"
-                                             tooltip="Eliminar tratamiento"
-                                             onclick="return confirmarEliminacionTratamiento('#{historiaTratamiento.historiaDiagnostico.diagnosticos.diaDescripcionCie}', '#{historiaTratamiento.tratamientos.medicamentos.medNombre}', '#{historiaTratamiento.tratamientos.traIndicaciones}');"                                                                 look="danger">
-                                <b:iconAwesome name="trash"></b:iconAwesome>
-                                <f:ajax execute="@this"
-                                        render="formPrescripcion :growl"
-                                        listener="#{CitaBean.eliminarHistoriaTratamiento(historiaTratamiento)}"/>
-                            </b:commandButton>
-<!--                                                    <b:commandButton ajax="true"
-                                             style="color: white !important;"
                                              immediate="true"
                                              process="@this"
-                                             update=" :growl"
+                                             update=":growl formEliminacionTratamiento"
                                              oncomplete="$('#modalDeleteHistoriaTratamiento').modal('show'); return false;"
-                                             tooltip="Editar antecedente" 
+                                             actionListener="#{CitaBean.prepararHistoriaTratamiento(historiaTratamiento)}"
+                                             tooltip="Eliminar tratamiento" 
                                              look="danger">
                                 <b:iconAwesome name="trash"></b:iconAwesome>
-                            </b:commandButton>-->
+                            </b:commandButton>
                         </b:column>
                    </b:dataTableColumn>
                 </b:dataTable>

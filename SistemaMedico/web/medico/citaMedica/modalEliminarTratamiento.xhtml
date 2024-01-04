@@ -4,11 +4,19 @@
 
     <b:form id="formEliminacionTratamiento" >
         <b:row>
+             <div style="text-align: center; width: 100%; font-size: 18px;">
+                 <p>¿Está seguro de que desea eliminar el tratamiento 
+                     #{CitaBean.auxHistoriaTratamiento.historiaDiagnostico.diagnosticos.diaDescripcionCie}, 
+                     con el medicamento #{CitaBean.auxHistoriaTratamiento.tratamientos.medicamentos.medNombre}, 
+                     además las indicaciones #{CitaBean.auxHistoriaTratamiento.tratamientos.traIndicaciones} ?</p> 
+            </div>
+        </b:row>
+        <b:row>
             <b:column offset="4">
                 <b:commandButton ajax="false"
                                  span="2"
                                  value="Sí"
-                                 update=" :growl"
+                                 update="formPrescripcion :growl"
                                  oncomplete="$('#modalDeleteHistoriaTratamiento').modal('hide')"
                                  tooltip="Eliminar" look="info"
                                  action="#{CitaBean.eliminarHistoriaTratamiento()}"
