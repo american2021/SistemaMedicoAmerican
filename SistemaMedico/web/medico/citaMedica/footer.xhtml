@@ -20,21 +20,21 @@
                 <b:iconAwesome name="fa-arrow-left"></b:iconAwesome>
             </b:commandButton>
         </b:column>
-        <b:column span="6" class="text-center" rendered="#{panelNext ne 'panel11'}">
+        <b:column span="6" class="text-center">
             <b:commandButton ajax="true"
                              immediate="#{panelNext eq 'panel9'}"
                              process="#{panelNext eq 'panel9' ? '@this' : '@form'} "
                              style="color: white !important;"
                              span="4" offset="3"
-                             value="#{panelNext ne 'panel10'  ? '&nbsp; Siguiente' : CitaBean.historia.hisCompletado eq '0' ? '&nbsp; Finalizar Cita' : '&nbsp; Siguiente'}"
+                             value="#{panelNext ne 'panel11'  ? '&nbsp; Siguiente' : CitaBean.historia.hisCompletado eq '0' ? '&nbsp; Finalizar Cita' : '&nbsp; Actualizar Cita'}"
                              action="#{CitaBean.cambioPanel(panelNext, true) }"
                              update="#{CitaBean.updatePanel == true ? 'formHistoriaClinica formAntecedente formSignos formRevision formExamenFisico formExamenLabIma formDiagnostico formPrescripcion  formIndicaciones formEvolucion :growl' : ' :growl'}"
                              tooltip="#{tooltipNext}"
-                             look= "success">
-                <b:iconAwesome name="fa-arrow-right"></b:iconAwesome>
+                             look= "#{panelNext ne 'panel11'  ? 'success' : 'primary'}">
+                <b:iconAwesome name="#{panelNext ne 'panel11'  ? 'fa-arrow-right' : 'save'} "></b:iconAwesome>
             </b:commandButton>
         </b:column>
-        <b:column span="6" class="text-center" rendered="#{panelNext eq 'panel11'}">
+<!--        <b:column span="6" class="text-center" rendered="#{panelNext eq 'panel11'}">
             <b:commandButton ajax="true"
                              style="color: white !important;"
                              span="4" offset="3"
@@ -45,7 +45,7 @@
                              look="primary">
                 <b:iconAwesome name="save"></b:iconAwesome>
             </b:commandButton>
-        </b:column>
+        </b:column>-->
     </b:row>
     <br/>
     <br/>

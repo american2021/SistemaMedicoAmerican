@@ -285,8 +285,8 @@ public final class CitaBean implements Serializable{
      * @return 
      */
     public String actualizarHistoriaClinica(String panel){
-        if (historia.getHisCompletado().toString().contains("0") && !panel.contains("panel11")) {
-            if (panel.contains("panel10")) {
+        if (historia.getHisCompletado().toString().contains("0")) {
+            if (panel.contains("panel11")) {
                 return actualizarCita();
             } else {
                 if (panel.contains("panel5")) {
@@ -306,6 +306,7 @@ public final class CitaBean implements Serializable{
                 context.getExternalContext().getFlash().setKeepMessages(true);
                 CitaDAO.crearActualizarHistoria(historia);
                 FacesMessages.info(":growlInfo", "Cita médica finalizada", "This is a specific message!");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/SistemaMedico/listado-citas-dia");
                 return "/medico/listadoPaciente.xhtml?faces-redirect=true";
             } catch (Exception e) {
                 FacesMessages.error(":growlInfo", "Error al finalizar la cita médica: "+e.getCause().getMessage(), "This is a specific message!");
@@ -734,7 +735,7 @@ public final class CitaBean implements Serializable{
             historia.setHisCompletado(Byte.valueOf("1"));
             try {
                 CitaDAO.crearActualizarHistoria(historia);
-                FacesMessages.info(":growlInfo", "Se ha actualizado la cita médica", "This is a specific message!");
+                FacesMessages.info(":growlInfo", "Cita médica finalizada", "This is a specific message!");
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/SistemaMedico/listado-citas-dia");
                 HistoriaAntecedenteDAO.crearDefaultHistoriaAntecedente(historia_actual_id);
                 return "Completado"; // No olvides devolver null para indicar que no hay navegación implícita.
@@ -1298,6 +1299,7 @@ public final class CitaBean implements Serializable{
                 if (panel.contains(panelActual)) {
                     // Validar que el return de actualizarHistoriaClinica al menos tengo un tratamiento o indicaciones no farmacológicas
                     valor = actualizarHistoriaClinica(panelActual);
+                    
                     if(valor.contains("Sin tratamiento")){
                         menuPanel.put("panel9", estado);
                         menuPanel.put(panel, false);
