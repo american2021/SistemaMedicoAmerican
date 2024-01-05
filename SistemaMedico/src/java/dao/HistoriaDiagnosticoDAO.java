@@ -9,9 +9,12 @@ import conexion.HibernateUtil;
 import datos.HistoriaDiagnostico;
 import datos.Historias;
 import datos.Personas;
+import java.util.Collections;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -103,23 +106,31 @@ public class HistoriaDiagnosticoDAO {
      */
     public static List<HistoriaDiagnostico> recuperarHistorialHistoriaDiagnostico(int id_historia, int id_paciente) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("SELECT d FROM HistoriaDiagnostico d, Historias h  WHERE h.hisId = d.historias.hisId AND h.personasByPacientePerId ='" + id_paciente + "' AND h.hisId != '"+ id_historia + "'");         
-        List<HistoriaDiagnostico> historiaDiagnostico= query.list();
-        historiaDiagnostico.forEach((historiaDiagnostic) -> {
-            historiaDiagnostic.setDiagnosticos(DiagnosticoDAO.recuperarDiagnosticosId(historiaDiagnostic.getDiagnosticos().getDiaId()));
-            Historias aux_histori = historiaDiagnostic.getHistorias();
-            // Recuperar persona
-            Personas aux_per = historiaDiagnostic.getHistorias().getPersonasByMedicoPerId();
-            // Setear la persona para el campo medico dentro de la entidad historia
-            aux_per.getPerApellidos();
-            aux_histori.setPersonasByMedicoPerId(aux_per);
-            // Setear la historia
-            historiaDiagnostic.setHistorias(aux_histori);
-        });
-        session.getTransaction().commit();
-        session.close();
-        return historiaDiagnostico;
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("SELECT d FROM HistoriaDiagnostico d, Historias h  WHERE h.hisId = d.historias.hisId AND h.personasByPacientePerId ='" + id_paciente + "' AND h.hisId != '"+ id_historia + "'");         
+            List<HistoriaDiagnostico> historiaDiagnostico= query.list();
+            if (!historiaDiagnostico.isEmpty()) {
+                historiaDiagnostico.forEach(historiaDiagnostic -> {
+                Hibernate.initialize(historiaDiagnostic.getDiagnosticos());
+                Hibernate.initialize(historiaDiagnostic.getHistorias().getPersonasByMedicoPerId());
+                Hibernate.initialize(historiaDiagnostic.getHistorias().getPersonasByPacientePerId());
+            });
+            }
+            return historiaDiagnostico;
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            e.printStackTrace(); // Log or handle the exception appropriately
+            return Collections.emptyList();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        
     }
     
     /**
@@ -180,7 +191,7 @@ public class HistoriaDiagnosticoDAO {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("SELECT hd FROM HistoriaDiagnostico hd, Diagnosticos d where d.diaCodigoCie like '%" + dia_Codigo_Cie + "%' and  d.diaDescripcionCie = '" + dia_descripcion_cie + "' and hd.historias.hisId = '" + id_historia + "' and hd.diagnosticos.diaId = d.diaId");
+        Query query = session.createQuery("SELECT hd FROM HistoriaDiagnostico hd, Diagnosticos d where d.diaCodigoCie like '%" + dia_Codigo_Cie + "%' and  d.diaDescripcionCie like '%" + dia_descripcion_cie + "%' and hd.historias.hisId = '" + id_historia + "' and hd.diagnosticos.diaId = d.diaId");
         HistoriaDiagnostico historiaDiagnostico = null;
         if (!query.list().isEmpty()) {
             historiaDiagnostico = (HistoriaDiagnostico) query.uniqueResult();

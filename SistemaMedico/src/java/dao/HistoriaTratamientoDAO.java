@@ -31,14 +31,8 @@ public class HistoriaTratamientoDAO {
      *
      * @param historiaTratamiento
      */
-    public static void crearActualizarHistoriaExamen(HistoriaTratamiento historiaTratamiento) {
-//        Session session = HibernateUtil.getSessionFactory().openSession();
-//        session.beginTransaction();
-//        session.saveOrUpdate(historiaTratamiento);
-//        session.refresh(historiaTratamiento);
-//        session.getTransaction().commit();
-//        session.close();
-        
+    public static void crearActualizarHistoriaTratamiento(HistoriaTratamiento historiaTratamiento) {
+
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 

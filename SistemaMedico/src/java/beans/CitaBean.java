@@ -1019,7 +1019,7 @@ public final class CitaBean implements Serializable{
             nuevo_historia_tratamiento.setTratamientos(nuevo_tratamiento);
             nuevo_historia_tratamiento.setHisTraFechaUlt(new Date());
             nuevo_historia_tratamiento.setHisTraUsuario(session.getAttribute("usuario").toString());
-            HistoriaTratamientoDAO.crearActualizarHistoriaExamen(nuevo_historia_tratamiento);
+            HistoriaTratamientoDAO.crearActualizarHistoriaTratamiento(nuevo_historia_tratamiento);
             setNombre_historia_diagnostico("");
             setNombre_medicamento("");
             nuevo_medicamento = new Medicamentos();

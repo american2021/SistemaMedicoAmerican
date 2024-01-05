@@ -97,12 +97,6 @@ public class SignosDAO {
                     id_historia + "'");
 
             List<Signos> historiaSignos= query.list();
-
-//            historiaSignos.forEach((historiaSigno) -> {
-//                Hibernate.initialize(historiaSigno.getExamenes());
-//                Hibernate.initialize(historiaSigno.getHistorias().getPersonasByPacientePerId());
-//            });
-
             transaction.commit();
             return historiaSignos;
         } catch (Exception e) {
