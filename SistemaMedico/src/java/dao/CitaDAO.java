@@ -89,23 +89,36 @@ public class CitaDAO {
      */
     public static List<Historias> recuperarHistoriasMedico(int medico_id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("from Historias where medico_per_id = " + medico_id + " order by his_id desc");
-        List<Historias> historias = query.list();
-        historias.forEach((historia) -> {
-            //Necesario para cargar los datos de la persona en modo eager
-            historia.getPersonasByPacientePerId().getPerNombres();
-            //historia.getEnfermedades().getEnfNombre();
-            historia.getSignos().getSigEstatura();
-            try {
-                historia.getPersonasByMedicoPerId().getPerNombres();
-            } catch (Exception e) {
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
 
+            Query query = session.createQuery("from Historias where medico_per_id = " + medico_id + " order by his_id desc");
+            List<Historias> historias = query.list();
+            historias.forEach((historia) -> {
+                //Necesario para cargar los datos de la persona en modo eager
+                historia.getPersonasByPacientePerId().getPerNombres();
+                //historia.getEnfermedades().getEnfNombre();
+                historia.getSignos().getSigEstatura();
+                try {
+                    historia.getPersonasByMedicoPerId().getPerNombres();
+                } catch (Exception e) {
+
+                }
+            });
+            transaction.commit();
+            return historias;
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
             }
-        });
-        session.getTransaction().commit();
-        session.close();
-        return historias;
+            e.printStackTrace(); // Log or handle the exception appropriately
+            return Collections.emptyList();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }        
     }
 
     /**
@@ -115,23 +128,6 @@ public class CitaDAO {
      * @return
      */
     public static List<Historias> recuperarHistoriasDia(String dia) {
-//        Session session = HibernateUtil.getSessionFactory().openSession();
-//        session.beginTransaction();
-//        Query query = session.createQuery("from Historias where his_fecha_creacion like '%" + dia + "%' order by his_fecha_ult desc");
-//        List<Historias> historias = query.list();
-//        historias.forEach((historia) -> {
-//            //Necesario para cargar los datos de la persona en modo eager
-//            historia.getPersonasByPacientePerId().getPerNombres();
-//            try {
-//                historia.getPersonasByMedicoPerId().getPerNombres();
-//            } catch (Exception e) {
-//
-//            }
-//        });
-//        session.getTransaction().commit();
-//        session.close();
-//        return historias;
-
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
